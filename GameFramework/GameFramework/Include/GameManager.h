@@ -14,11 +14,19 @@
 */
 
 // 윈도우 창을 생성하고 전체 게임을 관리하는 클래스이다.
+class CTimer;
 class CGameManager
 {
 private:
 	HINSTANCE	m_hInst;
 	HWND		m_hWnd;
+	HDC			m_hDC;
+
+	class CTimer* m_Timer;
+	float		m_FrameLimitTime;
+
+	RECT		m_TestRC;
+	int			m_Dir;
 
 	// 이 변수가 static 멤버변수로 설정된 이유는 wndproc static
 	// 멤버함수에서 이 변수를 윈도우가 종료될 때 false로 만들어주기
