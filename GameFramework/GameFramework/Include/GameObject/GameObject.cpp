@@ -17,6 +17,6 @@ void CGameObject::Update(float DeltaTime)
 {
 }
 
-void CGameObject::Render(float DeltaTime)
+void CGameObject::Render(HDC hDC, float DeltaTime)
 {
 }

@@ -25,6 +25,9 @@
     <Filter Include="02. GameObject\01. Character">
       <UniqueIdentifier>{e8a63fa5-30a2-4cd3-9458-3624969acf53}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03 Scene">
+      <UniqueIdentifier>{5093f0da-5f90-461b-b625-85ad684aa2e6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -44,6 +47,18 @@
     </ClCompile>
     <ClCompile Include="GameObject\Player.cpp">
       <Filter>02. GameObject\01. Character</Filter>
+    </ClCompile>
+    <ClCompile Include="GameInfo.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene\Scene.cpp">
+      <Filter>03 Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene\SceneManager.cpp">
+      <Filter>03 Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene\MainScene.cpp">
+      <Filter>03 Scene</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -70,6 +85,18 @@
     </ClInclude>
     <ClInclude Include="GameObject\Player.h">
       <Filter>02. GameObject\01. Character</Filter>
+    </ClInclude>
+    <ClInclude Include="Vector2.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\Scene.h">
+      <Filter>03 Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\SceneManager.h">
+      <Filter>03 Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\MainScene.h">
+      <Filter>03 Scene</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

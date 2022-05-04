@@ -2,6 +2,8 @@
 // IconID를 사용하기 위해서 포함시킨다.
 #include "resource.h"
 #include "Timer.h"
+#include "GameObject/Player.h"
+#include "Scene/SceneManager.h"
 
 DEFINITION_SINGLE(CGameManager)
 bool CGameManager::m_Loop = true;
@@ -15,6 +17,8 @@ CGameManager::CGameManager()
 
 CGameManager::~CGameManager()
 {
+    CSceneManager::DestroyInst();
+
     SAFE_DELETE(m_Timer);
 
     // 프로그램이 종료될때 DC를 제거한다.
@@ -32,6 +36,10 @@ bool CGameManager::Init(HINSTANCE hInst)
 	// 윈도우 창을 생성하고 보여준다.
 	Create();
 
+    // 장면관리자 생성
+    if (!CSceneManager::GetInst()->Init())
+        return false;
+
     // 타이머 생성
     m_Timer = new CTimer;
     m_Timer->Init();
@@ -40,13 +48,6 @@ bool CGameManager::Init(HINSTANCE hInst)
     m_hDC = GetDC(m_hWnd);
 
     m_FrameLimitTime = 1 / 60.f;
-
-    m_TestRC.left = 800;
-    m_TestRC.top = 100;
-    m_TestRC.right = 900;
-    m_TestRC.bottom = 200;
-    m_Dir = 1;
-
 
 	return true;
 }
@@ -120,53 +121,17 @@ void CGameManager::Collision(float DeltaTime)
 
 void CGameManager::Render(float DeltaTime)
 {
-    // 유니코드는 실수 문자열 처리가 제대로 안된다. 따라서 멀티바이트로 처리한다.
-    char FPSText[64] = {};
+    //// 유니코드는 실수 문자열 처리가 제대로 안된다. 따라서 멀티바이트로 처리한다.
+    //char FPSText[64] = {};
 
-    sprintf_s(FPSText, "DeltaTime : %.5f", DeltaTime);
+    //sprintf_s(FPSText, "DeltaTime : %.5f", DeltaTime);
 
-    TextOutA(m_hDC, 1000, 50, FPSText, strlen(FPSText));
+    //TextOutA(m_hDC, 1000, 50, FPSText, strlen(FPSText));
 
-    // TextOutA : 멀티바이트 문자열(char 문자열)을 출력하는 함수이다.
-    // TextOutW : 유니코드 문자열(wchar_t 문자열)을 출력하는 함수이다.
-    // TextOut : 현재 프로젝트의 설정이 멀티바이트냐 유니코드냐에 따라 위의 두 함수중 하나가 결정된다.
-    TextOut(m_hDC, 50, 50, TEXT("텍스트 출력"), lstrlen(TEXT("텍스트 출력")));
-
-    Rectangle(m_hDC, 100, 100, 200, 200);
-    Ellipse(m_hDC, 100, 100, 200, 200);
-
-    SetPixel(m_hDC, 200, 100, RGB(255, 255, 255));
-
-    // MoveToEx : 선을 그리기 위해서 시작점을 지정한다.
-    MoveToEx(m_hDC, 100, 300, nullptr);
-
-    // LineTo : 마지막에 지정된 점으로부터 현재 점을 연결하는 선을 그린다.
-    LineTo(m_hDC, 150, 350);
-    LineTo(m_hDC, 200, 350);
-
-    static float Top = 100.f;
-    static float Bottom = 200.f;
-
-    Rectangle(m_hDC, 800, Top, 900, Bottom);
-
-    Top += 100.f * DeltaTime;
-    Bottom += 100.f * DeltaTime;
-
-    /*m_TestRC.top += m_Dir;
-    m_TestRC.bottom += m_Dir;
-
-    if (m_TestRC.bottom >= 720)
-    {
-        m_Dir = -1;
-    }
-
-    else if (m_TestRC.top <= 0)
-    {
-        m_Dir = 1;
-    }
-
-    Rectangle(m_hDC, m_TestRC.left, m_TestRC.top, m_TestRC.right, m_TestRC.bottom);*/
-
+    //// TextOutA : 멀티바이트 문자열(char 문자열)을 출력하는 함수이다.
+    //// TextOutW : 유니코드 문자열(wchar_t 문자열)을 출력하는 함수이다.
+    //// TextOut : 현재 프로젝트의 설정이 멀티바이트냐 유니코드냐에 따라 위의 두 함수중 하나가 결정된다.
+    //TextOut(m_hDC, 50, 50, TEXT("텍스트 출력"), lstrlen(TEXT("텍스트 출력")));
 }
 
 void CGameManager::Register()

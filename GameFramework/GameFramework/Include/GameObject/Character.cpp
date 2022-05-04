@@ -17,6 +17,6 @@ void CCharacter::Update(float DeltaTime)
 {
 }
 
-void CCharacter::Render(float DeltaTime)
+void CCharacter::Render(HDC hDC, float DeltaTime)
 {
 }

@@ -8,5 +8,10 @@
 #include <unordered_map>
 #include <crtdbg.h>
 
-#define SAFE_DELETE(p) if(p)	{delete p; p= nullptr;}
-#define SAFE_DELETE_ARRAY(p)	if(p)	{delete[] p; p= nullptr;}
+#include "Vector2.h"
+
+#define SAFE_DELETE(p) if(p)	{ delete p; p= nullptr; }
+#define SAFE_DELETE_ARRAY(p) if(p)	{ delete[] p; p= nullptr; }
+
+float RadianToDegree(float Radian);
+float DegreeToRadian(float Degree);
