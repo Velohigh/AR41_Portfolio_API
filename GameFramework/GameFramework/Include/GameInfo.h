@@ -7,11 +7,18 @@
 #include <vector>
 #include <unordered_map>
 #include <crtdbg.h>
+#include <typeinfo>
+#include <string>
+// 전역함수던 멤버함수건 상관없이 함수포인터를 등록해놓고
+// 콜해주는 기능을 제공해준다.
+#include <functional>	
 
 #include "Vector2.h"
+#include "SharedPtr.h"
 
 #define SAFE_DELETE(p) if(p)	{ delete p; p= nullptr; }
 #define SAFE_DELETE_ARRAY(p) if(p)	{ delete[] p; p= nullptr; }
+#define SAFE_RELEASE(p) if(p)	{ p->Release(); p = nullptr; } // RC를 감소시키는용
 
 float RadianToDegree(float Radian);
 float DegreeToRadian(float Degree);

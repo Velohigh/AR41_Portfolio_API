@@ -3,6 +3,12 @@
 
 CPlayer::CPlayer()
 {
+	SetTypeID<CPlayer>();	// 최하위 객체이므로 타입ID설정
+}
+
+CPlayer::CPlayer(const CPlayer& Obj)	:
+	CCharacter(Obj)
+{
 }
 
 CPlayer::~CPlayer()
@@ -13,6 +19,10 @@ bool CPlayer::Init()
 {
 	m_GunAngle = 0.f;
 	m_GunLength = 70.f;
+
+	SetPos(100.f, 100.f);
+	SetSize(100.f, 100.f);
+	SetPivot(0.5f, 0.5f);
 
 	return true;
 }

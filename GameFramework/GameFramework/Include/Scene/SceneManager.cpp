@@ -21,3 +21,15 @@ bool CSceneManager::Init()
 
 	return true;
 }
+
+bool CSceneManager::Update(float DeltaTime)
+{
+	m_Scene->Update(DeltaTime);
+
+	return false;
+}
+
+void CSceneManager::Render(HDC hDC, float DeltaTime)
+{
+	m_Scene->Render(hDC, DeltaTime);
+}

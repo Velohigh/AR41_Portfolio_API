@@ -37,7 +37,7 @@ public:
 private:
 	void Logic();
 	void Input(float DeltaTime);
-	void Update(float DeltaTime);
+	bool Update(float DeltaTime);
 	void Collision(float DeltaTime);
 	void Render(float DeltaTime);
 

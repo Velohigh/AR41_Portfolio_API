@@ -4,6 +4,7 @@
 #include "Timer.h"
 #include "GameObject/Player.h"
 #include "Scene/SceneManager.h"
+#include "Input.h"
 
 DEFINITION_SINGLE(CGameManager)
 bool CGameManager::m_Loop = true;
@@ -18,6 +19,8 @@ CGameManager::CGameManager()
 CGameManager::~CGameManager()
 {
     CSceneManager::DestroyInst();
+
+    CInput::DestroyInst();
 
     SAFE_DELETE(m_Timer);
 
@@ -35,6 +38,10 @@ bool CGameManager::Init(HINSTANCE hInst)
 
 	// 윈도우 창을 생성하고 보여준다.
 	Create();
+
+    // 입력관리자 초기화
+    if (!CInput::GetInst()->Init())
+        return false;
 
     // 장면관리자 생성
     if (!CSceneManager::GetInst()->Init())
@@ -102,17 +109,24 @@ void CGameManager::Logic()
     float DeltaTime = m_Timer->GetDeltaTime();
 
     Input(DeltaTime);
-    Update(DeltaTime);
+
+    // Scene 이 교체될 경우 처음부터 다시 동작시킨다.
+    if (Update(DeltaTime))
+        return;
+
     Collision(DeltaTime);
+
     Render(DeltaTime);
 }
 
 void CGameManager::Input(float DeltaTime)
 {
+    CInput::GetInst()->Update(DeltaTime);
 }
 
-void CGameManager::Update(float DeltaTime)
+bool CGameManager::Update(float DeltaTime)
 {
+    return CSceneManager::GetInst()->Update(DeltaTime);
 }
 
 void CGameManager::Collision(float DeltaTime)
@@ -121,6 +135,8 @@ void CGameManager::Collision(float DeltaTime)
 
 void CGameManager::Render(float DeltaTime)
 {
+    CSceneManager::GetInst()->Render(m_hDC, DeltaTime);
+
     //// 유니코드는 실수 문자열 처리가 제대로 안된다. 따라서 멀티바이트로 처리한다.
     //char FPSText[64] = {};
 

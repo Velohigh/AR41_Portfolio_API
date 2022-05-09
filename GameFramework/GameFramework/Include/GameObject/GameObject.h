@@ -1,11 +1,15 @@
 #pragma once
 
-#include "../GameInfo.h"
+#include "../Ref.h"
 
-class CGameObject
+class CGameObject	:
+	public CRef
 {
-public:
+	friend class CScene;
+
+protected:
 	CGameObject();
+	CGameObject(const CGameObject& Obj);
 	virtual ~CGameObject();
 
 protected:

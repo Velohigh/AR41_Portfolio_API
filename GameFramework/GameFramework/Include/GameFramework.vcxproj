@@ -154,7 +154,9 @@
     <ClCompile Include="GameObject\Character.cpp" />
     <ClCompile Include="GameObject\GameObject.cpp" />
     <ClCompile Include="GameObject\Player.cpp" />
+    <ClCompile Include="Input.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Ref.cpp" />
     <ClCompile Include="Scene\MainScene.cpp" />
     <ClCompile Include="Scene\Scene.cpp" />
     <ClCompile Include="Scene\SceneManager.cpp" />
@@ -166,10 +168,13 @@
     <ClInclude Include="GameObject\Character.h" />
     <ClInclude Include="GameObject\GameObject.h" />
     <ClInclude Include="GameObject\Player.h" />
+    <ClInclude Include="Input.h" />
+    <ClInclude Include="Ref.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="Scene\MainScene.h" />
     <ClInclude Include="Scene\Scene.h" />
     <ClInclude Include="Scene\SceneManager.h" />
+    <ClInclude Include="SharedPtr.h" />
     <ClInclude Include="SingletonMacro.h" />
     <ClInclude Include="Timer.h" />
     <ClInclude Include="Vector2.h" />

@@ -10,8 +10,6 @@ protected:
 
 public:
 	bool Init();
-	void Update(float DeltaTime);
-	void Render(HDC hDC, float DeltaTime);
 
 };
 

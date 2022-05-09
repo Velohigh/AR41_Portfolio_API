@@ -2,6 +2,12 @@
 
 CCharacter::CCharacter()
 {
+	SetTypeID<CCharacter>();
+}
+
+CCharacter::CCharacter(const CCharacter& Obj)	:
+	CGameObject(Obj)
+{
 }
 
 CCharacter::~CCharacter()

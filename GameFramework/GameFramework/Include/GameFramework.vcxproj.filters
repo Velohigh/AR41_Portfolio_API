@@ -28,6 +28,15 @@
     <Filter Include="03 Scene">
       <UniqueIdentifier>{5093f0da-5f90-461b-b625-85ad684aa2e6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01. GameManager\02. Ref">
+      <UniqueIdentifier>{af514667-d172-4c19-b221-3e50b0e67080}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. GameManager\03. SharedPtr">
+      <UniqueIdentifier>{9f439dae-3850-44fb-8837-b2b1f48c1cdc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. GameManager\04. Input">
+      <UniqueIdentifier>{0bcf1c8b-c369-4d0c-9b75-a0376931d046}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -59,6 +68,12 @@
     </ClCompile>
     <ClCompile Include="Scene\MainScene.cpp">
       <Filter>03 Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Ref.cpp">
+      <Filter>01. GameManager\02. Ref</Filter>
+    </ClCompile>
+    <ClCompile Include="Input.cpp">
+      <Filter>01. GameManager\04. Input</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -97,6 +112,15 @@
     </ClInclude>
     <ClInclude Include="Scene\MainScene.h">
       <Filter>03 Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Ref.h">
+      <Filter>01. GameManager\02. Ref</Filter>
+    </ClInclude>
+    <ClInclude Include="SharedPtr.h">
+      <Filter>01. GameManager\03. SharedPtr</Filter>
+    </ClInclude>
+    <ClInclude Include="Input.h">
+      <Filter>01. GameManager\04. Input</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

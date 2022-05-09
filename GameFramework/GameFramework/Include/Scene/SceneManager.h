@@ -10,6 +10,10 @@ private:
 
 public:
 	bool Init();
+	// 반환타입을 bool로 하는 이유는 Scene이 교체되는지 아닌지를
+	// 판단하기 위해서이다.
+	bool Update(float DeltaTime);
+	void Render(HDC hDC, float DeltaTime);
 
 public:
 	template <typename T>

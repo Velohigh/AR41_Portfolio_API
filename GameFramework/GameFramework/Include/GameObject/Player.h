@@ -3,8 +3,11 @@
 class CPlayer :
     public CCharacter
 {
-public:
+	friend class CScene;
+
+protected:
 	CPlayer();
+	CPlayer(const CPlayer& Obj);
 	virtual ~CPlayer();
 
 private:

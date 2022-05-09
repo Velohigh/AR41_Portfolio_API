@@ -3,8 +3,11 @@
 class CCharacter :
     public CGameObject
 {
-public:
+	friend class CScene;
+
+protected:
 	CCharacter();
+	CCharacter(const CCharacter& Obj);
 	virtual ~CCharacter();
 
 public:
