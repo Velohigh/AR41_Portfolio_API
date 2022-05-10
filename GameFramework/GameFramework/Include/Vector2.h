@@ -250,8 +250,19 @@ struct Vector2
 
 	float Angle(const Vector2& v)	const
 	{
-		//float Width = v.x - x;
-		//float Height = v.y - y;
-		return 0.f;
+		float Width = v.x - x;
+		float Height = v.y - y;
+		
+		// sqrtf : ∑Á∆Æ
+		float c = sqrtf(Width * Width + Height * Height);
+
+		float Angle = Width / c;
+
+		Angle = acosf(Angle) / PI * 180.f;
+		
+		if (v.y < y)
+			Angle = 360.f - Angle;
+
+		return Angle;
 	}
 };

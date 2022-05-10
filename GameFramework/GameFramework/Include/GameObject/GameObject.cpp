@@ -1,12 +1,14 @@
 #include "GameObject.h"
 
-CGameObject::CGameObject()
+CGameObject::CGameObject()	:
+	m_Scene(nullptr)
 {
 	SetTypeID<CGameObject>();
 }
 
 CGameObject::CGameObject(const CGameObject& Obj) :
 	CRef(Obj),
+	m_Scene(nullptr),
 	m_Pos(Obj.m_Pos),
 	m_Size(Obj.m_Size),
 	m_Pivot(Obj.m_Pivot)

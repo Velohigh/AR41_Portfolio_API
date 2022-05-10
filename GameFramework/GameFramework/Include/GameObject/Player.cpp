@@ -1,5 +1,8 @@
 
 #include "Player.h"
+#include "../Scene/Scene.h"
+#include "Bullet.h"
+#include "Tornado.h"
 
 CPlayer::CPlayer()
 {
@@ -71,6 +74,25 @@ void CPlayer::Update(float DeltaTime)
 		m_Pos -= Dir * 400.f * DeltaTime;
 		//m_Pos.y += 400.f * DeltaTime;
 	}
+
+	if (GetAsyncKeyState(VK_SPACE) & 0x8000)
+	{
+		CBullet* Bullet = m_Scene->CreateObject<CBullet>("Bullet");
+
+		Bullet->SetAngle(m_GunAngle);
+
+		Bullet->SetPos(m_GunPos);
+	}
+
+	if (GetAsyncKeyState('1') & 0x8000)
+	{
+		CTornado* Bullet = m_Scene->CreateObject<CTornado>("Tornado");
+
+		Bullet->SetAngle(m_GunAngle);
+
+		Bullet->SetPos(m_GunPos);
+	}
+
 
 
 }

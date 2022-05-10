@@ -10,6 +10,11 @@ CScene::~CScene()
 {
 }
 
+void CScene::SetPlayer(CGameObject* Player)
+{
+	m_Player = Player;
+}
+
 bool CScene::Init()
 {
 	return true;

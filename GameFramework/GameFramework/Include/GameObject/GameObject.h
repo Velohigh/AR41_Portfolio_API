@@ -13,6 +13,9 @@ protected:
 	virtual ~CGameObject();
 
 protected:
+	class CScene* m_Scene;
+
+protected:
 	Vector2		m_Pos;
 	Vector2		m_Size;
 	Vector2		m_Pivot;
@@ -34,13 +37,13 @@ public:
 	}
 
 public:
-	void SetPos(float x, float y)
+	virtual void SetPos(float x, float y)
 	{
 		m_Pos.x = x;
 		m_Pos.y = y;
 	}
 
-	void SetPos(const Vector2& Pos)
+	virtual void SetPos(const Vector2& Pos)
 	{
 		m_Pos = Pos;
 	}

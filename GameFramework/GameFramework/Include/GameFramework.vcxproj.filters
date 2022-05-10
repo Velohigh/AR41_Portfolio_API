@@ -37,6 +37,9 @@
     <Filter Include="01. GameManager\04. Input">
       <UniqueIdentifier>{0bcf1c8b-c369-4d0c-9b75-a0376931d046}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GameObject\02. Bullet">
+      <UniqueIdentifier>{da5b42b0-63ca-4e0e-b694-021cb6d8328a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -74,6 +77,15 @@
     </ClCompile>
     <ClCompile Include="Input.cpp">
       <Filter>01. GameManager\04. Input</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\Monster.cpp">
+      <Filter>02. GameObject\01. Character</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\Bullet.cpp">
+      <Filter>02. GameObject\02. Bullet</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\Tornado.cpp">
+      <Filter>02. GameObject\02. Bullet</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -121,6 +133,15 @@
     </ClInclude>
     <ClInclude Include="Input.h">
       <Filter>01. GameManager\04. Input</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\Monster.h">
+      <Filter>02. GameObject\01. Character</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\Bullet.h">
+      <Filter>02. GameObject\02. Bullet</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\Tornado.h">
+      <Filter>02. GameObject\02. Bullet</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -135,6 +135,8 @@ void CGameManager::Collision(float DeltaTime)
 
 void CGameManager::Render(float DeltaTime)
 {
+    //Rectangle(m_hDC, 0, 0, 1280, 720);
+
     CSceneManager::GetInst()->Render(m_hDC, DeltaTime);
 
     //// 유니코드는 실수 문자열 처리가 제대로 안된다. 따라서 멀티바이트로 처리한다.
