@@ -23,12 +23,19 @@ private:
 
 	class CTimer* m_Timer;
 	float		m_FrameLimitTime;
+	float		m_DeltaTime;
 
 	// 이 변수가 static 멤버변수로 설정된 이유는 wndproc static
 	// 멤버함수에서 이 변수를 윈도우가 종료될 때 false로 만들어주기
 	// 위해서 static 멤버 변수로 만들어주었다.
 	// static멤버함수에서는 일반멤버변수를 사용할수 없기때문!
 	static bool	m_Loop;
+
+public:
+	float GetDeltaTime() const
+	{
+		return m_DeltaTime;
+	}
 
 public:
 	bool Init(HINSTANCE hInst);

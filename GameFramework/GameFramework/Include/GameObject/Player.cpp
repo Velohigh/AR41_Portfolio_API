@@ -3,6 +3,9 @@
 #include "../Scene/Scene.h"
 #include "Bullet.h"
 #include "Tornado.h"
+#include "AurelionSol.h"
+#include "../Input.h"
+#include "../GameManager.h"
 
 CPlayer::CPlayer()
 {
@@ -27,73 +30,114 @@ bool CPlayer::Init()
 	SetSize(100.f, 100.f);
 	SetPivot(0.5f, 0.5f);
 
+	m_SolAngle[0] = 0.f;
+	m_SolAngle[1] = 120.f;
+	m_SolAngle[2] = 240.f;
+
+	m_SolLength = 100.f;
+	m_SolRotationSpeed = 60.f;
+	m_SolSkillOn = false;
+
+	m_SolLengthMin = 100.f;
+	m_SolLengthMax = 200.f;
+	m_SolSkillTime = 0.f;
+	m_SolSkillDir = 1.f;
+
+	SkillCoolDownInfo Info = {};
+
+	Info.CoolDown = 5.f;
+	m_vecCoolDown.push_back(Info);
+
+	Info.CoolDown = 10.f;
+	m_vecCoolDown.push_back(Info);
+
+	// 위성 객체 3개를 생성한다.
+	for (int i = 0; i < 3; ++i)
+	{
+		m_Sol[i] = m_Scene->CreateObject<CAurelionSol>("Sol");
+
+		Vector2 Pos;
+		Pos.x = m_Pos.x + cosf(DegreeToRadian(m_SolAngle[i])) * m_SolLength;
+		Pos.y = m_Pos.y + sinf(DegreeToRadian(m_SolAngle[i])) * m_SolLength;
+
+		m_Sol[i]->SetPos(Pos);
+	}
+
+	CInput::GetInst()->AddBindFunction<CPlayer>("MoveFront",
+		Input_Type::Push, this, &CPlayer::MoveFront);
+
+	CInput::GetInst()->AddBindFunction<CPlayer>("MoveBack",
+		Input_Type::Push, this, &CPlayer::MoveBack);
+
+	CInput::GetInst()->AddBindFunction<CPlayer>("GunRotation",
+		Input_Type::Push, this, &CPlayer::GunRotation);
+
+	CInput::GetInst()->AddBindFunction<CPlayer>("GunRotationInv",
+		Input_Type::Push, this, &CPlayer::GunRotationInv);
+
+	CInput::GetInst()->AddBindFunction<CPlayer>("Fire",
+		Input_Type::Down, this, &CPlayer::Fire);
+
+	CInput::GetInst()->AddBindFunction<CPlayer>("Skill1",
+		Input_Type::Down, this, &CPlayer::Skill1);
+
+	CInput::GetInst()->AddBindFunction<CPlayer>("Skill2",
+		Input_Type::Down, this, &CPlayer::Skill2);
+
 	return true;
 }
 
 void CPlayer::Update(float DeltaTime)
 {
-	// VK_RETURN : Enter키
-	// VK_F1 : F1키
-	// VK_LBUTTON : 왼쪽 마우스 버튼
-	// GetAsyncKeyState : 키의 상태를 체크할 수 있다.
-	// 반환값
-	// 0 : 해당 키가 눌러진 상태가 아니다.
-	// 0x8000 : 해당 키를 지금 누르고 있는 상태이다.
-	// 0x1 : 해당 키를 이전 프레임에 눌렀다.
-	if (GetAsyncKeyState('A') & 0x8000)
-	{
-		//m_Pos.x -= 100.f * DeltaTime;
-		m_GunAngle -= 180.f * DeltaTime;
-	}
+	size_t Size = m_vecCoolDown.size();
 
-	if (GetAsyncKeyState('D') & 0x8000)
+	for (size_t i = 0; i < Size; i++)
 	{
-		//m_Pos.x += 100.f * DeltaTime;
-		m_GunAngle += 180.f * DeltaTime;
+		if (m_vecCoolDown[i].CoolDownEnable)
+		{
+			m_vecCoolDown[i].CoolDown -= DeltaTime;
+
+			if (m_vecCoolDown[i].CoolDown <= 0.f)
+				m_vecCoolDown[i].CoolDownEnable = false;
+		}
 	}
 
 	m_GunPos.x = m_Pos.x + cosf(DegreeToRadian(m_GunAngle)) * m_GunLength;
 	m_GunPos.y = m_Pos.y + sinf(DegreeToRadian(m_GunAngle)) * m_GunLength;
 
-	if (GetAsyncKeyState('W') & 0x8000)
-	{
-		Vector2 Dir;
-		Dir.x = cosf(DegreeToRadian(m_GunAngle));
-		Dir.y = sinf(DegreeToRadian(m_GunAngle));
 
-		m_Pos += Dir * 400.f * DeltaTime;
-		//m_Pos.y -= 400.f * DeltaTime;
+	if (m_SolSkillOn)
+	{
+		m_SolLength += m_SolSkillDir * (m_SolLengthMax - m_SolLengthMin) / 2.f * DeltaTime;
+		
+		if (m_SolLength >= m_SolLengthMax)
+			m_SolLength = m_SolLengthMax;
+
+		else if (m_SolLength <= m_SolLengthMin)
+		{
+			m_SolRotationSpeed = 60.f;
+			m_SolLength = m_SolLengthMin;
+			m_SolSkillOn = false;
+		}
+
+		m_SolSkillTime += DeltaTime;
+
+		if (m_SolSkillTime >= 5.f)
+		{
+			m_SolSkillDir = -1.f;
+		}
 	}
 
-	if (GetAsyncKeyState('S') & 0x8000)
+	for (int i = 0; i < 3; ++i)
 	{
-		Vector2 Dir;
-		Dir.x = cosf(DegreeToRadian(m_GunAngle));
-		Dir.y = sinf(DegreeToRadian(m_GunAngle));
+		m_SolAngle[i] += m_SolRotationSpeed * DeltaTime;
 
-		m_Pos -= Dir * 400.f * DeltaTime;
-		//m_Pos.y += 400.f * DeltaTime;
+		Vector2 Pos;
+		Pos.x = m_Pos.x + cosf(DegreeToRadian(m_SolAngle[i])) * m_SolLength;
+		Pos.y = m_Pos.y + sinf(DegreeToRadian(m_SolAngle[i])) * m_SolLength;
+
+		m_Sol[i]->SetPos(Pos);
 	}
-
-	if (GetAsyncKeyState(VK_SPACE) & 0x8000)
-	{
-		CBullet* Bullet = m_Scene->CreateObject<CBullet>("Bullet");
-
-		Bullet->SetAngle(m_GunAngle);
-
-		Bullet->SetPos(m_GunPos);
-	}
-
-	if (GetAsyncKeyState('1') & 0x8000)
-	{
-		CTornado* Bullet = m_Scene->CreateObject<CTornado>("Tornado");
-
-		Bullet->SetAngle(m_GunAngle);
-
-		Bullet->SetPos(m_GunPos);
-	}
-
-
 
 }
 
@@ -109,4 +153,72 @@ void CPlayer::Render(HDC hDC, float DeltaTime)
 	MoveToEx(hDC, (int)m_Pos.x, (int)m_Pos.y, nullptr);
 	LineTo(hDC, (int)m_GunPos.x, (int)m_GunPos.y);
 
+}
+
+void CPlayer::MoveFront()
+{
+	Vector2 Dir;
+	Dir.x = cosf(DegreeToRadian(m_GunAngle));
+	Dir.y = sinf(DegreeToRadian(m_GunAngle));
+
+	m_Pos += Dir * 400.f * DELTA_TIME;
+}
+
+void CPlayer::MoveBack()
+{
+	Vector2 Dir;
+	Dir.x = cosf(DegreeToRadian(m_GunAngle));
+	Dir.y = sinf(DegreeToRadian(m_GunAngle));
+
+	m_Pos -= Dir * 400.f * DELTA_TIME;
+}
+
+void CPlayer::GunRotation()
+{
+	m_GunAngle += 180.f * DELTA_TIME;
+}
+
+void CPlayer::GunRotationInv()
+{
+	m_GunAngle -= 180.f * DELTA_TIME;
+}
+
+void CPlayer::Fire()
+{
+	CBullet* Bullet = m_Scene->CreateObject<CBullet>("Bullet");
+
+	Bullet->SetAngle(m_GunAngle);
+
+	Bullet->SetPos(m_GunPos);
+}
+
+void CPlayer::Skill1()
+{
+	if (m_vecCoolDown[0].CoolDownEnable)
+		return;
+
+	m_vecCoolDown[0].CoolDownEnable = true;
+	m_vecCoolDown[0].CoolDown = 5.f;
+
+	CTornado* Bullet = m_Scene->CreateObject<CTornado>("Tornado");
+
+	Bullet->SetAngle(m_GunAngle);
+
+	Bullet->SetPos(m_GunPos);
+}
+
+void CPlayer::Skill2()
+{
+	if (m_vecCoolDown[1].CoolDownEnable)
+		return;
+
+	m_vecCoolDown[1].CoolDownEnable = true;
+	m_vecCoolDown[1].CoolDown = 10.f;
+
+	m_SolSkillOn = true;
+
+	m_SolRotationSpeed = 180.f;
+
+	m_SolSkillTime = 0.f;
+	m_SolSkillDir = 1.f; 
 }

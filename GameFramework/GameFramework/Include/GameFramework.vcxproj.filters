@@ -40,6 +40,9 @@
     <Filter Include="02. GameObject\02. Bullet">
       <UniqueIdentifier>{da5b42b0-63ca-4e0e-b694-021cb6d8328a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GameObject\03. Aurelion Sol">
+      <UniqueIdentifier>{87a25e5c-d43f-4b10-97ac-bb5ccf52f156}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -86,6 +89,9 @@
     </ClCompile>
     <ClCompile Include="GameObject\Tornado.cpp">
       <Filter>02. GameObject\02. Bullet</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\AurelionSol.cpp">
+      <Filter>02. GameObject\03. Aurelion Sol</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -142,6 +148,9 @@
     </ClInclude>
     <ClInclude Include="GameObject\Tornado.h">
       <Filter>02. GameObject\02. Bullet</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\AurelionSol.h">
+      <Filter>02. GameObject\03. Aurelion Sol</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

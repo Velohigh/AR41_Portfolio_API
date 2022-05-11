@@ -151,6 +151,7 @@
   <ItemGroup>
     <ClCompile Include="GameInfo.cpp" />
     <ClCompile Include="GameManager.cpp" />
+    <ClCompile Include="GameObject\AurelionSol.cpp" />
     <ClCompile Include="GameObject\Bullet.cpp" />
     <ClCompile Include="GameObject\Character.cpp" />
     <ClCompile Include="GameObject\Monster.cpp" />
@@ -168,6 +169,7 @@
   <ItemGroup>
     <ClInclude Include="GameInfo.h" />
     <ClInclude Include="GameManager.h" />
+    <ClInclude Include="GameObject\AurelionSol.h" />
     <ClInclude Include="GameObject\Bullet.h" />
     <ClInclude Include="GameObject\Character.h" />
     <ClInclude Include="GameObject\Monster.h" />

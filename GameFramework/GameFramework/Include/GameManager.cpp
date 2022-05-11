@@ -107,6 +107,7 @@ void CGameManager::Logic()
     m_Timer->Update();
 
     float DeltaTime = m_Timer->GetDeltaTime();
+    m_DeltaTime = DeltaTime;
 
     Input(DeltaTime);
 
