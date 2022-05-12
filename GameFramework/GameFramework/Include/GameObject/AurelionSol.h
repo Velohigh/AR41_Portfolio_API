@@ -12,6 +12,7 @@ protected:
 
 private:
 
+public:
 
 public:
 	virtual bool Init();

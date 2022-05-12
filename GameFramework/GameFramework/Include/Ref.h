@@ -12,7 +12,7 @@ public:
 protected:
 	int		m_RefCount;
 	std::string	m_Name;
-	std::string m_TypeName;
+	std::string	m_TypeName;
 	size_t	m_TypeID;
 	bool	m_Enable;	// 활성, 비활성
 	bool	m_Active;	// 살아 있는지 죽었는지
@@ -21,28 +21,29 @@ public:
 	void AddRef();
 	void Release();
 
+
 public:
-	bool GetEnable() const
+	bool GetEnable()	const
 	{
 		return m_Enable;
 	}
 
-	bool GetActive() const
+	bool GetActive()	const
 	{
 		return m_Active;
 	}
 
-	size_t GetTypeID() const
+	size_t GetTypeID()	const
 	{
 		return m_TypeID;
 	}
 
-	const std::string& GetTypeName() const
+	const std::string& GetTypeName()	const
 	{
 		return m_TypeName;
 	}
 
-	const std::string& GetName() const
+	const std::string& GetName()	const
 	{
 		return m_Name;
 	}
@@ -63,7 +64,7 @@ public:
 	}
 
 	template <typename T>
-	bool CheckTypeID() const
+	bool CheckTypeID()	const
 	{
 		return m_TypeID == typeid(T).hash_code();
 	}
@@ -76,7 +77,6 @@ public:
 		m_TypeName = typeid(T).name();
 
 		// 타입의 고유한 번호를 얻어온다.
-		// 각 클래스는 고유한 번호를 가지고 있다.
 		m_TypeID = typeid(T).hash_code();
 	}
 };

@@ -7,7 +7,7 @@
 게임의 흐름을 구성하는 단계
 1. 사용자의 입력
 2. 입력받은 내용에 대해서 데이터 업데이트
-	인공지능들의 데이터 업데이트
+인공지능들의 데이터 업데이트
 3. 업데이트된 데이터를 토대로 충돌을 수행.
 4. 출력이 되어야 하는 물체들을 판단.
 5. 화면에 출력이 되어야 하는 물체들을 출력.
@@ -24,17 +24,35 @@ private:
 	class CTimer* m_Timer;
 	float		m_FrameLimitTime;
 	float		m_DeltaTime;
+	//class CPlayer* m_Player;
 
-	// 이 변수가 static 멤버변수로 설정된 이유는 wndproc static
-	// 멤버함수에서 이 변수를 윈도우가 종료될 때 false로 만들어주기
-	// 위해서 static 멤버 변수로 만들어주었다.
-	// static멤버함수에서는 일반멤버변수를 사용할수 없기때문!
+	//RECT		m_TestRC;
+	//int			m_Dir;
+
+	// 이 변수가 static 멤버변수로 설정된 이유는 wndProc static 멤버
+	// 함수에서 이 변수를 윈도우가 종료될때 false로 만들어주기 위해서
+	// static 멤버변수로 만들어주었다.
 	static bool	m_Loop;
 
 public:
-	float GetDeltaTime() const
+	float GetDeltaTime()	const
 	{
 		return m_DeltaTime;
+	}
+
+	HDC GetWindowDC()	const
+	{
+		return m_hDC;
+	}
+
+	HWND GetWindowHandle()	const
+	{
+		return m_hWnd;
+	}
+
+	HINSTANCE GetWindowInstance()	const
+	{
+		return m_hInst;
 	}
 
 public:
@@ -48,6 +66,7 @@ private:
 	void Collision(float DeltaTime);
 	void Render(float DeltaTime);
 
+
 private:
 	void Register();
 	bool Create();
@@ -55,6 +74,6 @@ private:
 private:
 	static LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 
-	DECLARE_SINGLE(CGameManager);
+	DECLARE_SINGLE(CGameManager)
 };
 

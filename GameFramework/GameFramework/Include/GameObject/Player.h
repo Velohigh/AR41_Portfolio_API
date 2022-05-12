@@ -1,4 +1,5 @@
 #pragma once
+
 #include "Character.h"
 
 struct SkillCoolDownInfo
@@ -46,6 +47,5 @@ private:
 	void Fire();
 	void Skill1();
 	void Skill2();
-
 };
 

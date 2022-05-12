@@ -5,28 +5,33 @@
 #include "GameObject/Player.h"
 #include "Scene/SceneManager.h"
 #include "Input.h"
+#include "Resource/ResourceManager.h"
+#include "PathManager.h"
 
 DEFINITION_SINGLE(CGameManager)
 bool CGameManager::m_Loop = true;
 
-
 CGameManager::CGameManager()
 {
     _CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
-    //_CrtSetBreakAlloc(100); //Leak남았을때 찾기 위한 함수
+    //_CrtSetBreakAlloc(100);
 }
 
 CGameManager::~CGameManager()
 {
+    //delete m_Player;
     CSceneManager::DestroyInst();
 
+    CPathManager::DestroyInst();
+
     CInput::DestroyInst();
+
+    CResourceManager::DestroyInst();
 
     SAFE_DELETE(m_Timer);
 
     // 프로그램이 종료될때 DC를 제거한다.
     ReleaseDC(m_hWnd, m_hDC);
-
 }
 
 bool CGameManager::Init(HINSTANCE hInst)
@@ -39,22 +44,51 @@ bool CGameManager::Init(HINSTANCE hInst)
 	// 윈도우 창을 생성하고 보여준다.
 	Create();
 
+    // 경로 관리자 초기화
+    if (!CPathManager::GetInst()->Init())
+        return false;
+
+
+    // 리소스 관리자 초기화
+    if (!CResourceManager::GetInst()->Init())
+        return false;
+
+
     // 입력관리자 초기화
     if (!CInput::GetInst()->Init())
         return false;
+
+
 
     // 장면관리자 생성
     if (!CSceneManager::GetInst()->Init())
         return false;
 
+
     // 타이머 생성
     m_Timer = new CTimer;
+
     m_Timer->Init();
+
 
     // DC를 얻어온다.
     m_hDC = GetDC(m_hWnd);
 
     m_FrameLimitTime = 1 / 60.f;
+
+    /*m_TestRC.left = 800;
+    m_TestRC.top = 100;
+    m_TestRC.right = 900;
+    m_TestRC.bottom = 200;
+    m_Dir = 1;*/
+
+    //m_Player = new CPlayer;
+
+    //m_Player->Init();
+
+    //m_Player->SetPos(100.f, 100.f);
+    //m_Player->SetSize(100.f, 100.f);
+    //m_Player->SetPivot(0.5f, 0.5f);
 
 	return true;
 }
@@ -107,11 +141,12 @@ void CGameManager::Logic()
     m_Timer->Update();
 
     float DeltaTime = m_Timer->GetDeltaTime();
+
     m_DeltaTime = DeltaTime;
 
     Input(DeltaTime);
 
-    // Scene 이 교체될 경우 처음부터 다시 동작시킨다.
+    // Scene이 교체될 경우 처음부터 다시 동작시킨다.
     if (Update(DeltaTime))
         return;
 
@@ -127,6 +162,8 @@ void CGameManager::Input(float DeltaTime)
 
 bool CGameManager::Update(float DeltaTime)
 {
+    CResourceManager::GetInst()->Update();
+
     return CSceneManager::GetInst()->Update(DeltaTime);
 }
 
@@ -139,18 +176,73 @@ void CGameManager::Render(float DeltaTime)
     //Rectangle(m_hDC, 0, 0, 1280, 720);
 
     CSceneManager::GetInst()->Render(m_hDC, DeltaTime);
+    //m_Player->Render(m_hDC, DeltaTime);
 
-    //// 유니코드는 실수 문자열 처리가 제대로 안된다. 따라서 멀티바이트로 처리한다.
-    //char FPSText[64] = {};
+    //char    FPSText[64] = {};
 
     //sprintf_s(FPSText, "DeltaTime : %.5f", DeltaTime);
 
     //TextOutA(m_hDC, 1000, 50, FPSText, strlen(FPSText));
 
+    //static float CurrentTime = 0.f;
+
+    //CurrentTime += DeltaTime;
+
+    //char    TimeText[64] = {};
+
+    //sprintf_s(TimeText, "Time : %.5f", CurrentTime);
+
+    //TextOutA(m_hDC, 1000, 100, TimeText, strlen(TimeText));
+
     //// TextOutA : 멀티바이트 문자열(char 문자열)을 출력하는 함수이다.
     //// TextOutW : 유니코드 문자열(wchar_t 문자열)을 출력하는 함수이다.
     //// TextOut : 현재 프로젝트의 설정이 멀티바이트냐 유니코드냐에 따라 위의 두 함수중 하나가 결정된다.
     //TextOut(m_hDC, 50, 50, TEXT("텍스트 출력"), lstrlen(TEXT("텍스트 출력")));
+    //TextOut(m_hDC, 500, 50, TEXT("또 출력"), lstrlen(TEXT("또 출력")));
+
+    //Rectangle(m_hDC, 100, 100, 200, 200);
+    //Ellipse(m_hDC, 200, 100, 300, 200);
+
+    ///*for (int i = 0; i < 1000; ++i)
+    //{
+    //    SetPixel(m_hDC, 350 + i, 100, RGB(255, 0, 0));
+    //}*/
+
+    //// MoveToEx : 선을 그리기 위해서 시작점을 지정한다.
+    //MoveToEx(m_hDC, 100, 300, nullptr);
+
+    //// LineTo : 마지막에 지정된 점으로부터 현재 점을 연결하는 선을 그려낸다.
+    //LineTo(m_hDC, 150, 350);
+
+    //LineTo(m_hDC, 200, 350);
+
+    //MoveToEx(m_hDC, 450, 300, nullptr);
+
+    //LineTo(m_hDC, 500, 300);
+
+    //static float Top = 100.f;
+    //static float Bottom = 200.f;
+
+    // 0.1, 0.3, 0.2, 0.2, 0.2
+    //Top += 400.f * DeltaTime;
+    //Bottom += 400.f * DeltaTime;
+
+    //Rectangle(m_hDC, 800, Top, 900, Bottom);
+
+    /*m_TestRC.top += m_Dir;
+    m_TestRC.bottom += m_Dir;
+
+    if (m_TestRC.bottom >= 720)
+    {
+        m_Dir = -1;
+    }
+
+    else if (m_TestRC.top <= 0)
+    {
+        m_Dir = 1;
+    }
+
+    Rectangle(m_hDC, m_TestRC.left, m_TestRC.top, m_TestRC.right, m_TestRC.bottom);*/
 }
 
 void CGameManager::Register()
@@ -213,7 +305,7 @@ bool CGameManager::Create()
     // 반환해준다.
     // HWND 가 윈도우 핸들을 의미한다.
     // 만약 생성이 제대로 안되었다면 0을 반환한다.
-    m_hWnd = CreateWindowW(TEXT("GameFramework"),
+    m_hWnd = CreateWindowW(TEXT("GameFramework"), 
         TEXT("GameFramework"), WS_OVERLAPPEDWINDOW,
         100, 0, 0, 0, nullptr, nullptr, m_hInst, nullptr);
 
@@ -243,7 +335,7 @@ bool CGameManager::Create()
     // 갱신이 실패했을 경우 0을 반환한다.
     UpdateWindow(m_hWnd);
 
-    return true;
+	return true;
 }
 
 LRESULT CGameManager::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)

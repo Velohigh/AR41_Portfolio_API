@@ -6,7 +6,7 @@ class CScene
 {
 	friend class CSceneManager;
 
-protected: 
+protected:
 	CScene();
 	virtual ~CScene();
 
@@ -15,7 +15,7 @@ protected:
 	CSharedPtr<class CGameObject>	m_Player;
 
 public:
-	class CGameObject* GetPlayer() const
+	class CGameObject* GetPlayer()	const
 	{
 		return m_Player;
 	}
@@ -26,7 +26,7 @@ public:
 	bool Init();
 	void Update(float DeltaTime);
 	void Render(HDC hDC, float DeltaTime);
-	
+
 public:
 	template <typename T>
 	T* CreateObject(const std::string& Name = "GameObject")
@@ -46,7 +46,5 @@ public:
 
 		return Obj;
 	}
-
-
 };
 

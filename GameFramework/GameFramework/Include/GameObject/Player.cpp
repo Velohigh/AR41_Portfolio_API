@@ -9,7 +9,7 @@
 
 CPlayer::CPlayer()
 {
-	SetTypeID<CPlayer>();	// 최하위 객체이므로 타입ID설정
+	SetTypeID<CPlayer>();
 }
 
 CPlayer::CPlayer(const CPlayer& Obj)	:
@@ -43,7 +43,7 @@ bool CPlayer::Init()
 	m_SolSkillTime = 0.f;
 	m_SolSkillDir = 1.f;
 
-	SkillCoolDownInfo Info = {};
+	SkillCoolDownInfo	Info = {};
 
 	Info.CoolDown = 5.f;
 	m_vecCoolDown.push_back(Info);
@@ -56,14 +56,14 @@ bool CPlayer::Init()
 	{
 		m_Sol[i] = m_Scene->CreateObject<CAurelionSol>("Sol");
 
-		Vector2 Pos;
+		Vector2	Pos;
 		Pos.x = m_Pos.x + cosf(DegreeToRadian(m_SolAngle[i])) * m_SolLength;
 		Pos.y = m_Pos.y + sinf(DegreeToRadian(m_SolAngle[i])) * m_SolLength;
 
 		m_Sol[i]->SetPos(Pos);
 	}
 
-	CInput::GetInst()->AddBindFunction<CPlayer>("MoveFront",
+	CInput::GetInst()->AddBindFunction<CPlayer>("MoveFront", 
 		Input_Type::Push, this, &CPlayer::MoveFront);
 
 	CInput::GetInst()->AddBindFunction<CPlayer>("MoveBack",
@@ -89,9 +89,9 @@ bool CPlayer::Init()
 
 void CPlayer::Update(float DeltaTime)
 {
-	size_t Size = m_vecCoolDown.size();
+	size_t	Size = m_vecCoolDown.size();
 
-	for (size_t i = 0; i < Size; i++)
+	for (size_t i = 0; i < Size; ++i)
 	{
 		if (m_vecCoolDown[i].CoolDownEnable)
 		{
@@ -106,10 +106,11 @@ void CPlayer::Update(float DeltaTime)
 	m_GunPos.y = m_Pos.y + sinf(DegreeToRadian(m_GunAngle)) * m_GunLength;
 
 
+
 	if (m_SolSkillOn)
 	{
 		m_SolLength += m_SolSkillDir * (m_SolLengthMax - m_SolLengthMin) / 2.f * DeltaTime;
-		
+
 		if (m_SolLength >= m_SolLengthMax)
 			m_SolLength = m_SolLengthMax;
 
@@ -128,22 +129,22 @@ void CPlayer::Update(float DeltaTime)
 		}
 	}
 
+
 	for (int i = 0; i < 3; ++i)
 	{
 		m_SolAngle[i] += m_SolRotationSpeed * DeltaTime;
 
-		Vector2 Pos;
+		Vector2	Pos;
 		Pos.x = m_Pos.x + cosf(DegreeToRadian(m_SolAngle[i])) * m_SolLength;
 		Pos.y = m_Pos.y + sinf(DegreeToRadian(m_SolAngle[i])) * m_SolLength;
 
 		m_Sol[i]->SetPos(Pos);
 	}
-
 }
 
 void CPlayer::Render(HDC hDC, float DeltaTime)
 {
-	Vector2 RenderLT;
+	Vector2	RenderLT;
 
 	RenderLT = m_Pos - m_Pivot * m_Size;
 
@@ -152,12 +153,11 @@ void CPlayer::Render(HDC hDC, float DeltaTime)
 
 	MoveToEx(hDC, (int)m_Pos.x, (int)m_Pos.y, nullptr);
 	LineTo(hDC, (int)m_GunPos.x, (int)m_GunPos.y);
-
 }
 
 void CPlayer::MoveFront()
 {
-	Vector2 Dir;
+	Vector2	Dir;
 	Dir.x = cosf(DegreeToRadian(m_GunAngle));
 	Dir.y = sinf(DegreeToRadian(m_GunAngle));
 
@@ -166,7 +166,7 @@ void CPlayer::MoveFront()
 
 void CPlayer::MoveBack()
 {
-	Vector2 Dir;
+	Vector2	Dir;
 	Dir.x = cosf(DegreeToRadian(m_GunAngle));
 	Dir.y = sinf(DegreeToRadian(m_GunAngle));
 
@@ -220,5 +220,5 @@ void CPlayer::Skill2()
 	m_SolRotationSpeed = 180.f;
 
 	m_SolSkillTime = 0.f;
-	m_SolSkillDir = 1.f; 
+	m_SolSkillDir = 1.f;
 }

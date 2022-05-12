@@ -21,4 +21,3 @@ bool CMainScene::Init()
 
 	return true;
 }
-

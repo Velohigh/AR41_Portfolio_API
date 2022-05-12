@@ -4,10 +4,9 @@
 
 DEFINITION_SINGLE(CSceneManager)
 
-CSceneManager::CSceneManager() :
+CSceneManager::CSceneManager()	:
 	m_Scene(nullptr)
 {
-
 }
 
 CSceneManager::~CSceneManager()

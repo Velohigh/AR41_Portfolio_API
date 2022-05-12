@@ -22,10 +22,13 @@ bool CScene::Init()
 
 void CScene::Update(float DeltaTime)
 {
-	std::list<CSharedPtr<class CGameObject>>::iterator iter = m_ObjList.begin();
-	std::list<CSharedPtr<class CGameObject>>::iterator iterEnd = m_ObjList.end();
+	// 이렇게 꼭 연습하세요 제발....
+	// std::list<CSharedPtr<class CGameObject>>::iterator
 
-	//auto iter = m_ObjList.begin(); // 사파 연습할떈 쓰지말자.
+	// auto : 선언과 동시에 무조건 대입을 해주어야 한다.
+	// 대입된 타입으로 타입이 선언된다.
+	auto	iter = m_ObjList.begin();
+	auto	iterEnd = m_ObjList.end();
 
 	for (; iter != iterEnd;)
 	{
@@ -33,8 +36,9 @@ void CScene::Update(float DeltaTime)
 		{
 			// 리스트에서 제거하는 순간 SharedPtr의 소멸자가 호출되어
 			// 카운트가 감소한다.
-			// 즉, delete (*iter) 할 필요가 없다!!
 			iter = m_ObjList.erase(iter);
+			iterEnd = m_ObjList.end();
+			continue;
 		}
 
 		else if (!(*iter)->GetEnable())
@@ -44,14 +48,15 @@ void CScene::Update(float DeltaTime)
 		}
 
 		(*iter)->Update(DeltaTime);
+
 		++iter;
 	}
 }
 
 void CScene::Render(HDC hDC, float DeltaTime)
 {
-	std::list<CSharedPtr<class CGameObject>>::iterator iter = m_ObjList.begin();
-	std::list<CSharedPtr<class CGameObject>>::iterator iterEnd = m_ObjList.end();
+	auto	iter = m_ObjList.begin();
+	auto	iterEnd = m_ObjList.end();
 
 	for (; iter != iterEnd;)
 	{
@@ -59,8 +64,9 @@ void CScene::Render(HDC hDC, float DeltaTime)
 		{
 			// 리스트에서 제거하는 순간 SharedPtr의 소멸자가 호출되어
 			// 카운트가 감소한다.
-			// 즉, delete (*iter) 할 필요가 없다!!
 			iter = m_ObjList.erase(iter);
+			iterEnd = m_ObjList.end();
+			continue;
 		}
 
 		else if (!(*iter)->GetEnable())
@@ -70,6 +76,7 @@ void CScene::Render(HDC hDC, float DeltaTime)
 		}
 
 		(*iter)->Render(hDC, DeltaTime);
+
 		++iter;
 	}
 }

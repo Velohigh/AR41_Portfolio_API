@@ -3,7 +3,7 @@
 
 CTornado::CTornado()
 {
-	SetTypeID<CTornado>();	// 최하위 객체이므로 타입ID설정
+	SetTypeID<CTornado>();
 }
 
 CTornado::CTornado(const CTornado& Obj) :
@@ -49,16 +49,14 @@ void CTornado::Update(float DeltaTime)
 
 	if (m_Distance <= 0.f)
 		SetActive(false);
-
 }
 
 void CTornado::Render(HDC hDC, float DeltaTime)
 {
-	Vector2 RenderLT;
+	Vector2	RenderLT;
 
 	RenderLT = m_Pos - m_Pivot * m_Size;
 
 	Ellipse(hDC, (int)RenderLT.x, (int)RenderLT.y,
 		(int)(RenderLT.x + m_Size.x), (int)(RenderLT.y + m_Size.y));
-
 }

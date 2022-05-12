@@ -14,34 +14,43 @@
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
     <Filter Include="01. GameManager">
-      <UniqueIdentifier>{44c2b794-0604-49d8-8f32-694afb919c97}</UniqueIdentifier>
+      <UniqueIdentifier>{a247a3b5-9d7d-4ac3-9530-7e6c90e0b4f9}</UniqueIdentifier>
     </Filter>
     <Filter Include="01. GameManager\01. Timer">
-      <UniqueIdentifier>{b6350968-308a-486a-b047-2e73683ff89e}</UniqueIdentifier>
+      <UniqueIdentifier>{84748dbb-8bf0-4a4c-8fd7-33c132f6c575}</UniqueIdentifier>
     </Filter>
     <Filter Include="02. GameObject">
-      <UniqueIdentifier>{3c56bf6e-12f8-42d5-8071-57174d078b3e}</UniqueIdentifier>
+      <UniqueIdentifier>{23f08942-6a12-4388-8fec-8a5b5040464c}</UniqueIdentifier>
     </Filter>
     <Filter Include="02. GameObject\01. Character">
-      <UniqueIdentifier>{e8a63fa5-30a2-4cd3-9458-3624969acf53}</UniqueIdentifier>
+      <UniqueIdentifier>{54cca285-af08-42a9-bfdc-9ca5d73d94a9}</UniqueIdentifier>
     </Filter>
-    <Filter Include="03 Scene">
-      <UniqueIdentifier>{5093f0da-5f90-461b-b625-85ad684aa2e6}</UniqueIdentifier>
+    <Filter Include="03. Scene">
+      <UniqueIdentifier>{519f0fcb-4878-4847-b1e3-365dd101b419}</UniqueIdentifier>
     </Filter>
     <Filter Include="01. GameManager\02. Ref">
-      <UniqueIdentifier>{af514667-d172-4c19-b221-3e50b0e67080}</UniqueIdentifier>
+      <UniqueIdentifier>{73e74d7f-ec49-49fd-b92e-4c28118d121a}</UniqueIdentifier>
     </Filter>
     <Filter Include="01. GameManager\03. SharedPtr">
-      <UniqueIdentifier>{9f439dae-3850-44fb-8837-b2b1f48c1cdc}</UniqueIdentifier>
+      <UniqueIdentifier>{229143f6-de2f-4934-8a71-7dc494ff8f1c}</UniqueIdentifier>
     </Filter>
     <Filter Include="01. GameManager\04. Input">
-      <UniqueIdentifier>{0bcf1c8b-c369-4d0c-9b75-a0376931d046}</UniqueIdentifier>
+      <UniqueIdentifier>{effd9134-91f3-4c6e-b276-759cd1f32599}</UniqueIdentifier>
     </Filter>
     <Filter Include="02. GameObject\02. Bullet">
-      <UniqueIdentifier>{da5b42b0-63ca-4e0e-b694-021cb6d8328a}</UniqueIdentifier>
+      <UniqueIdentifier>{9e3c2edf-08bc-4d99-82ac-cb72cb792ba3}</UniqueIdentifier>
     </Filter>
     <Filter Include="02. GameObject\03. Aurelion Sol">
-      <UniqueIdentifier>{87a25e5c-d43f-4b10-97ac-bb5ccf52f156}</UniqueIdentifier>
+      <UniqueIdentifier>{94890af0-39ad-4fa7-ab2b-76730d5dfdce}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04. Resource">
+      <UniqueIdentifier>{55c28738-7a5e-49a8-83ad-eb91d074f9fd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04. Resource\01. Texture">
+      <UniqueIdentifier>{845b2173-664f-46c2-83fe-56ee7f0379be}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. GameManager\05. Path">
+      <UniqueIdentifier>{1d09ae9d-c96c-4c09-b76a-d16b357199f4}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -66,14 +75,14 @@
     <ClCompile Include="GameInfo.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="Scene\MainScene.cpp">
+      <Filter>03. Scene</Filter>
+    </ClCompile>
     <ClCompile Include="Scene\Scene.cpp">
-      <Filter>03 Scene</Filter>
+      <Filter>03. Scene</Filter>
     </ClCompile>
     <ClCompile Include="Scene\SceneManager.cpp">
-      <Filter>03 Scene</Filter>
-    </ClCompile>
-    <ClCompile Include="Scene\MainScene.cpp">
-      <Filter>03 Scene</Filter>
+      <Filter>03. Scene</Filter>
     </ClCompile>
     <ClCompile Include="Ref.cpp">
       <Filter>01. GameManager\02. Ref</Filter>
@@ -93,13 +102,25 @@
     <ClCompile Include="GameObject\AurelionSol.cpp">
       <Filter>02. GameObject\03. Aurelion Sol</Filter>
     </ClCompile>
+    <ClCompile Include="Resource\ResourceManager.cpp">
+      <Filter>04. Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="Resource\Texture\TextureManager.cpp">
+      <Filter>04. Resource\01. Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="Resource\Texture\Texture.cpp">
+      <Filter>04. Resource\01. Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="PathManager.cpp">
+      <Filter>01. GameManager\05. Path</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="GameInfo.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="GameManager.h">
       <Filter>01. GameManager</Filter>
+    </ClInclude>
+    <ClInclude Include="GameInfo.h">
+      <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="SingletonMacro.h">
       <Filter>헤더 파일</Filter>
@@ -123,13 +144,13 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="Scene\Scene.h">
-      <Filter>03 Scene</Filter>
+      <Filter>03. Scene</Filter>
     </ClInclude>
     <ClInclude Include="Scene\SceneManager.h">
-      <Filter>03 Scene</Filter>
+      <Filter>03. Scene</Filter>
     </ClInclude>
     <ClInclude Include="Scene\MainScene.h">
-      <Filter>03 Scene</Filter>
+      <Filter>03. Scene</Filter>
     </ClInclude>
     <ClInclude Include="Ref.h">
       <Filter>01. GameManager\02. Ref</Filter>
@@ -151,6 +172,18 @@
     </ClInclude>
     <ClInclude Include="GameObject\AurelionSol.h">
       <Filter>02. GameObject\03. Aurelion Sol</Filter>
+    </ClInclude>
+    <ClInclude Include="Resource\ResourceManager.h">
+      <Filter>04. Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="Resource\Texture\TextureManager.h">
+      <Filter>04. Resource\01. Texture</Filter>
+    </ClInclude>
+    <ClInclude Include="Resource\Texture\Texture.h">
+      <Filter>04. Resource\01. Texture</Filter>
+    </ClInclude>
+    <ClInclude Include="PathManager.h">
+      <Filter>01. GameManager\05. Path</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

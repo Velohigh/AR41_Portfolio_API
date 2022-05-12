@@ -12,10 +12,9 @@ CRef::CRef(const CRef& ref)	:
 	m_RefCount(0),
 	m_TypeName(ref.m_TypeName),
 	m_TypeID(ref.m_TypeID),
-	m_Enable(true),
-	m_Active(true)
+	m_Enable(ref.m_Enable),
+	m_Active(ref.m_Active)
 {
-
 }
 
 CRef::~CRef()

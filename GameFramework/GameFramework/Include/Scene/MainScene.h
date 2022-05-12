@@ -1,6 +1,7 @@
 #pragma once
 #include "Scene.h"
-class CMainScene : public CScene
+class CMainScene :
+    public CScene
 {
 	friend class CSceneManager;
 
@@ -10,6 +11,5 @@ protected:
 
 public:
 	bool Init();
-
 };
 

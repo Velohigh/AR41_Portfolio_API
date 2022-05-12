@@ -1,5 +1,7 @@
 #pragma once
+
 #include "Character.h"
+
 class CMonster :
     public CCharacter
 {
@@ -21,3 +23,4 @@ public:
 	virtual void Update(float DeltaTime);
 	virtual void Render(HDC hDC, float DeltaTime);
 };
+

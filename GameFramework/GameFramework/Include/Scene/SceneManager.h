@@ -19,7 +19,7 @@ public:
 	template <typename T>
 	bool CreateScene()
 	{
-		T* Scene = new T;
+		T* Scene  = new T;
 
 		if (!Scene->Init())
 		{
@@ -27,10 +27,10 @@ public:
 			return false;
 		}
 
-	if (!m_Scene)
-		m_Scene = (CScene*)Scene;
+		if (!m_Scene)
+			m_Scene = (CScene*)Scene;
 
-	return true;
+		return true;
 	}
 
 	DECLARE_SINGLE(CSceneManager)

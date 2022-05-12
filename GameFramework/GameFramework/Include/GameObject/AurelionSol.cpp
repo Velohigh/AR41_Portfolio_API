@@ -3,7 +3,7 @@
 
 CAurelionSol::CAurelionSol()
 {
-	SetTypeID<CAurelionSol>();	// 최하위 객체이므로 타입ID설정
+	SetTypeID<CAurelionSol>();
 }
 
 CAurelionSol::CAurelionSol(const CAurelionSol& Obj) :
@@ -26,16 +26,14 @@ bool CAurelionSol::Init()
 
 void CAurelionSol::Update(float DeltaTime)
 {
-
 }
 
 void CAurelionSol::Render(HDC hDC, float DeltaTime)
 {
-	Vector2 RenderLT;
+	Vector2	RenderLT;
 
 	RenderLT = m_Pos - m_Pivot * m_Size;
 
 	Ellipse(hDC, (int)RenderLT.x, (int)RenderLT.y,
 		(int)(RenderLT.x + m_Size.x), (int)(RenderLT.y + m_Size.y));
-
 }

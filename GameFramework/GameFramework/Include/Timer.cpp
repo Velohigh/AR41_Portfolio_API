@@ -1,6 +1,6 @@
 #include "Timer.h"
 
-CTimer::CTimer() :
+CTimer::CTimer()	:
 	m_Second{},
 	m_Time{},
 	m_DeltaTime(0.f),
@@ -25,11 +25,11 @@ void CTimer::Init()
 
 void CTimer::Update()
 {
-	LARGE_INTEGER Time;
+	LARGE_INTEGER	Time;
 	QueryPerformanceCounter(&Time);
 
 	// DeltaTime을 구한다.
-	// (현재 고해상도 타이머값 - 이전 프레임의 고해상도 타이머값) / 초당 고해상도 타이머 값
+	// (현재 고해상도 타이머값 - 이전 프레임의 고해상도 타이머값) / 초당 고해상도 타이머값
 	m_DeltaTime = (Time.QuadPart - m_Time.QuadPart) / (float)m_Second.QuadPart;
 
 	// 이전 타이머값을 현재 타이머값으로 교체한다.

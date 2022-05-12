@@ -59,45 +59,44 @@ public:
 			m_Ptr->AddRef();
 	}
 
-	bool operator == (const CSharedPtr<T>& ptr) const
+	bool operator == (const CSharedPtr<T>& ptr)	const
 	{
 		return m_Ptr == ptr.m_Ptr;
 	}
 
-	bool operator == (T* ptr) const
+	bool operator == (T* ptr)	const
 	{
 		return m_Ptr == ptr;
 	}
 
-	bool operator != (const CSharedPtr<T>& ptr) const
+	bool operator != (const CSharedPtr<T>& ptr)	const
 	{
 		return m_Ptr != ptr.m_Ptr;
 	}
 
-	bool operator != (T* ptr) const
+	bool operator != (T* ptr)	const
 	{
 		return m_Ptr != ptr;
 	}
 
-	operator T* () const
+	operator T* ()	const
 	{
 		return m_Ptr;
 	}
 
-	T* operator -> () const
+	T* operator -> ()	const
 	{
 		return m_Ptr;
 	}
 
-	T* operator * () const
+	T* operator * ()	const
 	{
 		return m_Ptr;
 	}
 
-	T* Get() const
+	T* Get()	const
 	{
 		return m_Ptr;
 	}
-
 };
 

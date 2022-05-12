@@ -8,7 +8,7 @@ struct Vector2
 {
 	float	x, y;
 
-	Vector2() :
+	Vector2()	:
 		x(0.f),
 		y(0.f)
 	{
@@ -78,7 +78,7 @@ struct Vector2
 
 		return result;
 	}
-
+	
 	// +=
 	void operator += (const Vector2& v)
 	{
@@ -252,14 +252,14 @@ struct Vector2
 	{
 		float Width = v.x - x;
 		float Height = v.y - y;
-		
+
 		// sqrtf : ∑Á∆Æ
-		float c = sqrtf(Width * Width + Height * Height);
+		float	c = sqrtf(Width * Width + Height * Height);
 
 		float Angle = Width / c;
 
 		Angle = acosf(Angle) / PI * 180.f;
-		
+
 		if (v.y < y)
 			Angle = 360.f - Angle;
 

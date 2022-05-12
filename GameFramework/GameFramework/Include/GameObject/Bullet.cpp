@@ -3,7 +3,7 @@
 
 CBullet::CBullet()
 {
-	SetTypeID<CBullet>();	// 최하위 객체이므로 타입ID설정
+	SetTypeID<CBullet>();
 }
 
 CBullet::CBullet(const CBullet& Obj) :
@@ -40,16 +40,14 @@ void CBullet::Update(float DeltaTime)
 
 	if (m_Distance <= 0.f)
 		SetActive(false);
-
 }
 
 void CBullet::Render(HDC hDC, float DeltaTime)
 {
-	Vector2 RenderLT;
+	Vector2	RenderLT;
 
 	RenderLT = m_Pos - m_Pivot * m_Size;
 
 	Ellipse(hDC, (int)RenderLT.x, (int)RenderLT.y,
 		(int)(RenderLT.x + m_Size.x), (int)(RenderLT.y + m_Size.y));
-
 }

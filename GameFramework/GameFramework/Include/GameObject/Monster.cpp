@@ -5,7 +5,7 @@
 
 CMonster::CMonster()
 {
-	SetTypeID<CMonster>();	// 최하위 객체이므로 타입ID설정
+	SetTypeID<CMonster>();
 }
 
 CMonster::CMonster(const CMonster& Obj) :
@@ -32,6 +32,8 @@ bool CMonster::Init()
 	SetSize(100.f, 100.f);
 	SetPivot(0.5f, 0.5f);
 
+	SetTexture("Player");
+
 	return true;
 }
 
@@ -52,16 +54,16 @@ void CMonster::Update(float DeltaTime)
 	}
 
 	m_FireTime += DeltaTime;
+
 	if (m_FireTime >= 0.5f)
 	{
 		m_FireTime -= 0.5f;
 
 		++m_FireCount;
 
-
 		CBullet* Bullet = m_Scene->CreateObject<CBullet>("Bullet");
 
-		float BulletX = m_Pos.x - m_Pivot.x * m_Size.x -
+		float	BulletX = m_Pos.x - m_Pivot.x * m_Size.x -
 			(1.f - Bullet->GetPivot().x) * Bullet->GetSize().x;
 
 		Bullet->SetPos(BulletX, m_Pos.y);
@@ -73,19 +75,18 @@ void CMonster::Update(float DeltaTime)
 			// 플레이어 방향으로 나갈 각도를 구한다.
 			float Angle = Bullet->GetPos().Angle(m_Scene->GetPlayer()->GetPos());
 			Bullet->SetAngle(Angle);
-
-
 		}
 	}
 }
 
 void CMonster::Render(HDC hDC, float DeltaTime)
 {
-	Vector2 RenderLT;
+	CCharacter::Render(hDC, DeltaTime);
 
-	RenderLT = m_Pos - m_Pivot * m_Size;
+	//Vector2	RenderLT;
 
-	Rectangle(hDC, (int)RenderLT.x, (int)RenderLT.y,
-		(int)(RenderLT.x + m_Size.x), (int)(RenderLT.y + m_Size.y));
+	//RenderLT = m_Pos - m_Pivot * m_Size;
 
+	//Rectangle(hDC, (int)RenderLT.x, (int)RenderLT.y,
+//		(int)(RenderLT.x + m_Size.x), (int)(RenderLT.y + m_Size.y));
 }
