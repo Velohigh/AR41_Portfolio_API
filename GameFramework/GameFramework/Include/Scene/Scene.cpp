@@ -1,13 +1,18 @@
 
 #include "Scene.h"
 #include "../GameObject/GameObject.h"
+#include "SceneResource.h"
 
 CScene::CScene()
 {
+	m_Resource = new CSceneResource;
 }
 
 CScene::~CScene()
 {
+	m_ObjList.clear();
+
+	SAFE_DELETE(m_Resource);
 }
 
 void CScene::SetPlayer(CGameObject* Player)

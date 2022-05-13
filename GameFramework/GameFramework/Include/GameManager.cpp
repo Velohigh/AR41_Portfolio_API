@@ -30,6 +30,10 @@ CGameManager::~CGameManager()
 
     SAFE_DELETE(m_Timer);
 
+    SelectObject(m_hBackDC, m_hBackPrevBmp);
+    DeleteObject(m_hBackBmp);
+    DeleteDC(m_hBackDC);
+
     // 프로그램이 종료될때 DC를 제거한다.
     ReleaseDC(m_hWnd, m_hDC);
 }
@@ -37,6 +41,9 @@ CGameManager::~CGameManager()
 bool CGameManager::Init(HINSTANCE hInst)
 {
 	m_hInst = hInst;
+
+    m_RS.Width = 1280;
+    m_RS.Height = 720;
 
 	// 윈도우클래스 구조체를 만들어주고 등록한다.
 	Register();
@@ -75,6 +82,15 @@ bool CGameManager::Init(HINSTANCE hInst)
     m_hDC = GetDC(m_hWnd);
 
     m_FrameLimitTime = 1 / 60.f;
+
+
+    // 백버퍼를 만든다.
+    m_hBackDC = CreateCompatibleDC(m_hDC);
+
+    // 윈도우 창의 크기와 동일한 크기의 백버퍼용 비트맵을 만들어준다.
+    m_hBackBmp = CreateCompatibleBitmap(m_hDC, m_RS.Width, m_RS.Height);
+
+    m_hBackPrevBmp = (HBITMAP)SelectObject(m_hBackDC, m_hBackBmp);
 
     /*m_TestRC.left = 800;
     m_TestRC.top = 100;
@@ -173,9 +189,25 @@ void CGameManager::Collision(float DeltaTime)
 
 void CGameManager::Render(float DeltaTime)
 {
-    //Rectangle(m_hDC, 0, 0, 1280, 720);
+    Rectangle(m_hBackDC, -1, -1, m_RS.Width + 1, m_RS.Height + 1);
 
-    CSceneManager::GetInst()->Render(m_hDC, DeltaTime);
+    CSceneManager::GetInst()->Render(m_hBackDC, DeltaTime);
+
+    // 위에서 백버퍼에 모든 오브젝트가 출력이 되었다.
+    // 마지막으로 백버퍼를 주표면 버퍼에 그려낸다.
+    // BitBlt : 이미지를 원하는 DC에 출력해주는 함수이다.
+    // 1번인자 : 이미지를 출력해줄 DC
+    // 2번인자 : 해당 DC에서의 x좌표
+    // 3번인자 : 해당 DC에서의 y좌표
+    // 4번인자 : 그려낼 이미지의 가로크기
+    // 5번인자 : 그려낼 이미지의 세로크기
+    // 6번인자 : 이미지를 출력할 DC
+    // 7번인자 : 출력할 DC상에서의 시작 x위치
+    // 8번인자 : 출력할 DC상에서의 시작 y위치
+    // 9번인자 : 그리는 방법 지정
+    BitBlt(m_hDC, 0, 0, m_RS.Width, m_RS.Height, m_hBackDC, 0, 0, SRCCOPY);
+
+
     //m_Player->Render(m_hDC, DeltaTime);
 
     //char    FPSText[64] = {};
@@ -317,7 +349,7 @@ bool CGameManager::Create()
     // RECT : 사각형을 표현하기 위해서 지원하는 구조체이다.
     // left, top, right, bottom 값으로 이루어져 있다.
     // 윈도우 크기를 표현하는 Rect 구조체를 하나 만들어준다.
-    RECT    rc = { 0, 0, 1280, 720 };
+    RECT    rc = { 0, 0, m_RS.Width, m_RS.Height };
 
     // 위에서 지정한 크기만큼 클라이언트 영역의 크기로 잡기 위해서
     // 필요한 실제 윈도우의 크기를 얻어온다.

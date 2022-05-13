@@ -52,6 +52,9 @@
     <Filter Include="01. GameManager\05. Path">
       <UniqueIdentifier>{1d09ae9d-c96c-4c09-b76a-d16b357199f4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03. Scene\01. Resource">
+      <UniqueIdentifier>{b31eb102-5384-4255-911c-63afb4706e65}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -113,6 +116,9 @@
     </ClCompile>
     <ClCompile Include="PathManager.cpp">
       <Filter>01. GameManager\05. Path</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene\SceneResource.cpp">
+      <Filter>03. Scene\01. Resource</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -184,6 +190,12 @@
     </ClInclude>
     <ClInclude Include="PathManager.h">
       <Filter>01. GameManager\05. Path</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\SceneResource.h">
+      <Filter>03. Scene\01. Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="Flag.h">
+      <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -1,16 +1,17 @@
 #pragma once
 
-#include "../SingletonMacro.h"
 #include "../GameInfo.h"
 
-class CResourceManager
+class CSceneResource
 {
-private:
-	class CTextureManager* m_TextureManager;
+	friend class CScene;
 
-public:
-	bool Init();
-	void Update();
+private:
+	CSceneResource();
+	~CSceneResource();
+
+private:
+	std::unordered_map<std::string, CSharedPtr<class CTexture>>	m_mapTexture;
 
 public:	// ==================== Texture ====================
 	bool LoadTexture(const std::string& Name, const TCHAR* FileName,
@@ -32,8 +33,5 @@ public:	// ==================== Texture ====================
 #endif // UNICODE
 
 	class CTexture* FindTexture(const std::string& Name);
-	void ReleaseTexture(const std::string& Name);
-
-	DECLARE_SINGLE(CResourceManager)
 };
 

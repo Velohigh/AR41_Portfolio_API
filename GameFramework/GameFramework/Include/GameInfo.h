@@ -13,6 +13,7 @@
 
 #include "Vector2.h"
 #include "SharedPtr.h"
+#include "Flag.h"
 
 #pragma comment(lib, "msimg32.lib")
 
@@ -29,5 +30,11 @@ float RadianToDegree(float Radian);
 float DegreeToRadian(float Degree);
 
 #define	DELTA_TIME	CGameManager::GetInst()->GetDeltaTime()
+
+struct Resolution
+{
+	int	Width;
+	int	Height;
+};
 
 

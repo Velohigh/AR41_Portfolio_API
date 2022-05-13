@@ -19,10 +19,15 @@ protected:
 
 public:
 	void AddRef();
-	void Release();
+	int Release();
 
 
 public:
+	int GetRefCount()	const
+	{
+		return m_RefCount;
+	}
+
 	bool GetEnable()	const
 	{
 		return m_Enable;

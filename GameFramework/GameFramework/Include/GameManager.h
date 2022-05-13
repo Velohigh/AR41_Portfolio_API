@@ -20,10 +20,15 @@ private:
 	HINSTANCE	m_hInst;
 	HWND		m_hWnd;
 	HDC			m_hDC;
+	HDC			m_hBackDC;
+	HBITMAP		m_hBackBmp;
+	HBITMAP		m_hBackPrevBmp;
 
 	class CTimer* m_Timer;
 	float		m_FrameLimitTime;
 	float		m_DeltaTime;
+
+	Resolution	m_RS;
 	//class CPlayer* m_Player;
 
 	//RECT		m_TestRC;
@@ -35,6 +40,11 @@ private:
 	static bool	m_Loop;
 
 public:
+	Resolution GetResolution()	const
+	{
+		return m_RS;
+	}
+
 	float GetDeltaTime()	const
 	{
 		return m_DeltaTime;

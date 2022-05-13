@@ -10,11 +10,19 @@ protected:
 	CScene();
 	virtual ~CScene();
 
+private:
+	class CSceneResource* m_Resource;
+
 protected:
 	std::list<CSharedPtr<class CGameObject>>	m_ObjList;
 	CSharedPtr<class CGameObject>	m_Player;
 
 public:
+	class CSceneResource* GetSceneResource()	const
+	{
+		return m_Resource;
+	}
+
 	class CGameObject* GetPlayer()	const
 	{
 		return m_Player;

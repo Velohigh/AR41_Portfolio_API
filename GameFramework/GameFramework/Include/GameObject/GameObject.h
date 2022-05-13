@@ -73,6 +73,24 @@ public:
 
 public:
 	void SetTexture(const std::string& Name);
+	void SetTexture(class CTexture* Texture);
+	void SetTexture(const std::string& Name, const TCHAR* FileName,
+		const std::string& PathName = TEXTURE_PATH);
+	void SetTextureFullPath(const std::string& Name, const TCHAR* FullPath);
+
+#ifdef UNICODE
+
+	void SetTexture(const std::string& Name, const std::vector<std::wstring>& vecFileName,
+		const std::string& PathName = TEXTURE_PATH);
+	void SetTextureFullPath(const std::string& Name, const std::vector<std::wstring>& vecFullPath);
+
+#else
+
+	void SetTexture(const std::string& Name, const std::vector<std::string>& vecFileName,
+		const std::string& PathName = TEXTURE_PATH);
+	void SetTextureFullPath(const std::string& Name, const std::vector<std::string>& vecFullPath);
+
+#endif // UNICODE
 
 public:
 	virtual bool Init();
