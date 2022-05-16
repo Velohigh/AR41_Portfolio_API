@@ -3,6 +3,7 @@
 #include "../Resource/Texture/Texture.h"
 #include "../Scene/Scene.h"
 #include "../Scene/SceneResource.h"
+#include "../Resource/ResourceManager.h"
 
 CGameObject::CGameObject()	:
 	m_Scene(nullptr)
@@ -39,6 +40,7 @@ void CGameObject::SetTexture(const std::string& Name, const TCHAR* FileName,
 	m_Scene->GetSceneResource()->LoadTexture(Name, FileName, PathName);
 
 	m_Texture = m_Scene->GetSceneResource()->FindTexture(Name);
+	m_Texture = CResourceManager::GetInst()->FindTexture(Name);
 }
 
 void CGameObject::SetTextureFullPath(const std::string& Name,
@@ -85,7 +87,27 @@ void CGameObject::SetTextureFullPath(const std::string& Name,
 	m_Texture = m_Scene->GetSceneResource()->FindTexture(Name);
 }
 
-#endif
+#endif 
+
+bool CGameObject::SetColorKey(unsigned char r, unsigned char g, unsigned char b, int Index)
+{
+	if (!m_Texture)
+		return false;
+
+	m_Texture->SetColorKey(r, g, b, Index);
+
+	return true;
+}
+
+bool CGameObject::SetColorKeyAll(unsigned char r, unsigned char g, unsigned char b)
+{
+	if (!m_Texture)
+		return false;
+
+	m_Texture->SetColorKeyAll(r, g, b);
+
+	return true;
+}
 
 bool CGameObject::Init()
 {
@@ -104,8 +126,18 @@ void CGameObject::Render(HDC hDC, float DeltaTime)
 
 		RenderLT = m_Pos - m_Pivot * m_Size;
 
-		BitBlt(hDC, (int)RenderLT.x, (int)RenderLT.y, 
-			(int)m_Size.x, (int)m_Size.y, m_Texture->GetDC(),
-			0, 0, SRCCOPY);
+		if (m_Texture->GetEnableColorKey())
+		{
+			TransparentBlt(hDC, (int)RenderLT.x, (int)RenderLT.y,
+				(int)m_Size.x, (int)m_Size.y, m_Texture->GetDC(),
+				0, 0, (int)m_Size.x, (int)m_Size.y, m_Texture->GetColorKey());
+		}
+		
+		else
+		{
+			BitBlt(hDC, (int)RenderLT.x, (int)RenderLT.y,
+				(int)m_Size.x, (int)m_Size.y, m_Texture->GetDC(),
+				0, 0, SRCCOPY);
+		}
 	}
 }

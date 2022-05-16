@@ -154,6 +154,32 @@ bool CTextureManager::LoadTextureFullPath(const std::string& Name,
 
 #endif
 
+bool CTextureManager::SetColorKey(const std::string& Name, unsigned char r, unsigned char g, unsigned char b, int Index)
+{
+	CTexture* Texture = FindTexture(Name);
+
+	if (!Texture)
+		return false;
+
+	Texture->SetColorKey(r, g, b, Index);
+
+	return true;
+}
+
+bool CTextureManager::SetColorKeyAll(const std::string& Name, unsigned char r, unsigned char g, unsigned char b)
+{
+	CTexture* Texture = FindTexture(Name);
+
+	if (!Texture)
+		return false;
+
+	Texture->SetColorKeyAll(r, g, b);
+
+	return true;
+
+}
+
+
 CTexture* CTextureManager::FindTexture(const std::string& Name)
 {
 	auto	iter = m_mapTexture.find(Name);

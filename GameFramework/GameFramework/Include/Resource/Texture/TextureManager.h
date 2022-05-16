@@ -35,6 +35,10 @@ public:
 
 #endif // UNICODE
 
+	bool SetColorKey(const std::string& Name, unsigned char r, unsigned char g, unsigned char b,
+		int Index = 0);
+	bool SetColorKeyAll(const std::string& Name, unsigned char r, unsigned char g, unsigned char b);
+
 	class CTexture* FindTexture(const std::string& Name);
 	void ReleaseTexture(const std::string& Name);
 };

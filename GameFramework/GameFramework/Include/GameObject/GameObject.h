@@ -92,6 +92,10 @@ public:
 
 #endif // UNICODE
 
+	bool SetColorKey(unsigned char r, unsigned char g, unsigned char b,
+		int Index = 0);
+	bool SetColorKeyAll(unsigned char r, unsigned char g, unsigned char b);
+
 public:
 	virtual bool Init();
 	virtual void Update(float DeltaTime);

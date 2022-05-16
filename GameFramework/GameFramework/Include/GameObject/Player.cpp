@@ -27,8 +27,12 @@ bool CPlayer::Init()
 	m_GunLength = 70.f;
 
 	SetPos(100.f, 100.f);
-	SetSize(100.f, 100.f);
+	SetSize(177.f, 87.f);
 	SetPivot(0.5f, 0.5f);
+
+
+	SetTexture("Player", TEXT("Player/Right/alert.bmp"));
+	SetColorKey(255, 0, 255);
 
 	m_SolAngle[0] = 0.f;
 	m_SolAngle[1] = 120.f;
@@ -144,12 +148,7 @@ void CPlayer::Update(float DeltaTime)
 
 void CPlayer::Render(HDC hDC, float DeltaTime)
 {
-	Vector2	RenderLT;
-
-	RenderLT = m_Pos - m_Pivot * m_Size;
-
-	Ellipse(hDC, (int)RenderLT.x, (int)RenderLT.y,
-		(int)(RenderLT.x + m_Size.x), (int)(RenderLT.y + m_Size.y));
+	CCharacter::Render(hDC, DeltaTime);
 
 	MoveToEx(hDC, (int)m_Pos.x, (int)m_Pos.y, nullptr);
 	LineTo(hDC, (int)m_GunPos.x, (int)m_GunPos.y);

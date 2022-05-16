@@ -29,10 +29,10 @@ private:
 	float		m_DeltaTime;
 
 	Resolution	m_RS;
-	//class CPlayer* m_Player;
 
-	//RECT		m_TestRC;
-	//int			m_Dir;
+
+	float		m_TimeScale;	// 글로벌 타임 재생 배율.(이거 해야됨)
+
 
 	// 이 변수가 static 멤버변수로 설정된 이유는 wndProc static 멤버
 	// 함수에서 이 변수를 윈도우가 종료될때 false로 만들어주기 위해서

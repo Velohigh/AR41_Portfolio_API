@@ -32,7 +32,7 @@ bool CMonster::Init()
 	SetSize(100.f, 100.f);
 	SetPivot(0.5f, 0.5f);
 
-	SetTexture("Player", TEXT("teemo.bmp"));
+	SetTexture("Monster", TEXT("teemo.bmp"));
 
 	return true;
 }

@@ -1,19 +1,26 @@
 
 #include "ResourceManager.h"
 #include "Texture/TextureManager.h"
+#include "Animation/AnimationManager.h"
 
 DEFINITION_SINGLE(CResourceManager)
 
-CResourceManager::CResourceManager()
+CResourceManager::CResourceManager() :
+	m_AnimationManager(nullptr)
 {
 	m_TextureManager = new CTextureManager;
 
 	m_TextureManager->Init();
+
+	m_AnimationManager = new CAnimationManager;
+
+	m_AnimationManager->Init();
 }
 
 CResourceManager::~CResourceManager()
 {
 	SAFE_DELETE(m_TextureManager);
+	SAFE_DELETE(m_AnimationManager);
 }
 
 bool CResourceManager::Init()
@@ -65,6 +72,16 @@ bool CResourceManager::LoadTextureFullPath(const std::string& Name,
 
 #endif
 
+bool CResourceManager::SetColorKey(const std::string& Name, unsigned char r, unsigned char g, unsigned char b, int Index)
+{
+	return m_TextureManager->SetColorKey(Name, r, g, b, Index);
+}
+
+bool CResourceManager::SetColorKeyAll(const std::string& Name, unsigned char r, unsigned char g, unsigned char b)
+{
+	return m_TextureManager->SetColorKeyAll(Name, r, g, b);
+}
+
 CTexture* CResourceManager::FindTexture(const std::string& Name)
 {
 	return m_TextureManager->FindTexture(Name);
@@ -73,4 +90,156 @@ CTexture* CResourceManager::FindTexture(const std::string& Name)
 void CResourceManager::ReleaseTexture(const std::string& Name)
 {
 	m_TextureManager->ReleaseTexture(Name);
+}
+
+bool CResourceManager::CreateAnimationSequence(const std::string& Name, 
+	CTexture* Texture)
+{
+	return m_AnimationManager->CreateAnimationSequence(Name, Texture);
+}
+
+bool CResourceManager::CreateAnimationSequence(const std::string& Name, 
+	const std::string& TexName)
+{
+	CTexture* Texture = FindTexture(TexName);
+
+	return m_AnimationManager->CreateAnimationSequence(Name, Texture);
+}
+
+bool CResourceManager::CreateAnimationSequence(const std::string& Name, 
+	const std::string& TexName, const TCHAR* FileName, 
+	const std::string& PathName)
+{
+	CTexture* Texture = FindTexture(TexName);
+
+	// 같은 이름으로 추가되어 있을 경우 바로 처리
+	if (Texture)
+		return m_AnimationManager->CreateAnimationSequence(Name, Texture);
+
+	// 같은 이름의 텍스쳐가 없을 경우 로딩하고 처리
+	if (!m_TextureManager->LoadTexture(TexName, FileName, PathName))
+		return false;
+
+	// 위에서 리소스 매니저에 로드한 텍스쳐를 다시 찾아온다.
+	Texture = FindTexture(TexName);
+
+	// 불러온 텍스쳐로 애니메이션시퀸스를 만든다.
+	return m_AnimationManager->CreateAnimationSequence(Name, Texture);
+}
+
+bool CResourceManager::CreateAnimationSequenceFullPath(const std::string& Name,
+	const std::string& TexName, const TCHAR* FullPath)
+{
+	CTexture* Texture = FindTexture(TexName);
+
+	// 같은 이름으로 추가되어 있을 경우 바로 처리
+	if (Texture)
+		return m_AnimationManager->CreateAnimationSequence(Name, Texture);
+
+	// 같은 이름의 텍스쳐가 없을 경우 로딩하고 처리
+	if (!m_TextureManager->LoadTextureFullPath(TexName, FullPath))
+		return false;
+
+	Texture = FindTexture(TexName);
+
+	return m_AnimationManager->CreateAnimationSequence(Name, Texture);
+}
+
+#ifdef UNICODE
+
+bool CResourceManager::CreateAnimationSequence(const std::string& Name,
+	const std::string& TexName, const std::vector<std::wstring>& vecFileName, const std::string& PathName)
+{
+	CTexture* Texture = FindTexture(TexName);
+
+	// 같은 이름으로 추가되어 있을 경우 바로 처리
+	if (Texture)
+		return m_AnimationManager->CreateAnimationSequence(Name, Texture);
+
+	// 같은 이름의 텍스쳐가 없을 경우 로딩하고 처리
+	if (!m_TextureManager->LoadTexture(TexName, vecFileName, PathName))
+		return false;
+
+	Texture = FindTexture(TexName);
+
+	return m_AnimationManager->CreateAnimationSequence(Name, Texture);
+}
+
+bool CResourceManager::CreateAnimationSequenceFullPath(const std::string& Name, 
+	const std::string& TexName, const std::vector<std::wstring>& vecFullPath)
+{
+	CTexture* Texture = FindTexture(TexName);
+
+	// 같은 이름으로 추가되어 있을 경우 바로 처리
+	if (Texture)
+		return m_AnimationManager->CreateAnimationSequence(Name, Texture);
+
+	// 같은 이름의 텍스쳐가 없을 경우 로딩하고 처리
+	if (!m_TextureManager->LoadTextureFullPath(TexName, vecFullPath))
+		return false;
+
+	Texture = FindTexture(TexName);
+
+	return m_AnimationManager->CreateAnimationSequence(Name, Texture);
+}
+
+#else
+
+bool CResourceManager::CreateAnimationSequence(const std::string& Name,
+	const std::string& TexName, const std::vector<std::string>& vecFileName, const std::string& PathName)
+{
+	CTexture* Texture = FindTexture(TexName);
+
+	// 같은 이름으로 추가되어 있을 경우 바로 처리
+	if (Texture)
+		return m_AnimationManager->CreateAnimationSequence(Name, Texture);
+
+	// 같은 이름의 텍스쳐가 없을 경우 로딩하고 처리
+	if (!m_TextureManager->LoadTexture(TexName, vecFileName, PathName))
+		return false;
+
+	CTexture* Texture = FindTexture(TexName);
+
+	return m_AnimationManager->CreateAnimationSequence(Name, Texture);
+}
+
+bool CResourceManager::CreateAnimationSequenceFullPath(const std::string& Name,
+	const std::string& TexName, const std::vector<std::string>& vecFullPath)
+{
+	CTexture* Texture = FindTexture(TexName);
+
+	// 같은 이름으로 추가되어 있을 경우 바로 처리
+	if (Texture)
+		return m_AnimationManager->CreateAnimationSequence(Name, Texture);
+
+	// 같은 이름의 텍스쳐가 없을 경우 로딩하고 처리
+	if (!m_TextureManager->LoadTextureFullPath(TexName, vecFullPath))
+		return false;
+
+	CTexture* Texture = FindTexture(TexName);
+
+	return m_AnimationManager->CreateAnimationSequence(Name, Texture);
+}
+
+#endif // UNICODE
+
+bool CResourceManager::AddAnimationFrame(const std::string& Name, const Vector2& Start, const Vector2& End)
+{
+	return m_AnimationManager->AddAnimationFrame(Name, Start, End);
+}
+
+bool CResourceManager::AddAnimationFrame(const std::string& Name, 
+	float PosX, float PosY, float SizeX, float SizeY)
+{
+	return m_AnimationManager->AddAnimationFrame(Name, PosX, PosY, SizeX, SizeY);
+}
+
+CAnimationSequence* CResourceManager::FindAnimation(const std::string& Name)
+{
+	return m_AnimationManager->FindAnimation(Name);
+}
+
+void CResourceManager::ReleaseAnimation(const std::string& Name)
+{
+	return m_AnimationManager->ReleaseAnimation(Name);
 }

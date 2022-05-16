@@ -126,6 +126,16 @@ bool CSceneResource::LoadTextureFullPath(const std::string& Name,
 
 #endif
 
+bool CSceneResource::SetColorKey(const std::string& Name, unsigned char r, unsigned char g, unsigned char b, int Index)
+{
+	return CResourceManager::GetInst()->SetColorKey(Name, r, g, b, Index);
+}
+
+bool CSceneResource::SetColorKeyAll(const std::string& Name, unsigned char r, unsigned char g, unsigned char b)
+{
+	return CResourceManager::GetInst()->SetColorKeyAll(Name, r, g, b);
+}
+
 CTexture* CSceneResource::FindTexture(const std::string& Name)
 {
 	auto	iter = m_mapTexture.find(Name);
