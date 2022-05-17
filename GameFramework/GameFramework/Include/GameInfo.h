@@ -39,7 +39,8 @@ struct Resolution
 
 struct AnimationFrameData
 {
-	Vector2 Start;
-	Vector2 End;
+	Vector2	Start;
+	Vector2	End;
 };
+
 

@@ -27,12 +27,13 @@ bool CPlayer::Init()
 	m_GunLength = 70.f;
 
 	SetPos(100.f, 100.f);
-	SetSize(177.f, 87.f);
-	SetPivot(0.5f, 0.5f);
+	SetSize(85.f, 75.f);
+	SetPivot(0.5f, 1.f);
 
 
-	SetTexture("Player", TEXT("Player/Right/alert.bmp"));
-	SetColorKey(255, 0, 255);
+	//SetTexture("Player", TEXT("Player/Right/alert.bmp"));
+	//SetColorKey(255, 0, 255);
+
 
 	m_SolAngle[0] = 0.f;
 	m_SolAngle[1] = 120.f;
@@ -67,6 +68,13 @@ bool CPlayer::Init()
 		m_Sol[i]->SetPos(Pos);
 	}
 
+
+	CreateAnimation();
+
+	AddAnimation("PlayerRightIdle");
+	AddAnimation("PlayerRightWalk");
+
+
 	CInput::GetInst()->AddBindFunction<CPlayer>("MoveFront", 
 		Input_Type::Push, this, &CPlayer::MoveFront);
 
@@ -93,6 +101,10 @@ bool CPlayer::Init()
 
 void CPlayer::Update(float DeltaTime)
 {
+	CCharacter::Update(DeltaTime);
+
+	DeltaTime *= m_TimeScale;
+
 	size_t	Size = m_vecCoolDown.size();
 
 	for (size_t i = 0; i < Size; ++i)
@@ -160,7 +172,9 @@ void CPlayer::MoveFront()
 	Dir.x = cosf(DegreeToRadian(m_GunAngle));
 	Dir.y = sinf(DegreeToRadian(m_GunAngle));
 
-	m_Pos += Dir * 400.f * DELTA_TIME;
+	m_Pos += Dir * 400.f * DELTA_TIME * m_TimeScale;
+
+	ChangeAnimation("PlayerRightWalk");
 }
 
 void CPlayer::MoveBack()
@@ -169,17 +183,19 @@ void CPlayer::MoveBack()
 	Dir.x = cosf(DegreeToRadian(m_GunAngle));
 	Dir.y = sinf(DegreeToRadian(m_GunAngle));
 
-	m_Pos -= Dir * 400.f * DELTA_TIME;
+	m_Pos -= Dir * 400.f * DELTA_TIME * m_TimeScale;
+
+	ChangeAnimation("PlayerRightWalk");
 }
 
 void CPlayer::GunRotation()
 {
-	m_GunAngle += 180.f * DELTA_TIME;
+	m_GunAngle += 180.f * DELTA_TIME * m_TimeScale;
 }
 
 void CPlayer::GunRotationInv()
 {
-	m_GunAngle -= 180.f * DELTA_TIME;
+	m_GunAngle -= 180.f * DELTA_TIME * m_TimeScale;
 }
 
 void CPlayer::Fire()

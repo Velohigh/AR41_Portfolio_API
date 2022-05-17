@@ -39,12 +39,11 @@ public:	// ==================== Texture ====================
 	class CTexture* FindTexture(const std::string& Name);
 	void ReleaseTexture(const std::string& Name);
 
+
+
 public:	// ==================== Animation Sequence ====================
-	// 텍스쳐를 직접 넣어주는 방법
 	bool CreateAnimationSequence(const std::string& Name, class CTexture* Texture);
-	// 텍스쳐를 이름으로 찾아서 넣어주는 방법
 	bool CreateAnimationSequence(const std::string& Name, const std::string& TexName);
-	// 텍스쳐를 파일이름으로 로딩하는 방법
 	bool CreateAnimationSequence(const std::string& Name, const std::string& TexName,
 		const TCHAR* FileName, const std::string& PathName);
 	bool CreateAnimationSequenceFullPath(const std::string& Name, const std::string& TexName,
@@ -56,6 +55,7 @@ public:	// ==================== Animation Sequence ====================
 		const std::vector<std::wstring>& vecFileName, const std::string& PathName);
 	bool CreateAnimationSequenceFullPath(const std::string& Name, const std::string& TexName,
 		const std::vector<std::wstring>& vecFullPath);
+
 #else
 
 	bool CreateAnimationSequence(const std::string& Name, const std::string& TexName,
@@ -64,6 +64,7 @@ public:	// ==================== Animation Sequence ====================
 		const std::vector<std::string>& vecFullPath);
 
 #endif // UNICODE
+
 
 	bool AddAnimationFrame(const std::string& Name, const Vector2& Start,
 		const Vector2& End);

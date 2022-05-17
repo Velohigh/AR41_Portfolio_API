@@ -5,8 +5,7 @@
 
 DEFINITION_SINGLE(CResourceManager)
 
-CResourceManager::CResourceManager() :
-	m_AnimationManager(nullptr)
+CResourceManager::CResourceManager()
 {
 	m_TextureManager = new CTextureManager;
 
@@ -19,8 +18,8 @@ CResourceManager::CResourceManager() :
 
 CResourceManager::~CResourceManager()
 {
-	SAFE_DELETE(m_TextureManager);
 	SAFE_DELETE(m_AnimationManager);
+	SAFE_DELETE(m_TextureManager);
 }
 
 bool CResourceManager::Init()
@@ -98,7 +97,7 @@ bool CResourceManager::CreateAnimationSequence(const std::string& Name,
 	return m_AnimationManager->CreateAnimationSequence(Name, Texture);
 }
 
-bool CResourceManager::CreateAnimationSequence(const std::string& Name, 
+bool CResourceManager::CreateAnimationSequence(const std::string& Name,
 	const std::string& TexName)
 {
 	CTexture* Texture = FindTexture(TexName);
@@ -120,10 +119,8 @@ bool CResourceManager::CreateAnimationSequence(const std::string& Name,
 	if (!m_TextureManager->LoadTexture(TexName, FileName, PathName))
 		return false;
 
-	// 위에서 리소스 매니저에 로드한 텍스쳐를 다시 찾아온다.
 	Texture = FindTexture(TexName);
 
-	// 불러온 텍스쳐로 애니메이션시퀸스를 만든다.
 	return m_AnimationManager->CreateAnimationSequence(Name, Texture);
 }
 
@@ -147,8 +144,9 @@ bool CResourceManager::CreateAnimationSequenceFullPath(const std::string& Name,
 
 #ifdef UNICODE
 
-bool CResourceManager::CreateAnimationSequence(const std::string& Name,
-	const std::string& TexName, const std::vector<std::wstring>& vecFileName, const std::string& PathName)
+bool CResourceManager::CreateAnimationSequence(const std::string& Name, 
+	const std::string& TexName, const std::vector<std::wstring>& vecFileName, 
+	const std::string& PathName)
 {
 	CTexture* Texture = FindTexture(TexName);
 
@@ -185,7 +183,7 @@ bool CResourceManager::CreateAnimationSequenceFullPath(const std::string& Name,
 
 #else
 
-bool CResourceManager::CreateAnimationSequence(const std::string& Name,
+bool CResourceManager::CreateAnimationSequence(const std::string& Name, 
 	const std::string& TexName, const std::vector<std::string>& vecFileName, const std::string& PathName)
 {
 	CTexture* Texture = FindTexture(TexName);
@@ -198,12 +196,12 @@ bool CResourceManager::CreateAnimationSequence(const std::string& Name,
 	if (!m_TextureManager->LoadTexture(TexName, vecFileName, PathName))
 		return false;
 
-	CTexture* Texture = FindTexture(TexName);
+	Texture = FindTexture(TexName);
 
 	return m_AnimationManager->CreateAnimationSequence(Name, Texture);
 }
 
-bool CResourceManager::CreateAnimationSequenceFullPath(const std::string& Name,
+bool CResourceManager::CreateAnimationSequenceFullPath(const std::string& Name, 
 	const std::string& TexName, const std::vector<std::string>& vecFullPath)
 {
 	CTexture* Texture = FindTexture(TexName);
@@ -216,20 +214,21 @@ bool CResourceManager::CreateAnimationSequenceFullPath(const std::string& Name,
 	if (!m_TextureManager->LoadTextureFullPath(TexName, vecFullPath))
 		return false;
 
-	CTexture* Texture = FindTexture(TexName);
+	Texture = FindTexture(TexName);
 
 	return m_AnimationManager->CreateAnimationSequence(Name, Texture);
 }
 
-#endif // UNICODE
+#endif
 
-bool CResourceManager::AddAnimationFrame(const std::string& Name, const Vector2& Start, const Vector2& End)
+bool CResourceManager::AddAnimationFrame(const std::string& Name,
+	const Vector2& Start, const Vector2& End)
 {
 	return m_AnimationManager->AddAnimationFrame(Name, Start, End);
 }
 
-bool CResourceManager::AddAnimationFrame(const std::string& Name, 
-	float PosX, float PosY, float SizeX, float SizeY)
+bool CResourceManager::AddAnimationFrame(const std::string& Name, float PosX, 
+	float PosY, float SizeX, float SizeY)
 {
 	return m_AnimationManager->AddAnimationFrame(Name, PosX, PosY, SizeX, SizeY);
 }
@@ -241,5 +240,5 @@ CAnimationSequence* CResourceManager::FindAnimation(const std::string& Name)
 
 void CResourceManager::ReleaseAnimation(const std::string& Name)
 {
-	return m_AnimationManager->ReleaseAnimation(Name);
+	m_AnimationManager->ReleaseAnimation(Name);
 }

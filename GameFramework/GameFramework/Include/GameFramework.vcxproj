@@ -154,6 +154,7 @@
     <ClCompile Include="GameInfo.cpp" />
     <ClCompile Include="GameManager.cpp" />
     <ClCompile Include="GameObject\AurelionSol.cpp" />
+    <ClCompile Include="GameObject\BackObj.cpp" />
     <ClCompile Include="GameObject\Bullet.cpp" />
     <ClCompile Include="GameObject\Character.cpp" />
     <ClCompile Include="GameObject\GameObject.cpp" />
@@ -182,6 +183,7 @@
     <ClInclude Include="GameInfo.h" />
     <ClInclude Include="GameManager.h" />
     <ClInclude Include="GameObject\AurelionSol.h" />
+    <ClInclude Include="GameObject\BackObj.h" />
     <ClInclude Include="GameObject\Bullet.h" />
     <ClInclude Include="GameObject\Character.h" />
     <ClInclude Include="GameObject\GameObject.h" />

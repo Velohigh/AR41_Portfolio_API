@@ -176,9 +176,7 @@ bool CTextureManager::SetColorKeyAll(const std::string& Name, unsigned char r, u
 	Texture->SetColorKeyAll(r, g, b);
 
 	return true;
-
 }
-
 
 CTexture* CTextureManager::FindTexture(const std::string& Name)
 {

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../Ref.h"
+#include "../Animation/Animation.h"
 
 class CGameObject	:
 	public CRef
@@ -16,12 +17,21 @@ protected:
 	class CScene* m_Scene;
 
 protected:
+	Vector2		m_PrevPos;
+	Vector2		m_Move;
 	Vector2		m_Pos;
 	Vector2		m_Size;
 	Vector2		m_Pivot;
 	CSharedPtr<class CTexture>	m_Texture;
+	CAnimation* m_Animation;
+	float		m_TimeScale;
 
 public:
+	float GetTimeScale()	const
+	{
+		return m_TimeScale;
+	}
+
 	const Vector2& GetPos()	const
 	{
 		return m_Pos;
@@ -38,6 +48,11 @@ public:
 	}
 
 public:
+	void SetTimeScale(float Scale)
+	{
+		m_TimeScale = Scale;
+	}
+
 	virtual void SetPos(float x, float y)
 	{
 		m_Pos.x = x;
@@ -97,8 +112,38 @@ public:
 	bool SetColorKeyAll(unsigned char r, unsigned char g, unsigned char b);
 
 public:
+	void CreateAnimation();
+	void AddAnimation(const std::string& SequenceName, bool Loop = true,
+		float PlayTime = 1.f, float PlayScale = 1.f,
+		bool Reverse = false);
+	void SetPlayTime(const std::string& Name, float PlayTime);
+	void SetPlayScale(const std::string& Name, float PlayScale);
+	void SetPlayLoop(const std::string& Name, bool Loop);
+	void SetPlayReverse(const std::string& Name, bool Reverse);
+	void SetCurrentAnimation(std::string& Name);
+	void ChangeAnimation(const std::string& Name);
+	bool CheckCurrentAnimation(const std::string& Name);
+
+public:
 	virtual bool Init();
 	virtual void Update(float DeltaTime);
 	virtual void Render(HDC hDC, float DeltaTime);
+
+
+
+public:
+	template <typename T>
+	void SetEndFunction(const std::string& Name, T* Obj, void(T::* Func)())
+	{
+		if (m_Animation)
+			m_Animation->SetEndFunction<T>(Name, Obj, Func);
+	}
+
+	template <typename T>
+	void AddNotify(const std::string& Name, int Frame, T* Obj, void(T::* Func)())
+	{
+		if (m_Animation)
+			m_Animation->SetEndFunction<T>(Name, Frame, Obj, Func);
+	}
 };
 

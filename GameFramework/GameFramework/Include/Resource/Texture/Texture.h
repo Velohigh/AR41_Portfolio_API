@@ -4,12 +4,12 @@
 
 struct ImageInfo
 {
-    HDC         hMemDC;
-    HBITMAP     hBmp;
-    HBITMAP     hPrevBmp;
-    BITMAP      BmpInfo;
-    COLORREF    ColorKey;
-    bool        EnableColorKey;
+    HDC      hMemDC;
+    HBITMAP  hBmp;
+    HBITMAP  hPrevBmp;
+    BITMAP   BmpInfo;
+    COLORREF ColorKey;
+    bool     EnableColorKey;
 
     ImageInfo() :
         hMemDC(0),
@@ -44,7 +44,7 @@ private:
     std::vector<ImageInfo*> m_vecImageInfo;
 
 public:
-    ETexture_Type GetTextureType() const
+    ETexture_Type GetTextureType()  const
     {
         return m_Type;
     }
@@ -63,7 +63,7 @@ public:
 
     void SetColorKeyAll(unsigned char r, unsigned char g, unsigned char b)
     {
-        size_t Size = m_vecImageInfo.size();
+        size_t  Size = m_vecImageInfo.size();
 
         for (size_t i = 0; i < Size; ++i)
         {
@@ -72,12 +72,12 @@ public:
         }
     }
 
-    bool GetEnableColorKey(int Index = 0) const
+    bool GetEnableColorKey(int Index = 0)    const
     {
         return m_vecImageInfo[Index]->EnableColorKey;
     }
 
-    COLORREF GetColorKey(int Index = 0) const
+    COLORREF GetColorKey(int Index = 0)    const
     {
         return m_vecImageInfo[Index]->ColorKey;
     }

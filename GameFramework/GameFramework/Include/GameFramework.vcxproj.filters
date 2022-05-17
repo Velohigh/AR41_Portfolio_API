@@ -56,10 +56,13 @@
       <UniqueIdentifier>{b31eb102-5384-4255-911c-63afb4706e65}</UniqueIdentifier>
     </Filter>
     <Filter Include="04. Resource\02. Animation">
-      <UniqueIdentifier>{afc6488f-a3bc-4c4a-af00-87fc6ce830e5}</UniqueIdentifier>
+      <UniqueIdentifier>{5de3b844-f9e7-454f-bccb-a37007bf2352}</UniqueIdentifier>
     </Filter>
     <Filter Include="05. Animation">
-      <UniqueIdentifier>{cc894f6a-7d51-4b77-ab3f-476f8689826e}</UniqueIdentifier>
+      <UniqueIdentifier>{f241dbf6-d017-4585-85f1-bb17bfb735f8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\04. Back">
+      <UniqueIdentifier>{2d690e90-e17c-4a68-9f0c-29176a56f9cb}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -138,6 +141,9 @@
     <ClCompile Include="Animation\Animation.cpp">
       <Filter>05. Animation</Filter>
     </ClCompile>
+    <ClCompile Include="GameObject\BackObj.cpp">
+      <Filter>02. GameObject\04. Back</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameManager.h">
@@ -215,10 +221,10 @@
     <ClInclude Include="Flag.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Resource\Animation\AnimationSequence.h">
+    <ClInclude Include="Resource\Animation\AnimationManager.h">
       <Filter>04. Resource\02. Animation</Filter>
     </ClInclude>
-    <ClInclude Include="Resource\Animation\AnimationManager.h">
+    <ClInclude Include="Resource\Animation\AnimationSequence.h">
       <Filter>04. Resource\02. Animation</Filter>
     </ClInclude>
     <ClInclude Include="Animation\AnimationInfo.h">
@@ -226,6 +232,9 @@
     </ClInclude>
     <ClInclude Include="Animation\Animation.h">
       <Filter>05. Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\BackObj.h">
+      <Filter>02. GameObject\04. Back</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

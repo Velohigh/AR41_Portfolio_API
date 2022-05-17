@@ -11,8 +11,7 @@ private:
 	~CAnimationManager();
 
 private:
-	std::unordered_map<std::string, CSharedPtr<class CAnimationSequence>> m_mapSequence;
-
+	std::unordered_map<std::string, CSharedPtr<class CAnimationSequence>>	m_mapSequence;
 
 public:
 	bool Init();
@@ -24,9 +23,7 @@ public:
 	bool AddAnimationFrame(const std::string& Name,
 		float PosX, float PosY, float SizeX, float SizeY);
 
-
 	class CAnimationSequence* FindAnimation(const std::string& Name);
 	void ReleaseAnimation(const std::string& Name);
-
 };
 

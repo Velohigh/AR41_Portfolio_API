@@ -18,17 +18,17 @@ private:
     std::vector<AnimationFrameData> m_vecFrame;
 
 public:
-     CTexture* GetTexture() const
+    CTexture* GetTexture()    const
     {
         return m_Texture;
     }
 
-    ETexture_Type GetTextureType() const
+    ETexture_Type GetTextureType()  const
     {
         return m_Texture->GetTextureType();
     }
 
-    const AnimationFrameData& GetFrame(int Index) const
+    const AnimationFrameData& GetFrame(int Index)   const
     {
         return m_vecFrame[Index];
     }
@@ -41,7 +41,5 @@ public:
 public:
     void AddFrame(const Vector2& Start, const Vector2& End);
     void AddFrame(float PosX, float PosY, float SizeX, float SizeY);
-
-
 };
 

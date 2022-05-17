@@ -34,6 +34,15 @@ private:
 	float		m_TimeScale;	// 글로벌 타임 재생 배율.(이거 해야됨)
 
 
+
+
+
+
+	//class CPlayer* m_Player;
+
+	//RECT		m_TestRC;
+	//int			m_Dir;
+
 	// 이 변수가 static 멤버변수로 설정된 이유는 wndProc static 멤버
 	// 함수에서 이 변수를 윈도우가 종료될때 false로 만들어주기 위해서
 	// static 멤버변수로 만들어주었다.
@@ -63,6 +72,17 @@ public:
 	HINSTANCE GetWindowInstance()	const
 	{
 		return m_hInst;
+	}
+
+	float GetTimeScale()	const
+	{
+		return m_TimeScale;
+	}
+
+public:
+	void SetTimeScale(float Scale)
+	{
+		m_TimeScale = Scale;
 	}
 
 public:

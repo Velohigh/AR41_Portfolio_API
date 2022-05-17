@@ -92,6 +92,8 @@ bool CGameManager::Init(HINSTANCE hInst)
 
     m_hBackPrevBmp = (HBITMAP)SelectObject(m_hBackDC, m_hBackBmp);
 
+    m_TimeScale = 1.f;
+
     /*m_TestRC.left = 800;
     m_TestRC.top = 100;
     m_TestRC.right = 900;
@@ -156,7 +158,7 @@ void CGameManager::Logic()
     // 타이머를 갱신하여 델타임 및 FPS 를 구한다.
     m_Timer->Update();
 
-    float DeltaTime = m_Timer->GetDeltaTime();
+    float DeltaTime = m_Timer->GetDeltaTime() * m_TimeScale;
 
     m_DeltaTime = DeltaTime;
 
@@ -189,7 +191,7 @@ void CGameManager::Collision(float DeltaTime)
 
 void CGameManager::Render(float DeltaTime)
 {
-    Rectangle(m_hBackDC, -1, -1, m_RS.Width + 1, m_RS.Height + 1);
+    //Rectangle(m_hBackDC, -1, -1, m_RS.Width + 1, m_RS.Height + 1);
 
     CSceneManager::GetInst()->Render(m_hBackDC, DeltaTime);
 
