@@ -93,6 +93,7 @@ private:
 	void Logic();
 	void Input(float DeltaTime);
 	bool Update(float DeltaTime);
+	void PostUpdate(float DeltaTime);
 	void Collision(float DeltaTime);
 	void Render(float DeltaTime);
 

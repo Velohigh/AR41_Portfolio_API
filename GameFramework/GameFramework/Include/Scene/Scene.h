@@ -12,12 +12,18 @@ protected:
 
 private:
 	class CSceneResource* m_Resource;
+	class CCamera* m_Camera;
 
 protected:
-	std::list<CSharedPtr<class CGameObject>>	m_ObjList;
+	std::list<CSharedPtr<class CGameObject>>	m_ObjList[(int)ERender_Layer::Max];
 	CSharedPtr<class CGameObject>	m_Player;
 
 public:
+	class CCamera* GetCamera()	const
+	{
+		return m_Camera;
+	}
+
 	class CSceneResource* GetSceneResource()	const
 	{
 		return m_Resource;
@@ -31,9 +37,10 @@ public:
 	void SetPlayer(class CGameObject* Player);
 
 public:
-	bool Init();
-	void Update(float DeltaTime);
-	void Render(HDC hDC, float DeltaTime);
+	virtual bool Init();
+	virtual void Update(float DeltaTime);
+	virtual void PostUpdate(float DeltaTime);
+	virtual void Render(HDC hDC, float DeltaTime);
 
 public:
 	template <typename T>
@@ -50,9 +57,12 @@ public:
 			return nullptr;
 		}
 
-		m_ObjList.push_back((CGameObject*)Obj);
+		m_ObjList[(int)Obj->GetRenderLayer()].push_back((CGameObject*)Obj);
 
 		return Obj;
 	}
+
+private:
+	static bool SortY(const CSharedPtr<class CGameObject>& Src, const CSharedPtr<class CGameObject>& Dest);
 };
 

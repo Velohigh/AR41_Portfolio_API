@@ -64,6 +64,9 @@
     <Filter Include="02. GameObject\04. Back">
       <UniqueIdentifier>{2d690e90-e17c-4a68-9f0c-29176a56f9cb}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03. Scene\02. Camera">
+      <UniqueIdentifier>{8ea2e84f-ed01-4d14-9f9d-65249515b555}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -143,6 +146,9 @@
     </ClCompile>
     <ClCompile Include="GameObject\BackObj.cpp">
       <Filter>02. GameObject\04. Back</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene\Camera.cpp">
+      <Filter>03. Scene\02. Camera</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -235,6 +241,9 @@
     </ClInclude>
     <ClInclude Include="GameObject\BackObj.h">
       <Filter>02. GameObject\04. Back</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\Camera.h">
+      <Filter>03. Scene\02. Camera</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

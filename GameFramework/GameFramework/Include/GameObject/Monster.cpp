@@ -10,7 +10,6 @@ CMonster::CMonster()
 
 CMonster::CMonster(const CMonster& Obj) :
 	CCharacter(Obj),
-	m_MoveSpeed(Obj.m_MoveSpeed),
 	m_Dir(Obj.m_Dir),
 	m_FireTime(Obj.m_FireTime),
 	m_FireCount(Obj.m_FireCount)
@@ -23,9 +22,11 @@ CMonster::~CMonster()
 
 bool CMonster::Init()
 {
+	CGameObject::Init();
+
 	m_MoveSpeed = 300.f;
 	m_FireTime = 0.f;
-	m_Dir = 1;
+	m_Dir = Vector2(0.f, 1.f);
 	m_FireCount = 0;
 
 	SetPos(900.f, 100.f);
@@ -39,18 +40,20 @@ bool CMonster::Init()
 
 void CMonster::Update(float DeltaTime)
 {
-	m_Pos.y += m_Dir * m_MoveSpeed * DeltaTime;
+	CGameObject::Update(DeltaTime);
+
+	//MoveDir(m_Dir);
 
 	if (m_Pos.y + (1.f - m_Pivot.y) * m_Size.y >= 720.f)
 	{
 		m_Pos.y = 720.f - (1.f - m_Pivot.y) * m_Size.y;
-		m_Dir = -1;
+		m_Dir *= -1;
 	}
 
 	else if (m_Pos.y - m_Pivot.y * m_Size.y <= 0.f)
 	{
 		m_Pos.y = m_Pivot.y * m_Size.y;
-		m_Dir = 1;
+		m_Dir *= -1;
 	}
 
 	m_FireTime += DeltaTime;
@@ -77,6 +80,11 @@ void CMonster::Update(float DeltaTime)
 			Bullet->SetAngle(Angle);
 		}
 	}
+}
+
+void CMonster::PostUpdate(float DeltaTime)
+{
+	CCharacter::PostUpdate(DeltaTime);
 }
 
 void CMonster::Render(HDC hDC, float DeltaTime)

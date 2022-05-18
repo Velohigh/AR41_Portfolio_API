@@ -28,6 +28,11 @@ bool CSceneManager::Update(float DeltaTime)
 	return false;
 }
 
+void CSceneManager::PostUpdate(float DeltaTime)
+{
+	m_Scene->PostUpdate(DeltaTime);
+}
+
 void CSceneManager::Render(HDC hDC, float DeltaTime)
 {
 	m_Scene->Render(hDC, DeltaTime);

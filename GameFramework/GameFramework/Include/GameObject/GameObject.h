@@ -17,6 +17,7 @@ protected:
 	class CScene* m_Scene;
 
 protected:
+	ERender_Layer	m_RenderLayer;
 	Vector2		m_PrevPos;
 	Vector2		m_Move;
 	Vector2		m_Pos;
@@ -25,8 +26,14 @@ protected:
 	CSharedPtr<class CTexture>	m_Texture;
 	CAnimation* m_Animation;
 	float		m_TimeScale;
+	float		m_MoveSpeed;
 
 public:
+	ERender_Layer GetRenderLayer()	const
+	{
+		return m_RenderLayer;
+	}
+
 	float GetTimeScale()	const
 	{
 		return m_TimeScale;
@@ -124,9 +131,18 @@ public:
 	void ChangeAnimation(const std::string& Name);
 	bool CheckCurrentAnimation(const std::string& Name);
 
+
+public:
+	void MoveDir(const Vector2& Dir);
+	void Move(const Vector2& MoveValue);
+	void Move(float Angle);
+
+
+
 public:
 	virtual bool Init();
 	virtual void Update(float DeltaTime);
+	virtual void PostUpdate(float DeltaTime);
 	virtual void Render(HDC hDC, float DeltaTime);
 
 
@@ -143,7 +159,7 @@ public:
 	void AddNotify(const std::string& Name, int Frame, T* Obj, void(T::* Func)())
 	{
 		if (m_Animation)
-			m_Animation->SetEndFunction<T>(Name, Frame, Obj, Func);
+			m_Animation->AddNotify<T>(Name, Frame, Obj, Func);
 	}
 };
 

@@ -15,4 +15,10 @@ CAnimationInfo::CAnimationInfo()	:
 
 CAnimationInfo::~CAnimationInfo()
 {
+	size_t	Size = m_vecNotify.size();
+
+	for (size_t i = 0; i < Size; ++i)
+	{
+		SAFE_DELETE(m_vecNotify[i]);
+	}
 }

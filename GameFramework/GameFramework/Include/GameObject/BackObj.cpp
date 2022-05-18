@@ -3,6 +3,8 @@
 
 CBackObj::CBackObj()
 {
+	SetTypeID<CBackObj>();
+	m_RenderLayer = ERender_Layer::Back;
 }
 
 CBackObj::CBackObj(const CBackObj& Obj)	:

@@ -13,7 +13,6 @@ protected:
 	virtual ~CBullet();
 
 private:
-	float	m_MoveSpeed;
 	float	m_Angle;
 	float	m_Distance;
 
@@ -31,6 +30,7 @@ public:
 public:
 	virtual bool Init();
 	virtual void Update(float DeltaTime);
+	virtual void PostUpdate(float DeltaTime);
 	virtual void Render(HDC hDC, float DeltaTime);
 };
 

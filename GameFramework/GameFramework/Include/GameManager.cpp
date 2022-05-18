@@ -168,6 +168,8 @@ void CGameManager::Logic()
     if (Update(DeltaTime))
         return;
 
+    PostUpdate(DeltaTime);
+
     Collision(DeltaTime);
 
     Render(DeltaTime);
@@ -183,6 +185,11 @@ bool CGameManager::Update(float DeltaTime)
     CResourceManager::GetInst()->Update();
 
     return CSceneManager::GetInst()->Update(DeltaTime);
+}
+
+void CGameManager::PostUpdate(float DeltaTime)
+{
+    CSceneManager::GetInst()->PostUpdate(DeltaTime);
 }
 
 void CGameManager::Collision(float DeltaTime)

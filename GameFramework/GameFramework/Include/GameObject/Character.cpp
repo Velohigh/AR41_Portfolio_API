@@ -25,6 +25,11 @@ void CCharacter::Update(float DeltaTime)
 	CGameObject::Update(DeltaTime);
 }
 
+void CCharacter::PostUpdate(float DeltaTime)
+{
+	CGameObject::PostUpdate(DeltaTime);
+}
+
 void CCharacter::Render(HDC hDC, float DeltaTime)
 {
 	CGameObject::Render(hDC, DeltaTime);
