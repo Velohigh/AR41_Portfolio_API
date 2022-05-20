@@ -6,6 +6,7 @@
 #include "AurelionSol.h"
 #include "../Input.h"
 #include "../GameManager.h"
+#include "../Scene/Camera.h"
 
 CPlayer::CPlayer()
 {
@@ -221,9 +222,12 @@ void CPlayer::PostUpdate(float DeltaTime)
 void CPlayer::Render(HDC hDC, float DeltaTime)
 {
 	CCharacter::Render(hDC, DeltaTime);
+	
+	Vector2 Pos = m_Pos - m_Scene->GetCamera()->GetPos();
+	Vector2 GunPos = m_GunPos - m_Scene->GetCamera()->GetPos();
 
-	MoveToEx(hDC, (int)m_Pos.x, (int)m_Pos.y, nullptr);
-	LineTo(hDC, (int)m_GunPos.x, (int)m_GunPos.y);
+	MoveToEx(hDC, (int)Pos.x, (int)Pos.y, nullptr);
+	LineTo(hDC, (int)GunPos.x, (int)GunPos.y);
 }
 
 void CPlayer::MoveFront()

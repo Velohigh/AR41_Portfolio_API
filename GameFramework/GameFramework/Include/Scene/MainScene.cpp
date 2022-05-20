@@ -5,6 +5,7 @@
 #include "../GameObject/BackObj.h"
 #include "SceneResource.h"
 #include "Camera.h"
+#include "../Input.h"
 
 CMainScene::CMainScene()
 {
@@ -30,7 +31,13 @@ bool CMainScene::Init()
 
 	GetCamera()->SetTarget(Player);
 
-	CreateObject<CMonster>("Monster");
+	m_Monster = CreateObject<CMonster>("Monster");
+
+
+	CInput::GetInst()->AddBindFunction<CMainScene>("Cam1",
+		Input_Type::Down, this, &CMainScene::Cam1Key);
+	CInput::GetInst()->AddBindFunction<CMainScene>("Cam2",
+		Input_Type::Down, this, &CMainScene::Cam2Key);
 
 	return true;
 }
@@ -103,4 +110,14 @@ void CMainScene::CreateAnimationSequence()
 	}
 
 	GetSceneResource()->SetColorKey("PlayerLeftAttack", 255, 0, 255);
+}
+
+void CMainScene::Cam1Key()
+{
+	GetCamera()->SetTarget(m_Player);
+}
+
+void CMainScene::Cam2Key()
+{
+	GetCamera()->SetTarget(m_Monster);
 }

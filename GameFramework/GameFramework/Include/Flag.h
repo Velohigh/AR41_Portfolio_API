@@ -13,3 +13,25 @@ enum class ERender_Layer
 	Effect,
 	Max
 };
+
+enum class ECollision_Channel
+{
+	Default,
+	Player,
+	Monster,
+	PlayerAttack,
+	MonsterAttack,
+	Max
+};
+
+enum class ECollision_Interaction
+{
+	Ignore,
+	Collision
+};
+
+enum class ECollider_Type
+{
+	Box,
+	Circle
+};

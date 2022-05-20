@@ -21,7 +21,7 @@ protected:
 public:
 	class CCamera* GetCamera()	const
 	{
-		return m_Camera;
+		return m_Camera; 
 	}
 
 	class CSceneResource* GetSceneResource()	const

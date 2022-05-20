@@ -67,6 +67,12 @@
     <Filter Include="03. Scene\02. Camera">
       <UniqueIdentifier>{8ea2e84f-ed01-4d14-9f9d-65249515b555}</UniqueIdentifier>
     </Filter>
+    <Filter Include="06. Collision">
+      <UniqueIdentifier>{ba4cd17d-b77a-4109-8082-7f933af3d4ad}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="06. Collision\01. Collider">
+      <UniqueIdentifier>{b5cf369f-f26b-454d-acac-7315da38b986}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -149,6 +155,15 @@
     </ClCompile>
     <ClCompile Include="Scene\Camera.cpp">
       <Filter>03. Scene\02. Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="Collision\CollisionManager.cpp">
+      <Filter>06. Collision</Filter>
+    </ClCompile>
+    <ClCompile Include="Collision\Collider.cpp">
+      <Filter>06. Collision\01. Collider</Filter>
+    </ClCompile>
+    <ClCompile Include="Collision\ColliderBox.cpp">
+      <Filter>06. Collision\01. Collider</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -244,6 +259,15 @@
     </ClInclude>
     <ClInclude Include="Scene\Camera.h">
       <Filter>03. Scene\02. Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="Collision\CollisionManager.h">
+      <Filter>06. Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="Collision\Collider.h">
+      <Filter>06. Collision\01. Collider</Filter>
+    </ClInclude>
+    <ClInclude Include="Collision\ColliderBox.h">
+      <Filter>06. Collision\01. Collider</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

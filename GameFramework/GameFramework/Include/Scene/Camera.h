@@ -11,12 +11,12 @@ private:
 	~CCamera();
 
 private:
-	Vector2	m_Pos;
-	Vector2	m_Resolution;
-	Vector2	m_WorldResolution;
-	CSharedPtr<CGameObject>	m_Target;
-	Vector2	m_TargetOffset;
-	Vector2	m_TargetPivot;
+	Vector2	m_Pos;						// 카메라 위치
+	Vector2	m_Resolution;				// 윈도우 창의 해상도
+	Vector2	m_WorldResolution;			// 전체 월드의 해상도
+	CSharedPtr<CGameObject>	m_Target;	// 카메라가 따라다닐 타겟
+	Vector2	m_TargetOffset;				// 타겟으로부터 얼마나 떨어져 있을지
+	Vector2	m_TargetPivot;				// 타겟이 화면에서 스크롤링 될때의 비율
 
 public:
 	Vector2 GetPos()	const

@@ -7,6 +7,7 @@
 #include "Input.h"
 #include "Resource/ResourceManager.h"
 #include "PathManager.h"
+#include "Collision/CollisionManager.h"
 
 DEFINITION_SINGLE(CGameManager)
 bool CGameManager::m_Loop = true;
@@ -23,6 +24,8 @@ CGameManager::~CGameManager()
     CSceneManager::DestroyInst();
 
     CPathManager::DestroyInst();
+
+    CCollisionManager::DestroyInst();
 
     CInput::DestroyInst();
 
@@ -65,6 +68,9 @@ bool CGameManager::Init(HINSTANCE hInst)
     if (!CInput::GetInst()->Init())
         return false;
 
+    // 충돌관리자 초기화
+    if(!CCollisionManager::GetInst()->Init())
+		return false;
 
 
     // 장면관리자 생성

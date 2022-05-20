@@ -43,4 +43,22 @@ struct AnimationFrameData
 	Vector2	End;
 };
 
+struct CollisionProfile
+{
+	std::string							Name;
+	ECollision_Channel					Channel;
+	bool								Enable;
+	std::vector<ECollision_Interaction>	vecCollisionInteraction;
 
+	CollisionProfile() :
+		Enable(true)
+	{
+	}
+
+};
+
+struct BoxInfo
+{
+	Vector2 LT;
+	Vector2 RB;
+};

@@ -54,6 +54,9 @@ bool CInput::Init()
 	AddBindKey("Skill2", '2');
 	SetKeyCtrl("Skill2");
 
+	AddBindKey("Cam1", VK_F1);
+	AddBindKey("Cam2", VK_F2);
+
 	m_Ctrl = false;
 	m_Alt = false;
 	m_Shift = false;
