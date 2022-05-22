@@ -73,6 +73,9 @@
     <Filter Include="06. Collision\01. Collider">
       <UniqueIdentifier>{b5cf369f-f26b-454d-acac-7315da38b986}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03. Scene\03. Collision">
+      <UniqueIdentifier>{ce3c4c10-0584-4786-bab8-0bdbe8758b79}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -164,6 +167,9 @@
     </ClCompile>
     <ClCompile Include="Collision\ColliderBox.cpp">
       <Filter>06. Collision\01. Collider</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene\SceneCollision.cpp">
+      <Filter>03. Scene\03. Collision</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -268,6 +274,9 @@
     </ClInclude>
     <ClInclude Include="Collision\ColliderBox.h">
       <Filter>06. Collision\01. Collider</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\SceneCollision.h">
+      <Filter>03. Scene\03. Collision</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

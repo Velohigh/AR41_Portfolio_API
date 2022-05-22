@@ -33,7 +33,7 @@ private:
 
 	float		m_TimeScale;	// 글로벌 타임 재생 배율.(이거 해야됨)
 
-
+	HBRUSH		m_Brush[(int)EBrush_Type::Max];
 
 
 
@@ -49,6 +49,11 @@ private:
 	static bool	m_Loop;
 
 public:
+	HBRUSH GetBrush(EBrush_Type Type)	const
+	{
+		return m_Brush[(int)Type];
+	}
+
 	Resolution GetResolution()	const
 	{
 		return m_RS;

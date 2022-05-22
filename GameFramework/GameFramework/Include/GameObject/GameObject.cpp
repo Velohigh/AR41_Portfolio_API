@@ -3,9 +3,11 @@
 #include "../Resource/Texture/Texture.h"
 #include "../Scene/Scene.h"
 #include "../Scene/SceneResource.h"
+#include "../Scene/SceneCollision.h"
 #include "../Resource/Animation/AnimationSequence.h"
 #include "../GameManager.h"
 #include "../Scene/Camera.h"
+#include "../Collision/Collider.h"
 
 CGameObject::CGameObject()	:
 	m_Scene(nullptr),
@@ -30,6 +32,20 @@ CGameObject::CGameObject(const CGameObject& Obj)	:
 CGameObject::~CGameObject()
 {
 	SAFE_DELETE(m_Animation);
+}
+
+CCollider* CGameObject::FindCollider(const std::string& Name)
+{
+	auto iter = m_ColliderList.begin();
+	auto iterEnd = m_ColliderList.end();
+
+	for (; iter != iterEnd; ++iter)
+	{
+		if ((*iter)->GetName() == Name)
+			return (*iter);
+	}
+
+	return nullptr;
 }
 
 void CGameObject::SetTexture(const std::string& Name)
@@ -193,6 +209,27 @@ void CGameObject::Update(float DeltaTime)
 {
 	if (m_Animation)
 		m_Animation->Update(DeltaTime * m_TimeScale);
+
+	auto iter = m_ColliderList.begin();
+	auto iterEnd = m_ColliderList.end();
+
+	for (; iter != iterEnd;)
+	{
+		if (!(*iter)->GetActive())
+		{
+			iter = m_ColliderList.erase(iter);
+			iterEnd = m_ColliderList.end();
+			continue;
+		}
+
+		else if (!(*iter)->GetEnable())
+		{
+			++iter;
+			continue;
+		}
+		(*iter)->Update(DeltaTime);
+		++iter;
+	}
 }
 
 void CGameObject::PostUpdate(float DeltaTime)
@@ -209,6 +246,32 @@ void CGameObject::PostUpdate(float DeltaTime)
 
 		m_Size = FrameData.End - FrameData.Start;
 	}
+
+	auto iter = m_ColliderList.begin();
+	auto iterEnd = m_ColliderList.end();
+
+	for (; iter != iterEnd;)
+	{
+		if (!(*iter)->GetActive())
+		{
+			iter = m_ColliderList.erase(iter);
+			iterEnd = m_ColliderList.end();
+			continue;
+		}
+
+		else if (!(*iter)->GetEnable())
+		{
+			++iter;
+			continue;
+		}
+
+		(*iter)->PostUpdate(DeltaTime);
+
+		m_Scene->GetCollision()->AddCollider(*iter);
+
+		++iter;
+	}
+
 }
 
 void CGameObject::Render(HDC hDC, float DeltaTime)
@@ -291,5 +354,26 @@ void CGameObject::Render(HDC hDC, float DeltaTime)
 		}
 	}
 	
+	auto iter = m_ColliderList.begin();
+	auto iterEnd = m_ColliderList.end();
+
+	for (; iter != iterEnd;)
+	{
+		if (!(*iter)->GetActive())
+		{
+			iter = m_ColliderList.erase(iter);
+			iterEnd = m_ColliderList.end();
+			continue;
+		}
+
+		else if (!(*iter)->GetEnable())
+		{
+			++iter;
+			continue;
+		}
+		(*iter)->Render(hDC, DeltaTime);
+		++iter;
+	}
+
 	m_PrevPos = m_Pos;
 }

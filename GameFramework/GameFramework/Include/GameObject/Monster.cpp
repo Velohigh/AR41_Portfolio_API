@@ -2,6 +2,8 @@
 #include "Monster.h"
 #include "../Scene/Scene.h"
 #include "Bullet.h"
+#include "../Collision/ColliderBox.h"
+
 
 CMonster::CMonster()
 {
@@ -35,6 +37,18 @@ bool CMonster::Init()
 
 	SetTexture("Monster", TEXT("teemo.bmp"));
 
+	// 충돌체 생성, 씬 ColliderList에도 추가
+	CColliderBox* Box = AddCollider<CColliderBox>("Body");
+
+	// 충돌체 크기 설정
+	Box->SetExtent(100.f, 100.f);
+	// 충돌체 프로파일 설정
+	Box->SetCollisionProfile("Monster");
+
+	// 충돌체와 부딪혔을때 일어날 함수 지정
+	Box->SetCollisionBeginFunction<CMonster>(this, &CMonster::CollisionBegin);
+	Box->SetCollisionEndFunction<CMonster>(this, &CMonster::CollisionEnd);
+
 	return true;
 }
 
@@ -65,6 +79,10 @@ void CMonster::Update(float DeltaTime)
 		++m_FireCount;
 
 		CBullet* Bullet = m_Scene->CreateObject<CBullet>("Bullet");
+
+		CCollider* BulletCol = Bullet->FindCollider("Body");
+
+		BulletCol->SetCollisionProfile("MonsterAttack");
 
 		float	BulletX = m_Pos.x - m_Pivot.x * m_Size.x -
 			(1.f - Bullet->GetPivot().x) * Bullet->GetSize().x;
@@ -97,4 +115,14 @@ void CMonster::Render(HDC hDC, float DeltaTime)
 
 	//Rectangle(hDC, (int)RenderLT.x, (int)RenderLT.y,
 //		(int)(RenderLT.x + m_Size.x), (int)(RenderLT.y + m_Size.y));
+}
+
+void CMonster::CollisionBegin(CCollider* Src, CCollider* Dest)
+{
+	MessageBox(nullptr, TEXT("죽어라!!!"), TEXT("^모^"), MB_OK);
+}
+
+void CMonster::CollisionEnd(CCollider* Src, CCollider* Dest)
+{
+	MessageBox(nullptr, TEXT("관통!!!"), TEXT("^모^"), MB_OK);
 }

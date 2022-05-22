@@ -39,6 +39,11 @@ CGameManager::~CGameManager()
 
     // 프로그램이 종료될때 DC를 제거한다.
     ReleaseDC(m_hWnd, m_hDC);
+
+    for (int i = 0; i < (int)EBrush_Type::Max; ++i)
+    {
+        DeleteObject(m_Brush[i]);
+    }
 }
 
 bool CGameManager::Init(HINSTANCE hInst)
@@ -99,6 +104,12 @@ bool CGameManager::Init(HINSTANCE hInst)
     m_hBackPrevBmp = (HBITMAP)SelectObject(m_hBackDC, m_hBackBmp);
 
     m_TimeScale = 1.f;
+
+    m_Brush[(int)EBrush_Type::Red] = CreateSolidBrush(RGB(255, 0, 0));
+    m_Brush[(int)EBrush_Type::Green] = CreateSolidBrush(RGB(0, 255, 0));
+    m_Brush[(int)EBrush_Type::Black] = CreateSolidBrush(RGB(255, 0, 0));
+    m_Brush[(int)EBrush_Type::Blue] = CreateSolidBrush(RGB(255, 0, 255));
+    m_Brush[(int)EBrush_Type::Yellow] = CreateSolidBrush(RGB(255, 255, 0));
 
     /*m_TestRC.left = 800;
     m_TestRC.top = 100;

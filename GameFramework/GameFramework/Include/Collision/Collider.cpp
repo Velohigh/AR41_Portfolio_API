@@ -82,6 +82,19 @@ void CCollider::ClearCollisionList()
 	m_CollisionList.clear();
 }
 
+void CCollider::CallCollisionBegin(CCollider* Dest)
+{
+	if (m_CollisionBegin)
+		m_CollisionBegin(this, Dest);
+}
+
+void CCollider::CallCollisionEnd(CCollider* Dest)
+{
+	if (m_CollisionEnd)
+		m_CollisionEnd(this, Dest);
+
+}
+
 bool CCollider::Init()
 {
 	m_Profile = CCollisionManager::GetInst()->FindProfile("Default");
@@ -99,4 +112,9 @@ void CCollider::PostUpdate(float DeltaTime)
 
 void CCollider::Render(HDC hDC, float DeltaTime)
 {
+}
+
+bool CCollider::Collision(CCollider* Dest)
+{
+	return false;
 }

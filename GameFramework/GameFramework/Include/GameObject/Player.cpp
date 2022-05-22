@@ -7,6 +7,7 @@
 #include "../Input.h"
 #include "../GameManager.h"
 #include "../Scene/Camera.h"
+#include "../Collision/ColliderBox.h"
 
 CPlayer::CPlayer()
 {
@@ -102,6 +103,18 @@ bool CPlayer::Init()
 	// 공격중이 아닐때.
 	m_Attack = false;
 
+	// 충돌체 추가
+	CColliderBox* Box = AddCollider<CColliderBox>("Head");
+
+	Box->SetExtent(56.f, 42.f);
+	Box->SetOffset(7.f, -52.f);
+	Box->SetCollisionProfile("Player");
+
+	Box = AddCollider<CColliderBox>("Body");
+
+	Box->SetExtent(36.f, 31.f);
+	Box->SetOffset(5.f, -15.5f);
+	Box->SetCollisionProfile("Player");
 
 	CInput::GetInst()->AddBindFunction<CPlayer>("MoveFront", 
 		Input_Type::Push, this, &CPlayer::MoveFront);
@@ -312,4 +325,8 @@ void CPlayer::Attack()
 	Bullet->SetAngle(m_GunAngle);
 
 	Bullet->SetPos(m_GunPos);
+
+	CCollider* BulletCol = Bullet->FindCollider("Body");
+
+	BulletCol->SetCollisionProfile("PlayerAttack");
 }

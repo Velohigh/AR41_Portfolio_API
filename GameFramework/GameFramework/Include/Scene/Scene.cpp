@@ -3,11 +3,13 @@
 #include "../GameObject/GameObject.h"
 #include "SceneResource.h"
 #include "Camera.h"
+#include "SceneCollision.h"
 
 CScene::CScene()
 {
 	m_Resource = new CSceneResource;
 	m_Camera = new CCamera;
+	m_Collision = new CSceneCollision;
 }
 
 CScene::~CScene()
@@ -17,6 +19,7 @@ CScene::~CScene()
 		m_ObjList[i].clear();
 	}
 
+	SAFE_DELETE(m_Collision);
 	SAFE_DELETE(m_Camera);
 	SAFE_DELETE(m_Resource);
 }
@@ -98,6 +101,8 @@ void CScene::PostUpdate(float DeltaTime)
 	}
 
 	m_Camera->Update(DeltaTime);
+
+	m_Collision->Collision(DeltaTime);
 }
 
 void CScene::Render(HDC hDC, float DeltaTime)

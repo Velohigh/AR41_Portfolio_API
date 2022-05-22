@@ -1,5 +1,6 @@
 
 #include "CollisionManager.h"
+#include "ColliderBox.h"
 
 DEFINITION_SINGLE(CCollisionManager)
 
@@ -87,7 +88,43 @@ CollisionProfile* CCollisionManager::FindProfile(const std::string Name)
 	auto iter = m_mapProfile.find(Name);
 
 	if (iter == m_mapProfile.end())
-		return false;
+		return nullptr;
 
 	return iter->second;
+}
+
+bool CCollisionManager::CollisionBoxToBox(Vector2& HitPoint, CColliderBox* Src, 
+	CColliderBox* Dest)
+{
+	if (CollisionBoxToBox(HitPoint, Src->GetInfo(), Dest->GetInfo()))
+		return true;
+
+	return false;
+}
+
+bool CCollisionManager::CollisionBoxToBox(Vector2& HitPoint, const BoxInfo& Src, 
+	const BoxInfo& Dest)
+{
+	if (Src.LT.x > Dest.RB.x)
+		return false;
+
+	else if (Src.LT.y > Dest.RB.y)
+		return false;
+
+	else if (Src.RB.x < Dest.LT.x)
+		return false;
+
+	else if (Src.RB.y < Dest.LT.y)
+		return false;
+
+	float Left = Src.LT.x > Dest.LT.x ? Src.LT.x : Dest.LT.x;
+	float Top = Src.LT.y > Dest.LT.y ? Src.LT.y : Dest.LT.y;
+	float Right = Src.RB.x < Dest.RB.x ? Src.RB.x : Dest.RB.x;
+	float Bottom = Src.RB.y < Dest.RB.y ? Src.RB.y : Dest.RB.y;
+
+	HitPoint.x = (Left + Right) / 2.f;
+	HitPoint.y = (Top + Bottom) / 2.f;
+
+
+	return true;
 }

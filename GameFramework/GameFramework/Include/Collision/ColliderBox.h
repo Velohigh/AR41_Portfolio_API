@@ -17,6 +17,7 @@ protected:
     float   m_Height;
     BoxInfo m_Info;
 
+
 public:
     BoxInfo GetInfo() const
     {
@@ -34,5 +35,7 @@ public:
     virtual void Update(float DeltaTime);
     virtual void PostUpdate(float DeltaTime);
     virtual void Render(HDC hDC, float DeltaTime);
+    virtual bool Collision(CCollider* Dest);
+
 };
 

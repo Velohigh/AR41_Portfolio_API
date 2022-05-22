@@ -1,5 +1,9 @@
 
 #include "Bullet.h"
+#include "../Scene/Scene.h"
+#include "../Scene/Camera.h"
+#include "../Collision/ColliderBox.h"
+
 
 CBullet::CBullet()
 {
@@ -27,6 +31,19 @@ bool CBullet::Init()
 	SetSize(50.f, 50.f);
 	SetPivot(0.5f, 0.5f);
 
+	// 충돌체 생성, 씬 ColliderList에도 추가
+	CColliderBox* Box = AddCollider<CColliderBox>("Body");
+
+	// 충돌체 크기 설정
+	Box->SetExtent(100.f, 100.f);
+	// 충돌체 프로파일 설정
+	Box->SetCollisionProfile("Player");
+
+	// 충돌체와 부딪혔을때 일어날 함수 지정
+	Box->SetCollisionBeginFunction<CBullet>(this, &CBullet::CollisionBegin);
+	Box->SetCollisionEndFunction<CBullet>(this, &CBullet::CollisionEnd);
+
+
 	return true;
 }
 
@@ -51,8 +68,17 @@ void CBullet::Render(HDC hDC, float DeltaTime)
 {
 	Vector2	RenderLT;
 
-	RenderLT = m_Pos - m_Pivot * m_Size;
+	RenderLT = m_Pos - m_Pivot * m_Size - m_Scene->GetCamera()->GetPos();
 
 	Ellipse(hDC, (int)RenderLT.x, (int)RenderLT.y,
 		(int)(RenderLT.x + m_Size.x), (int)(RenderLT.y + m_Size.y));
+}
+
+void CBullet::CollisionBegin(CCollider* Src, CCollider* Dest)
+{
+	SetActive(false);
+}
+
+void CBullet::CollisionEnd(CCollider* Src, CCollider* Dest)
+{
 }

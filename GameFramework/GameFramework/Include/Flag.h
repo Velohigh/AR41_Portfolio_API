@@ -35,3 +35,13 @@ enum class ECollider_Type
 	Box,
 	Circle
 };
+
+enum class EBrush_Type
+{
+	Red,
+	Green,
+	Black,
+	Blue,
+	Yellow,
+	Max
+};

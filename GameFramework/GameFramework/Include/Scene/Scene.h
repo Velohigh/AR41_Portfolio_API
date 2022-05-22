@@ -13,12 +13,18 @@ protected:
 private:
 	class CSceneResource* m_Resource;
 	class CCamera* m_Camera;
+	class CSceneCollision* m_Collision;
 
 protected:
 	std::list<CSharedPtr<class CGameObject>>	m_ObjList[(int)ERender_Layer::Max];
 	CSharedPtr<class CGameObject>	m_Player;
 
 public:
+	class CSceneCollision* GetCollision() const
+	{
+		return m_Collision;
+	}
+
 	class CCamera* GetCamera()	const
 	{
 		return m_Camera; 

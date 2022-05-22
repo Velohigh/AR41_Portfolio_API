@@ -27,8 +27,11 @@ protected:
 	CAnimation* m_Animation;
 	float		m_TimeScale;
 	float		m_MoveSpeed;
+	std::list<CSharedPtr<class CCollider>>	m_ColliderList;
 
 public:
+	class CCollider* FindCollider(const std::string& Name);
+
 	ERender_Layer GetRenderLayer()	const
 	{
 		return m_RenderLayer;
@@ -160,6 +163,26 @@ public:
 	{
 		if (m_Animation)
 			m_Animation->AddNotify<T>(Name, Frame, Obj, Func);
+	}
+
+	template <typename T>
+	T* AddCollider(const std::string& Name)
+	{
+		T* Collider = new T;
+
+		Collider->SetName(Name);
+		Collider->m_Owner = this;
+		Collider->m_Scene = m_Scene;
+
+		if (!Collider->Init())
+		{
+			SAFE_DELETE(Collider);
+			return nullptr;
+		}
+
+		m_ColliderList.push_back(Collider);
+
+		return Collider;
 	}
 };
 
