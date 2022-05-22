@@ -6,6 +6,7 @@ class CCollider :
     public CRef
 {
     friend class CGameObject;   // 충돌체는 오브젝트에 달아줄것이다.
+    friend class CCollisionManager;
 
 protected:
     CCollider();
@@ -18,7 +19,7 @@ protected:
     ECollider_Type      m_ColliderType; // 사각형 충돌체냐, 원형 충돌체냐
     Vector2             m_Offset;       // Owner로부터 얼마만큼 떨어져 있을지.
     CollisionProfile*   m_Profile;      // 이 충돌체가 어떤 프로파일을 쓰는지
-    Vector2             m_HitPoint;
+    Vector2             m_HitPoint;     // 충돌했을때 충돌 중간지점
     // 함수 포인터에서  CCollider* 2개를 받는 이유는 서로 충돌된 두 물체를 인자로 넘겨주기 위해서이다.
     std::function<void(CCollider*, CCollider*)> m_CollisionBegin;
     std::function<void(CCollider*, CCollider*)> m_CollisionEnd;
@@ -44,6 +45,11 @@ public:
     }
 
 public:
+    const Vector2 GetHitPoint() const
+    {
+        return m_HitPoint;
+    }
+
     class CGameObject* GetOwner() const
     {
         return m_Owner;

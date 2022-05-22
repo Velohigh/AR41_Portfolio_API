@@ -28,7 +28,7 @@ bool CMainScene::Init()
 	CPlayer* Player = CreateObject<CPlayer>("Player");
 
 	SetPlayer(Player);
-
+	
 	GetCamera()->SetTarget(Player);
 
 	m_Monster = CreateObject<CMonster>("Monster");
@@ -110,6 +110,20 @@ void CMainScene::CreateAnimationSequence()
 	}
 
 	GetSceneResource()->SetColorKey("PlayerLeftAttack", 255, 0, 255);
+
+
+	// ÀÌÆåÆ®
+	GetSceneResource()->CreateAnimationSequence("LeftHitEffect",
+		"LeftHitEffect", TEXT("Hit.bmp"), TEXTURE_PATH);
+
+	for (int i = 0; i < 6; ++i)
+	{
+		GetSceneResource()->AddAnimationFrame("LeftHitEffect", 178.f * i, 0.f,
+			178.f, 164.f);
+	}
+
+	GetSceneResource()->SetColorKey("LeftHitEffect", 255, 0, 255);
+
 }
 
 void CMainScene::Cam1Key()

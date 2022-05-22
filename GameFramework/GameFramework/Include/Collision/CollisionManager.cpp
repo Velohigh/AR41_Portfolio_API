@@ -97,7 +97,10 @@ bool CCollisionManager::CollisionBoxToBox(Vector2& HitPoint, CColliderBox* Src,
 	CColliderBox* Dest)
 {
 	if (CollisionBoxToBox(HitPoint, Src->GetInfo(), Dest->GetInfo()))
+	{
+		Dest->m_HitPoint = HitPoint;
 		return true;
+	}
 
 	return false;
 }

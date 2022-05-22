@@ -76,6 +76,9 @@
     <Filter Include="03. Scene\03. Collision">
       <UniqueIdentifier>{ce3c4c10-0584-4786-bab8-0bdbe8758b79}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GameObject\05. Effect">
+      <UniqueIdentifier>{863b501e-702f-4599-bd44-11d02060c397}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -170,6 +173,9 @@
     </ClCompile>
     <ClCompile Include="Scene\SceneCollision.cpp">
       <Filter>03. Scene\03. Collision</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\Effect.cpp">
+      <Filter>02. GameObject\05. Effect</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -277,6 +283,9 @@
     </ClInclude>
     <ClInclude Include="Scene\SceneCollision.h">
       <Filter>03. Scene\03. Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\Effect.h">
+      <Filter>02. GameObject\05. Effect</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

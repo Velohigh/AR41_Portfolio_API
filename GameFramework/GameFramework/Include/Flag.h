@@ -45,3 +45,10 @@ enum class EBrush_Type
 	Yellow,
 	Max
 };
+
+enum class EEffect_Type
+{
+	Once,
+	Duration,
+	Loop
+};

@@ -159,6 +159,13 @@ public:
 	}
 
 	template <typename T>
+	void SetCurrentAnimationEndFunction(T* Obj, void(T::* Func)())
+	{
+		if (m_Animation)
+			m_Animation->SetCurrentAnimationEndFunction<T>(Obj, Func);
+	}
+
+	template <typename T>
 	void AddNotify(const std::string& Name, int Frame, T* Obj, void(T::* Func)())
 	{
 		if (m_Animation)

@@ -160,6 +160,7 @@
     <ClCompile Include="GameObject\BackObj.cpp" />
     <ClCompile Include="GameObject\Bullet.cpp" />
     <ClCompile Include="GameObject\Character.cpp" />
+    <ClCompile Include="GameObject\Effect.cpp" />
     <ClCompile Include="GameObject\GameObject.cpp" />
     <ClCompile Include="GameObject\Monster.cpp" />
     <ClCompile Include="GameObject\Player.cpp" />
@@ -194,6 +195,7 @@
     <ClInclude Include="GameObject\BackObj.h" />
     <ClInclude Include="GameObject\Bullet.h" />
     <ClInclude Include="GameObject\Character.h" />
+    <ClInclude Include="GameObject\Effect.h" />
     <ClInclude Include="GameObject\GameObject.h" />
     <ClInclude Include="GameObject\Monster.h" />
     <ClInclude Include="GameObject\Player.h" />

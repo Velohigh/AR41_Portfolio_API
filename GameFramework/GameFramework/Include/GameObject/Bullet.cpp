@@ -3,6 +3,7 @@
 #include "../Scene/Scene.h"
 #include "../Scene/Camera.h"
 #include "../Collision/ColliderBox.h"
+#include "Effect.h"
 
 
 CBullet::CBullet()
@@ -77,6 +78,14 @@ void CBullet::Render(HDC hDC, float DeltaTime)
 void CBullet::CollisionBegin(CCollider* Src, CCollider* Dest)
 {
 	SetActive(false);
+
+	CEffect* Effect = m_Scene->CreateObject<CEffect>("HitEffect");
+
+	Effect->SetPivot(0.5f, 0.5f);
+	Effect->SetPos(Src->GetHitPoint());
+
+	Effect->AddAnimation("LeftHitEffect", false, 0.3f);
+
 }
 
 void CBullet::CollisionEnd(CCollider* Src, CCollider* Dest)

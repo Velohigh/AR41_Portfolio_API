@@ -203,6 +203,10 @@ void CAnimation::Update(float DeltaTime)
 
 	if (AnimationEnd)
 	{
+		// 애니메이션 종료시 실행할 함수가 있다면 실행한다.
+		if (m_CurrentAnimationEndFunc)
+			m_CurrentAnimationEndFunc();
+
 		if (m_CurrentAnimation->m_Loop)
 		{
 			if (m_CurrentAnimation->m_Reverse)

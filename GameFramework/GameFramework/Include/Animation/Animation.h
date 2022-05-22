@@ -15,6 +15,7 @@ private:
 	class CScene* m_Scene;
 	std::unordered_map<std::string, CAnimationInfo*>	m_mapAnimation;
 	CAnimationInfo* m_CurrentAnimation;
+	std::function<void()>	m_CurrentAnimationEndFunc;
 
 public:
 	void AddAnimation(const std::string& SequenceName, bool Loop = true,
@@ -53,6 +54,12 @@ public:
 			return;
 
 		Info->AddNotify<T>(Frame,  Obj, Func);
+	}
+
+	template <typename T>
+	void SetCurrentAnimationEndFunction(T* Obj, void(T::* Func)())
+	{
+		m_CurrentAnimationEndFunc = std::bind(Func, Obj);
 	}
 };
 

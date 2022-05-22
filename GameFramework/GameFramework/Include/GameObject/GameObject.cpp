@@ -31,6 +31,14 @@ CGameObject::CGameObject(const CGameObject& Obj)	:
 
 CGameObject::~CGameObject()
 {
+	auto iter = m_ColliderList.begin();
+	auto iterEnd = m_ColliderList.end();
+
+	for (; iter != iterEnd; ++iter)
+	{
+		(*iter)->ClearCollisionList();
+	}
+
 	SAFE_DELETE(m_Animation);
 }
 
