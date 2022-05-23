@@ -385,3 +385,8 @@ void CGameObject::Render(HDC hDC, float DeltaTime)
 
 	m_PrevPos = m_Pos;
 }
+
+float CGameObject::InflicitDamage(float Damage)
+{
+	return Damage;
+}

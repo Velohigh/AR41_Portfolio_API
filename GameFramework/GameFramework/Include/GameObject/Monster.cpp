@@ -3,9 +3,11 @@
 #include "../Scene/Scene.h"
 #include "Bullet.h"
 #include "../Collision/ColliderBox.h"
+#include "../Collision/ColliderCircle.h"
 
 
-CMonster::CMonster()
+CMonster::CMonster() :
+	m_HP(100)
 {
 	SetTypeID<CMonster>();
 }
@@ -37,17 +39,27 @@ bool CMonster::Init()
 
 	SetTexture("Monster", TEXT("teemo.bmp"));
 
-	// 충돌체 생성, 씬 ColliderList에도 추가
-	CColliderBox* Box = AddCollider<CColliderBox>("Body");
+	//// 충돌체 생성, 씬 ColliderList에도 추가
+	//CColliderBox* Box = AddCollider<CColliderBox>("Body");
 
-	// 충돌체 크기 설정
-	Box->SetExtent(100.f, 100.f);
-	// 충돌체 프로파일 설정
-	Box->SetCollisionProfile("Monster");
+	//// 충돌체 크기 설정
+	//Box->SetExtent(100.f, 100.f);
+	//// 충돌체 프로파일 설정
+	//Box->SetCollisionProfile("Monster");
 
-	// 충돌체와 부딪혔을때 일어날 함수 지정
-	Box->SetCollisionBeginFunction<CMonster>(this, &CMonster::CollisionBegin);
-	Box->SetCollisionEndFunction<CMonster>(this, &CMonster::CollisionEnd);
+	//// 충돌체와 부딪혔을때 일어날 함수 지정
+	//Box->SetCollisionBeginFunction<CMonster>(this, &CMonster::CollisionBegin);
+	//Box->SetCollisionEndFunction<CMonster>(this, &CMonster::CollisionEnd);
+
+
+	// 원 충돌
+	CColliderCircle* Circle = AddCollider<CColliderCircle>("Body");
+
+	Circle->SetRadius(50.f);
+	Circle->SetCollisionProfile("Monster");
+
+	Circle->SetCollisionBeginFunction<CMonster>(this, &CMonster::CollisionBegin);
+	Circle->SetCollisionEndFunction<CMonster>(this, &CMonster::CollisionEnd);
 
 	return true;
 }
@@ -88,6 +100,7 @@ void CMonster::Update(float DeltaTime)
 			(1.f - Bullet->GetPivot().x) * Bullet->GetSize().x;
 
 		Bullet->SetPos(BulletX, m_Pos.y);
+		Bullet->SetDamage(20.f);
 
 		if (m_FireCount == 3)
 		{
@@ -117,12 +130,26 @@ void CMonster::Render(HDC hDC, float DeltaTime)
 //		(int)(RenderLT.x + m_Size.x), (int)(RenderLT.y + m_Size.y));
 }
 
+float CMonster::InflicitDamage(float Damage)
+{
+	Damage = CCharacter::InflicitDamage(Damage);
+
+	m_HP -= (int)Damage;
+
+	if (m_HP <= 0)
+	{
+		SetActive(false);
+	}
+
+	return Damage;
+}
+
 void CMonster::CollisionBegin(CCollider* Src, CCollider* Dest)
 {
-	MessageBox(nullptr, TEXT("죽어라!!!"), TEXT("^모^"), MB_OK);
+	//MessageBox(nullptr, TEXT("죽어라!!!"), TEXT("^모^"), MB_OK);
 }
 
 void CMonster::CollisionEnd(CCollider* Src, CCollider* Dest)
 {
-	MessageBox(nullptr, TEXT("관통!!!"), TEXT("^모^"), MB_OK);
+	//MessageBox(nullptr, TEXT("관통!!!"), TEXT("^모^"), MB_OK);
 }

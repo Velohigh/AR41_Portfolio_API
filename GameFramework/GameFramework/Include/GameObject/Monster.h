@@ -16,12 +16,14 @@ private:
 	Vector2	m_Dir;
 	float	m_FireTime;
 	int		m_FireCount;
+	int		m_HP;
 
 public:
 	virtual bool Init();
 	virtual void Update(float DeltaTime);
 	virtual void PostUpdate(float DeltaTime);
 	virtual void Render(HDC hDC, float DeltaTime);
+	virtual float InflicitDamage(float Damage);
 
 private:
 	void CollisionBegin(CCollider* Src, CCollider* Dest);

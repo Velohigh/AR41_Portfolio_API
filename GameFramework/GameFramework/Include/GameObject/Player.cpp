@@ -243,6 +243,11 @@ void CPlayer::Render(HDC hDC, float DeltaTime)
 	LineTo(hDC, (int)GunPos.x, (int)GunPos.y);
 }
 
+float CPlayer::InflicitDamage(float Damage)
+{
+	return 0.0f;
+}
+
 void CPlayer::MoveFront()
 {
 	//Move(m_GunAngle);
@@ -325,6 +330,8 @@ void CPlayer::Attack()
 	Bullet->SetAngle(m_GunAngle);
 
 	Bullet->SetPos(m_GunPos);
+
+	Bullet->SetDamage(30.f);
 
 	CCollider* BulletCol = Bullet->FindCollider("Body");
 

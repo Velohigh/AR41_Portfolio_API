@@ -147,7 +147,7 @@ public:
 	virtual void Update(float DeltaTime);
 	virtual void PostUpdate(float DeltaTime);
 	virtual void Render(HDC hDC, float DeltaTime);
-
+	virtual float InflicitDamage(float Damage);
 
 
 public:

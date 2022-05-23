@@ -153,6 +153,7 @@
     <ClCompile Include="Animation\AnimationInfo.cpp" />
     <ClCompile Include="Collision\Collider.cpp" />
     <ClCompile Include="Collision\ColliderBox.cpp" />
+    <ClCompile Include="Collision\ColliderCircle.cpp" />
     <ClCompile Include="Collision\CollisionManager.cpp" />
     <ClCompile Include="GameInfo.cpp" />
     <ClCompile Include="GameManager.cpp" />
@@ -187,6 +188,7 @@
     <ClInclude Include="Animation\AnimationInfo.h" />
     <ClInclude Include="Collision\Collider.h" />
     <ClInclude Include="Collision\ColliderBox.h" />
+    <ClInclude Include="Collision\ColliderCircle.h" />
     <ClInclude Include="Collision\CollisionManager.h" />
     <ClInclude Include="Flag.h" />
     <ClInclude Include="GameInfo.h" />

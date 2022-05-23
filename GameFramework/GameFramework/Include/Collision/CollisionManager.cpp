@@ -1,6 +1,7 @@
 
 #include "CollisionManager.h"
 #include "ColliderBox.h"
+#include "ColliderCircle.h"
 
 DEFINITION_SINGLE(CCollisionManager)
 
@@ -105,6 +106,18 @@ bool CCollisionManager::CollisionBoxToBox(Vector2& HitPoint, CColliderBox* Src,
 	return false;
 }
 
+bool CCollisionManager::CollisionCircleToCircle(Vector2& HitPoint, CColliderCircle* Src, 
+	CColliderCircle* Dest)
+{
+	if (CollisionCircleToCircle(HitPoint, Src->GetInfo(), Dest->GetInfo()))
+	{
+		Dest->m_HitPoint = HitPoint;
+		return true;
+	}
+
+	return false;
+}
+
 bool CCollisionManager::CollisionBoxToBox(Vector2& HitPoint, const BoxInfo& Src, 
 	const BoxInfo& Dest)
 {
@@ -130,4 +143,17 @@ bool CCollisionManager::CollisionBoxToBox(Vector2& HitPoint, const BoxInfo& Src,
 
 
 	return true;
+}
+
+bool CCollisionManager::CollisionCircleToCircle(Vector2& HitPoint, const CircleInfo& Src, 
+	const CircleInfo& Dest)
+{
+	// 센터 사이의 거리를 구한다.
+	float Dist = Src.Center.Distance(Dest.Center);
+
+	bool result = Dist <= Src.Radius + Dest.Radius;
+
+	HitPoint = (Src.Center + Dest.Center) / 2.f;
+	
+	return result;
 }

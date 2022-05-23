@@ -54,11 +54,16 @@ struct CollisionProfile
 		Enable(true)
 	{
 	}
-
 };
 
 struct BoxInfo
 {
 	Vector2 LT;
 	Vector2 RB;
+};
+
+struct CircleInfo
+{
+	Vector2 Center;
+	float	Radius;
 };

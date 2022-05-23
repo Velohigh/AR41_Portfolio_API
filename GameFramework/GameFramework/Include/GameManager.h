@@ -34,7 +34,7 @@ private:
 	float		m_TimeScale;	// 글로벌 타임 재생 배율.(이거 해야됨)
 
 	HBRUSH		m_Brush[(int)EBrush_Type::Max];
-
+	HPEN		m_Pen[(int)EBrush_Type::Max];
 
 
 
@@ -52,6 +52,11 @@ public:
 	HBRUSH GetBrush(EBrush_Type Type)	const
 	{
 		return m_Brush[(int)Type];
+	}
+
+	HPEN GetPen(EBrush_Type Type)	const
+	{
+		return m_Pen[(int)Type];
 	}
 
 	Resolution GetResolution()	const

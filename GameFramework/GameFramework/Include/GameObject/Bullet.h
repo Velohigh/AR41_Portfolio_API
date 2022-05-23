@@ -15,6 +15,13 @@ protected:
 private:
 	float	m_Angle;
 	float	m_Distance;
+	float	m_Damage;
+
+public:
+	void SetDamage(float Damage)
+	{
+		m_Damage = Damage;
+	}
 
 public:
 	void SetDistance(float Dist)

@@ -177,6 +177,9 @@
     <ClCompile Include="GameObject\Effect.cpp">
       <Filter>02. GameObject\05. Effect</Filter>
     </ClCompile>
+    <ClCompile Include="Collision\ColliderCircle.cpp">
+      <Filter>06. Collision\01. Collider</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameManager.h">
@@ -286,6 +289,9 @@
     </ClInclude>
     <ClInclude Include="GameObject\Effect.h">
       <Filter>02. GameObject\05. Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="Collision\ColliderCircle.h">
+      <Filter>06. Collision\01. Collider</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

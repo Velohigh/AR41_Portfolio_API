@@ -34,3 +34,8 @@ void CCharacter::Render(HDC hDC, float DeltaTime)
 {
 	CGameObject::Render(hDC, DeltaTime);
 }
+
+float CCharacter::InflicitDamage(float Damage)
+{
+	return CGameObject::InflicitDamage(Damage);
+}

@@ -30,6 +30,7 @@ void CSceneCollision::Collision(float DeltaTime)
 			{
 				CCollider* Dest = m_vecCollider[j];
 
+				// 충돌체끼리 같은 오브젝트에 속해있다면 충돌 X
 				if (Src->GetOwner() == Dest->GetOwner())
 					continue;
 

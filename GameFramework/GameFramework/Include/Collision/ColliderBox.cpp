@@ -5,6 +5,7 @@
 #include "../Scene/Scene.h"
 #include "../Scene/Camera.h"
 #include "CollisionManager.h"
+#include "ColliderCircle.h"
 
 CColliderBox::CColliderBox()	:
 	m_Width(100.f),
