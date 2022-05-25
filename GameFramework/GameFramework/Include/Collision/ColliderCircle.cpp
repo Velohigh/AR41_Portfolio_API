@@ -86,7 +86,7 @@ bool CColliderCircle::Collision(CCollider* Dest)
 	switch (Dest->GetColliderType())
 	{
 	case ECollider_Type::Box:
-		//return CCollisionManager::GetInst()->CollisionBoxToBox(m_HitPoint, this, (CColliderCircle*)Dest);
+		return CCollisionManager::GetInst()->CollisionBoxToCircle(m_HitPoint, (CColliderBox*)Dest, this);
 		break;
 	case ECollider_Type::Circle:
 		return CCollisionManager::GetInst()->CollisionCircleToCircle(m_HitPoint, this, (CColliderCircle*)Dest);
