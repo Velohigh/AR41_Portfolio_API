@@ -10,6 +10,7 @@
 #include <typeinfo>
 #include <string>
 #include <functional>
+#include <algorithm>
 
 #include "Vector2.h"
 #include "SharedPtr.h"

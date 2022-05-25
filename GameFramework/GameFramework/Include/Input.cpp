@@ -1,4 +1,5 @@
 #include "Input.h"
+#include "Collision/CollisionManager.h"
 
 DEFINITION_SINGLE(CInput)
 
@@ -43,8 +44,15 @@ CInput::~CInput()
 	}
 }
 
-bool CInput::Init()
+void CInput::ComputeWorldMousePos(const Vector2& CameraPos)
 {
+	m_MouseWorldPos = m_MousePos + CameraPos;
+}
+
+bool CInput::Init(HWND hWnd)
+{
+	m_hWnd = hWnd;
+
 	AddBindKey("GunRotation", 'D');
 	AddBindKey("GunRotationInv", 'A');
 	AddBindKey("MoveFront", 'W');
@@ -61,6 +69,8 @@ bool CInput::Init()
 	m_Alt = false;
 	m_Shift = false;
 
+	m_MouseProfile = CCollisionManager::GetInst()->FindProfile("Mouse");
+
 	return true;
 }
 
@@ -75,6 +85,21 @@ void CInput::Update(float DeltaTime)
 
 void CInput::UpdateMouse(float DeltaTime)
 {
+	POINT	ptMouse;
+
+	// 스크린 좌표로 나온다.
+	GetCursorPos(&ptMouse);
+
+	// 스크린 좌표를 윈도우 좌표로 변경한다.
+	ScreenToClient(m_hWnd, &ptMouse);
+
+	// 마우스 이동량
+	m_MouseMove.x = (float)ptMouse.x - m_MousePos.x;
+	m_MouseMove.y = (float)ptMouse.y - m_MousePos.y;
+
+	// 마우스 위치
+	m_MousePos.x = (float)ptMouse.x;
+	m_MousePos.y = (float)ptMouse.y;
 }
 
 void CInput::UpdateKeyState(float DeltaTime)

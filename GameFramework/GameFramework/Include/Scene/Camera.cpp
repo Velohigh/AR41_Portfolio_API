@@ -1,5 +1,6 @@
 
 #include "Camera.h"
+#include "../Input.h"
 
 CCamera::CCamera()
 {
@@ -32,4 +33,6 @@ void CCamera::Update(float DeltaTime)
 
 	else if (m_Pos.y + m_Resolution.y > m_WorldResolution.y)
 		m_Pos.y = m_WorldResolution.y - m_Resolution.y;
+
+	CInput::GetInst()->ComputeWorldMousePos(m_Pos);
 }

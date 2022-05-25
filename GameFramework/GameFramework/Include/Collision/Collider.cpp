@@ -5,7 +5,9 @@
 CCollider::CCollider()	:
 	m_Scene(nullptr),
 	m_Owner(nullptr),
-	m_Profile(nullptr)
+	m_Profile(nullptr),
+	m_MouseCollision(false),
+	m_Bottom(0.f)
 {
 }
 
@@ -15,7 +17,9 @@ CCollider::CCollider(const CCollider& collider)	:
 	m_Offset(collider.m_Offset),
 	m_Scene(nullptr),
 	m_Owner(nullptr),
-	m_Profile(collider.m_Profile)
+	m_Profile(collider.m_Profile),
+	m_MouseCollision(false),
+	m_Bottom(0.f)
 {
 }
 
@@ -92,7 +96,18 @@ void CCollider::CallCollisionEnd(CCollider* Dest)
 {
 	if (m_CollisionEnd)
 		m_CollisionEnd(this, Dest);
+}
 
+void CCollider::CallMouseCollisionBegin(const Vector2& MousePos)
+{
+	if (m_MouseCollisionBegin)
+		m_MouseCollisionBegin(this, MousePos);
+}
+
+void CCollider::CallMouseCollisionEnd(const Vector2& MousePos)
+{
+	if (m_MouseCollisionEnd)
+		m_MouseCollisionEnd(this, MousePos);
 }
 
 bool CCollider::Init()
@@ -115,6 +130,11 @@ void CCollider::Render(HDC hDC, float DeltaTime)
 }
 
 bool CCollider::Collision(CCollider* Dest)
+{
+	return false;
+}
+
+bool CCollider::CollisionMouse(const Vector2& Mouse)
 {
 	return false;
 }

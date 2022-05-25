@@ -21,11 +21,15 @@ public:
 	bool CollisionBoxToBox(Vector2& HitPoint, class CColliderBox* Src, class CColliderBox* Dest);
 	bool CollisionCircleToCircle(Vector2& HitPoint, class CColliderCircle* Src, class CColliderCircle* Dest);
 	bool CollisionBoxToCircle(Vector2& HitPoint, class CColliderBox* Src, class CColliderCircle* Dest);
+	bool CollisionPointToBox(Vector2& HitPoint, const Vector2& Src, class CColliderBox* Dest);
+	bool CollisionPointToCircle(Vector2& HitPoint, const Vector2& Src, class CColliderCircle* Dest);
 
 public:
 	bool CollisionBoxToBox(Vector2& HitPoint, const BoxInfo& Src, const BoxInfo& Dest);
 	bool CollisionCircleToCircle(Vector2& HitPoint, const CircleInfo& Src, const CircleInfo& Dest);
 	bool CollisionBoxToCircle(Vector2& HitPoint, const BoxInfo& Src, const CircleInfo& Dest);
+	bool CollisionPointToBox(Vector2& HitPoint, const Vector2& Src, const BoxInfo& Dest);
+	bool CollisionPointToCircle(Vector2& HitPoint, const Vector2& Src, const CircleInfo& Dest);
 
 
 	DECLARE_SINGLE(CCollisionManager)

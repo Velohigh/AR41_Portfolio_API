@@ -50,6 +50,8 @@ void CColliderBox::PostUpdate(float DeltaTime)
 
 	m_Info.LT = Pos + m_Offset - Size / 2.f;
 	m_Info.RB = Pos + m_Offset + Size / 2.f;
+
+	m_Bottom = m_Info.RB.y;
 }
 
 void CColliderBox::Render(HDC hDC, float DeltaTime)
@@ -61,7 +63,7 @@ void CColliderBox::Render(HDC hDC, float DeltaTime)
 	HBRUSH Brush = CGameManager::GetInst()->GetBrush(EBrush_Type::Green);
 
 	// 비어있지 않을경우 누군가와 충돌중이다.
-	if (!m_CollisionList.empty())
+	if (!m_CollisionList.empty() || m_MouseCollision)
 		Brush = CGameManager::GetInst()->GetBrush(EBrush_Type::Red);
 
 	CCamera* Camera = m_Scene->GetCamera();
@@ -89,4 +91,9 @@ bool CColliderBox::Collision(CCollider* Dest)
 	}
 
 	return false;
+}
+
+bool CColliderBox::CollisionMouse(const Vector2& Mouse)
+{
+	return CCollisionManager::GetInst()->CollisionPointToBox(m_HitPoint, Mouse, m_Info);
 }

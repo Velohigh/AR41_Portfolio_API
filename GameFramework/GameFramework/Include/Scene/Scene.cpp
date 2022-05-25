@@ -68,6 +68,8 @@ void CScene::Update(float DeltaTime)
 			++iter;
 		}
 	}
+
+	m_Camera->Update(DeltaTime);
 }
 
 void CScene::PostUpdate(float DeltaTime)
@@ -100,7 +102,7 @@ void CScene::PostUpdate(float DeltaTime)
 		}
 	}
 
-	m_Camera->Update(DeltaTime);
+	m_Collision->CollisionMouse(DeltaTime);
 
 	m_Collision->Collision(DeltaTime);
 }

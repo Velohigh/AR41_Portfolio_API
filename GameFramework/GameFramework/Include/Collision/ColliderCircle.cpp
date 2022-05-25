@@ -45,6 +45,8 @@ void CColliderCircle::PostUpdate(float DeltaTime)
 
 	Vector2 Pos = m_Owner->GetPos();
 	m_Info.Center = Pos + m_Offset;
+
+	m_Bottom = m_Info.Center.y + m_Info.Radius;
 }
 
 void CColliderCircle::Render(HDC hDC, float DeltaTime)
@@ -56,7 +58,7 @@ void CColliderCircle::Render(HDC hDC, float DeltaTime)
 	HPEN Pen = CGameManager::GetInst()->GetPen(EBrush_Type::Green);
 
 	// 비어있지 않을경우 누군가와 충돌중이다.
-	if (!m_CollisionList.empty())
+	if (!m_CollisionList.empty() || m_MouseCollision)
 		Pen = CGameManager::GetInst()->GetPen(EBrush_Type::Red);
 
 	HPEN PrevPen = (HPEN)SelectObject(hDC, Pen);
@@ -93,5 +95,10 @@ bool CColliderCircle::Collision(CCollider* Dest)
 	}
 
 	return false;
+}
+
+bool CColliderCircle::CollisionMouse(const Vector2& Mouse)
+{
+	return CCollisionManager::GetInst()->CollisionPointToCircle(m_HitPoint, Mouse, m_Info);
 }
 

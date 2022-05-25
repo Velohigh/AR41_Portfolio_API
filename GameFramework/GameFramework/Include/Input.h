@@ -67,9 +67,39 @@ private:
 	bool	m_Ctrl;
 	bool	m_Alt;
 	bool	m_Shift;
+	HWND	m_hWnd;
+
+	Vector2 m_MousePos;			// 윈도우 창에서의 위치
+	Vector2 m_MouseWorldPos;	// 월드공간에서의 마우스 위치
+	Vector2 m_MouseMove;
+	CollisionProfile* m_MouseProfile;
 
 public:
-	bool Init();
+	CollisionProfile* GetMouseProfile() const
+	{
+		return m_MouseProfile;
+	}
+
+	const Vector2 GetMousePos() const
+	{
+		return m_MousePos;
+	}
+
+	const Vector2 GetMouseWorldPos() const
+	{
+		return m_MouseWorldPos;
+	}	
+	
+	const Vector2 GetMouseMove() const
+	{
+		return m_MouseMove;
+	}
+
+public:
+	void ComputeWorldMousePos(const Vector2& CameraPos);
+
+public:
+	bool Init(HWND hWnd);
 	void Update(float DeltaTime);
 
 private:

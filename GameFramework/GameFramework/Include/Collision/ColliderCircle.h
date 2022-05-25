@@ -33,6 +33,7 @@ public:
     virtual void PostUpdate(float DeltaTime);
     virtual void Render(HDC hDC, float DeltaTime);
     virtual bool Collision(CCollider* Dest);
+    virtual bool CollisionMouse(const Vector2& Mouse);
 
 };
 

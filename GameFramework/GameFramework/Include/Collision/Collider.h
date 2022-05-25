@@ -20,10 +20,14 @@ protected:
     Vector2             m_Offset;       // Owner로부터 얼마만큼 떨어져 있을지.
     CollisionProfile*   m_Profile;      // 이 충돌체가 어떤 프로파일을 쓰는지
     Vector2             m_HitPoint;     // 충돌했을때 충돌 중간지점
+    float               m_Bottom;
     // 함수 포인터에서  CCollider* 2개를 받는 이유는 서로 충돌된 두 물체를 인자로 넘겨주기 위해서이다.
     std::function<void(CCollider*, CCollider*)> m_CollisionBegin;
     std::function<void(CCollider*, CCollider*)> m_CollisionEnd;
     
+    std::function<void(CCollider*, const Vector2&)> m_MouseCollisionBegin;
+    std::function<void(CCollider*, const Vector2&)> m_MouseCollisionEnd;
+
     /*
     현재 프레임에 두 물체가 충돌되고 다음 프레임에도 두 물체가 충돌이 되었다면 계속 충돌이 되고 있는 상태로
     판단해야 한다.
@@ -32,8 +36,15 @@ protected:
     */
     std::list<CSharedPtr<CCollider>>    m_CollisionList;
 
+    // 해당 충돌체가 마우스와 충돌 되었는지 여부
+    bool            m_MouseCollision;
 
 public:
+    void SetMouseCollision(bool Collision)
+    {
+        m_MouseCollision = Collision;
+    }
+
     void SetOffset(const Vector2& Offset)
     {
         m_Offset = Offset;
@@ -45,6 +56,16 @@ public:
     }
 
 public:
+    bool GetMouseCollision() const
+    {
+        return m_MouseCollision;
+    }
+
+    float GetBottom() const
+    {
+        return m_Bottom;
+    }
+
     const Vector2 GetHitPoint() const
     {
         return m_HitPoint;
@@ -78,6 +99,8 @@ public:
     void ClearCollisionList();
     void CallCollisionBegin(CCollider* Dest);
     void CallCollisionEnd(CCollider* Dest);
+    void CallMouseCollisionBegin(const Vector2& MousePos);
+    void CallMouseCollisionEnd(const Vector2& MousePos);
 
 public:
     virtual bool Init();
@@ -85,6 +108,7 @@ public:
     virtual void PostUpdate(float DeltaTime);
     virtual void Render(HDC hDC, float DeltaTime);
     virtual bool Collision(CCollider* Dest);
+    virtual bool CollisionMouse(const Vector2& Mouse);
 
 public:
     // 함수포인터에 충돌시작시 발동할 함수주소 지정
@@ -100,5 +124,18 @@ public:
     {
         m_CollisionEnd = std::bind(Func, Obj, std::placeholders::_1, std::placeholders::_2);
     }
-};
+
+    // 마우스충돌시작시 발동할 함수주소 지정
+    template <typename T>
+    void SetMouseCollisionBeginFunction(T* Obj, void(T::* Func)(CCollider*, const Vector2&))
+    {
+        m_MouseCollisionBegin = std::bind(Func, Obj, std::placeholders::_1, std::placeholders::_2);
+    }
+
+    // 마우스충돌종료시 발동할 함수주소 지정
+    template <typename T>
+    void SetMouseCollisionEndFunction(T* Obj, void(T::* Func)(CCollider*, const Vector2&))
+    {
+        m_MouseCollisionEnd = std::bind(Func, Obj, std::placeholders::_1, std::placeholders::_2);
+    }};
 

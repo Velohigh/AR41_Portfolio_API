@@ -28,6 +28,7 @@ bool CCollisionManager::Init()
 	CreateProfile("Monster", ECollision_Channel::Monster, true, ECollision_Interaction::Ignore);
 	CreateProfile("PlayerAttack", ECollision_Channel::PlayerAttack, true, ECollision_Interaction::Ignore);
 	CreateProfile("MonsterAttack", ECollision_Channel::MonsterAttack, true, ECollision_Interaction::Ignore);
+	CreateProfile("Mouse", ECollision_Channel::Mouse, true, ECollision_Interaction::Collision);
 
 	SetCollisionInteraction("Player", ECollision_Channel::Default, ECollision_Interaction::Collision);
 	SetCollisionInteraction("Player", ECollision_Channel::MonsterAttack, ECollision_Interaction::Collision);
@@ -121,6 +122,30 @@ bool CCollisionManager::CollisionCircleToCircle(Vector2& HitPoint, CColliderCirc
 bool CCollisionManager::CollisionBoxToCircle(Vector2& HitPoint, CColliderBox* Src, CColliderCircle* Dest)
 {
 	if (CollisionBoxToCircle(HitPoint, Src->GetInfo(), Dest->GetInfo()))
+	{
+		Dest->m_HitPoint = HitPoint;
+		return true;
+	}
+
+	return false;
+}
+
+bool CCollisionManager::CollisionPointToBox(Vector2& HitPoint, const Vector2& Src, 
+	CColliderBox* Dest)
+{
+	if (CollisionPointToBox(HitPoint, Src, Dest->GetInfo()))
+	{
+		Dest->m_HitPoint = HitPoint;
+		return true;
+	}
+
+	return false;
+}
+
+bool CCollisionManager::CollisionPointToCircle(Vector2& HitPoint, 
+	const Vector2& Src, CColliderCircle* Dest)
+{
+	if (CollisionPointToCircle(HitPoint, Src, Dest->GetInfo()))
 	{
 		Dest->m_HitPoint = HitPoint;
 		return true;
@@ -241,6 +266,37 @@ bool CCollisionManager::CollisionBoxToCircle(Vector2& HitPoint, const BoxInfo& S
 
 			return true;
 		}
+	}
+
+	return false;
+}
+
+bool CCollisionManager::CollisionPointToBox(Vector2& HitPoint,
+	const Vector2& Src, const BoxInfo& Dest)
+{
+	if (Dest.LT.x > Src.x)
+		return false;
+	else if (Dest.LT.y > Src.y)
+		return false;
+	else if (Dest.RB.x < Src.x)
+		return false;
+	else if (Dest.RB.y < Src.y)
+		return false;
+
+	HitPoint = Src;
+
+	return true;
+}
+
+bool CCollisionManager::CollisionPointToCircle(Vector2& HitPoint, 
+	const Vector2& Src, const CircleInfo& Dest)
+{
+	float Dist = Dest.Center.Distance(Src);
+
+	if (Dist <= Dest.Radius)
+	{
+		HitPoint = Src;
+		return true;
 	}
 
 	return false;

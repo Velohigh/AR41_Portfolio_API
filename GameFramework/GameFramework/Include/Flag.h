@@ -21,6 +21,7 @@ enum class ECollision_Channel
 	Monster,
 	PlayerAttack,
 	MonsterAttack,
+	Mouse,
 	Max
 };
 
