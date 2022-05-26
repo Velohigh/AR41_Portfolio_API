@@ -64,6 +64,7 @@ bool CPathManager::Init()
 	m_mapPath.insert(std::make_pair(ROOT_PATH, Info));
 
 	AddPath(TEXTURE_PATH, TEXT("Texture/"));
+	AddPath(SOUND_PATH, TEXT("Sound/"));
 
 	return true;
 }

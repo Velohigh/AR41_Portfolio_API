@@ -20,14 +20,14 @@ protected:
 	CSharedPtr<class CGameObject>	m_Player;
 
 public:
-	class CSceneCollision* GetCollision() const
+	class CSceneCollision* GetCollision()	const
 	{
 		return m_Collision;
 	}
 
 	class CCamera* GetCamera()	const
 	{
-		return m_Camera; 
+		return m_Camera;
 	}
 
 	class CSceneResource* GetSceneResource()	const

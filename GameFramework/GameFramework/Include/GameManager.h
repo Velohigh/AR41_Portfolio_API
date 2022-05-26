@@ -31,10 +31,14 @@ private:
 	Resolution	m_RS;
 
 
+
 	float		m_TimeScale;	// 글로벌 타임 재생 배율.(이거 해야됨)
 
 	HBRUSH		m_Brush[(int)EBrush_Type::Max];
 	HPEN		m_Pen[(int)EBrush_Type::Max];
+
+
+
 
 
 

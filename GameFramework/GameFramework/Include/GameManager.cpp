@@ -37,20 +37,18 @@ CGameManager::~CGameManager()
     DeleteObject(m_hBackBmp);
     DeleteDC(m_hBackDC);
 
-    // 프로그램이 종료될때 DC를 제거한다.
-    ReleaseDC(m_hWnd, m_hDC);
-
-    // 브러쉬 삭제
     for (int i = 0; i < (int)EBrush_Type::Max; ++i)
     {
         DeleteObject(m_Brush[i]);
     }
 
-    // 펜 삭제
     for (int i = 0; i < (int)EBrush_Type::Max; ++i)
     {
         DeleteObject(m_Pen[i]);
     }
+
+    // 프로그램이 종료될때 DC를 제거한다.
+    ReleaseDC(m_hWnd, m_hDC);
 }
 
 bool CGameManager::Init(HINSTANCE hInst)
@@ -77,13 +75,14 @@ bool CGameManager::Init(HINSTANCE hInst)
 
 
     // 충돌관리자 초기화
-    if(!CCollisionManager::GetInst()->Init())
-		return false;
+    if (!CCollisionManager::GetInst()->Init())
+        return false;
 
 
     // 입력관리자 초기화
     if (!CInput::GetInst()->Init(m_hWnd))
         return false;
+
 
 
     // 장면관리자 생성
@@ -109,24 +108,24 @@ bool CGameManager::Init(HINSTANCE hInst)
     // 윈도우 창의 크기와 동일한 크기의 백버퍼용 비트맵을 만들어준다.
     m_hBackBmp = CreateCompatibleBitmap(m_hDC, m_RS.Width, m_RS.Height);
 
-    // 백버퍼DC가 들고있던 기본 비트맵을 따로 저장하면서, 백버퍼용 비트맵을 지정해준다.
     m_hBackPrevBmp = (HBITMAP)SelectObject(m_hBackDC, m_hBackBmp);
 
     m_TimeScale = 1.f;
 
-    // 브러쉬 색상 지정
+
     m_Brush[(int)EBrush_Type::Red] = CreateSolidBrush(RGB(255, 0, 0));
     m_Brush[(int)EBrush_Type::Green] = CreateSolidBrush(RGB(0, 255, 0));
-    m_Brush[(int)EBrush_Type::Black] = CreateSolidBrush(RGB(255, 0, 0));
-    m_Brush[(int)EBrush_Type::Blue] = CreateSolidBrush(RGB(255, 0, 255));
+    m_Brush[(int)EBrush_Type::Black] = CreateSolidBrush(RGB(0, 0, 0));
+    m_Brush[(int)EBrush_Type::Blue] = CreateSolidBrush(RGB(0, 0, 255));
     m_Brush[(int)EBrush_Type::Yellow] = CreateSolidBrush(RGB(255, 255, 0));
 
-    // 펜 색상 지정
+
     m_Pen[(int)EBrush_Type::Red] = CreatePen(PS_SOLID, 2, RGB(255, 0, 0));
     m_Pen[(int)EBrush_Type::Green] = CreatePen(PS_SOLID, 2, RGB(0, 255, 0));
-    m_Pen[(int)EBrush_Type::Black] = CreatePen(PS_SOLID, 2, RGB(255, 0, 0));
-    m_Pen[(int)EBrush_Type::Blue] = CreatePen(PS_SOLID, 2, RGB(255, 0, 255));
+    m_Pen[(int)EBrush_Type::Black] = CreatePen(PS_SOLID, 2, RGB(0, 0, 0));
+    m_Pen[(int)EBrush_Type::Blue] = CreatePen(PS_SOLID, 2, RGB(0, 0, 255));
     m_Pen[(int)EBrush_Type::Yellow] = CreatePen(PS_SOLID, 2, RGB(255, 255, 0));
+
 
     /*m_TestRC.left = 800;
     m_TestRC.top = 100;

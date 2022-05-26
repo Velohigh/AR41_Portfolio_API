@@ -13,6 +13,7 @@ private:
 private:
 	std::unordered_map<std::string, CSharedPtr<class CTexture>>	m_mapTexture;
 	std::unordered_map<std::string, CSharedPtr<class CAnimationSequence>>	m_mapAnimationSequence;
+	std::unordered_map<std::string, CSharedPtr<class CSound>>	m_mapSound;
 
 public:	// ==================== Texture ====================
 	bool LoadTexture(const std::string& Name, const TCHAR* FileName,
@@ -72,5 +73,22 @@ public:	// ==================== Animation Sequence ====================
 		float PosX, float PosY, float SizeX, float SizeY);
 
 	class CAnimationSequence* FindAnimation(const std::string& Name);
+
+
+
+public:	// ============================ Sound ================================
+	bool CreateSoundChannel(const std::string& Name);
+	bool LoadSound(const std::string& GroupName, const std::string& Name,
+		bool Loop, const char* FileName, const std::string& PathName = SOUND_PATH);
+	bool SetVolume(int Volume);
+	bool SetVolume(const std::string& GroupName, int Volume);
+	bool SoundPlay(const std::string& Name);
+	bool SoundStop(const std::string& Name);
+	bool SoundPause(const std::string& Name);
+	bool SoundResume(const std::string& Name);
+
+
+	FMOD::ChannelGroup* FindChannelGroup(const std::string& Name);
+	class CSound* FindSound(const std::string& Name);
 };
 

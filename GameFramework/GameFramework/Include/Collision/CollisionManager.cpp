@@ -7,13 +7,12 @@ DEFINITION_SINGLE(CCollisionManager)
 
 CCollisionManager::CCollisionManager()
 {
-
 }
 
 CCollisionManager::~CCollisionManager()
 {
-	auto iter = m_mapProfile.begin();
-	auto iterEnd = m_mapProfile.end();
+	auto	iter = m_mapProfile.begin();
+	auto	iterEnd = m_mapProfile.end();
 
 	for (; iter != iterEnd; ++iter)
 	{
@@ -33,10 +32,12 @@ bool CCollisionManager::Init()
 	SetCollisionInteraction("Player", ECollision_Channel::Default, ECollision_Interaction::Collision);
 	SetCollisionInteraction("Player", ECollision_Channel::MonsterAttack, ECollision_Interaction::Collision);
 	SetCollisionInteraction("Player", ECollision_Channel::Monster, ECollision_Interaction::Collision);
-	
+	SetCollisionInteraction("Player", ECollision_Channel::Mouse, ECollision_Interaction::Collision);
+
 	SetCollisionInteraction("Monster", ECollision_Channel::Default, ECollision_Interaction::Collision);
 	SetCollisionInteraction("Monster", ECollision_Channel::PlayerAttack, ECollision_Interaction::Collision);
 	SetCollisionInteraction("Monster", ECollision_Channel::Player, ECollision_Interaction::Collision);
+	SetCollisionInteraction("Monster", ECollision_Channel::Mouse, ECollision_Interaction::Collision);
 
 	SetCollisionInteraction("PlayerAttack", ECollision_Channel::Default, ECollision_Interaction::Collision);
 	SetCollisionInteraction("PlayerAttack", ECollision_Channel::Monster, ECollision_Interaction::Collision);
@@ -48,7 +49,7 @@ bool CCollisionManager::Init()
 }
 
 bool CCollisionManager::CreateProfile(const std::string& Name, ECollision_Channel Channel, 
-	bool Enable, ECollision_Interaction BaseInteraction)
+	bool Enable, ECollision_Interaction BaseIteraction)
 {
 	CollisionProfile* Profile = FindProfile(Name);
 
@@ -64,7 +65,7 @@ bool CCollisionManager::CreateProfile(const std::string& Name, ECollision_Channe
 
 	for (int i = 0; i < (int)ECollision_Channel::Max; ++i)
 	{
-		Profile->vecCollisionInteraction[i] = BaseInteraction;
+		Profile->vecCollisionInteraction[i] = BaseIteraction;
 	}
 
 	m_mapProfile.insert(std::make_pair(Name, Profile));
@@ -72,22 +73,22 @@ bool CCollisionManager::CreateProfile(const std::string& Name, ECollision_Channe
 	return true;
 }
 
-bool CCollisionManager::SetCollisionInteraction(const std::string& Name, ECollision_Channel Channel, 
-	ECollision_Interaction Interaction)
+bool CCollisionManager::SetCollisionInteraction(const std::string& Name, ECollision_Channel Channel,
+	ECollision_Interaction Iteraction)
 {
-CollisionProfile* Profile = FindProfile(Name);
+	CollisionProfile* Profile = FindProfile(Name);
 
-if (!Profile)
-return false;
+	if (!Profile)
+		return false;
 
-Profile->vecCollisionInteraction[(int)Channel] = Interaction;
+	Profile->vecCollisionInteraction[(int)Channel] = Iteraction;
 
-return true;
+	return true;
 }
 
-CollisionProfile* CCollisionManager::FindProfile(const std::string Name)
+CollisionProfile* CCollisionManager::FindProfile(const std::string& Name)
 {
-	auto iter = m_mapProfile.find(Name);
+	auto	iter = m_mapProfile.find(Name);
 
 	if (iter == m_mapProfile.end())
 		return nullptr;
@@ -107,7 +108,7 @@ bool CCollisionManager::CollisionBoxToBox(Vector2& HitPoint, CColliderBox* Src,
 	return false;
 }
 
-bool CCollisionManager::CollisionCircleToCircle(Vector2& HitPoint, CColliderCircle* Src,
+bool CCollisionManager::CollisionCircleToCircle(Vector2& HitPoint, CColliderCircle* Src, 
 	CColliderCircle* Dest)
 {
 	if (CollisionCircleToCircle(HitPoint, Src->GetInfo(), Dest->GetInfo()))
@@ -130,7 +131,7 @@ bool CCollisionManager::CollisionBoxToCircle(Vector2& HitPoint, CColliderBox* Sr
 	return false;
 }
 
-bool CCollisionManager::CollisionPointToBox(Vector2& HitPoint, const Vector2& Src, 
+bool CCollisionManager::CollisionPointToBox(Vector2& HitPoint, const Vector2& Src,
 	CColliderBox* Dest)
 {
 	if (CollisionPointToBox(HitPoint, Src, Dest->GetInfo()))
@@ -154,7 +155,7 @@ bool CCollisionManager::CollisionPointToCircle(Vector2& HitPoint,
 	return false;
 }
 
-bool CCollisionManager::CollisionBoxToBox(Vector2& HitPoint, const BoxInfo& Src,
+bool CCollisionManager::CollisionBoxToBox(Vector2& HitPoint, const BoxInfo& Src, 
 	const BoxInfo& Dest)
 {
 	if (Src.LT.x > Dest.RB.x)
@@ -177,11 +178,10 @@ bool CCollisionManager::CollisionBoxToBox(Vector2& HitPoint, const BoxInfo& Src,
 	HitPoint.x = (Left + Right) / 2.f;
 	HitPoint.y = (Top + Bottom) / 2.f;
 
-
 	return true;
 }
 
-bool CCollisionManager::CollisionCircleToCircle(Vector2& HitPoint, const CircleInfo& Src,
+bool CCollisionManager::CollisionCircleToCircle(Vector2& HitPoint, const CircleInfo& Src, 
 	const CircleInfo& Dest)
 {
 	// 센터 사이의 거리를 구한다.
@@ -194,32 +194,35 @@ bool CCollisionManager::CollisionCircleToCircle(Vector2& HitPoint, const CircleI
 	return result;
 }
 
-bool CCollisionManager::CollisionBoxToCircle(Vector2& HitPoint, const BoxInfo& Src, const CircleInfo& Dest)
+bool CCollisionManager::CollisionBoxToCircle(Vector2& HitPoint, const BoxInfo& Src, 
+	const CircleInfo& Dest)
 {
-	// 원의 중점이 사각형의 좌, 우, 영역 혹은 위, 아래 영역에 존재 하는지 판단한다.
+	// 원의 중점이 사각형의 좌, 우 영역 혹은 위, 아래 영역에 존재하는지 판단한다.
 	if ((Src.LT.x <= Dest.Center.x && Dest.Center.x <= Src.RB.x) ||
 		(Src.LT.y <= Dest.Center.y && Dest.Center.y <= Src.RB.y))
 	{
 		// 사각형을 원의 반지름만큼 확장한다.
-		BoxInfo RC = Src;
+		BoxInfo	RC = Src;
 		RC.LT.x -= Dest.Radius;
 		RC.LT.y -= Dest.Radius;
 		RC.RB.x += Dest.Radius;
 		RC.RB.y += Dest.Radius;
 
 		// 확장된 사각형 안에 원의 중점이 들어온다면 충돌된 것이다.
-		// 성능을 위해 안되는 경우로 체크한다.
 		if (RC.LT.x > Dest.Center.x)
 			return false;
+
 		else if (RC.LT.y > Dest.Center.y)
 			return false;
+
 		else if (RC.RB.x < Dest.Center.x)
-			return false;		
+			return false;
+
 		else if (RC.RB.y < Dest.Center.y)
 			return false;
 
 		// 히트포인트.
-		BoxInfo CircleBox;
+		BoxInfo	CircleBox;
 		CircleBox.LT = Dest.Center - Dest.Radius;
 		CircleBox.RB = Dest.Center + Dest.Radius;
 
@@ -234,8 +237,7 @@ bool CCollisionManager::CollisionBoxToCircle(Vector2& HitPoint, const BoxInfo& S
 		return true;
 	}
 
-	// 사각형의 꼭지점 4개를 만든다.
-	Vector2 Pos[4] =
+	Vector2	Pos[4] =
 	{
 		Src.LT,
 		Vector2(Src.RB.x, Src.LT.y),
@@ -243,16 +245,14 @@ bool CCollisionManager::CollisionBoxToCircle(Vector2& HitPoint, const BoxInfo& S
 		Src.RB
 	};
 
-	// 4개의 점중 하나라도 원안에 들어온다면 충돌한 것이다.
+	// 4개의 점중 하나라도 원 안에 들어온다면 충돌한 것이다.
 	for (int i = 0; i < 4; ++i)
 	{
-		// 꼭지점과 원의 거리
 		float Dist = Dest.Center.Distance(Pos[i]);
 
-		// 꼭지점과 원의 거리보다 반지름의 길이가 더 크다면 충돌된 것이다.
 		if (Dist <= Dest.Radius)
 		{
-			BoxInfo CircleBox;
+			BoxInfo	CircleBox;
 			CircleBox.LT = Dest.Center - Dest.Radius;
 			CircleBox.RB = Dest.Center + Dest.Radius;
 
@@ -271,15 +271,18 @@ bool CCollisionManager::CollisionBoxToCircle(Vector2& HitPoint, const BoxInfo& S
 	return false;
 }
 
-bool CCollisionManager::CollisionPointToBox(Vector2& HitPoint,
-	const Vector2& Src, const BoxInfo& Dest)
+bool CCollisionManager::CollisionPointToBox(Vector2& HitPoint, const Vector2& Src,
+	const BoxInfo& Dest)
 {
 	if (Dest.LT.x > Src.x)
 		return false;
+
 	else if (Dest.LT.y > Src.y)
 		return false;
+
 	else if (Dest.RB.x < Src.x)
 		return false;
+
 	else if (Dest.RB.y < Src.y)
 		return false;
 
@@ -288,7 +291,7 @@ bool CCollisionManager::CollisionPointToBox(Vector2& HitPoint,
 	return true;
 }
 
-bool CCollisionManager::CollisionPointToCircle(Vector2& HitPoint, 
+bool CCollisionManager::CollisionPointToCircle(Vector2& HitPoint,
 	const Vector2& Src, const CircleInfo& Dest)
 {
 	float Dist = Dest.Center.Distance(Src);
@@ -296,6 +299,7 @@ bool CCollisionManager::CollisionPointToCircle(Vector2& HitPoint,
 	if (Dist <= Dest.Radius)
 	{
 		HitPoint = Src;
+
 		return true;
 	}
 

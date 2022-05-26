@@ -53,3 +53,5 @@ enum class EEffect_Type
 	Duration,
 	Loop
 };
+
+

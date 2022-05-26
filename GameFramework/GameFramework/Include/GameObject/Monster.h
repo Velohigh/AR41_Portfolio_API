@@ -23,10 +23,12 @@ public:
 	virtual void Update(float DeltaTime);
 	virtual void PostUpdate(float DeltaTime);
 	virtual void Render(HDC hDC, float DeltaTime);
-	virtual float InflicitDamage(float Damage);
+	virtual float InflictDamage(float Damage);
 
 private:
 	void CollisionBegin(CCollider* Src, CCollider* Dest);
 	void CollisionEnd(CCollider* Src, CCollider* Dest);
+	void CollisionMouseBegin(CCollider* Src, const Vector2& MousePos);
+	void CollisionMouseEnd(CCollider* Src, const Vector2& MousePos);
 };
 

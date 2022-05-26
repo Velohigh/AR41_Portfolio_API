@@ -1,12 +1,13 @@
 
 #include "Monster.h"
 #include "../Scene/Scene.h"
+#include "../Scene/SceneResource.h"
 #include "Bullet.h"
 #include "../Collision/ColliderBox.h"
 #include "../Collision/ColliderCircle.h"
+#include "Effect.h"
 
-
-CMonster::CMonster() :
+CMonster::CMonster()	:
 	m_HP(100)
 {
 	SetTypeID<CMonster>();
@@ -39,20 +40,14 @@ bool CMonster::Init()
 
 	SetTexture("Monster", TEXT("teemo.bmp"));
 
-	//// 충돌체 생성, 씬 ColliderList에도 추가
-	//CColliderBox* Box = AddCollider<CColliderBox>("Body");
+	/*CColliderBox* Box = AddCollider<CColliderBox>("Body");
 
-	//// 충돌체 크기 설정
-	//Box->SetExtent(100.f, 100.f);
-	//// 충돌체 프로파일 설정
-	//Box->SetCollisionProfile("Monster");
+	Box->SetExtent(100.f, 100.f);
+	Box->SetCollisionProfile("Monster");
 
-	//// 충돌체와 부딪혔을때 일어날 함수 지정
-	//Box->SetCollisionBeginFunction<CMonster>(this, &CMonster::CollisionBegin);
-	//Box->SetCollisionEndFunction<CMonster>(this, &CMonster::CollisionEnd);
+	Box->SetCollisionBeginFunction<CMonster>(this, &CMonster::CollisionBegin);
+	Box->SetCollisionEndFunction<CMonster>(this, &CMonster::CollisionEnd);*/
 
-
-	// 원 충돌
 	CColliderCircle* Circle = AddCollider<CColliderCircle>("Body");
 
 	Circle->SetRadius(50.f);
@@ -60,6 +55,9 @@ bool CMonster::Init()
 
 	Circle->SetCollisionBeginFunction<CMonster>(this, &CMonster::CollisionBegin);
 	Circle->SetCollisionEndFunction<CMonster>(this, &CMonster::CollisionEnd);
+
+	Circle->SetMouseCollisionBeginFunction<CMonster>(this, &CMonster::CollisionMouseBegin);
+	Circle->SetMouseCollisionEndFunction<CMonster>(this, &CMonster::CollisionMouseEnd);
 
 	return true;
 }
@@ -130,9 +128,9 @@ void CMonster::Render(HDC hDC, float DeltaTime)
 //		(int)(RenderLT.x + m_Size.x), (int)(RenderLT.y + m_Size.y));
 }
 
-float CMonster::InflicitDamage(float Damage)
+float CMonster::InflictDamage(float Damage)
 {
-	Damage = CCharacter::InflicitDamage(Damage);
+	Damage = CCharacter::InflictDamage(Damage);
 
 	m_HP -= (int)Damage;
 
@@ -146,10 +144,25 @@ float CMonster::InflicitDamage(float Damage)
 
 void CMonster::CollisionBegin(CCollider* Src, CCollider* Dest)
 {
-	//MessageBox(nullptr, TEXT("죽어라!!!"), TEXT("^모^"), MB_OK);
+	m_Scene->GetSceneResource()->SoundPlay("TeemoSmile");
+	//MessageBox(nullptr, TEXT("죽어라!!"), TEXT("^모^"), MB_OK);
 }
 
 void CMonster::CollisionEnd(CCollider* Src, CCollider* Dest)
 {
-	//MessageBox(nullptr, TEXT("관통!!!"), TEXT("^모^"), MB_OK);
+	//MessageBox(nullptr, TEXT("관통."), TEXT("^모^"), MB_OK);
+}
+
+void CMonster::CollisionMouseBegin(CCollider* Src, const Vector2& MousePos)
+{
+	/*CEffect* Effect = m_Scene->CreateObject<CEffect>("HitEffect");
+
+	Effect->SetPivot(0.5f, 0.5f);
+	Effect->SetPos(MousePos);
+
+	Effect->AddAnimation("LeftHitEffect", false, 0.3f);*/
+}
+
+void CMonster::CollisionMouseEnd(CCollider* Src, const Vector2& MousePos)
+{
 }

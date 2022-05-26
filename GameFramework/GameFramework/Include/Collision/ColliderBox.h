@@ -5,7 +5,7 @@
 class CColliderBox :
     public CCollider
 {
-    friend class CGameObject;   // 충돌체는 오브젝트에 달아줄것이다.
+    friend class CGameObject;
 
 protected:
     CColliderBox();
@@ -17,9 +17,8 @@ protected:
     float   m_Height;
     BoxInfo m_Info;
 
-
 public:
-    BoxInfo GetInfo() const
+    BoxInfo GetInfo()   const
     {
         return m_Info;
     }
@@ -30,6 +29,7 @@ public:
         m_Height = Height;
     }
 
+
 public:
     virtual bool Init();
     virtual void Update(float DeltaTime);
@@ -37,6 +37,5 @@ public:
     virtual void Render(HDC hDC, float DeltaTime);
     virtual bool Collision(CCollider* Dest);
     virtual bool CollisionMouse(const Vector2& Mouse);
-
 };
 

@@ -248,7 +248,6 @@ struct Vector2
 		y /= (float)i;
 	}
 
-	// 내 위치기준 해당 좌표와의 각도값 구하기
 	float Angle(const Vector2& v)	const
 	{
 		float Width = v.x - x;
@@ -267,8 +266,7 @@ struct Vector2
 		return Angle;
 	}
 
-	// 해당 좌표까지의 거리값을 구하는 함수
-	float Distance(const Vector2& v) const
+	float Distance(const Vector2& v)	const
 	{
 		float Width = x - v.x;
 		float Height = y - v.y;

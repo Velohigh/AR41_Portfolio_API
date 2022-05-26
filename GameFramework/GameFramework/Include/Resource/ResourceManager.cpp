@@ -2,6 +2,7 @@
 #include "ResourceManager.h"
 #include "Texture/TextureManager.h"
 #include "Animation/AnimationManager.h"
+#include "Sound/SoundManager.h"
 
 DEFINITION_SINGLE(CResourceManager)
 
@@ -14,10 +15,15 @@ CResourceManager::CResourceManager()
 	m_AnimationManager = new CAnimationManager;
 
 	m_AnimationManager->Init();
+
+	m_SoundManager = new CSoundManager;
+
+	m_SoundManager->Init();
 }
 
 CResourceManager::~CResourceManager()
 {
+	SAFE_DELETE(m_SoundManager);
 	SAFE_DELETE(m_AnimationManager);
 	SAFE_DELETE(m_TextureManager);
 }
@@ -29,6 +35,7 @@ bool CResourceManager::Init()
 
 void CResourceManager::Update()
 {
+	m_SoundManager->Update();
 }
 
 bool CResourceManager::LoadTexture(const std::string& Name, const TCHAR* FileName, const std::string& PathName)
@@ -241,4 +248,58 @@ CAnimationSequence* CResourceManager::FindAnimation(const std::string& Name)
 void CResourceManager::ReleaseAnimation(const std::string& Name)
 {
 	m_AnimationManager->ReleaseAnimation(Name);
+}
+
+bool CResourceManager::CreateSoundChannel(const std::string& Name)
+{
+	return m_SoundManager->CreateSoundChannel(Name);
+}
+
+bool CResourceManager::LoadSound(const std::string& GroupName, const std::string& Name, bool Loop, const char* FileName, const std::string& PathName)
+{
+	return m_SoundManager->LoadSound(GroupName, Name, Loop, FileName, PathName);
+}
+
+bool CResourceManager::SetVolume(int Volume)
+{
+	return m_SoundManager->SetVolume(Volume);
+}
+
+bool CResourceManager::SetVolume(const std::string& GroupName, int Volume)
+{
+	return m_SoundManager->SetVolume(GroupName, Volume);
+}
+
+bool CResourceManager::SoundPlay(const std::string& Name)
+{
+	return m_SoundManager->SoundPlay(Name);
+}
+
+bool CResourceManager::SoundStop(const std::string& Name)
+{
+	return m_SoundManager->SoundStop(Name);
+}
+
+bool CResourceManager::SoundPause(const std::string& Name)
+{
+	return m_SoundManager->SoundPause(Name);
+}
+
+bool CResourceManager::SoundResume(const std::string& Name)
+{
+	return m_SoundManager->SoundResume(Name);
+}
+
+FMOD::ChannelGroup* CResourceManager::FindChannelGroup(const std::string& Name)
+{
+	return nullptr;
+}
+
+CSound* CResourceManager::FindSound(const std::string& Name)
+{
+	return nullptr;
+}
+
+void CResourceManager::ReleaseSound(const std::string& Name)
+{
 }

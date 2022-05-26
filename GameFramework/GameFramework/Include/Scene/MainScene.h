@@ -21,6 +21,5 @@ private:
 private:
 	void Cam1Key();
 	void Cam2Key();
-
 };
 

@@ -1,14 +1,14 @@
 
 #include "Effect.h"
 
-CEffect::CEffect() :
+CEffect::CEffect()	:
 	m_EffectType(EEffect_Type::Once),
 	m_Duration(0.f),
 	m_Time(0.f)
 {
 }
 
-CEffect::CEffect(const CEffect& Obj) :
+CEffect::CEffect(const CEffect& Obj)	:
 	CGameObject(Obj)
 {
 }
@@ -38,24 +38,20 @@ void CEffect::Update(float DeltaTime)
 		if (m_Time >= m_Duration)
 			SetActive(false);
 	}
-
 }
 
 void CEffect::PostUpdate(float DeltaTime)
 {
 	CGameObject::PostUpdate(DeltaTime);
-
 }
 
 void CEffect::Render(HDC hDC, float DeltaTime)
 {
 	CGameObject::Render(hDC, DeltaTime);
-
 }
 
 void CEffect::AnimationEnd()
 {
-	// 애니메이션 종료시 이펙트 사망처리
 	if (m_EffectType == EEffect_Type::Once)
 		SetActive(false);
 }

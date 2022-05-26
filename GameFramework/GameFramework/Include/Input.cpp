@@ -93,11 +93,10 @@ void CInput::UpdateMouse(float DeltaTime)
 	// 스크린 좌표를 윈도우 좌표로 변경한다.
 	ScreenToClient(m_hWnd, &ptMouse);
 
-	// 마우스 이동량
 	m_MouseMove.x = (float)ptMouse.x - m_MousePos.x;
 	m_MouseMove.y = (float)ptMouse.y - m_MousePos.y;
 
-	// 마우스 위치
+
 	m_MousePos.x = (float)ptMouse.x;
 	m_MousePos.y = (float)ptMouse.y;
 }

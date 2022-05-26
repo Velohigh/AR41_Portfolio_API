@@ -31,8 +31,8 @@ CGameObject::CGameObject(const CGameObject& Obj)	:
 
 CGameObject::~CGameObject()
 {
-	auto iter = m_ColliderList.begin();
-	auto iterEnd = m_ColliderList.end();
+	auto	iter = m_ColliderList.begin();
+	auto	iterEnd = m_ColliderList.end();
 
 	for (; iter != iterEnd; ++iter)
 	{
@@ -44,13 +44,13 @@ CGameObject::~CGameObject()
 
 CCollider* CGameObject::FindCollider(const std::string& Name)
 {
-	auto iter = m_ColliderList.begin();
-	auto iterEnd = m_ColliderList.end();
+	auto	iter = m_ColliderList.begin();
+	auto	iterEnd = m_ColliderList.end();
 
 	for (; iter != iterEnd; ++iter)
 	{
 		if ((*iter)->GetName() == Name)
-			return (*iter);
+			return *iter;
 	}
 
 	return nullptr;
@@ -218,8 +218,8 @@ void CGameObject::Update(float DeltaTime)
 	if (m_Animation)
 		m_Animation->Update(DeltaTime * m_TimeScale);
 
-	auto iter = m_ColliderList.begin();
-	auto iterEnd = m_ColliderList.end();
+	auto	iter = m_ColliderList.begin();
+	auto	iterEnd = m_ColliderList.end();
 
 	for (; iter != iterEnd;)
 	{
@@ -235,6 +235,7 @@ void CGameObject::Update(float DeltaTime)
 			++iter;
 			continue;
 		}
+
 		(*iter)->Update(DeltaTime);
 		++iter;
 	}
@@ -255,8 +256,8 @@ void CGameObject::PostUpdate(float DeltaTime)
 		m_Size = FrameData.End - FrameData.Start;
 	}
 
-	auto iter = m_ColliderList.begin();
-	auto iterEnd = m_ColliderList.end();
+	auto	iter = m_ColliderList.begin();
+	auto	iterEnd = m_ColliderList.end();
 
 	for (; iter != iterEnd;)
 	{
@@ -279,7 +280,6 @@ void CGameObject::PostUpdate(float DeltaTime)
 
 		++iter;
 	}
-
 }
 
 void CGameObject::Render(HDC hDC, float DeltaTime)
@@ -361,9 +361,11 @@ void CGameObject::Render(HDC hDC, float DeltaTime)
 			}
 		}
 	}
-	
-	auto iter = m_ColliderList.begin();
-	auto iterEnd = m_ColliderList.end();
+
+
+
+	auto	iter = m_ColliderList.begin();
+	auto	iterEnd = m_ColliderList.end();
 
 	for (; iter != iterEnd;)
 	{
@@ -379,14 +381,15 @@ void CGameObject::Render(HDC hDC, float DeltaTime)
 			++iter;
 			continue;
 		}
+
 		(*iter)->Render(hDC, DeltaTime);
 		++iter;
 	}
-
+	
 	m_PrevPos = m_Pos;
 }
 
-float CGameObject::InflicitDamage(float Damage)
+float CGameObject::InflictDamage(float Damage)
 {
 	return Damage;
 }

@@ -19,6 +19,13 @@ bool CMainScene::Init()
 {
 	CreateAnimationSequence();
 
+	GetSceneResource()->LoadSound("BGM", "MainBGM", true, "MainBgm.mp3");
+	GetSceneResource()->LoadSound("Effect", "TeemoSmile", false, "TeemoSmile.mp3");
+	GetSceneResource()->LoadSound("Effect", "Gabung", false, "Demasia.mp3");
+	GetSceneResource()->SoundPlay("MainBGM");
+
+	GetSceneResource()->SetVolume(20);
+
 	GetCamera()->SetResolution(1280.f, 720.f);
 	GetCamera()->SetWorldResolution(1500.f, 1200.f);
 	GetCamera()->SetTargetPivot(0.5f, 0.5f);
@@ -28,11 +35,10 @@ bool CMainScene::Init()
 	CPlayer* Player = CreateObject<CPlayer>("Player");
 
 	SetPlayer(Player);
-	
+
 	GetCamera()->SetTarget(Player);
 
 	m_Monster = CreateObject<CMonster>("Monster");
-
 
 	CInput::GetInst()->AddBindFunction<CMainScene>("Cam1",
 		Input_Type::Down, this, &CMainScene::Cam1Key);
@@ -112,7 +118,7 @@ void CMainScene::CreateAnimationSequence()
 	GetSceneResource()->SetColorKey("PlayerLeftAttack", 255, 0, 255);
 
 
-	// ÀÌÆåÆ®
+
 	GetSceneResource()->CreateAnimationSequence("LeftHitEffect",
 		"LeftHitEffect", TEXT("Hit.bmp"), TEXTURE_PATH);
 
@@ -123,7 +129,6 @@ void CMainScene::CreateAnimationSequence()
 	}
 
 	GetSceneResource()->SetColorKey("LeftHitEffect", 255, 0, 255);
-
 }
 
 void CMainScene::Cam1Key()

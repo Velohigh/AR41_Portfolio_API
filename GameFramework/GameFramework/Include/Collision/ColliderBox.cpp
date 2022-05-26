@@ -45,8 +45,8 @@ void CColliderBox::PostUpdate(float DeltaTime)
 {
 	CCollider::PostUpdate(DeltaTime);
 
-	Vector2 Pos = m_Owner->GetPos();
-	Vector2 Size(m_Width, m_Height);
+	Vector2	Pos = m_Owner->GetPos();
+	Vector2	Size(m_Width, m_Height);
 
 	m_Info.LT = Pos + m_Offset - Size / 2.f;
 	m_Info.RB = Pos + m_Offset + Size / 2.f;
@@ -56,13 +56,10 @@ void CColliderBox::PostUpdate(float DeltaTime)
 
 void CColliderBox::Render(HDC hDC, float DeltaTime)
 {
-	CCollider::Render(hDC, DeltaTime);
-
 #ifdef _DEBUG
 
-	HBRUSH Brush = CGameManager::GetInst()->GetBrush(EBrush_Type::Green);
+	HBRUSH	Brush = CGameManager::GetInst()->GetBrush(EBrush_Type::Green);
 
-	// 비어있지 않을경우 누군가와 충돌중이다.
 	if (!m_CollisionList.empty() || m_MouseCollision)
 		Brush = CGameManager::GetInst()->GetBrush(EBrush_Type::Red);
 

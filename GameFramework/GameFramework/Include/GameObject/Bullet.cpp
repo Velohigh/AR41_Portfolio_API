@@ -6,8 +6,7 @@
 #include "../Collision/ColliderCircle.h"
 #include "Effect.h"
 
-
-CBullet::CBullet() :
+CBullet::CBullet()	:
 	m_Damage(0.f)
 {
 	SetTypeID<CBullet>();
@@ -33,22 +32,14 @@ bool CBullet::Init()
 	SetPos(900.f, 100.f);
 	SetSize(50.f, 50.f);
 	SetPivot(0.5f, 0.5f);
+	
+	/*CColliderBox* Box = AddCollider<CColliderBox>("Body");
 
-	//// ## 사각형 충돌
-	//// 충돌체 생성, 씬 ColliderList에도 추가
-	//CColliderBox* Box = AddCollider<CColliderBox>("Body");
+	Box->SetExtent(100.f, 100.f);
 
-	//// 충돌체 크기 설정
-	//Box->SetExtent(100.f, 100.f);
-	//// 충돌체 프로파일 설정
-	//Box->SetCollisionProfile("Player");
+	Box->SetCollisionBeginFunction<CBullet>(this, &CBullet::CollisionBegin);
+	Box->SetCollisionEndFunction<CBullet>(this, &CBullet::CollisionEnd);*/
 
-	//// 충돌체와 부딪혔을때 일어날 함수 지정
-	//Box->SetCollisionBeginFunction<CBullet>(this, &CBullet::CollisionBegin);
-	//Box->SetCollisionEndFunction<CBullet>(this, &CBullet::CollisionEnd);
-
-
-	// ## 원 충돌
 	CColliderCircle* Circle = AddCollider<CColliderCircle>("Body");
 
 	Circle->SetRadius(25.f);
@@ -56,7 +47,6 @@ bool CBullet::Init()
 
 	Circle->SetCollisionBeginFunction<CBullet>(this, &CBullet::CollisionBegin);
 	Circle->SetCollisionEndFunction<CBullet>(this, &CBullet::CollisionEnd);
-
 
 	return true;
 }
@@ -102,7 +92,7 @@ void CBullet::CollisionBegin(CCollider* Src, CCollider* Dest)
 	Effect->AddAnimation("LeftHitEffect", false, 0.3f);
 
 	// Damage 처리
-	Dest->GetOwner()->InflicitDamage(m_Damage);
+	Dest->GetOwner()->InflictDamage(m_Damage);
 }
 
 void CBullet::CollisionEnd(CCollider* Src, CCollider* Dest)

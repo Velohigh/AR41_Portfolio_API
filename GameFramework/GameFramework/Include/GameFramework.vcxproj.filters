@@ -68,16 +68,22 @@
       <UniqueIdentifier>{8ea2e84f-ed01-4d14-9f9d-65249515b555}</UniqueIdentifier>
     </Filter>
     <Filter Include="06. Collision">
-      <UniqueIdentifier>{ba4cd17d-b77a-4109-8082-7f933af3d4ad}</UniqueIdentifier>
+      <UniqueIdentifier>{bde8848a-c2d4-4a5b-b256-5c7e2a0e285c}</UniqueIdentifier>
     </Filter>
     <Filter Include="06. Collision\01. Collider">
-      <UniqueIdentifier>{b5cf369f-f26b-454d-acac-7315da38b986}</UniqueIdentifier>
+      <UniqueIdentifier>{27670380-b04a-463b-a183-dfa412934f03}</UniqueIdentifier>
     </Filter>
     <Filter Include="03. Scene\03. Collision">
-      <UniqueIdentifier>{ce3c4c10-0584-4786-bab8-0bdbe8758b79}</UniqueIdentifier>
+      <UniqueIdentifier>{25c72935-f071-47f0-8dad-38b7cee837a8}</UniqueIdentifier>
     </Filter>
     <Filter Include="02. GameObject\05. Effect">
-      <UniqueIdentifier>{863b501e-702f-4599-bd44-11d02060c397}</UniqueIdentifier>
+      <UniqueIdentifier>{4069f3bb-c7d1-4a96-b631-751f5f92b24b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04. Resource\03. Sound">
+      <UniqueIdentifier>{564b24d7-62e7-4df1-b006-45b40dc88ebd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04. Resource\03. Sound\01. FMOD">
+      <UniqueIdentifier>{37b7ff44-02bc-490e-8852-7f3c6b28d181}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -179,6 +185,12 @@
     </ClCompile>
     <ClCompile Include="Collision\ColliderCircle.cpp">
       <Filter>06. Collision\01. Collider</Filter>
+    </ClCompile>
+    <ClCompile Include="Resource\Sound\Sound.cpp">
+      <Filter>04. Resource\03. Sound</Filter>
+    </ClCompile>
+    <ClCompile Include="Resource\Sound\SoundManager.cpp">
+      <Filter>04. Resource\03. Sound</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -293,6 +305,36 @@
     <ClInclude Include="Collision\ColliderCircle.h">
       <Filter>06. Collision\01. Collider</Filter>
     </ClInclude>
+    <ClInclude Include="fmod.hpp">
+      <Filter>04. Resource\03. Sound\01. FMOD</Filter>
+    </ClInclude>
+    <ClInclude Include="fmod_codec.h">
+      <Filter>04. Resource\03. Sound\01. FMOD</Filter>
+    </ClInclude>
+    <ClInclude Include="fmod_common.h">
+      <Filter>04. Resource\03. Sound\01. FMOD</Filter>
+    </ClInclude>
+    <ClInclude Include="fmod_dsp.h">
+      <Filter>04. Resource\03. Sound\01. FMOD</Filter>
+    </ClInclude>
+    <ClInclude Include="fmod_dsp_effects.h">
+      <Filter>04. Resource\03. Sound\01. FMOD</Filter>
+    </ClInclude>
+    <ClInclude Include="fmod_errors.h">
+      <Filter>04. Resource\03. Sound\01. FMOD</Filter>
+    </ClInclude>
+    <ClInclude Include="fmod_output.h">
+      <Filter>04. Resource\03. Sound\01. FMOD</Filter>
+    </ClInclude>
+    <ClInclude Include="fmod.h">
+      <Filter>04. Resource\03. Sound\01. FMOD</Filter>
+    </ClInclude>
+    <ClInclude Include="Resource\Sound\Sound.h">
+      <Filter>04. Resource\03. Sound</Filter>
+    </ClInclude>
+    <ClInclude Include="Resource\Sound\SoundManager.h">
+      <Filter>04. Resource\03. Sound</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="GameFramework.rc">
@@ -303,5 +345,16 @@
     <Image Include="icon1.ico">
       <Filter>리소스 파일</Filter>
     </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="fmod_dsp.cs">
+      <Filter>04. Resource\03. Sound\01. FMOD</Filter>
+    </None>
+    <None Include="fmod_errors.cs">
+      <Filter>04. Resource\03. Sound\01. FMOD</Filter>
+    </None>
+    <None Include="fmod.cs">
+      <Filter>04. Resource\03. Sound\01. FMOD</Filter>
+    </None>
   </ItemGroup>
 </Project>

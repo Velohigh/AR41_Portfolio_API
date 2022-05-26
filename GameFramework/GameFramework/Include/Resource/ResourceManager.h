@@ -8,6 +8,7 @@ class CResourceManager
 private:
 	class CTextureManager* m_TextureManager;
 	class CAnimationManager* m_AnimationManager;
+	class CSoundManager* m_SoundManager;
 
 public:
 	bool Init();
@@ -73,6 +74,25 @@ public:	// ==================== Animation Sequence ====================
 
 	class CAnimationSequence* FindAnimation(const std::string& Name);
 	void ReleaseAnimation(const std::string& Name);
+
+
+
+public:	// ============================ Sound ================================
+	bool CreateSoundChannel(const std::string& Name);
+	bool LoadSound(const std::string& GroupName, const std::string& Name,
+		bool Loop, const char* FileName, const std::string& PathName = SOUND_PATH);
+	bool SetVolume(int Volume);
+	bool SetVolume(const std::string& GroupName, int Volume);
+	bool SoundPlay(const std::string& Name);
+	bool SoundStop(const std::string& Name);
+	bool SoundPause(const std::string& Name);
+	bool SoundResume(const std::string& Name);
+
+
+	FMOD::ChannelGroup* FindChannelGroup(const std::string& Name);
+	class CSound* FindSound(const std::string& Name);
+	void ReleaseSound(const std::string& Name);
+
 
 	DECLARE_SINGLE(CResourceManager)
 };

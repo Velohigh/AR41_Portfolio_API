@@ -18,9 +18,8 @@ public:
 	void AddCollider(class CCollider* Collider);
 	void CollisionMouse(float DeltaTime);
 	void Collision(float DeltaTime);
-	
+
 private:
 	static bool SortY(class CCollider* Src, class CCollider* Dest);
-
 };
 

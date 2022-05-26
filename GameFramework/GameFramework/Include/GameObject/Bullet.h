@@ -23,7 +23,6 @@ public:
 		m_Damage = Damage;
 	}
 
-public:
 	void SetDistance(float Dist)
 	{
 		m_Distance = Dist;

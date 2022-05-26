@@ -15,12 +15,16 @@
 #include "Vector2.h"
 #include "SharedPtr.h"
 #include "Flag.h"
+#include "fmod.hpp"
 
 #pragma comment(lib, "msimg32.lib")
+
+#pragma comment(lib, "../Bin/fmod64_vc.lib")
 
 
 #define	ROOT_PATH		"RootPath"
 #define	TEXTURE_PATH	"TexturePath"
+#define	SOUND_PATH		"SoundPath"
 
 
 #define	SAFE_DELETE(p)	if(p)	{ delete p; p = nullptr; }
@@ -51,7 +55,7 @@ struct CollisionProfile
 	bool								Enable;
 	std::vector<ECollision_Interaction>	vecCollisionInteraction;
 
-	CollisionProfile() :
+	CollisionProfile()	:
 		Enable(true)
 	{
 	}
@@ -59,12 +63,14 @@ struct CollisionProfile
 
 struct BoxInfo
 {
-	Vector2 LT;
-	Vector2 RB;
+	Vector2	LT;
+	Vector2	RB;
 };
 
 struct CircleInfo
 {
-	Vector2 Center;
+	Vector2	Center;
 	float	Radius;
 };
+
+

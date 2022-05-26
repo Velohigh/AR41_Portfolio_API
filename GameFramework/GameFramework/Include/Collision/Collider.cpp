@@ -25,8 +25,8 @@ CCollider::CCollider(const CCollider& collider)	:
 
 CCollider::~CCollider()
 {
-	auto iter = m_CollisionList.begin();
-	auto iterEnd = m_CollisionList.end();
+	auto	iter = m_CollisionList.begin();
+	auto	iterEnd = m_CollisionList.end();
 
 	for (; iter != iterEnd; ++iter)
 	{
@@ -46,8 +46,8 @@ void CCollider::AddCollisionList(CCollider* Collider)
 
 bool CCollider::CheckCollisionList(CCollider* Collider)
 {
-	auto iter = m_CollisionList.begin();
-	auto iterEnd = m_CollisionList.end();
+	auto	iter = m_CollisionList.begin();
+	auto	iterEnd = m_CollisionList.end();
 
 	for (; iter != iterEnd; ++iter)
 	{
@@ -60,8 +60,8 @@ bool CCollider::CheckCollisionList(CCollider* Collider)
 
 void CCollider::DeleteCollisionList(CCollider* Collider)
 {
-	auto iter = m_CollisionList.begin();
-	auto iterEnd = m_CollisionList.end();
+	auto	iter = m_CollisionList.begin();
+	auto	iterEnd = m_CollisionList.end();
 
 	for (; iter != iterEnd; ++iter)
 	{
@@ -75,8 +75,8 @@ void CCollider::DeleteCollisionList(CCollider* Collider)
 
 void CCollider::ClearCollisionList()
 {
-	auto iter = m_CollisionList.begin();
-	auto iterEnd = m_CollisionList.end();
+	auto	iter = m_CollisionList.begin();
+	auto	iterEnd = m_CollisionList.end();
 
 	for (; iter != iterEnd; ++iter)
 	{

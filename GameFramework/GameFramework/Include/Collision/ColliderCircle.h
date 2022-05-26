@@ -5,7 +5,7 @@
 class CColliderCircle :
     public CCollider
 {
-    friend class CGameObject;   // 충돌체는 오브젝트에 달아줄것이다.
+    friend class CGameObject;
 
 protected:
     CColliderCircle();
@@ -15,9 +15,8 @@ protected:
 protected:
     CircleInfo m_Info;
 
-
 public:
-    CircleInfo GetInfo() const
+    CircleInfo GetInfo()   const
     {
         return m_Info;
     }
@@ -27,6 +26,7 @@ public:
         m_Info.Radius = Radius;
     }
 
+
 public:
     virtual bool Init();
     virtual void Update(float DeltaTime);
@@ -34,6 +34,5 @@ public:
     virtual void Render(HDC hDC, float DeltaTime);
     virtual bool Collision(CCollider* Dest);
     virtual bool CollisionMouse(const Vector2& Mouse);
-
 };
 

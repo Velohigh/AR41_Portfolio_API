@@ -14,11 +14,11 @@ protected:
 
 private:
 	EEffect_Type	m_EffectType;
-	float			m_Duration;		// 지속시간
+	float			m_Duration;
 	float			m_Time;
 
 public:
-	EEffect_Type GetEffectType() const
+	EEffect_Type GetEffectType()	const
 	{
 		return m_EffectType;
 	}
@@ -36,6 +36,5 @@ public:
 
 private:
 	void AnimationEnd();
-
 };
 

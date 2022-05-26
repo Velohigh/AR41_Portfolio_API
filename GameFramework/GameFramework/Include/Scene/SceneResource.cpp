@@ -3,6 +3,7 @@
 #include "../Resource/Texture/Texture.h"
 #include "../Resource/ResourceManager.h"
 #include "../Resource/Animation/AnimationSequence.h"
+#include "../Resource/Sound/Sound.h"
 
 CSceneResource::CSceneResource()
 {
@@ -10,17 +11,49 @@ CSceneResource::CSceneResource()
 
 CSceneResource::~CSceneResource()
 {
-	auto	iter = m_mapTexture.begin();
-	auto	iterEnd = m_mapTexture.end();
-
-	for (; iter != iterEnd;)
 	{
-		std::string	Key = iter->first;
+		auto	iter = m_mapTexture.begin();
+		auto	iterEnd = m_mapTexture.end();
 
-		iter = m_mapTexture.erase(iter);
-		iterEnd = m_mapTexture.end();
+		for (; iter != iterEnd;)
+		{
+			std::string	Key = iter->first;
 
-		CResourceManager::GetInst()->ReleaseTexture(Key);
+			iter = m_mapTexture.erase(iter);
+			iterEnd = m_mapTexture.end();
+
+			CResourceManager::GetInst()->ReleaseTexture(Key);
+		}
+	}
+
+	{
+		auto	iter = m_mapAnimationSequence.begin();
+		auto	iterEnd = m_mapAnimationSequence.end();
+
+		for (; iter != iterEnd;)
+		{
+			std::string	Key = iter->first;
+
+			iter = m_mapAnimationSequence.erase(iter);
+			iterEnd = m_mapAnimationSequence.end();
+
+			CResourceManager::GetInst()->ReleaseAnimation(Key);
+		}
+	}
+
+	{
+		auto	iter = m_mapSound.begin();
+		auto	iterEnd = m_mapSound.end();
+
+		for (; iter != iterEnd;)
+		{
+			std::string	Key = iter->first;
+
+			iter = m_mapSound.erase(iter);
+			iterEnd = m_mapSound.end();
+
+			CResourceManager::GetInst()->ReleaseSound(Key);
+		}
 	}
 }
 
@@ -324,6 +357,80 @@ CAnimationSequence* CSceneResource::FindAnimation(const std::string& Name)
 		m_mapAnimationSequence.insert(std::make_pair(Name, Animation));
 
 		return Animation;
+	}
+
+	return iter->second;
+}
+
+bool CSceneResource::CreateSoundChannel(const std::string& Name)
+{
+	return CResourceManager::GetInst()->CreateSoundChannel(Name);
+}
+
+bool CSceneResource::LoadSound(const std::string& GroupName, const std::string& Name, bool Loop, const char* FileName, const std::string& PathName)
+{
+	if (FindSound(Name))
+		return false;
+
+	if (!CResourceManager::GetInst()->LoadSound(GroupName, Name, Loop, FileName, PathName))
+		return false;
+
+	CSound* Sound = CResourceManager::GetInst()->FindSound(Name);
+
+	m_mapSound.insert(std::make_pair(Name, Sound));
+
+	return true;
+}
+
+bool CSceneResource::SetVolume(int Volume)
+{
+	return CResourceManager::GetInst()->SetVolume(Volume);
+}
+
+bool CSceneResource::SetVolume(const std::string& GroupName, int Volume)
+{
+	return CResourceManager::GetInst()->SetVolume(GroupName, Volume);
+}
+
+bool CSceneResource::SoundPlay(const std::string& Name)
+{
+	return CResourceManager::GetInst()->SoundPlay(Name);
+}
+
+bool CSceneResource::SoundStop(const std::string& Name)
+{
+	return CResourceManager::GetInst()->SoundStop(Name);
+}
+
+bool CSceneResource::SoundPause(const std::string& Name)
+{
+	return CResourceManager::GetInst()->SoundPause(Name);
+}
+
+bool CSceneResource::SoundResume(const std::string& Name)
+{
+	return CResourceManager::GetInst()->SoundResume(Name);
+}
+
+FMOD::ChannelGroup* CSceneResource::FindChannelGroup(const std::string& Name)
+{
+	return CResourceManager::GetInst()->FindChannelGroup(Name);
+}
+
+CSound* CSceneResource::FindSound(const std::string& Name)
+{
+	auto	iter = m_mapSound.find(Name);
+
+	if (iter == m_mapSound.end())
+	{
+		CSound* Sound = CResourceManager::GetInst()->FindSound(Name);
+
+		if (!Sound)
+			return nullptr;
+
+		m_mapSound.insert(std::make_pair(Name, Sound));
+
+		return Sound;
 	}
 
 	return iter->second;
