@@ -183,7 +183,12 @@
     <ClCompile Include="Scene\SceneCollision.cpp" />
     <ClCompile Include="Scene\SceneManager.cpp" />
     <ClCompile Include="Scene\SceneResource.cpp" />
+    <ClCompile Include="Scene\StartScene.cpp" />
     <ClCompile Include="Timer.cpp" />
+    <ClCompile Include="Widget\Button.cpp" />
+    <ClCompile Include="Widget\StartWindow.cpp" />
+    <ClCompile Include="Widget\Widget.cpp" />
+    <ClCompile Include="Widget\WidgetWindow.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animation\Animation.h" />
@@ -229,10 +234,15 @@
     <ClInclude Include="Scene\SceneCollision.h" />
     <ClInclude Include="Scene\SceneManager.h" />
     <ClInclude Include="Scene\SceneResource.h" />
+    <ClInclude Include="Scene\StartScene.h" />
     <ClInclude Include="SharedPtr.h" />
     <ClInclude Include="SingletonMacro.h" />
     <ClInclude Include="Timer.h" />
     <ClInclude Include="Vector2.h" />
+    <ClInclude Include="Widget\Button.h" />
+    <ClInclude Include="Widget\StartWindow.h" />
+    <ClInclude Include="Widget\Widget.h" />
+    <ClInclude Include="Widget\WidgetWindow.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="GameFramework.rc" />

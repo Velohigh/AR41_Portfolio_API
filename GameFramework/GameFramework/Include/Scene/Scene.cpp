@@ -69,6 +69,13 @@ void CScene::Update(float DeltaTime)
 		}
 	}
 
+	size_t Size = m_vecWidgetWindow.size();
+
+	for (size_t i = 0; i < Size; ++i)
+	{
+		m_vecWidgetWindow[i]->Update(DeltaTime);
+	}
+
 	m_Camera->Update(DeltaTime);
 }
 
@@ -100,6 +107,13 @@ void CScene::PostUpdate(float DeltaTime)
 
 			++iter;
 		}
+	}
+
+	size_t Size = m_vecWidgetWindow.size();
+
+	for (size_t i = 0; i < Size; ++i)
+	{
+		m_vecWidgetWindow[i]->PostUpdate(DeltaTime);
 	}
 
 	m_Collision->CollisionMouse(DeltaTime);
@@ -139,6 +153,19 @@ void CScene::Render(HDC hDC, float DeltaTime)
 			++iter;
 		}
 	}
+
+	// 월드공간의 물체구 출력된 이후에 UI를 출력한다.
+	size_t Size = m_vecWidgetWindow.size();
+
+	for (size_t i = 0; i < Size; ++i)
+	{
+		if (!m_vecWidgetWindow[i]->GetVisibility())
+			continue;
+
+		m_vecWidgetWindow[i]->Render(hDC, DeltaTime);
+	}
+	
+	// UI를 출력한 이후에 마우스를 출력한다.
 }
 
 bool CScene::SortY(const CSharedPtr<CGameObject>& Src, const CSharedPtr<CGameObject>& Dest)

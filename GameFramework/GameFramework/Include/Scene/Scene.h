@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../GameInfo.h"
+#include "../Widget/WidgetWindow.h"
 
 class CScene
 {
@@ -18,6 +19,8 @@ private:
 protected:
 	std::list<CSharedPtr<class CGameObject>>	m_ObjList[(int)ERender_Layer::Max];
 	CSharedPtr<class CGameObject>	m_Player;
+
+	std::vector<CSharedPtr<class CWidgetWindow>>	m_vecWidgetWindow;
 
 public:
 	class CSceneCollision* GetCollision()	const
@@ -67,6 +70,26 @@ public:
 
 		return Obj;
 	}
+
+	template <typename T>
+	T* CreateWidgetWindow(const std::string& Name = "Window")
+	{
+		T* Window = new T;
+
+		Window->SetName(Name);
+		Window->m_Scene = this;
+
+		if (!Window->Init())
+		{
+			SAFE_DELETE(Window);
+			return nullptr;
+		}
+
+		m_vecWidgetWindow.push_back(Window);
+
+		return (T*)Window;
+	}
+
 
 private:
 	static bool SortY(const CSharedPtr<class CGameObject>& Src, const CSharedPtr<class CGameObject>& Dest);

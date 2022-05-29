@@ -85,6 +85,15 @@
     <Filter Include="04. Resource\03. Sound\01. FMOD">
       <UniqueIdentifier>{37b7ff44-02bc-490e-8852-7f3c6b28d181}</UniqueIdentifier>
     </Filter>
+    <Filter Include="07. UI">
+      <UniqueIdentifier>{0475d5a7-a0fd-4f99-a02e-ac4205750982}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="07. UI\01. Widget">
+      <UniqueIdentifier>{f45db904-2591-4656-a4da-a9d8d5880a18}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="07. UI\02. Window">
+      <UniqueIdentifier>{528d6c3b-44b0-4e59-aa7c-3eb0f33b413a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -191,6 +200,21 @@
     </ClCompile>
     <ClCompile Include="Resource\Sound\SoundManager.cpp">
       <Filter>04. Resource\03. Sound</Filter>
+    </ClCompile>
+    <ClCompile Include="Widget\Widget.cpp">
+      <Filter>07. UI\01. Widget</Filter>
+    </ClCompile>
+    <ClCompile Include="Widget\WidgetWindow.cpp">
+      <Filter>07. UI\02. Window</Filter>
+    </ClCompile>
+    <ClCompile Include="Widget\Button.cpp">
+      <Filter>07. UI\01. Widget</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene\StartScene.cpp">
+      <Filter>03. Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Widget\StartWindow.cpp">
+      <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -334,6 +358,21 @@
     </ClInclude>
     <ClInclude Include="Resource\Sound\SoundManager.h">
       <Filter>04. Resource\03. Sound</Filter>
+    </ClInclude>
+    <ClInclude Include="Widget\Widget.h">
+      <Filter>07. UI\01. Widget</Filter>
+    </ClInclude>
+    <ClInclude Include="Widget\WidgetWindow.h">
+      <Filter>07. UI\02. Window</Filter>
+    </ClInclude>
+    <ClInclude Include="Widget\Button.h">
+      <Filter>07. UI\01. Widget</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\StartScene.h">
+      <Filter>03. Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Widget\StartWindow.h">
+      <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

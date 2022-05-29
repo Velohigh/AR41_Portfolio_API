@@ -54,4 +54,18 @@ enum class EEffect_Type
 	Loop
 };
 
+enum class EButton_State
+{
+	Normal,
+	MouseHovered,
+	Click,
+	Disable,
+	Max
+};
 
+enum class EButton_Sound_State
+{
+	MouseHovered,
+	Click,
+	Max
+};
