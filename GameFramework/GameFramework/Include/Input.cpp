@@ -3,7 +3,10 @@
 
 DEFINITION_SINGLE(CInput)
 
-CInput::CInput()
+CInput::CInput() :
+	m_MouseLDown(false),
+	m_MouseLPush(false),
+	m_MouseLUp(false)
 {
 }
 
@@ -99,6 +102,28 @@ void CInput::UpdateMouse(float DeltaTime)
 
 	m_MousePos.x = (float)ptMouse.x;
 	m_MousePos.y = (float)ptMouse.y;
+
+	if (GetAsyncKeyState(VK_LBUTTON) & 0x8000)
+	{
+		if (!m_MouseLDown && !m_MouseLPush)
+		{
+			m_MouseLDown = true;
+			m_MouseLPush = true;
+		}
+
+		else
+			m_MouseLDown = false;
+	}
+
+	else if (m_MouseLPush)
+	{
+		m_MouseLDown = false;
+		m_MouseLPush = false;
+		m_MouseLUp = true;
+	}
+
+	else if (m_MouseLUp)
+		m_MouseLUp = false;
 }
 
 void CInput::UpdateKeyState(float DeltaTime)
@@ -296,4 +321,29 @@ bool CInput::AddBindKey(const std::string& Name,
 	m_mapBindKey.insert(std::make_pair(Name, NewKey));
 
 	return true;
+}
+
+void CInput::ClearCallback()
+{
+	auto iter = m_mapBindKey.begin();
+	auto iterEnd = m_mapBindKey.end();
+
+	for (; iter != iterEnd; ++iter)
+	{
+
+		for (int i = 0; i < (int)Input_Type::End; ++i)
+		{
+			size_t Size = iter->second->vecFunction[i].size();
+
+			for (size_t j = 0; j < Size; ++j)
+			{
+				SAFE_DELETE(iter->second->vecFunction[i][j]);
+			}
+		
+			iter->second->vecFunction[i].clear();
+		}
+
+	}
+
+
 }

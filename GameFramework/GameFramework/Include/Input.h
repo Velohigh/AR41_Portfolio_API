@@ -72,9 +72,27 @@ private:
 	Vector2	m_MousePos;			// 윈도우 창에서의 위치
 	Vector2	m_MouseWorldPos;	// 월드공간에서의 마우스 위치
 	Vector2	m_MouseMove;
+	bool	m_MouseLDown;
+	bool	m_MouseLPush;
+	bool	m_MouseLUp;
 	CollisionProfile* m_MouseProfile;
 
 public:
+	bool GetMouseLDown() const
+	{
+		return m_MouseLDown;
+	}
+
+	bool GetMouseLPush() const
+	{
+		return m_MouseLPush;
+	}
+
+	bool GetMouseLUp() const
+	{
+		return m_MouseLUp;
+	}
+
 	CollisionProfile* GetMouseProfile()	const
 	{
 		return m_MouseProfile;
@@ -116,6 +134,7 @@ private:
 
 public:
 	bool AddBindKey(const std::string& Name, unsigned char Key);
+	void ClearCallback();
 
 public:
 	template <typename T>

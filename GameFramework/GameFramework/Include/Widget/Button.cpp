@@ -5,6 +5,7 @@
 #include "../Scene/Scene.h"
 #include "../Scene/SceneResource.h"
 #include "WidgetWindow.h"
+#include "../Input.h"
 
 CButton::CButton()	:
 	m_ButtonState(EButton_State::Normal),
@@ -84,6 +85,46 @@ bool CButton::Init()
 void CButton::Update(float DeltaTime)
 {
 	m_Size = m_StateData[(int)m_ButtonState].End - m_StateData[(int)m_ButtonState].Start;
+
+	// 비활성화가 아닐때만, 버튼 클릭 처리를 한다.
+	if (m_ButtonState != EButton_State::Disable)
+	{
+		// 마우스가 올라와있는지
+		if (m_MouseHovered)
+		{
+			if (CInput::GetInst()->GetMouseLDown())
+				m_ButtonState = EButton_State::Click;
+
+			// 꾹 누르고 있는 클릭상태에서 버튼을 떌때 버튼 기능 동작
+			else if (m_ButtonState == EButton_State::Click &&
+				CInput::GetInst()->GetMouseLUp())
+			{
+				if (m_StateSound[(int)EButton_Sound_State::Click])
+					m_StateSound[(int)EButton_Sound_State::Click]->Play();
+
+				if (m_Callback[(int)EButton_Sound_State::Click])
+					m_Callback[(int)EButton_Sound_State::Click]();
+
+				m_ButtonState = EButton_State::MouseHovered;
+			}
+			
+			// 계속 누르고있는상태이면 클릭상태를 유지해준다.
+			else if (m_ButtonState == EButton_State::Click &&
+				CInput::GetInst()->GetMouseLPush())
+				m_ButtonState = EButton_State::Click;
+
+			// 마우스가 올라와있는 상태
+			else
+			{
+				m_ButtonState = EButton_State::MouseHovered;
+			}
+		}
+
+		else
+		{
+			m_ButtonState = EButton_State::Normal;
+		}
+	}
 }
 
 void CButton::PostUpdate(float DeltaTime)
@@ -141,6 +182,13 @@ void CButton::Render(HDC hDC, const Vector2& Pos, float DeltaTime)
 void CButton::CollisionMouseHoveredCallback(const Vector2& Pos)
 {
 	CWidget::CollisionMouseHoveredCallback(Pos);
+
+	if (m_StateSound[(int)EButton_Sound_State::MouseHovered])
+		m_StateSound[(int)EButton_Sound_State::MouseHovered]->Play();
+
+	if (m_Callback[(int)EButton_Sound_State::MouseHovered])
+		m_Callback[(int)EButton_Sound_State::MouseHovered]();
+
 }
 
 void CButton::CollisionMouseReleaseCallback()

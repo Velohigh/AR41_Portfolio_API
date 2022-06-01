@@ -18,7 +18,6 @@ protected:
     class CScene* m_Scene;  // 자신이 속한 씬
     class CWidgetWindow* m_Owner;   // 이 Widget을 가지고 있는 WidgetWindow
     int     m_ZOrder;       // Widget 끼리 출력순서
-    bool    m_Visibility;   // 보여지는지 여부
     Vector2 m_Pos;
     Vector2 m_Size;
     bool    m_MouseHovered; // 마우스가 해당 Widget에 올라왔는지 여부
@@ -32,11 +31,6 @@ public:
     const Vector2& GetSize() const
     {
         return m_Size;
-    }
-
-    bool GetVisibility() const
-    {
-        return m_Visibility;
     }
     
     int GetZOrder() const
@@ -65,11 +59,6 @@ public:
     void SetSize(const Vector2& Size)
     {
         m_Size = Size;
-    }
-
-    void SetVisibility(bool Visible)
-    {
-        m_Visibility = Visible;
     }
 
     void SetZOrder(int ZOrder)

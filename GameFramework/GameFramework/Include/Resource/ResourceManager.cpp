@@ -292,14 +292,15 @@ bool CResourceManager::SoundResume(const std::string& Name)
 
 FMOD::ChannelGroup* CResourceManager::FindChannelGroup(const std::string& Name)
 {
-	return nullptr;
+	return m_SoundManager->FindChannelGroup(Name);
 }
 
 CSound* CResourceManager::FindSound(const std::string& Name)
 {
-	return nullptr;
+	return m_SoundManager->FindSound(Name);
 }
 
 void CResourceManager::ReleaseSound(const std::string& Name)
 {
+	m_SoundManager->ReleaseSound(Name);
 }

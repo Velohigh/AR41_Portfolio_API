@@ -12,6 +12,9 @@ protected:
 public:
     virtual bool Init();
 
+public:
+    void StartButtonCallBack();
+    void EndButtonCallBack();
 
 };
 

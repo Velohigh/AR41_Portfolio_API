@@ -186,6 +186,7 @@
     <ClCompile Include="Scene\StartScene.cpp" />
     <ClCompile Include="Timer.cpp" />
     <ClCompile Include="Widget\Button.cpp" />
+    <ClCompile Include="Widget\ImageWidget.cpp" />
     <ClCompile Include="Widget\StartWindow.cpp" />
     <ClCompile Include="Widget\Widget.cpp" />
     <ClCompile Include="Widget\WidgetWindow.cpp" />
@@ -240,6 +241,7 @@
     <ClInclude Include="Timer.h" />
     <ClInclude Include="Vector2.h" />
     <ClInclude Include="Widget\Button.h" />
+    <ClInclude Include="Widget\ImageWidget.h" />
     <ClInclude Include="Widget\StartWindow.h" />
     <ClInclude Include="Widget\Widget.h" />
     <ClInclude Include="Widget\WidgetWindow.h" />

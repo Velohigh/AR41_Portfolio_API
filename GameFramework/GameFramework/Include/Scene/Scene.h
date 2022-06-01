@@ -93,5 +93,6 @@ public:
 
 private:
 	static bool SortY(const CSharedPtr<class CGameObject>& Src, const CSharedPtr<class CGameObject>& Dest);
+	static bool SortWidget(const CSharedPtr<class CWidgetWindow>& Src, const CSharedPtr<class CWidgetWindow>& Dest);
 };
 

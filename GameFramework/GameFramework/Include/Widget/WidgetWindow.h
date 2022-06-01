@@ -17,7 +17,6 @@ protected:
     int         m_ZOrder;
     std::vector<CSharedPtr<class CWidget>>  m_vecWidget;
 
-    bool        m_Visibility;
     Vector2     m_Pos;
     Vector2     m_Size;
 
@@ -29,7 +28,7 @@ public:
 
     int GetWidgetCount() const
     {
-        return m_vecWidget.size();
+        return (int)m_vecWidget.size();
     }
 
     const Vector2& GetPos() const
@@ -40,11 +39,6 @@ public:
     const Vector2& GetSize() const
     {
         return m_Size;
-    }
-
-    bool GetVisibility() const
-    {
-        return m_Visibility;
     }
 
     int GetZOrder() const
@@ -75,11 +69,6 @@ public:
         m_Size = Size;
     }
 
-    void SetVisibility(bool Visible)
-    {
-        m_Visibility = Visible;
-    }
-
     void SetZOrder(int ZOrder)
     {
         m_ZOrder = ZOrder;
@@ -90,6 +79,11 @@ public:
     virtual void Update(float DeltaTime);
     virtual void PostUpdate(float DeltaTime);
     virtual void Render(HDC hDC, float DeltaTime);
+
+public:
+    void SortCollision();
+    // UI와 마우스가 충돌하였는지
+    bool CollisionMouse(class CWidget** Widget, const Vector2& Pos);
 
 public:
     template <typename T>
@@ -124,6 +118,11 @@ public:
         m_vecWidget.push_back(Widget);
         return (T*)Widget;
     }
+
+private:
+    static bool SortCollisionWidget(const CSharedPtr<class CWidget>& Src,
+        const CSharedPtr<class CWidget>& Dest);
+        
 
 };
 

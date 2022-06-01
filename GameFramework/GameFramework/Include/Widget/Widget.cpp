@@ -5,7 +5,6 @@ CWidget::CWidget() :
 	m_Scene(nullptr),
 	m_Owner(nullptr),
 	m_ZOrder(0),
-	m_Visibility(true),
 	m_MouseHovered(false)
 {
 }
@@ -14,7 +13,6 @@ CWidget::CWidget(const CWidget& widget)	:
 	CRef(widget)
 {
 	m_ZOrder = widget.m_ZOrder;
-	m_Visibility = widget.m_Visibility;
 	m_MouseHovered = widget.m_MouseHovered;
 }
 

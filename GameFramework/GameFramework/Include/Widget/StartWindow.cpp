@@ -3,6 +3,11 @@
 #include "Button.h"
 #include "../Scene/Scene.h"
 #include "../Scene/SceneResource.h"
+#include "../GameManager.h"
+#include "../Scene/MainScene.h"
+#include "../Scene/SceneManager.h"
+#include "../Input.h"
+#include "ImageWidget.h"
 
 CStartWindow::CStartWindow()
 {
@@ -24,6 +29,12 @@ bool CStartWindow::Init()
 
 	SetSize(1280.f, 720.f);
 
+	/*CImageWidget* Back = CreateWidget<CImageWidget>("Back");
+
+	Back->SetTexture("StartBack", TEXT("GameBack.bmp"));
+
+	Back->SetSize(1280.f, 720.f);*/
+
 	CButton* StartButton = CreateWidget<CButton>("StartButton");
 
 	StartButton->SetTexture("StartButton", TEXT("StartButton.bmp"));
@@ -36,6 +47,9 @@ bool CStartWindow::Init()
 	StartButton->SetSound(EButton_Sound_State::Click, "ButtonClick");
 
 	StartButton->SetPos(540.f, 210.f);
+
+	StartButton->SetCallback<CStartWindow>(EButton_Sound_State::Click,
+		this, &CStartWindow::StartButtonCallBack);
 
 	CButton* EndButton = CreateWidget<CButton>("EndButton");
 
@@ -50,5 +64,21 @@ bool CStartWindow::Init()
 
 	EndButton->SetPos(540.f, 410.f);
 
+	EndButton->SetCallback<CStartWindow>(EButton_Sound_State::Click,
+		this, &CStartWindow::EndButtonCallBack);
+
+
+
 	return true;
+}
+
+void CStartWindow::StartButtonCallBack()
+{
+	CInput::GetInst()->ClearCallback();
+	CSceneManager::GetInst()->CreateScene<CMainScene>();
+}
+
+void CStartWindow::EndButtonCallBack()
+{
+	CGameManager::GetInst()->Exit();
 }

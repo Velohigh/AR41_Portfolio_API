@@ -99,6 +99,8 @@ public:
 		m_TimeScale = Scale;
 	}
 
+	void Exit();
+
 public:
 	bool Init(HINSTANCE hInst);
 	int Run();
@@ -107,7 +109,7 @@ private:
 	void Logic();
 	void Input(float DeltaTime);
 	bool Update(float DeltaTime);
-	void PostUpdate(float DeltaTime);
+	bool PostUpdate(float DeltaTime);
 	void Collision(float DeltaTime);
 	void Render(float DeltaTime);
 

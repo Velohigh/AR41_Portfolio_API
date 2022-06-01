@@ -51,6 +51,11 @@ CGameManager::~CGameManager()
     ReleaseDC(m_hWnd, m_hDC);
 }
 
+void CGameManager::Exit()
+{
+    DestroyWindow(m_hWnd);
+}
+
 bool CGameManager::Init(HINSTANCE hInst)
 {
 	m_hInst = hInst;
@@ -201,7 +206,8 @@ void CGameManager::Logic()
     if (Update(DeltaTime))
         return;
 
-    PostUpdate(DeltaTime);
+    if (PostUpdate(DeltaTime))
+        return;
 
     Collision(DeltaTime);
 
@@ -220,9 +226,9 @@ bool CGameManager::Update(float DeltaTime)
     return CSceneManager::GetInst()->Update(DeltaTime);
 }
 
-void CGameManager::PostUpdate(float DeltaTime)
+bool CGameManager::PostUpdate(float DeltaTime)
 {
-    CSceneManager::GetInst()->PostUpdate(DeltaTime);
+    return CSceneManager::GetInst()->PostUpdate(DeltaTime);
 }
 
 void CGameManager::Collision(float DeltaTime)

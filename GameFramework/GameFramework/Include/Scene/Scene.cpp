@@ -69,11 +69,25 @@ void CScene::Update(float DeltaTime)
 		}
 	}
 
-	size_t Size = m_vecWidgetWindow.size();
+	auto iter1 = m_vecWidgetWindow.begin();
+	auto iter1End = m_vecWidgetWindow.end();
 
-	for (size_t i = 0; i < Size; ++i)
+	for (; iter1 != iter1End;)
 	{
-		m_vecWidgetWindow[i]->Update(DeltaTime);
+		if (!(*iter1)->GetActive())
+		{
+			iter1 = m_vecWidgetWindow.erase(iter1);
+			iter1End = m_vecWidgetWindow.end();
+			continue;
+		}
+		else if (!(*iter1)->GetEnable())
+		{
+			++iter1;
+			continue;
+		}
+
+		(*iter1)->Update(DeltaTime);
+		++iter1;
 	}
 
 	m_Camera->Update(DeltaTime);
@@ -109,12 +123,48 @@ void CScene::PostUpdate(float DeltaTime)
 		}
 	}
 
-	size_t Size = m_vecWidgetWindow.size();
+	auto iter1 = m_vecWidgetWindow.begin();
+	auto iter1End = m_vecWidgetWindow.end();
 
-	for (size_t i = 0; i < Size; ++i)
+	for (; iter1 != iter1End;)
 	{
-		m_vecWidgetWindow[i]->PostUpdate(DeltaTime);
+		if (!(*iter1)->GetActive())
+		{
+			iter1 = m_vecWidgetWindow.erase(iter1);
+			iter1End = m_vecWidgetWindow.end();
+			continue;
+		}
+		else if (!(*iter1)->GetEnable())
+		{
+			++iter1;
+			continue;
+		}
+
+		(*iter1)->PostUpdate(DeltaTime);
+		++iter1;
 	}
+
+	iter1 = m_vecWidgetWindow.begin();
+	iter1End = m_vecWidgetWindow.end();
+
+	for (; iter1 != iter1End;)
+	{
+		if (!(*iter1)->GetActive())
+		{
+			iter1 = m_vecWidgetWindow.erase(iter1);
+			iter1End = m_vecWidgetWindow.end();
+			continue;
+		}
+
+		else if (!(*iter1)->GetEnable())
+		{
+			++iter1;
+			continue;
+		}
+
+		m_Collision->AddWidgetWindow(*iter1);
+		++iter1;
+	} 
 
 	m_Collision->CollisionMouse(DeltaTime);
 
@@ -155,14 +205,27 @@ void CScene::Render(HDC hDC, float DeltaTime)
 	}
 
 	// 월드공간의 물체구 출력된 이후에 UI를 출력한다.
-	size_t Size = m_vecWidgetWindow.size();
+	if (m_vecWidgetWindow.size() > 1)
+		std::sort(m_vecWidgetWindow.begin(), m_vecWidgetWindow.end(), CScene::SortWidget);
 
-	for (size_t i = 0; i < Size; ++i)
+	auto iter1 = m_vecWidgetWindow.begin();
+	auto iter1End = m_vecWidgetWindow.end();
+
+	for (; iter1 != iter1End;)
 	{
-		if (!m_vecWidgetWindow[i]->GetVisibility())
+		if (!(*iter1)->GetActive())
+		{
+			iter1 = m_vecWidgetWindow.erase(iter1);
+			iter1End = m_vecWidgetWindow.end();
 			continue;
-
-		m_vecWidgetWindow[i]->Render(hDC, DeltaTime);
+		}
+		else if (!(*iter1)->GetEnable())
+		{
+			++iter1;
+			continue;
+		}
+		(*iter1)->Render(hDC, DeltaTime);
+		++iter1;
 	}
 	
 	// UI를 출력한 이후에 마우스를 출력한다.
@@ -175,4 +238,10 @@ bool CScene::SortY(const CSharedPtr<CGameObject>& Src, const CSharedPtr<CGameObj
 	float	DestY = Dest->GetPos().y + (1.f - Dest->GetPivot().y) * Dest->GetSize().y;
 
 	return SrcY < DestY;
+}
+
+bool CScene::SortWidget(const CSharedPtr<class CWidgetWindow>& Src, const CSharedPtr<class CWidgetWindow>& Dest)
+{
+	// 큰녀석을 나중에 그려야 한다.
+	return Src->GetZOrder() < Dest->GetZOrder();
 }

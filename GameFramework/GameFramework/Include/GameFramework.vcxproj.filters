@@ -214,7 +214,10 @@
       <Filter>03. Scene</Filter>
     </ClCompile>
     <ClCompile Include="Widget\StartWindow.cpp">
-      <Filter>소스 파일</Filter>
+      <Filter>07. UI\02. Window</Filter>
+    </ClCompile>
+    <ClCompile Include="Widget\ImageWidget.cpp">
+      <Filter>07. UI\01. Widget</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -372,7 +375,10 @@
       <Filter>03. Scene</Filter>
     </ClInclude>
     <ClInclude Include="Widget\StartWindow.h">
-      <Filter>헤더 파일</Filter>
+      <Filter>07. UI\02. Window</Filter>
+    </ClInclude>
+    <ClInclude Include="Widget\ImageWidget.h">
+      <Filter>07. UI\01. Widget</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
