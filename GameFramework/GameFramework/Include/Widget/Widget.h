@@ -2,8 +2,6 @@
 
 #include "../Ref.h"
 
-// UI를 만들기 위한 일종의 부품 클래스
-
 class CWidget :
     public CRef
 {
@@ -15,24 +13,24 @@ protected:
     virtual ~CWidget();
 
 protected:
-    class CScene* m_Scene;  // 자신이 속한 씬
-    class CWidgetWindow* m_Owner;   // 이 Widget을 가지고 있는 WidgetWindow
-    int     m_ZOrder;       // Widget 끼리 출력순서
+    class CScene* m_Scene;
+    class CWidgetWindow* m_Owner;
+    int     m_ZOrder;
     Vector2 m_Pos;
     Vector2 m_Size;
-    bool    m_MouseHovered; // 마우스가 해당 Widget에 올라왔는지 여부
+    bool    m_MouseHovered;
 
 public:
-    const Vector2& GetPos() const
+    const Vector2& GetPos()	const
     {
         return m_Pos;
     }
 
-    const Vector2& GetSize() const
+    const Vector2& GetSize()	const
     {
         return m_Size;
     }
-    
+
     int GetZOrder() const
     {
         return m_ZOrder;
@@ -74,15 +72,10 @@ public:
     virtual void Render(HDC hDC, const Vector2& Pos, float DeltaTime);
 
 public:
-    // UI와 마우스가 충돌하였는지
     bool CollisionMouse(const Vector2& Pos);
 
 public:
-    // 마우스가 충돌, 떨어질때 콜할 함수
     virtual void CollisionMouseHoveredCallback(const Vector2& Pos);
     virtual void CollisionMouseReleaseCallback();
-
-
-
 };
 

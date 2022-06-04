@@ -26,17 +26,17 @@ public:
         return m_vecWidget[Index];
     }
 
-    int GetWidgetCount() const
+    int GetWidgetCount()    const
     {
         return (int)m_vecWidget.size();
     }
 
-    const Vector2& GetPos() const
+    const Vector2& GetPos()	const
     {
         return m_Pos;
     }
 
-    const Vector2& GetSize() const
+    const Vector2& GetSize()	const
     {
         return m_Size;
     }
@@ -82,19 +82,18 @@ public:
 
 public:
     void SortCollision();
-    // UI와 마우스가 충돌하였는지
     bool CollisionMouse(class CWidget** Widget, const Vector2& Pos);
 
 public:
     template <typename T>
     T* FindWidget(const std::string& Name)
     {
-        size_t Size = m_vecWidget.size();
+        size_t  Size = m_vecWidget.size();
 
         for (size_t i = 0; i < Size; ++i)
         {
             if (m_vecWidget[i]->GetName() == Name)
-				return (T*)m_vecWidget[i];
+                return (T*)m_vecWidget[i];
         }
 
         return nullptr;
@@ -116,13 +115,14 @@ public:
         }
 
         m_vecWidget.push_back(Widget);
+
         return (T*)Widget;
     }
 
 private:
     static bool SortCollisionWidget(const CSharedPtr<class CWidget>& Src,
         const CSharedPtr<class CWidget>& Dest);
-        
-
+    static bool SortWidget(const CSharedPtr<class CWidget>& Src,
+        const CSharedPtr<class CWidget>& Dest);
 };
 

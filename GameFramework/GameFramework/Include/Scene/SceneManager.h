@@ -10,6 +10,12 @@ private:
 	class CScene* m_NextScene;
 
 public:
+	class CScene* GetScene()	const
+	{
+		return m_Scene;
+	}
+
+public:
 	bool Init();
 	// 반환타입을 bool로 하는 이유는 Scene이 교체되는지 아닌지를
 	// 판단하기 위해서이다.

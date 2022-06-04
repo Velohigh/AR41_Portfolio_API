@@ -65,6 +65,7 @@ bool CPathManager::Init()
 
 	AddPath(TEXTURE_PATH, TEXT("Texture/"));
 	AddPath(SOUND_PATH, TEXT("Sound/"));
+	AddPath(FONT_PATH, TEXT("Font/"));
 
 	return true;
 }

@@ -86,16 +86,14 @@ void CButton::Update(float DeltaTime)
 {
 	m_Size = m_StateData[(int)m_ButtonState].End - m_StateData[(int)m_ButtonState].Start;
 
-	// 비활성화가 아닐때만, 버튼 클릭 처리를 한다.
 	if (m_ButtonState != EButton_State::Disable)
 	{
-		// 마우스가 올라와있는지
 		if (m_MouseHovered)
 		{
 			if (CInput::GetInst()->GetMouseLDown())
 				m_ButtonState = EButton_State::Click;
 
-			// 꾹 누르고 있는 클릭상태에서 버튼을 떌때 버튼 기능 동작
+			// 버튼 기능 동작.
 			else if (m_ButtonState == EButton_State::Click &&
 				CInput::GetInst()->GetMouseLUp())
 			{
@@ -107,17 +105,16 @@ void CButton::Update(float DeltaTime)
 
 				m_ButtonState = EButton_State::MouseHovered;
 			}
-			
-			// 계속 누르고있는상태이면 클릭상태를 유지해준다.
+
 			else if (m_ButtonState == EButton_State::Click &&
 				CInput::GetInst()->GetMouseLPush())
 				m_ButtonState = EButton_State::Click;
 
-			// 마우스가 올라와있는 상태
 			else
 			{
 				m_ButtonState = EButton_State::MouseHovered;
 			}
+
 		}
 
 		else
@@ -133,13 +130,10 @@ void CButton::PostUpdate(float DeltaTime)
 
 void CButton::Render(HDC hDC, float DeltaTime)
 {
-	// 위젯의 위치는 위젯윈도우 위치를 기준으로 + 된다.
 	Vector2	RenderPos = m_Pos + m_Owner->GetPos();
 
-	// 텍스쳐가 있을경우
 	if (m_Texture)
 	{
-		// 텍스쳐타입이 스프라이트 일경우
 		if (m_Texture->GetTextureType() == ETexture_Type::Sprite)
 		{
 			if (m_Texture->GetEnableColorKey())
@@ -188,7 +182,6 @@ void CButton::CollisionMouseHoveredCallback(const Vector2& Pos)
 
 	if (m_Callback[(int)EButton_Sound_State::MouseHovered])
 		m_Callback[(int)EButton_Sound_State::MouseHovered]();
-
 }
 
 void CButton::CollisionMouseReleaseCallback()

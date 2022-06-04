@@ -3,6 +3,7 @@
 #include "../Resource/Texture/Texture.h"
 #include "../Scene/Scene.h"
 #include "../Scene/SceneResource.h"
+#include "../Scene/SceneManager.h"
 #include "../Scene/SceneCollision.h"
 #include "../Resource/Animation/AnimationSequence.h"
 #include "../GameManager.h"
@@ -284,7 +285,16 @@ void CGameObject::PostUpdate(float DeltaTime)
 
 void CGameObject::Render(HDC hDC, float DeltaTime)
 {
-	Vector2	Pos = m_Pos - m_Scene->GetCamera()->GetPos();
+	Vector2	Pos;
+	
+	if (m_Scene)
+		Pos = m_Pos - m_Scene->GetCamera()->GetPos();
+
+	else
+	{
+		CScene* Scene = CSceneManager::GetInst()->GetScene();
+		Pos = m_Pos - Scene->GetCamera()->GetPos();
+	}
 
 	if (m_Animation)
 	{
@@ -321,6 +331,23 @@ void CGameObject::Render(HDC hDC, float DeltaTime)
 
 		else
 		{
+			if (Current->m_Sequence->GetTexture()->GetEnableColorKey())
+			{
+				TransparentBlt(hDC, (int)RenderLT.x, (int)RenderLT.y,
+					(int)Size.x, (int)Size.y,
+					Current->m_Sequence->GetTexture()->GetDC(Current->m_Frame),
+					(int)FrameData.Start.x, (int)FrameData.Start.y,
+					(int)Size.x, (int)Size.y,
+					Current->m_Sequence->GetTexture()->GetColorKey());
+			}
+
+			else
+			{
+				BitBlt(hDC, (int)RenderLT.x, (int)RenderLT.y,
+					(int)Size.x, (int)Size.y,
+					Current->m_Sequence->GetTexture()->GetDC(Current->m_Frame),
+					(int)FrameData.Start.x, (int)FrameData.Start.y, SRCCOPY);
+			}
 		}
 	}
 

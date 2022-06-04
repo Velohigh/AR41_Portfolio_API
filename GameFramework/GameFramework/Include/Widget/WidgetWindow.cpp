@@ -18,7 +18,7 @@ bool CWidgetWindow::Init()
 
 void CWidgetWindow::Update(float DeltaTime)
 {
-	size_t Size = m_vecWidget.size();
+	size_t	Size = m_vecWidget.size();
 
 	for (size_t i = 0; i < Size; ++i)
 	{
@@ -28,7 +28,7 @@ void CWidgetWindow::Update(float DeltaTime)
 
 void CWidgetWindow::PostUpdate(float DeltaTime)
 {
-	size_t Size = m_vecWidget.size();
+	size_t	Size = m_vecWidget.size();
 
 	for (size_t i = 0; i < Size; ++i)
 	{
@@ -38,7 +38,12 @@ void CWidgetWindow::PostUpdate(float DeltaTime)
 
 void CWidgetWindow::Render(HDC hDC, float DeltaTime)
 {
-	size_t Size = m_vecWidget.size();
+	size_t	Size = m_vecWidget.size();
+
+	if (Size > 1)
+	{
+		std::sort(m_vecWidget.begin(), m_vecWidget.end(), CWidgetWindow::SortWidget);
+	}
 
 	for (size_t i = 0; i < Size; ++i)
 	{
@@ -50,7 +55,6 @@ void CWidgetWindow::SortCollision()
 {
 	if (m_vecWidget.size() > 1)
 		std::sort(m_vecWidget.begin(), m_vecWidget.end(), CWidgetWindow::SortCollisionWidget);
-
 }
 
 bool CWidgetWindow::CollisionMouse(class CWidget** Widget, const Vector2& Pos)
@@ -67,8 +71,7 @@ bool CWidgetWindow::CollisionMouse(class CWidget** Widget, const Vector2& Pos)
 	else if (Pos.y > m_Pos.y + m_Size.y)
 		return false;
 
-	// 위젯윈도우 안에 마우스가 들어왔을때만, 내부 위젯들과의 충돌을 진행한다.
-	size_t WidgetCount = m_vecWidget.size();
+	size_t	WidgetCount = m_vecWidget.size();
 
 	for (size_t i = 0; i < WidgetCount; ++i)
 	{
@@ -82,8 +85,13 @@ bool CWidgetWindow::CollisionMouse(class CWidget** Widget, const Vector2& Pos)
 	return false;
 }
 
-bool CWidgetWindow::SortCollisionWidget(const CSharedPtr<class CWidget>& Src, 
+bool CWidgetWindow::SortCollisionWidget(const CSharedPtr<class CWidget>& Src,
 	const CSharedPtr<class CWidget>& Dest)
 {
-	return Src->GetZOrder() > Dest->GetZOrder();;
+	return Src->GetZOrder() > Dest->GetZOrder();
+}
+
+bool CWidgetWindow::SortWidget(const CSharedPtr<class CWidget>& Src, const CSharedPtr<class CWidget>& Dest)
+{
+	return Src->GetZOrder() < Dest->GetZOrder();
 }

@@ -1,5 +1,7 @@
 #pragma once
+
 #include "WidgetWindow.h"
+
 class CStartWindow :
     public CWidgetWindow
 {
@@ -13,8 +15,7 @@ public:
     virtual bool Init();
 
 public:
-    void StartButtonCallBack();
-    void EndButtonCallBack();
-
+    void StartButtonCallback();
+    void EndButtonCallback();
 };
 

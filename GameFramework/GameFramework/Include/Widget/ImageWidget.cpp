@@ -62,6 +62,13 @@ void CImageWidget::SetTextureFullPath(const std::string& Name, const std::vector
 
 #endif // UNICODE
 
+void CImageWidget::SetColorKey(
+	unsigned char r, unsigned char g, unsigned char b)
+{
+	if (m_Texture)
+		m_Texture->SetColorKey(r, g, b);
+}
+
 bool CImageWidget::Init()
 {
 	return true;
@@ -77,13 +84,10 @@ void CImageWidget::PostUpdate(float DeltaTime)
 
 void CImageWidget::Render(HDC hDC, float DeltaTime)
 {
-	// 위젯의 위치는 위젯윈도우 위치를 기준으로 + 된다.
 	Vector2	RenderPos = m_Pos + m_Owner->GetPos();
 
-	// 텍스쳐가 있을경우
 	if (m_Texture)
 	{
-		// 텍스쳐타입이 스프라이트 일경우
 		if (m_Texture->GetTextureType() == ETexture_Type::Sprite)
 		{
 			if (m_Texture->GetEnableColorKey())

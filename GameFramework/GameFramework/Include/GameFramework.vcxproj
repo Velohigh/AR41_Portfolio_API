@@ -172,6 +172,8 @@
     <ClCompile Include="Ref.cpp" />
     <ClCompile Include="Resource\Animation\AnimationManager.cpp" />
     <ClCompile Include="Resource\Animation\AnimationSequence.cpp" />
+    <ClCompile Include="Resource\Font\Font.cpp" />
+    <ClCompile Include="Resource\Font\FontManager.cpp" />
     <ClCompile Include="Resource\ResourceManager.cpp" />
     <ClCompile Include="Resource\Sound\Sound.cpp" />
     <ClCompile Include="Resource\Sound\SoundManager.cpp" />
@@ -186,7 +188,9 @@
     <ClCompile Include="Scene\StartScene.cpp" />
     <ClCompile Include="Timer.cpp" />
     <ClCompile Include="Widget\Button.cpp" />
+    <ClCompile Include="Widget\CharacterHUD.cpp" />
     <ClCompile Include="Widget\ImageWidget.cpp" />
+    <ClCompile Include="Widget\ProgressBar.cpp" />
     <ClCompile Include="Widget\StartWindow.cpp" />
     <ClCompile Include="Widget\Widget.cpp" />
     <ClCompile Include="Widget\WidgetWindow.cpp" />
@@ -224,6 +228,8 @@
     <ClInclude Include="resource.h" />
     <ClInclude Include="Resource\Animation\AnimationManager.h" />
     <ClInclude Include="Resource\Animation\AnimationSequence.h" />
+    <ClInclude Include="Resource\Font\Font.h" />
+    <ClInclude Include="Resource\Font\FontManager.h" />
     <ClInclude Include="Resource\ResourceManager.h" />
     <ClInclude Include="Resource\Sound\Sound.h" />
     <ClInclude Include="Resource\Sound\SoundManager.h" />
@@ -241,7 +247,9 @@
     <ClInclude Include="Timer.h" />
     <ClInclude Include="Vector2.h" />
     <ClInclude Include="Widget\Button.h" />
+    <ClInclude Include="Widget\CharacterHUD.h" />
     <ClInclude Include="Widget\ImageWidget.h" />
+    <ClInclude Include="Widget\ProgressBar.h" />
     <ClInclude Include="Widget\StartWindow.h" />
     <ClInclude Include="Widget\Widget.h" />
     <ClInclude Include="Widget\WidgetWindow.h" />

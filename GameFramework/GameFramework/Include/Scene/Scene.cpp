@@ -69,8 +69,8 @@ void CScene::Update(float DeltaTime)
 		}
 	}
 
-	auto iter1 = m_vecWidgetWindow.begin();
-	auto iter1End = m_vecWidgetWindow.end();
+	auto	iter1 = m_vecWidgetWindow.begin();
+	auto	iter1End = m_vecWidgetWindow.end();
 
 	for (; iter1 != iter1End;)
 	{
@@ -80,6 +80,7 @@ void CScene::Update(float DeltaTime)
 			iter1End = m_vecWidgetWindow.end();
 			continue;
 		}
+
 		else if (!(*iter1)->GetEnable())
 		{
 			++iter1;
@@ -123,8 +124,8 @@ void CScene::PostUpdate(float DeltaTime)
 		}
 	}
 
-	auto iter1 = m_vecWidgetWindow.begin();
-	auto iter1End = m_vecWidgetWindow.end();
+	auto	iter1 = m_vecWidgetWindow.begin();
+	auto	iter1End = m_vecWidgetWindow.end();
 
 	for (; iter1 != iter1End;)
 	{
@@ -134,6 +135,7 @@ void CScene::PostUpdate(float DeltaTime)
 			iter1End = m_vecWidgetWindow.end();
 			continue;
 		}
+
 		else if (!(*iter1)->GetEnable())
 		{
 			++iter1;
@@ -164,7 +166,7 @@ void CScene::PostUpdate(float DeltaTime)
 
 		m_Collision->AddWidgetWindow(*iter1);
 		++iter1;
-	} 
+	}
 
 	m_Collision->CollisionMouse(DeltaTime);
 
@@ -204,12 +206,12 @@ void CScene::Render(HDC hDC, float DeltaTime)
 		}
 	}
 
-	// 월드공간의 물체구 출력된 이후에 UI를 출력한다.
+	// 월드공간의 물체가 출력된 이후에 UI를 출력한다.
 	if (m_vecWidgetWindow.size() > 1)
 		std::sort(m_vecWidgetWindow.begin(), m_vecWidgetWindow.end(), CScene::SortWidget);
 
-	auto iter1 = m_vecWidgetWindow.begin();
-	auto iter1End = m_vecWidgetWindow.end();
+	auto	iter1 = m_vecWidgetWindow.begin();
+	auto	iter1End = m_vecWidgetWindow.end();
 
 	for (; iter1 != iter1End;)
 	{
@@ -219,15 +221,19 @@ void CScene::Render(HDC hDC, float DeltaTime)
 			iter1End = m_vecWidgetWindow.end();
 			continue;
 		}
+
 		else if (!(*iter1)->GetEnable())
 		{
 			++iter1;
 			continue;
 		}
+
 		(*iter1)->Render(hDC, DeltaTime);
 		++iter1;
 	}
-	
+
+
+
 	// UI를 출력한 이후에 마우스를 출력한다.
 }
 
@@ -240,8 +246,7 @@ bool CScene::SortY(const CSharedPtr<CGameObject>& Src, const CSharedPtr<CGameObj
 	return SrcY < DestY;
 }
 
-bool CScene::SortWidget(const CSharedPtr<class CWidgetWindow>& Src, const CSharedPtr<class CWidgetWindow>& Dest)
+bool CScene::SortWidget(const CSharedPtr<CWidgetWindow>& Src, const CSharedPtr<CWidgetWindow>& Dest)
 {
-	// 큰녀석을 나중에 그려야 한다.
 	return Src->GetZOrder() < Dest->GetZOrder();
 }

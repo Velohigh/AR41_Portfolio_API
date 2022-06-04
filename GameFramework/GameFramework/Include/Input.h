@@ -76,19 +76,21 @@ private:
 	bool	m_MouseLPush;
 	bool	m_MouseLUp;
 	CollisionProfile* m_MouseProfile;
+	CSharedPtr<class CGameObject> m_MouseObj;
+	bool	m_ShowCursor;
 
 public:
-	bool GetMouseLDown() const
+	bool GetMouseLDown()	const
 	{
 		return m_MouseLDown;
 	}
 
-	bool GetMouseLPush() const
+	bool GetMouseLPush()	const
 	{
 		return m_MouseLPush;
 	}
 
-	bool GetMouseLUp() const
+	bool GetMouseLUp()	const
 	{
 		return m_MouseLUp;
 	}
@@ -119,6 +121,8 @@ public:
 public:
 	bool Init(HWND hWnd);
 	void Update(float DeltaTime);
+	void PostUpdate(float DeltaTime);
+	void Render(HDC hDC, float DeltaTime);
 
 private:
 	void UpdateMouse(float DeltaTime);

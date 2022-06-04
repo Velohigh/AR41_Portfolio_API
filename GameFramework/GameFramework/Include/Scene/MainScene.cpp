@@ -6,6 +6,7 @@
 #include "SceneResource.h"
 #include "Camera.h"
 #include "../Input.h"
+#include "../Widget/CharacterHUD.h"
 
 CMainScene::CMainScene()
 {
@@ -44,6 +45,8 @@ bool CMainScene::Init()
 		Input_Type::Down, this, &CMainScene::Cam1Key);
 	CInput::GetInst()->AddBindFunction<CMainScene>("Cam2",
 		Input_Type::Down, this, &CMainScene::Cam2Key);
+
+	CreateWidgetWindow<CCharacterHUD>("CharacterHUD");
 
 	return true;
 }

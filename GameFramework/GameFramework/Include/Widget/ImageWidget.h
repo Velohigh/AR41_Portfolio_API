@@ -1,7 +1,5 @@
 #pragma once
-
 #include "Widget.h"
-
 class CImageWidget :
     public CWidget
 {
@@ -33,6 +31,7 @@ public:
     void SetTextureFullPath(const std::string& Name, const std::vector<std::string>& vecFullPath);
 
 #endif
+    void SetColorKey(unsigned char r, unsigned char g, unsigned char b);
 
 public:
     virtual bool Init();
@@ -40,6 +39,5 @@ public:
     virtual void PostUpdate(float DeltaTime);
     virtual void Render(HDC hDC, float DeltaTime);
     virtual void Render(HDC hDC, const Vector2& Pos, float DeltaTime);
-
 };
 

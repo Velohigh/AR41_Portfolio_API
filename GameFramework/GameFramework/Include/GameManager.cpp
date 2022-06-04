@@ -228,6 +228,7 @@ bool CGameManager::Update(float DeltaTime)
 
 bool CGameManager::PostUpdate(float DeltaTime)
 {
+    CInput::GetInst()->PostUpdate(DeltaTime);
     return CSceneManager::GetInst()->PostUpdate(DeltaTime);
 }
 
@@ -241,6 +242,8 @@ void CGameManager::Render(float DeltaTime)
 
     CSceneManager::GetInst()->Render(m_hBackDC, DeltaTime);
 
+
+    CInput::GetInst()->Render(m_hBackDC, DeltaTime);
     // 위에서 백버퍼에 모든 오브젝트가 출력이 되었다.
     // 마지막으로 백버퍼를 주표면 버퍼에 그려낸다.
     // BitBlt : 이미지를 원하는 DC에 출력해주는 함수이다.

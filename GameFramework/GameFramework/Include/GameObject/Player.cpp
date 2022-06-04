@@ -10,6 +10,7 @@
 #include "../Collision/ColliderBox.h"
 #include "../Scene/Scene.h"
 #include "../Scene/SceneResource.h"
+#include "../Widget/CharacterHUD.h"
 
 CPlayer::CPlayer()
 {
@@ -146,6 +147,10 @@ bool CPlayer::Init()
 
 	CInput::GetInst()->AddBindFunction<CPlayer>("Skill2",
 		Input_Type::Down, this, &CPlayer::Skill2);
+
+
+	m_HP = 100;
+	m_HPMax = 100;
 
 	return true;
 }
@@ -352,6 +357,10 @@ void CPlayer::Attack()
 void CPlayer::CollisionBegin(CCollider* Src, CCollider* Dest)
 {
 	m_Scene->GetSceneResource()->SoundPlay("Gabung");
+
+	m_HP -= 10;
+
+	m_Scene->FindWidget<CCharacterHUD>("CharacterHUD")->SetHP(m_HP / (float)m_HPMax);
 }
 
 void CPlayer::CollisionEnd(CCollider* Src, CCollider* Dest)

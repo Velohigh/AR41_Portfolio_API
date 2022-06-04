@@ -20,7 +20,7 @@ protected:
 	std::list<CSharedPtr<class CGameObject>>	m_ObjList[(int)ERender_Layer::Max];
 	CSharedPtr<class CGameObject>	m_Player;
 
-	std::vector<CSharedPtr<class CWidgetWindow>>	m_vecWidgetWindow;
+	std::vector<CSharedPtr<CWidgetWindow>>	m_vecWidgetWindow;
 
 public:
 	class CSceneCollision* GetCollision()	const
@@ -90,9 +90,22 @@ public:
 		return (T*)Window;
 	}
 
+	template <typename T>
+	T* FindWidget(const std::string& Name)
+	{
+		size_t	Size = m_vecWidgetWindow.size();
+
+		for (size_t i = 0; i < Size; ++i)
+		{
+			if (m_vecWidgetWindow[i]->GetName() == Name)
+				return (T*)m_vecWidgetWindow[i].Get();
+		}
+
+		return nullptr;
+	}
 
 private:
 	static bool SortY(const CSharedPtr<class CGameObject>& Src, const CSharedPtr<class CGameObject>& Dest);
-	static bool SortWidget(const CSharedPtr<class CWidgetWindow>& Src, const CSharedPtr<class CWidgetWindow>& Dest);
+	static bool SortWidget(const CSharedPtr<CWidgetWindow>& Src, const CSharedPtr<CWidgetWindow>& Dest);
 };
 

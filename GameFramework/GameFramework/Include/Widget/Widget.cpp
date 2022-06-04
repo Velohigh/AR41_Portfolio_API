@@ -1,7 +1,7 @@
 
 #include "Widget.h"
 
-CWidget::CWidget() :
+CWidget::CWidget()	:
 	m_Scene(nullptr),
 	m_Owner(nullptr),
 	m_ZOrder(0),

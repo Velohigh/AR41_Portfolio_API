@@ -37,6 +37,8 @@ private:
 	bool	m_Attack;
 
 	std::vector<SkillCoolDownInfo>	m_vecCoolDown;
+	int		m_HP;
+	int		m_HPMax;
 
 public:
 	virtual bool Init();

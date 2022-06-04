@@ -7,6 +7,7 @@ class CGameObject	:
 	public CRef
 {
 	friend class CScene;
+	friend class CInput;
 
 protected:
 	CGameObject();

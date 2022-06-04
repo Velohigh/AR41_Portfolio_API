@@ -1,12 +1,15 @@
 #include "Input.h"
 #include "Collision/CollisionManager.h"
+#include "Resource/ResourceManager.h"
+#include "GameObject/GameObject.h"
 
 DEFINITION_SINGLE(CInput)
 
-CInput::CInput() :
+CInput::CInput()	:
 	m_MouseLDown(false),
 	m_MouseLPush(false),
-	m_MouseLUp(false)
+	m_MouseLUp(false),
+	m_MouseObj(nullptr)
 {
 }
 
@@ -74,6 +77,42 @@ bool CInput::Init(HWND hWnd)
 
 	m_MouseProfile = CCollisionManager::GetInst()->FindProfile("Mouse");
 
+	std::vector<std::wstring>	vecFileName;
+
+	for (int i = 0; i <= 10; ++i)
+	{
+		TCHAR	FileName[MAX_PATH] = {};
+		// %d에 i의 값이 대입되어 문자열이 만들어지게 된다.
+		wsprintf(FileName, TEXT("Mouse/%d.bmp"), i);
+		vecFileName.push_back(FileName);
+	}
+
+	CResourceManager::GetInst()->CreateAnimationSequence("MouseDefault",
+		"MouseDefault", vecFileName, TEXTURE_PATH);
+
+	for (int i = 0; i < 11; ++i)
+	{
+		CResourceManager::GetInst()->AddAnimationFrame("MouseDefault", 0.f, 0.f,
+			32.f, 31.f);
+	}
+
+	CResourceManager::GetInst()->SetColorKey("MouseDefault", 255, 0, 255);
+
+	m_MouseObj = new CGameObject;
+
+	m_MouseObj->SetName("Mouse");
+
+	m_MouseObj->Init();
+
+	m_MouseObj->SetSize(32.f, 31.f);
+
+	m_MouseObj->CreateAnimation();
+
+	m_MouseObj->AddAnimation("MouseDefault", true);
+
+	ShowCursor(FALSE);
+	m_ShowCursor = false;
+
 	return true;
 }
 
@@ -84,6 +123,16 @@ void CInput::Update(float DeltaTime)
 	UpdateKeyState(DeltaTime);
 
 	UpdateBindKey(DeltaTime);
+}
+
+void CInput::PostUpdate(float DeltaTime)
+{
+	m_MouseObj->PostUpdate(DeltaTime);
+}
+
+void CInput::Render(HDC hDC, float DeltaTime)
+{
+	m_MouseObj->Render(hDC, DeltaTime);
 }
 
 void CInput::UpdateMouse(float DeltaTime)
@@ -102,6 +151,30 @@ void CInput::UpdateMouse(float DeltaTime)
 
 	m_MousePos.x = (float)ptMouse.x;
 	m_MousePos.y = (float)ptMouse.y;
+
+	RECT	rc = {};
+	GetClientRect(m_hWnd, &rc);
+
+	if (rc.left <= ptMouse.x && ptMouse.x <= rc.right &&
+		rc.top <= ptMouse.y && ptMouse.y <= rc.bottom)
+	{
+		if (m_ShowCursor)
+		{
+			m_ShowCursor = false;
+			ShowCursor(FALSE);
+		}
+	}
+
+	else
+	{
+		if (!m_ShowCursor)
+		{
+			m_ShowCursor = true;
+			ShowCursor(TRUE);
+		}
+	}
+
+
 
 	if (GetAsyncKeyState(VK_LBUTTON) & 0x8000)
 	{
@@ -124,6 +197,10 @@ void CInput::UpdateMouse(float DeltaTime)
 
 	else if (m_MouseLUp)
 		m_MouseLUp = false;
+
+	m_MouseObj->SetPos(m_MouseWorldPos.x, m_MouseWorldPos.y);
+
+	m_MouseObj->Update(DeltaTime);
 }
 
 void CInput::UpdateKeyState(float DeltaTime)
@@ -325,25 +402,21 @@ bool CInput::AddBindKey(const std::string& Name,
 
 void CInput::ClearCallback()
 {
-	auto iter = m_mapBindKey.begin();
-	auto iterEnd = m_mapBindKey.end();
+	auto	iter = m_mapBindKey.begin();
+	auto	iterEnd = m_mapBindKey.end();
 
 	for (; iter != iterEnd; ++iter)
 	{
-
 		for (int i = 0; i < (int)Input_Type::End; ++i)
 		{
-			size_t Size = iter->second->vecFunction[i].size();
+			size_t	Size = iter->second->vecFunction[i].size();
 
 			for (size_t j = 0; j < Size; ++j)
 			{
 				SAFE_DELETE(iter->second->vecFunction[i][j]);
 			}
-		
+
 			iter->second->vecFunction[i].clear();
 		}
-
 	}
-
-
 }

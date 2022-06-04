@@ -28,25 +28,19 @@ void CSceneCollision::AddWidgetWindow(CWidgetWindow* Window)
 
 void CSceneCollision::CollisionMouse(float DeltaTime)
 {
-	size_t WindowCount = m_vecWidgetWindow.size();
+	size_t	WindowCount = m_vecWidgetWindow.size();
 
 	bool	MouseCollision = false;
 
-	// 위젯윈도우가 1개이상일 경우
 	if (WindowCount >= 1)
 	{
-		// 위젯윈도우가 1개를 초과할경우 정렬해준다.
 		if (WindowCount > 1)
 			std::sort(m_vecWidgetWindow.begin(), m_vecWidgetWindow.end(), CSceneCollision::SortWidget);
 
-		
+		Vector2	MousePos = CInput::GetInst()->GetMousePos();
 
-		Vector2 MousePos = CInput::GetInst()->GetMousePos();
+		CWidget* result = nullptr;
 
-		CWidget* result = nullptr; // 충돌된 위젯을 담을 주소
-
-		// 모든위젯윈도우를 반복돌리면서
-		// 위젯 윈도우에 마우스의 위치를 넣으면서 충돌진행을 한다.
 		for (size_t i = 0; i < WindowCount; ++i)
 		{
 			m_vecWidgetWindow[i]->SortCollision();
@@ -64,7 +58,6 @@ void CSceneCollision::CollisionMouse(float DeltaTime)
 					m_MouseCollision = nullptr;
 				}
 
-				// 현재 마우스와 충돌되고 있는 위젯을 넣어준다.
 				m_MouseCollisionWidget = result;
 
 				MouseCollision = true;
@@ -74,10 +67,8 @@ void CSceneCollision::CollisionMouse(float DeltaTime)
 		}
 	}
 
-	// UI와 마우스가 충돌 안했을때만 충돌체와 충돌처리를 진행한다.
 	if (!MouseCollision)
 	{
-		// 마우스와 충돌되고 있던 위젯이 있을 경우, 이제 충돌하지 않는 상태이므로, 마우스 떨어질때 함수호출과 해제시켜준다.
 		if (m_MouseCollisionWidget)
 		{
 			m_MouseCollisionWidget->CollisionMouseReleaseCallback();
@@ -231,6 +222,5 @@ bool CSceneCollision::SortY(CCollider* Src, CCollider* Dest)
 
 bool CSceneCollision::SortWidget(CWidgetWindow* Src, CWidgetWindow* Dest)
 {
-	// 먼저 나오고 있는녀석과 충돌처리를 해야한다.
 	return Src->GetZOrder() > Dest->GetZOrder();
 }

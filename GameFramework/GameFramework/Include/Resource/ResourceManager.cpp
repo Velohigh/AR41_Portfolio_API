@@ -3,6 +3,7 @@
 #include "Texture/TextureManager.h"
 #include "Animation/AnimationManager.h"
 #include "Sound/SoundManager.h"
+#include "Font/FontManager.h"
 
 DEFINITION_SINGLE(CResourceManager)
 
@@ -19,10 +20,15 @@ CResourceManager::CResourceManager()
 	m_SoundManager = new CSoundManager;
 
 	m_SoundManager->Init();
+
+	m_FontManager = new CFontManager;
+
+	m_FontManager->Init();
 }
 
 CResourceManager::~CResourceManager()
 {
+	SAFE_DELETE(m_FontManager);
 	SAFE_DELETE(m_SoundManager);
 	SAFE_DELETE(m_AnimationManager);
 	SAFE_DELETE(m_TextureManager);

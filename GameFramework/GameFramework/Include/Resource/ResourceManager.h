@@ -9,6 +9,7 @@ private:
 	class CTextureManager* m_TextureManager;
 	class CAnimationManager* m_AnimationManager;
 	class CSoundManager* m_SoundManager;
+	class CFontManager* m_FontManager;
 
 public:
 	bool Init();

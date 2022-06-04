@@ -86,13 +86,16 @@
       <UniqueIdentifier>{37b7ff44-02bc-490e-8852-7f3c6b28d181}</UniqueIdentifier>
     </Filter>
     <Filter Include="07. UI">
-      <UniqueIdentifier>{0475d5a7-a0fd-4f99-a02e-ac4205750982}</UniqueIdentifier>
+      <UniqueIdentifier>{cd2b3a55-7a31-4b8e-b6c6-a3afda3b5544}</UniqueIdentifier>
     </Filter>
-    <Filter Include="07. UI\01. Widget">
-      <UniqueIdentifier>{f45db904-2591-4656-a4da-a9d8d5880a18}</UniqueIdentifier>
+    <Filter Include="07. UI\01. Widgert">
+      <UniqueIdentifier>{82efbba4-c6e1-448d-baed-517dcf387a82}</UniqueIdentifier>
     </Filter>
     <Filter Include="07. UI\02. Window">
-      <UniqueIdentifier>{528d6c3b-44b0-4e59-aa7c-3eb0f33b413a}</UniqueIdentifier>
+      <UniqueIdentifier>{6009c3c6-1d35-44d2-8770-0d98971d6b8c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04. Resource\04. Font">
+      <UniqueIdentifier>{07f2e79c-3835-4dae-a214-15559d92328e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -202,13 +205,13 @@
       <Filter>04. Resource\03. Sound</Filter>
     </ClCompile>
     <ClCompile Include="Widget\Widget.cpp">
-      <Filter>07. UI\01. Widget</Filter>
+      <Filter>07. UI\01. Widgert</Filter>
+    </ClCompile>
+    <ClCompile Include="Widget\Button.cpp">
+      <Filter>07. UI\01. Widgert</Filter>
     </ClCompile>
     <ClCompile Include="Widget\WidgetWindow.cpp">
       <Filter>07. UI\02. Window</Filter>
-    </ClCompile>
-    <ClCompile Include="Widget\Button.cpp">
-      <Filter>07. UI\01. Widget</Filter>
     </ClCompile>
     <ClCompile Include="Scene\StartScene.cpp">
       <Filter>03. Scene</Filter>
@@ -217,7 +220,19 @@
       <Filter>07. UI\02. Window</Filter>
     </ClCompile>
     <ClCompile Include="Widget\ImageWidget.cpp">
-      <Filter>07. UI\01. Widget</Filter>
+      <Filter>07. UI\01. Widgert</Filter>
+    </ClCompile>
+    <ClCompile Include="Widget\ProgressBar.cpp">
+      <Filter>07. UI\01. Widgert</Filter>
+    </ClCompile>
+    <ClCompile Include="Widget\CharacterHUD.cpp">
+      <Filter>07. UI\02. Window</Filter>
+    </ClCompile>
+    <ClCompile Include="Resource\Font\FontManager.cpp">
+      <Filter>04. Resource\04. Font</Filter>
+    </ClCompile>
+    <ClCompile Include="Resource\Font\Font.cpp">
+      <Filter>04. Resource\04. Font</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -363,13 +378,13 @@
       <Filter>04. Resource\03. Sound</Filter>
     </ClInclude>
     <ClInclude Include="Widget\Widget.h">
-      <Filter>07. UI\01. Widget</Filter>
+      <Filter>07. UI\01. Widgert</Filter>
+    </ClInclude>
+    <ClInclude Include="Widget\Button.h">
+      <Filter>07. UI\01. Widgert</Filter>
     </ClInclude>
     <ClInclude Include="Widget\WidgetWindow.h">
       <Filter>07. UI\02. Window</Filter>
-    </ClInclude>
-    <ClInclude Include="Widget\Button.h">
-      <Filter>07. UI\01. Widget</Filter>
     </ClInclude>
     <ClInclude Include="Scene\StartScene.h">
       <Filter>03. Scene</Filter>
@@ -378,7 +393,19 @@
       <Filter>07. UI\02. Window</Filter>
     </ClInclude>
     <ClInclude Include="Widget\ImageWidget.h">
-      <Filter>07. UI\01. Widget</Filter>
+      <Filter>07. UI\01. Widgert</Filter>
+    </ClInclude>
+    <ClInclude Include="Widget\ProgressBar.h">
+      <Filter>07. UI\01. Widgert</Filter>
+    </ClInclude>
+    <ClInclude Include="Widget\CharacterHUD.h">
+      <Filter>07. UI\02. Window</Filter>
+    </ClInclude>
+    <ClInclude Include="Resource\Font\Font.h">
+      <Filter>04. Resource\04. Font</Filter>
+    </ClInclude>
+    <ClInclude Include="Resource\Font\FontManager.h">
+      <Filter>04. Resource\04. Font</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
