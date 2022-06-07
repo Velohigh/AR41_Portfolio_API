@@ -4,6 +4,7 @@
 #include "../Resource/ResourceManager.h"
 #include "../Resource/Animation/AnimationSequence.h"
 #include "../Resource/Sound/Sound.h"
+#include "../Resource/Font/Font.h"
 
 CSceneResource::CSceneResource()
 {
@@ -53,6 +54,21 @@ CSceneResource::~CSceneResource()
 			iterEnd = m_mapSound.end();
 
 			CResourceManager::GetInst()->ReleaseSound(Key);
+		}
+	}
+
+	{
+		auto	iter = m_mapFont.begin();
+		auto	iterEnd = m_mapFont.end();
+
+		for (; iter != iterEnd;)
+		{
+			std::string	Key = iter->first;
+
+			iter = m_mapFont.erase(iter);
+			iterEnd = m_mapFont.end();
+
+			CResourceManager::GetInst()->ReleaseFont(Key);
 		}
 	}
 }
@@ -431,6 +447,56 @@ CSound* CSceneResource::FindSound(const std::string& Name)
 		m_mapSound.insert(std::make_pair(Name, Sound));
 
 		return Sound;
+	}
+
+	return iter->second;
+}
+
+bool CSceneResource::LoadFont(const std::string& Name, const TCHAR* FontName, 
+	int Width, int Height)
+{
+	if (FindFont(Name))
+		return false;
+
+	if (!CResourceManager::GetInst()->LoadFont(Name, FontName, Width, Height))
+		return false;
+
+	CFont* Font = CResourceManager::GetInst()->FindFont(Name);
+
+	m_mapFont.insert(std::make_pair(Name, Font));
+
+	return true;
+}
+
+bool CSceneResource::LoadFont(const TCHAR* FontFileName, const std::string& PathName)
+{
+	return CResourceManager::GetInst()->LoadFont(FontFileName, PathName);
+}
+
+void CSceneResource::SetFont(const std::string& Name, HDC hDC)
+{
+	return CResourceManager::GetInst()->SetFont(Name, hDC);
+}
+
+void CSceneResource::ResetFont(const std::string& Name, HDC hDC)
+{
+	return CResourceManager::GetInst()->ResetFont(Name, hDC);
+}
+
+CFont* CSceneResource::FindFont(const std::string& Name)
+{
+	auto	iter = m_mapFont.find(Name);
+
+	if (iter == m_mapFont.end())
+	{
+		CFont* Font = CResourceManager::GetInst()->FindFont(Name);
+
+		if (!Font)
+			return nullptr;
+
+		m_mapFont.insert(std::make_pair(Name, Font));
+
+		return Font;
 	}
 
 	return iter->second;

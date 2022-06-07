@@ -11,6 +11,7 @@
 #include <string>
 #include <functional>
 #include <algorithm>
+#include <stack>
 
 #include "Vector2.h"
 #include "SharedPtr.h"

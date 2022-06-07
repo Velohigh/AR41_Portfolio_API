@@ -5,6 +5,7 @@
 class CWidget :
     public CRef
 {
+    friend class CWidgetComponent;
     friend class CWidgetWindow;
 
 protected:

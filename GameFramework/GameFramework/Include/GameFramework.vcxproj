@@ -190,9 +190,12 @@
     <ClCompile Include="Widget\Button.cpp" />
     <ClCompile Include="Widget\CharacterHUD.cpp" />
     <ClCompile Include="Widget\ImageWidget.cpp" />
+    <ClCompile Include="Widget\Number.cpp" />
     <ClCompile Include="Widget\ProgressBar.cpp" />
     <ClCompile Include="Widget\StartWindow.cpp" />
+    <ClCompile Include="Widget\Text.cpp" />
     <ClCompile Include="Widget\Widget.cpp" />
+    <ClCompile Include="Widget\WidgetComponent.cpp" />
     <ClCompile Include="Widget\WidgetWindow.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -249,9 +252,12 @@
     <ClInclude Include="Widget\Button.h" />
     <ClInclude Include="Widget\CharacterHUD.h" />
     <ClInclude Include="Widget\ImageWidget.h" />
+    <ClInclude Include="Widget\Number.h" />
     <ClInclude Include="Widget\ProgressBar.h" />
     <ClInclude Include="Widget\StartWindow.h" />
+    <ClInclude Include="Widget\Text.h" />
     <ClInclude Include="Widget\Widget.h" />
+    <ClInclude Include="Widget\WidgetComponent.h" />
     <ClInclude Include="Widget\WidgetWindow.h" />
   </ItemGroup>
   <ItemGroup>

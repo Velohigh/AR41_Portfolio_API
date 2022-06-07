@@ -3,6 +3,7 @@
 class CImageWidget :
     public CWidget
 {
+    friend class CWidgetComponent;
     friend class CWidgetWindow;
 
 protected:

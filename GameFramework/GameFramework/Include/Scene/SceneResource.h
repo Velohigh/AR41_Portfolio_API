@@ -14,6 +14,7 @@ private:
 	std::unordered_map<std::string, CSharedPtr<class CTexture>>	m_mapTexture;
 	std::unordered_map<std::string, CSharedPtr<class CAnimationSequence>>	m_mapAnimationSequence;
 	std::unordered_map<std::string, CSharedPtr<class CSound>>	m_mapSound;
+	std::unordered_map<std::string, CSharedPtr<class CFont>>	m_mapFont;
 
 public:	// ==================== Texture ====================
 	bool LoadTexture(const std::string& Name, const TCHAR* FileName,
@@ -90,5 +91,17 @@ public:	// ============================ Sound ================================
 
 	FMOD::ChannelGroup* FindChannelGroup(const std::string& Name);
 	class CSound* FindSound(const std::string& Name);
+
+
+
+
+public:	// =========================== Font ==============================
+	bool LoadFont(const std::string& Name, const TCHAR* FontName,
+		int Width, int Height);
+	bool LoadFont(const TCHAR* FontFileName,
+		const std::string& PathName = FONT_PATH);
+	void SetFont(const std::string& Name, HDC hDC);
+	void ResetFont(const std::string& Name, HDC hDC);
+	class CFont* FindFont(const std::string& Name);
 };
 

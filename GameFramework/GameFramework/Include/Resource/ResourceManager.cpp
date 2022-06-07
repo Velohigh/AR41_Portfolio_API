@@ -310,3 +310,33 @@ void CResourceManager::ReleaseSound(const std::string& Name)
 {
 	m_SoundManager->ReleaseSound(Name);
 }
+
+bool CResourceManager::LoadFont(const std::string& Name, const TCHAR* FontName, int Width, int Height)
+{
+	return m_FontManager->LoadFont(Name, FontName, Width, Height);
+}
+
+bool CResourceManager::LoadFont(const TCHAR* FontFileName, const std::string& PathName)
+{
+	return m_FontManager->LoadFont(FontFileName, PathName);
+}
+
+void CResourceManager::SetFont(const std::string& Name, HDC hDC)
+{
+	m_FontManager->SetFont(Name, hDC);
+}
+
+void CResourceManager::ResetFont(const std::string& Name, HDC hDC)
+{
+	m_FontManager->ResetFont(Name, hDC);
+}
+
+CFont* CResourceManager::FindFont(const std::string& Name)
+{
+	return m_FontManager->FindFont(Name);
+}
+
+void CResourceManager::ReleaseFont(const std::string& Name)
+{
+	m_FontManager->ReleaseFont(Name);
+}

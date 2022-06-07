@@ -8,7 +8,8 @@ CSound::CSound()	:
 	m_Group(nullptr),
 	m_Channel(nullptr),
 	m_Play(false),
-	m_Loop(false)
+	m_Loop(false),
+	m_Pause(false)
 {
 }
 
@@ -51,6 +52,7 @@ void CSound::Play()
 {
 	m_System->playSound(m_Sound, m_Group, false, &m_Channel);
 	m_Play = true;
+	m_Pause = false;
 }
 
 void CSound::Stop()
@@ -67,6 +69,7 @@ void CSound::Stop()
 			m_Channel = nullptr;
 
 			m_Play = false;
+			m_Pause = false;
 		}
 	}
 }
@@ -83,6 +86,7 @@ void CSound::Pause()
 			m_Channel->setPaused(true);
 
 		m_Play = false;
+		m_Pause = true;
 	}
 }
 
@@ -90,13 +94,12 @@ void CSound::Resume()
 {
 	if (m_Channel)
 	{
-		bool	Playing = false;
-
-		m_Channel->isPlaying(&Playing);
-
-		if (!Playing)
+		if (m_Pause)
+		{
 			m_Channel->setPaused(false);
 
-		m_Play = true;
+			m_Play = true;
+			m_Pause = false;
+		}
 	}
 }

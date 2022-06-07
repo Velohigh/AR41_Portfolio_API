@@ -18,6 +18,7 @@ private:
     FMOD::Channel* m_Channel;
     bool        m_Play;
     bool        m_Loop;
+    bool        m_Pause;
 
 public:
     bool GetPlay()   const

@@ -21,6 +21,7 @@ enum class EProgressBar_Dir
 class CProgressBar :
     public CWidget
 {
+    friend class CWidgetComponent;
     friend class CWidgetWindow;
 
 protected:

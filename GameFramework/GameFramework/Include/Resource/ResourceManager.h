@@ -95,6 +95,19 @@ public:	// ============================ Sound ================================
 	void ReleaseSound(const std::string& Name);
 
 
+
+
+public:	// =========================== Font ==============================
+	bool LoadFont(const std::string& Name, const TCHAR* FontName,
+		int Width, int Height);
+	bool LoadFont(const TCHAR* FontFileName,
+		const std::string& PathName = FONT_PATH);
+	void SetFont(const std::string& Name, HDC hDC);
+	void ResetFont(const std::string& Name, HDC hDC);
+	class CFont* FindFont(const std::string& Name);
+	void ReleaseFont(const std::string& Name);
+
+
 	DECLARE_SINGLE(CResourceManager)
 };
 

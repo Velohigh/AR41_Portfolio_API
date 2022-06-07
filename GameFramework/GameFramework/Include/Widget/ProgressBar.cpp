@@ -141,4 +141,35 @@ void CProgressBar::Render(HDC hDC, float DeltaTime)
 
 void CProgressBar::Render(HDC hDC, const Vector2& Pos, float DeltaTime)
 {
+	Vector2	RenderPos = Pos;
+
+	for (int i = 0; i < (int)EProgressBar_Texture_Type::End; ++i)
+	{
+		if (m_Texture[i])
+		{
+			if (m_Texture[i]->GetTextureType() == ETexture_Type::Sprite)
+			{
+				if (m_Texture[i]->GetEnableColorKey())
+				{
+					TransparentBlt(hDC, (int)RenderPos.x, (int)RenderPos.y,
+						(int)m_BarSize.x, (int)m_BarSize.y,
+						m_Texture[i]->GetDC(),
+						0, 0, (int)m_BarSize.x, (int)m_BarSize.y,
+						m_Texture[i]->GetColorKey());
+				}
+
+				else
+				{
+					BitBlt(hDC, (int)RenderPos.x, (int)RenderPos.y,
+						(int)m_BarSize.x, (int)m_BarSize.y,
+						m_Texture[i]->GetDC(),
+						0, 0, SRCCOPY);
+				}
+			}
+
+			else
+			{
+			}
+		}
+	}
 }

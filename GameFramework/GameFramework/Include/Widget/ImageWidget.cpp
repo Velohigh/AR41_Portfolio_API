@@ -110,6 +110,22 @@ void CImageWidget::Render(HDC hDC, float DeltaTime)
 
 		else
 		{
+			if (m_Texture->GetEnableColorKey())
+			{
+				TransparentBlt(hDC, (int)RenderPos.x, (int)RenderPos.y,
+					(int)m_Size.x, (int)m_Size.y,
+					m_Texture->GetDC(),
+					0, 0, (int)m_Size.x, (int)m_Size.y,
+					m_Texture->GetColorKey());
+			}
+
+			else
+			{
+				BitBlt(hDC, (int)RenderPos.x, (int)RenderPos.y,
+					(int)m_Size.x, (int)m_Size.y,
+					m_Texture->GetDC(),
+					0, 0, SRCCOPY);
+			}
 		}
 	}
 
@@ -122,4 +138,54 @@ void CImageWidget::Render(HDC hDC, float DeltaTime)
 
 void CImageWidget::Render(HDC hDC, const Vector2& Pos, float DeltaTime)
 {
+	Vector2	RenderPos = Pos;
+
+	if (m_Texture)
+	{
+		if (m_Texture->GetTextureType() == ETexture_Type::Sprite)
+		{
+			if (m_Texture->GetEnableColorKey())
+			{
+				TransparentBlt(hDC, (int)RenderPos.x, (int)RenderPos.y,
+					(int)m_Size.x, (int)m_Size.y,
+					m_Texture->GetDC(),
+					0, 0, (int)m_Size.x, (int)m_Size.y,
+					m_Texture->GetColorKey());
+			}
+
+			else
+			{
+				BitBlt(hDC, (int)RenderPos.x, (int)RenderPos.y,
+					(int)m_Size.x, (int)m_Size.y,
+					m_Texture->GetDC(),
+					0, 0, SRCCOPY);
+			}
+		}
+
+		else
+		{
+			if (m_Texture->GetEnableColorKey())
+			{
+				TransparentBlt(hDC, (int)RenderPos.x, (int)RenderPos.y,
+					(int)m_Size.x, (int)m_Size.y,
+					m_Texture->GetDC(),
+					0, 0, (int)m_Size.x, (int)m_Size.y,
+					m_Texture->GetColorKey());
+			}
+
+			else
+			{
+				BitBlt(hDC, (int)RenderPos.x, (int)RenderPos.y,
+					(int)m_Size.x, (int)m_Size.y,
+					m_Texture->GetDC(),
+					0, 0, SRCCOPY);
+			}
+		}
+	}
+
+	else
+	{
+		Rectangle(hDC, (int)RenderPos.x, (int)RenderPos.y,
+			(int)(RenderPos.x + m_Size.x), (int)(RenderPos.y + m_Size.y));
+	}
 }

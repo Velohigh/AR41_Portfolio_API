@@ -159,6 +159,25 @@ void CButton::Render(HDC hDC, float DeltaTime)
 
 		else
 		{
+			if (m_Texture->GetEnableColorKey())
+			{
+				TransparentBlt(hDC, (int)RenderPos.x, (int)RenderPos.y,
+					(int)m_Size.x, (int)m_Size.y,
+					m_Texture->GetDC(),
+					m_StateData[(int)m_ButtonState].Start.x,
+					m_StateData[(int)m_ButtonState].Start.y,
+					(int)m_Size.x, (int)m_Size.y,
+					m_Texture->GetColorKey());
+			}
+
+			else
+			{
+				BitBlt(hDC, (int)RenderPos.x, (int)RenderPos.y,
+					(int)m_Size.x, (int)m_Size.y,
+					m_Texture->GetDC(),
+					(int)m_StateData[(int)m_ButtonState].Start.x,
+					(int)m_StateData[(int)m_ButtonState].Start.y, SRCCOPY);
+			}
 		}
 	}
 
@@ -171,6 +190,62 @@ void CButton::Render(HDC hDC, float DeltaTime)
 
 void CButton::Render(HDC hDC, const Vector2& Pos, float DeltaTime)
 {
+	Vector2	RenderPos = Pos;
+
+	if (m_Texture)
+	{
+		if (m_Texture->GetTextureType() == ETexture_Type::Sprite)
+		{
+			if (m_Texture->GetEnableColorKey())
+			{
+				TransparentBlt(hDC, (int)RenderPos.x, (int)RenderPos.y,
+					(int)m_Size.x, (int)m_Size.y,
+					m_Texture->GetDC(),
+					(int)m_StateData[(int)m_ButtonState].Start.x,
+					(int)m_StateData[(int)m_ButtonState].Start.y,
+					(int)m_Size.x, (int)m_Size.y,
+					m_Texture->GetColorKey());
+			}
+
+			else
+			{
+				BitBlt(hDC, (int)RenderPos.x, (int)RenderPos.y,
+					(int)m_Size.x, (int)m_Size.y,
+					m_Texture->GetDC(),
+					(int)m_StateData[(int)m_ButtonState].Start.x,
+					(int)m_StateData[(int)m_ButtonState].Start.y, SRCCOPY);
+			}
+		}
+
+		else
+		{
+			if (m_Texture->GetEnableColorKey())
+			{
+				TransparentBlt(hDC, (int)RenderPos.x, (int)RenderPos.y,
+					(int)m_Size.x, (int)m_Size.y,
+					m_Texture->GetDC(),
+					m_StateData[(int)m_ButtonState].Start.x,
+					m_StateData[(int)m_ButtonState].Start.y,
+					(int)m_Size.x, (int)m_Size.y,
+					m_Texture->GetColorKey());
+			}
+
+			else
+			{
+				BitBlt(hDC, (int)RenderPos.x, (int)RenderPos.y,
+					(int)m_Size.x, (int)m_Size.y,
+					m_Texture->GetDC(),
+					(int)m_StateData[(int)m_ButtonState].Start.x,
+					(int)m_StateData[(int)m_ButtonState].Start.y, SRCCOPY);
+			}
+		}
+	}
+
+	else
+	{
+		Rectangle(hDC, (int)RenderPos.x, (int)RenderPos.y,
+			(int)(RenderPos.x + m_Size.x), (int)(RenderPos.y + m_Size.y));
+	}
 }
 
 void CButton::CollisionMouseHoveredCallback(const Vector2& Pos)

@@ -234,6 +234,15 @@
     <ClCompile Include="Resource\Font\Font.cpp">
       <Filter>04. Resource\04. Font</Filter>
     </ClCompile>
+    <ClCompile Include="Widget\Text.cpp">
+      <Filter>07. UI\01. Widgert</Filter>
+    </ClCompile>
+    <ClCompile Include="Widget\Number.cpp">
+      <Filter>07. UI\01. Widgert</Filter>
+    </ClCompile>
+    <ClCompile Include="Widget\WidgetComponent.cpp">
+      <Filter>07. UI\01. Widgert</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameManager.h">
@@ -406,6 +415,15 @@
     </ClInclude>
     <ClInclude Include="Resource\Font\FontManager.h">
       <Filter>04. Resource\04. Font</Filter>
+    </ClInclude>
+    <ClInclude Include="Widget\Text.h">
+      <Filter>07. UI\01. Widgert</Filter>
+    </ClInclude>
+    <ClInclude Include="Widget\Number.h">
+      <Filter>07. UI\01. Widgert</Filter>
+    </ClInclude>
+    <ClInclude Include="Widget\WidgetComponent.h">
+      <Filter>07. UI\01. Widgert</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

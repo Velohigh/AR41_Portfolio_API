@@ -9,6 +9,8 @@
 #include "../Scene/SceneManager.h"
 #include "../Input.h"
 #include "ImageWidget.h"
+#include "Text.h"
+#include "Number.h"
 
 CStartWindow::CStartWindow()
 {
@@ -70,8 +72,89 @@ bool CStartWindow::Init()
 	EndButton->SetCallback<CStartWindow>(EButton_Sound_State::Click,
 		this, &CStartWindow::EndButtonCallback);
 
+	m_Text = CreateWidget<CText>("Text");
+
+	m_Text->SetText(TEXT("텍스트 출력!!"));
+	m_Text->SetPos(200.f, 50.f);
+	m_Text->SetTextColor(255, 0, 0);
+
+	m_Text->EnableShadow(true);
+	m_Text->SetShadowOffset(5.f, 5.f);
+
+	m_TextTime = 0.f;
+
+	memset(m_AddText, 0, sizeof(TCHAR) * 32);
+	lstrcpy(m_AddText, TEXT("흑염룡"));
+	m_AddCount = 0;
+
+	m_Hour = CreateWidget<CNumber>("Hour");
+	CImageWidget* Colon = CreateWidget<CImageWidget>("Colon");
+	m_Minute = CreateWidget<CNumber>("Minute");
+	m_Second = CreateWidget<CNumber>("Second");
+
+	Colon->SetTexture("Colon", TEXT("Number/Colon.bmp"));
+	Colon->SetSize(29.f, 48.f);
+	Colon->SetPos(558.f, 100.f);
+	Colon->SetColorKey(255, 255, 255);
+
+	std::vector<std::wstring>	vecFileName;
+
+	for (int i = 0; i <= 9; ++i)
+	{
+		TCHAR	FileName[MAX_PATH] = {};
+		// %d에 i의 값이 대입되어 문자열이 만들어지게 된다.
+		wsprintf(FileName, TEXT("Number/%d.bmp"), i);
+		vecFileName.push_back(FileName);
+	}
+
+	m_Hour->SetTexture("Number", vecFileName);
+	m_Minute->SetTexture("Number", vecFileName);
+	m_Second->SetTexture("Number", vecFileName);
+
+	m_Hour->SetColorKey(255, 255, 255);
+	m_Minute->SetColorKey(255, 255, 255);
+	m_Second->SetColorKey(255, 255, 255);
+	
+
+	m_Hour->SetSize(29.f, 48.f);
+	m_Hour->SetPos(500.f, 100.f);
+
+	m_Minute->SetSize(29.f, 48.f);
+	m_Minute->SetPos(587.f, 100.f);
+
+	m_Second->SetSize(29.f, 48.f);
+	m_Second->SetPos(655.f, 100.f);
+
 
 	return true;
+}
+
+void CStartWindow::Update(float DeltaTime)
+{
+	CWidgetWindow::Update(DeltaTime);
+
+	SYSTEMTIME	Time;
+
+	GetLocalTime(&Time);
+
+	m_Hour->SetNumber(Time.wHour);
+	m_Minute->SetNumber(Time.wMinute);
+	m_Second->SetNumber(Time.wSecond);
+
+
+	if (m_AddCount < lstrlen(m_AddText))
+	{
+		m_TextTime += DeltaTime;
+
+		if (m_TextTime >= 1.f)
+		{
+			m_TextTime -= 1.f;
+
+			m_Text->AddText(m_AddText[m_AddCount]);
+
+			++m_AddCount;
+		}
+	}
 }
 
 void CStartWindow::StartButtonCallback()
