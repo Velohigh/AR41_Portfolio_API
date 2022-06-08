@@ -20,6 +20,23 @@ CWidgetComponent::~CWidgetComponent()
 {
 }
 
+Vector2 CWidgetComponent::GetPos() const
+{
+	return m_Pos + m_Owner->GetPos() - m_Scene->GetCamera()->GetPos();
+}
+
+float CWidgetComponent::GetBottom() const
+{
+	Vector2	Pos = GetPos();
+
+	float Bottom = Pos.y;
+
+	if (m_Widget)
+		Bottom += m_Widget->GetSize().y;
+
+	return Bottom;
+}
+
 void CWidgetComponent::SetWidget(CWidget* Widget)
 {
 	m_Widget = Widget;
@@ -27,6 +44,8 @@ void CWidgetComponent::SetWidget(CWidget* Widget)
 
 bool CWidgetComponent::Init()
 {
+	m_Scene->AddWidgetComponent(this);
+
 	return true;
 }
 

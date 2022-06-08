@@ -12,11 +12,13 @@ protected:
 protected:
     CSharedPtr<class CProgressBar>  m_HPBar;
     CSharedPtr<class CImageWidget>  m_HPBarFrame;
+    CSharedPtr<class CText>     m_FPSText;
 
 public:
     void SetHP(float HP);
 
 public:
     virtual bool Init();
+    virtual void Update(float DeltaTime);
 };
 

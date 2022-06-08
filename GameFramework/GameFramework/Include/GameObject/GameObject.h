@@ -2,6 +2,7 @@
 
 #include "../Ref.h"
 #include "../Animation/Animation.h"
+#include "../Widget/WidgetComponent.h"
 
 class CGameObject	:
 	public CRef
@@ -29,6 +30,14 @@ protected:
 	float		m_TimeScale;
 	float		m_MoveSpeed;
 	std::list<CSharedPtr<class CCollider>>	m_ColliderList;
+	std::list<CSharedPtr<CWidgetComponent>>	m_WidgetComponentList;
+	bool		m_PhysicsSimulate;
+	bool		m_Ground;	// 땅을 밟고 있는 상태인지 아닌지
+	float		m_GravityAccel;
+	float		m_FallTime;
+	float		m_FallStartY;
+	bool		m_Jump;
+	float		m_JumpVelocity;
 
 public:
 	class CCollider* FindCollider(const std::string& Name);
@@ -59,6 +68,33 @@ public:
 	}
 
 public:
+	void SetPhysicsSimulate(bool Physics)
+	{
+		m_PhysicsSimulate = Physics;
+	}
+
+	void SetGravityAccel(float Accel)
+	{
+		m_GravityAccel = Accel;
+	}
+
+	void SetJumpVelocity(float JumpVelocity)
+	{
+		m_JumpVelocity = JumpVelocity;
+	}
+
+	void Jump()
+	{
+		if (!m_Jump)
+		{
+			m_Jump = true;
+			m_Ground = false;
+
+			m_FallTime = 0.f;
+			m_FallStartY = m_Pos.y;
+		}
+	}
+
 	void SetTimeScale(float Scale)
 	{
 		m_TimeScale = Scale;
@@ -191,6 +227,47 @@ public:
 		m_ColliderList.push_back(Collider);
 
 		return Collider;
+	}
+
+	CWidgetComponent* FindWidgetComponent(const std::string& Name)
+	{
+		auto	iter = m_WidgetComponentList.begin();
+		auto	iterEnd = m_WidgetComponentList.end();
+
+		for (; iter != iterEnd; ++iter)
+		{
+			if ((*iter)->GetName() == Name)
+				return *iter;
+		}
+
+		return nullptr;
+	}
+
+	template <typename T>
+	CWidgetComponent* CreateWidgetComponent(const std::string& Name)
+	{
+		CWidgetComponent* Widget = FindWidgetComponent(Name);
+
+		if (Widget)
+			return Widget;
+
+		Widget = new CWidgetComponent;
+
+		Widget->m_Owner = this;
+		Widget->m_Scene = m_Scene;
+		Widget->SetName(Name);
+
+		if (!Widget->Init())
+		{
+			SAFE_DELETE(Widget);
+			return nullptr;
+		}
+
+		Widget->CreateWidget<T>(Name);
+
+		m_WidgetComponentList.push_back(Widget);
+
+		return Widget;
 	}
 };
 

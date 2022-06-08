@@ -51,6 +51,11 @@ CGameManager::~CGameManager()
     ReleaseDC(m_hWnd, m_hDC);
 }
 
+float CGameManager::GetFPS() const
+{
+    return m_Timer->GetFPS();
+}
+
 void CGameManager::Exit()
 {
     DestroyWindow(m_hWnd);

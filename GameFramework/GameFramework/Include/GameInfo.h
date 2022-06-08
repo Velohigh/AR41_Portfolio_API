@@ -18,6 +18,8 @@
 #include "Flag.h"
 #include "fmod.hpp"
 
+#define	GRAVITY	9.8f
+
 #pragma comment(lib, "msimg32.lib")
 
 #pragma comment(lib, "../Bin/fmod64_vc.lib")

@@ -164,8 +164,8 @@ void CButton::Render(HDC hDC, float DeltaTime)
 				TransparentBlt(hDC, (int)RenderPos.x, (int)RenderPos.y,
 					(int)m_Size.x, (int)m_Size.y,
 					m_Texture->GetDC(),
-					m_StateData[(int)m_ButtonState].Start.x,
-					m_StateData[(int)m_ButtonState].Start.y,
+					(int)m_StateData[(int)m_ButtonState].Start.x,
+					(int)m_StateData[(int)m_ButtonState].Start.y,
 					(int)m_Size.x, (int)m_Size.y,
 					m_Texture->GetColorKey());
 			}
@@ -224,8 +224,8 @@ void CButton::Render(HDC hDC, const Vector2& Pos, float DeltaTime)
 				TransparentBlt(hDC, (int)RenderPos.x, (int)RenderPos.y,
 					(int)m_Size.x, (int)m_Size.y,
 					m_Texture->GetDC(),
-					m_StateData[(int)m_ButtonState].Start.x,
-					m_StateData[(int)m_ButtonState].Start.y,
+					(int)m_StateData[(int)m_ButtonState].Start.x,
+					(int)m_StateData[(int)m_ButtonState].Start.y,
 					(int)m_Size.x, (int)m_Size.y,
 					m_Texture->GetColorKey());
 			}

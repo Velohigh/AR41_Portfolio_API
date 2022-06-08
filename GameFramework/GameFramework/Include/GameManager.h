@@ -99,6 +99,8 @@ public:
 		m_TimeScale = Scale;
 	}
 
+	float GetFPS()	const;
+
 	void Exit();
 
 public:

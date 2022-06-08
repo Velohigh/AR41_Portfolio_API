@@ -19,6 +19,7 @@ private:
     CSharedPtr<class CNumber>   m_Hour;
     CSharedPtr<class CNumber>   m_Minute;
     CSharedPtr<class CNumber>   m_Second;
+    CSharedPtr<class CText>     m_FPSText;
 
 public:
     virtual bool Init();

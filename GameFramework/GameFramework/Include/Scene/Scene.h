@@ -2,6 +2,7 @@
 
 #include "../GameInfo.h"
 #include "../Widget/WidgetWindow.h"
+#include "../Widget/WidgetComponent.h"
 
 class CScene
 {
@@ -18,6 +19,7 @@ private:
 
 protected:
 	std::list<CSharedPtr<class CGameObject>>	m_ObjList[(int)ERender_Layer::Max];
+	std::list<CSharedPtr<CWidgetComponent>>	m_WidgetComponentList;
 	CSharedPtr<class CGameObject>	m_Player;
 
 	std::vector<CSharedPtr<CWidgetWindow>>	m_vecWidgetWindow;
@@ -44,6 +46,10 @@ public:
 	}
 
 	void SetPlayer(class CGameObject* Player);
+	void AddWidgetComponent(CWidgetComponent* Widget)
+	{
+		m_WidgetComponentList.push_back(Widget);
+	}
 
 public:
 	virtual bool Init();
@@ -106,6 +112,7 @@ public:
 
 private:
 	static bool SortY(const CSharedPtr<class CGameObject>& Src, const CSharedPtr<class CGameObject>& Dest);
+	static bool SortYWidgetComponent(const CSharedPtr<class CWidgetComponent>& Src, const CSharedPtr<class CWidgetComponent>& Dest);
 	static bool SortWidget(const CSharedPtr<CWidgetWindow>& Src, const CSharedPtr<CWidgetWindow>& Dest);
 };
 

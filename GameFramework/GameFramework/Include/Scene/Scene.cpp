@@ -206,6 +206,41 @@ void CScene::Render(HDC hDC, float DeltaTime)
 		}
 	}
 
+	// WidgetComponent 출력
+	// 제거될 위젯 컴포넌트는 제거한다.
+	{
+		auto	iter = m_WidgetComponentList.begin();
+		auto	iterEnd = m_WidgetComponentList.end();
+
+		for (; iter != iterEnd;)
+		{
+			if (!(*iter)->GetActive())
+			{
+				iter = m_WidgetComponentList.erase(iter);
+				iterEnd = m_WidgetComponentList.end();
+				continue;
+			}
+
+			++iter;
+		}
+
+		// 정렬한다.
+		m_WidgetComponentList.sort(SortYWidgetComponent);
+
+		iter = m_WidgetComponentList.begin();
+		iterEnd = m_WidgetComponentList.end();
+
+		for (; iter != iterEnd; ++iter)
+		{
+			if (!(*iter)->GetEnable())
+			{
+				continue;
+			}
+
+			(*iter)->Render(hDC, DeltaTime);
+		}
+	}
+
 	// 월드공간의 물체가 출력된 이후에 UI를 출력한다.
 	if (m_vecWidgetWindow.size() > 1)
 		std::sort(m_vecWidgetWindow.begin(), m_vecWidgetWindow.end(), CScene::SortWidget);
@@ -244,6 +279,13 @@ bool CScene::SortY(const CSharedPtr<CGameObject>& Src, const CSharedPtr<CGameObj
 	float	DestY = Dest->GetPos().y + (1.f - Dest->GetPivot().y) * Dest->GetSize().y;
 
 	return SrcY < DestY;
+}
+
+bool CScene::SortYWidgetComponent(
+	const CSharedPtr<class CWidgetComponent>& Src,
+	const CSharedPtr<class CWidgetComponent>& Dest)
+{
+	return Src->GetBottom() < Dest->GetBottom();
 }
 
 bool CScene::SortWidget(const CSharedPtr<CWidgetWindow>& Src, const CSharedPtr<CWidgetWindow>& Dest)

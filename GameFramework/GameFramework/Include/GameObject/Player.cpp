@@ -11,6 +11,9 @@
 #include "../Scene/Scene.h"
 #include "../Scene/SceneResource.h"
 #include "../Widget/CharacterHUD.h"
+#include "../Widget/WidgetComponent.h"
+#include "../Widget/Text.h"
+#include "../Widget/ProgressBar.h"
 
 CPlayer::CPlayer()
 {
@@ -148,9 +151,32 @@ bool CPlayer::Init()
 	CInput::GetInst()->AddBindFunction<CPlayer>("Skill2",
 		Input_Type::Down, this, &CPlayer::Skill2);
 
+	CInput::GetInst()->AddBindFunction<CPlayer>("Jump",
+		Input_Type::Down, this, &CPlayer::JumpKey);
+
 
 	m_HP = 100;
 	m_HPMax = 100;
+
+
+	m_HPBar = CreateWidgetComponent<CProgressBar>("HPBar");
+
+	m_HPBar->GetWidget<CProgressBar>()->SetTexture(EProgressBar_Texture_Type::Bar,
+		"HPBar", TEXT("CharacterHPBar.bmp"));
+	m_HPBar->GetWidget<CProgressBar>()->SetSize(50.f, 10.f);
+	m_HPBar->SetPos(-25.f, -90.f);
+
+	m_NameBar = CreateWidgetComponent<CText>("NameBar");
+
+	m_NameBar->GetWidget<CText>()->SetText(TEXT("Player"));
+	m_NameBar->GetWidget<CText>()->EnableShadow(true);
+	m_NameBar->GetWidget<CText>()->SetTextColor(255, 255, 255);
+	m_NameBar->GetWidget<CText>()->SetShadowOffset(2.f, 2.f);
+
+	m_NameBar->SetPos(-25.f, -110.f);
+
+	//SetPhysicsSimulate(true);
+	SetJumpVelocity(60.f);
 
 	return true;
 }
@@ -333,6 +359,11 @@ void CPlayer::Skill2()
 	m_SolSkillDir = 1.f;
 }
 
+void CPlayer::JumpKey()
+{
+	Jump();
+}
+
 void CPlayer::AttackEnd()
 {
 	m_Attack = false;
@@ -361,6 +392,7 @@ void CPlayer::CollisionBegin(CCollider* Src, CCollider* Dest)
 	m_HP -= 10;
 
 	m_Scene->FindWidget<CCharacterHUD>("CharacterHUD")->SetHP(m_HP / (float)m_HPMax);
+	m_HPBar->GetWidget<CProgressBar>()->SetValue(m_HP / (float)m_HPMax);
 }
 
 void CPlayer::CollisionEnd(CCollider* Src, CCollider* Dest)

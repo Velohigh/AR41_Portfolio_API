@@ -40,6 +40,9 @@ private:
 	int		m_HP;
 	int		m_HPMax;
 
+	CSharedPtr<class CWidgetComponent>	m_HPBar;
+	CSharedPtr<class CWidgetComponent>	m_NameBar;
+
 public:
 	virtual bool Init();
 	virtual void Update(float DeltaTime);
@@ -55,6 +58,7 @@ private:
 	void Fire();
 	void Skill1();
 	void Skill2();
+	void JumpKey();
 
 
 

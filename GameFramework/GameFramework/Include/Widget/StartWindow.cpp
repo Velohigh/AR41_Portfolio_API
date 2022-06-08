@@ -11,6 +11,7 @@
 #include "ImageWidget.h"
 #include "Text.h"
 #include "Number.h"
+#include "../GameManager.h"
 
 CStartWindow::CStartWindow()
 {
@@ -125,6 +126,15 @@ bool CStartWindow::Init()
 	m_Second->SetSize(29.f, 48.f);
 	m_Second->SetPos(655.f, 100.f);
 
+	m_FPSText = CreateWidget<CText>("Text");
+
+	m_FPSText->SetText(TEXT("FPS"));
+	m_FPSText->SetPos(900.f, 50.f);
+	m_FPSText->SetTextColor(255, 0, 0);
+
+	m_FPSText->EnableShadow(true);
+	m_FPSText->SetShadowOffset(2.f, 2.f);
+
 
 	return true;
 }
@@ -155,6 +165,17 @@ void CStartWindow::Update(float DeltaTime)
 			++m_AddCount;
 		}
 	}
+
+	float FPS = CGameManager::GetInst()->GetFPS();
+
+	char	Text[256] = {};
+	sprintf_s(Text, "FPS : %.5f", FPS);
+
+	TCHAR	Unicode[256] = {};
+	int Length = MultiByteToWideChar(CP_ACP, 0, Text, -1, 0, 0);
+	MultiByteToWideChar(CP_ACP, 0, Text, -1, Unicode, Length);
+
+	m_FPSText->SetText(Unicode);
 }
 
 void CStartWindow::StartButtonCallback()

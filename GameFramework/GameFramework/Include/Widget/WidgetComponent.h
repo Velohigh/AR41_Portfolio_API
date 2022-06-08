@@ -19,10 +19,8 @@ private:
     Vector2     m_Pos;
 
 public:
-    const Vector2& GetPos() const
-    {
-        return m_Pos;
-    }
+    Vector2 GetPos() const;
+    float GetBottom()   const;
 
 
     void SetPos(float x, float y)
@@ -47,6 +45,13 @@ public:
     virtual void Update(float DeltaTime);
     virtual void PostUpdate(float DeltaTime);
     virtual void Render(HDC hDC, float DeltaTime);
+
+public:
+    template <typename T>
+    T* GetWidget()  const
+    {
+        return (T*)m_Widget.Get();
+    }
 
     template <typename T>
     T* CreateWidget(const std::string& Name)

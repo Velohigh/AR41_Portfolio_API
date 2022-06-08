@@ -9,6 +9,7 @@
 #include "../Input.h"
 #include "ProgressBar.h"
 #include "ImageWidget.h"
+#include "Text.h"
 
 CCharacterHUD::CCharacterHUD()
 {
@@ -51,5 +52,30 @@ bool CCharacterHUD::Init()
 	m_HPBar->SetPos(10.f, 10.f);
 	m_HPBar->SetBarDir(EProgressBar_Dir::LeftToRight);
 
+	m_FPSText = CreateWidget<CText>("Text");
+
+	m_FPSText->SetText(TEXT("FPS"));
+	m_FPSText->SetPos(900.f, 50.f);
+	m_FPSText->SetTextColor(255, 0, 0);
+
+	m_FPSText->EnableShadow(true);
+	m_FPSText->SetShadowOffset(2.f, 2.f);
+
 	return true;
+}
+
+void CCharacterHUD::Update(float DeltaTime)
+{
+	CWidgetWindow::Update(DeltaTime);
+
+	float FPS = CGameManager::GetInst()->GetFPS();
+
+	char	Text[256] = {};
+	sprintf_s(Text, "FPS : %.5f", FPS);
+
+	TCHAR	Unicode[256] = {};
+	int Length = MultiByteToWideChar(CP_ACP, 0, Text, -1, 0, 0);
+	MultiByteToWideChar(CP_ACP, 0, Text, -1, Unicode, Length);
+
+	m_FPSText->SetText(Unicode);
 }

@@ -127,7 +127,7 @@ void CNumber::Render(HDC hDC, float DeltaTime)
 				{
 					if (m_Texture->GetEnableColorKey())
 					{
-						TransparentBlt(hDC, (int)RenderPos.x + i * m_Size.x, (int)RenderPos.y,
+						TransparentBlt(hDC, (int)RenderPos.x + (int)(i * m_Size.x), (int)RenderPos.y,
 							(int)m_Size.x, (int)m_Size.y,
 							m_Texture->GetDC(),
 							(int)(m_vecNumber[i] * m_Size.x), 0, 
@@ -137,7 +137,7 @@ void CNumber::Render(HDC hDC, float DeltaTime)
 
 					else
 					{
-						BitBlt(hDC, (int)RenderPos.x + i * m_Size.x, (int)RenderPos.y,
+						BitBlt(hDC, (int)RenderPos.x + (int)(i * m_Size.x), (int)RenderPos.y,
 							(int)m_Size.x, (int)m_Size.y,
 							m_Texture->GetDC(),
 							(int)(m_vecNumber[i] * m_Size.x), 0, SRCCOPY);
@@ -148,7 +148,7 @@ void CNumber::Render(HDC hDC, float DeltaTime)
 				{
 					if (m_Texture->GetEnableColorKey())
 					{
-						TransparentBlt(hDC, (int)RenderPos.x + i * m_Size.x, (int)RenderPos.y,
+						TransparentBlt(hDC, (int)RenderPos.x + (int)(i * m_Size.x), (int)RenderPos.y,
 							(int)m_Size.x, (int)m_Size.y,
 							m_Texture->GetDC(m_vecNumber[i]),
 							0, 0, (int)m_Size.x, (int)m_Size.y,
@@ -157,7 +157,7 @@ void CNumber::Render(HDC hDC, float DeltaTime)
 
 					else
 					{
-						BitBlt(hDC, (int)RenderPos.x + i * m_Size.x, (int)RenderPos.y,
+						BitBlt(hDC, (int)RenderPos.x + (int)(i * m_Size.x), (int)RenderPos.y,
 							(int)m_Size.x, (int)m_Size.y,
 							m_Texture->GetDC(m_vecNumber[i]),
 							0, 0, SRCCOPY);
@@ -184,7 +184,7 @@ void CNumber::Render(HDC hDC, const Vector2& Pos, float DeltaTime)
 				{
 					if (m_Texture->GetEnableColorKey())
 					{
-						TransparentBlt(hDC, (int)RenderPos.x + i * m_Size.x, (int)RenderPos.y,
+						TransparentBlt(hDC, (int)RenderPos.x + (int)(i * m_Size.x), (int)RenderPos.y,
 							(int)m_Size.x, (int)m_Size.y,
 							m_Texture->GetDC(),
 							(int)(m_vecNumber[i] * m_Size.x), 0,
@@ -194,7 +194,7 @@ void CNumber::Render(HDC hDC, const Vector2& Pos, float DeltaTime)
 
 					else
 					{
-						BitBlt(hDC, (int)RenderPos.x + i * m_Size.x, (int)RenderPos.y,
+						BitBlt(hDC, (int)RenderPos.x + (int)(i * m_Size.x), (int)RenderPos.y,
 							(int)m_Size.x, (int)m_Size.y,
 							m_Texture->GetDC(),
 							(int)(m_vecNumber[i] * m_Size.x), 0, SRCCOPY);
@@ -205,7 +205,7 @@ void CNumber::Render(HDC hDC, const Vector2& Pos, float DeltaTime)
 				{
 					if (m_Texture->GetEnableColorKey())
 					{
-						TransparentBlt(hDC, (int)RenderPos.x + i * m_Size.x, (int)RenderPos.y,
+						TransparentBlt(hDC, (int)RenderPos.x + (int)(i * m_Size.x), (int)RenderPos.y,
 							(int)m_Size.x, (int)m_Size.y,
 							m_Texture->GetDC(m_vecNumber[i]),
 							0, 0, (int)m_Size.x, (int)m_Size.y,
@@ -214,7 +214,7 @@ void CNumber::Render(HDC hDC, const Vector2& Pos, float DeltaTime)
 
 					else
 					{
-						BitBlt(hDC, (int)RenderPos.x + i * m_Size.x, (int)RenderPos.y,
+						BitBlt(hDC, (int)RenderPos.x + (int)(i * m_Size.x), (int)RenderPos.y,
 							(int)m_Size.x, (int)m_Size.y,
 							m_Texture->GetDC(m_vecNumber[i]),
 							0, 0, SRCCOPY);
