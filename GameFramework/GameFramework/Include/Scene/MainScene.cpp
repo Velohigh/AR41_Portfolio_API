@@ -7,6 +7,7 @@
 #include "Camera.h"
 #include "../Input.h"
 #include "../Widget/CharacterHUD.h"
+#include "../GameObject/TileMap.h"
 
 CMainScene::CMainScene()
 {
@@ -40,6 +41,13 @@ bool CMainScene::Init()
 	GetCamera()->SetTarget(Player);
 
 	m_Monster = CreateObject<CMonster>("Monster");
+
+
+	CTileMap* TileMap = CreateObject<CTileMap>("TileMap");
+
+	TileMap->CreateTile(100, 100, Vector2(40.f, 53.f));
+	TileMap->SetTileTexture("Tile", TEXT("Stone.bmp"));
+	TileMap->SetTileColorKeyAll(255, 0, 255);
 
 	CInput::GetInst()->AddBindFunction<CMainScene>("Cam1",
 		Input_Type::Down, this, &CMainScene::Cam1Key);

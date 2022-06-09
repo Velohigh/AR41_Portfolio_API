@@ -4,6 +4,7 @@
 #include "SceneResource.h"
 #include "Camera.h"
 #include "SceneCollision.h"
+#include "../GameObject/TileMap.h"
 
 CScene::CScene()
 {
@@ -22,6 +23,11 @@ CScene::~CScene()
 	SAFE_DELETE(m_Collision);
 	SAFE_DELETE(m_Camera);
 	SAFE_DELETE(m_Resource);
+}
+
+void CScene::SetTileMap(CTileMap* TileMap)
+{
+	m_TileMap = TileMap;
 }
 
 void CScene::SetPlayer(CGameObject* Player)

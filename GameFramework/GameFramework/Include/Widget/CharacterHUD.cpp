@@ -46,7 +46,7 @@ bool CCharacterHUD::Init()
 
 	m_HPBar = CreateWidget<CProgressBar>("HPBar");
 
-	m_HPBar->SetTexture(EProgressBar_Texture_Type::Bar, "HPBar", TEXT("BarDefault.bmp"));
+	m_HPBar->SetTexture(EProgressBar_Texture_Type::Bar, "HUDHPBar", TEXT("BarDefault.bmp"));
 
 	m_HPBar->SetSize(200.f, 30.f);
 	m_HPBar->SetPos(10.f, 10.f);

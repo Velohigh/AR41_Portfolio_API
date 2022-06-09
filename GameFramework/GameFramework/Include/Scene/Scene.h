@@ -21,6 +21,7 @@ protected:
 	std::list<CSharedPtr<class CGameObject>>	m_ObjList[(int)ERender_Layer::Max];
 	std::list<CSharedPtr<CWidgetComponent>>	m_WidgetComponentList;
 	CSharedPtr<class CGameObject>	m_Player;
+	CSharedPtr<class CTileMap>		m_TileMap;
 
 	std::vector<CSharedPtr<CWidgetWindow>>	m_vecWidgetWindow;
 
@@ -45,6 +46,12 @@ public:
 		return m_Player;
 	}
 
+	class CTileMap* GetTileMap()	const
+	{
+		return m_TileMap;
+	}
+
+	void SetTileMap(class CTileMap* TileMap);
 	void SetPlayer(class CGameObject* Player);
 	void AddWidgetComponent(CWidgetComponent* Widget)
 	{

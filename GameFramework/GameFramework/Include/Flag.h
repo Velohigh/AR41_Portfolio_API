@@ -70,4 +70,10 @@ enum class EButton_Sound_State
 	Max
 };
 
+enum class ETile_Option
+{
+	Normal,
+	ImpossibleToMove
+};
+
 

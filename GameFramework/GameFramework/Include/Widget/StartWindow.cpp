@@ -50,11 +50,28 @@ bool CStartWindow::Init()
 	StartButton->SetSound(EButton_Sound_State::MouseHovered, "ButtonHovered");
 	StartButton->SetSound(EButton_Sound_State::Click, "ButtonClick");
 
-	StartButton->SetPos(540.f, 210.f);
+	StartButton->SetPos(540.f, 150.f);
 	StartButton->SetZOrder(1);
 
 	StartButton->SetCallback<CStartWindow>(EButton_Sound_State::Click,
 		this, &CStartWindow::StartButtonCallback);
+
+	CButton* EditButton = CreateWidget<CButton>("EditButton");
+
+	EditButton->SetTexture("EditButton", TEXT("EditButton.bmp"));
+	EditButton->SetButtonStateData(EButton_State::Normal, Vector2(0.f, 0.f), Vector2(200.f, 100.f));
+	EditButton->SetButtonStateData(EButton_State::MouseHovered, Vector2(200.f, 0.f), Vector2(400.f, 100.f));
+	EditButton->SetButtonStateData(EButton_State::Click, Vector2(400.f, 0.f), Vector2(600.f, 100.f));
+	EditButton->SetButtonStateData(EButton_State::Disable, Vector2(600.f, 0.f), Vector2(800.f, 100.f));
+
+	EditButton->SetSound(EButton_Sound_State::MouseHovered, "ButtonHovered");
+	EditButton->SetSound(EButton_Sound_State::Click, "ButtonClick");
+
+	EditButton->SetPos(540.f, 270.f);
+	EditButton->SetZOrder(1);
+
+	EditButton->SetCallback<CStartWindow>(EButton_Sound_State::Click,
+		this, &CStartWindow::EditButtonCallback);
 
 	CButton* EndButton = CreateWidget<CButton>("EndButton");
 
@@ -67,7 +84,7 @@ bool CStartWindow::Init()
 	EndButton->SetSound(EButton_Sound_State::MouseHovered, "ButtonHovered");
 	EndButton->SetSound(EButton_Sound_State::Click, "ButtonClick");
 
-	EndButton->SetPos(540.f, 410.f);
+	EndButton->SetPos(540.f, 390.f);
 	EndButton->SetZOrder(1);
 
 	EndButton->SetCallback<CStartWindow>(EButton_Sound_State::Click,
@@ -182,6 +199,10 @@ void CStartWindow::StartButtonCallback()
 {
 	CInput::GetInst()->ClearCallback();
 	CSceneManager::GetInst()->CreateScene<CMainScene>();
+}
+
+void CStartWindow::EditButtonCallback()
+{
 }
 
 void CStartWindow::EndButtonCallback()

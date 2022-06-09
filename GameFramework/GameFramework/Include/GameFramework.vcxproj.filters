@@ -97,6 +97,9 @@
     <Filter Include="04. Resource\04. Font">
       <UniqueIdentifier>{07f2e79c-3835-4dae-a214-15559d92328e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GameObject\06. TileMap">
+      <UniqueIdentifier>{76fe710f-1c45-4f1c-996d-4b71a7fd6ac6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -242,6 +245,15 @@
     </ClCompile>
     <ClCompile Include="Widget\WidgetComponent.cpp">
       <Filter>07. UI\01. Widgert</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\TileMap.cpp">
+      <Filter>02. GameObject\06. TileMap</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\Tile.cpp">
+      <Filter>02. GameObject\06. TileMap</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene\EditScene.cpp">
+      <Filter>03. Scene</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -424,6 +436,15 @@
     </ClInclude>
     <ClInclude Include="Widget\WidgetComponent.h">
       <Filter>07. UI\01. Widgert</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\TileMap.h">
+      <Filter>02. GameObject\06. TileMap</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\Tile.h">
+      <Filter>02. GameObject\06. TileMap</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\EditScene.h">
+      <Filter>03. Scene</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -27,6 +27,7 @@ public:
 
 public:
     void StartButtonCallback();
+    void EditButtonCallback();
     void EndButtonCallback();
 };
 

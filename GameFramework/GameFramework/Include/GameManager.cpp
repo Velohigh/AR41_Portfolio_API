@@ -12,7 +12,8 @@
 DEFINITION_SINGLE(CGameManager)
 bool CGameManager::m_Loop = true;
 
-CGameManager::CGameManager()
+CGameManager::CGameManager()    :
+    m_EditMode(false)
 {
     _CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
     //_CrtSetBreakAlloc(100);

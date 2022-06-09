@@ -37,22 +37,16 @@ private:
 	HBRUSH		m_Brush[(int)EBrush_Type::Max];
 	HPEN		m_Pen[(int)EBrush_Type::Max];
 
+	bool		m_EditMode;
 
-
-
-
-
-	//class CPlayer* m_Player;
-
-	//RECT		m_TestRC;
-	//int			m_Dir;
-
-	// 이 변수가 static 멤버변수로 설정된 이유는 wndProc static 멤버
-	// 함수에서 이 변수를 윈도우가 종료될때 false로 만들어주기 위해서
-	// static 멤버변수로 만들어주었다.
 	static bool	m_Loop;
 
 public:
+	bool GetEditMode()	const
+	{
+		return m_EditMode;
+	}
+
 	HBRUSH GetBrush(EBrush_Type Type)	const
 	{
 		return m_Brush[(int)Type];
@@ -94,6 +88,11 @@ public:
 	}
 
 public:
+	void SetEditMode(bool Mode)
+	{
+		m_EditMode = Mode;
+	}
+
 	void SetTimeScale(float Scale)
 	{
 		m_TimeScale = Scale;
