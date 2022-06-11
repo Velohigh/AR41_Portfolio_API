@@ -145,7 +145,7 @@ bool CTileMap::CreateTile(int CountX, int CountY,
 		}
 	}
 
-	return false;
+	return true;
 }
 
 void CTileMap::SetTileTexture(const std::string& Name)

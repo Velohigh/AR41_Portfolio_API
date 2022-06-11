@@ -54,6 +54,63 @@ END
 // remains consistent on all systems.
 IDI_ICON1               ICON                    "icon1.ico"
 
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_DIALOG_EDIT DIALOGEX 0, 0, 323, 291
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "TileMap"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    DEFPUSHBUTTON   "확인",IDOK,198,270,50,14
+    PUSHBUTTON      "취소",IDCANCEL,266,270,50,14
+    RTEXT           "CountX",IDC_STATIC,7,7,48,14
+    EDITTEXT        IDC_EDIT_COUNTX,64,7,69,14,ES_AUTOHSCROLL | ES_NUMBER
+    RTEXT           "CountY",IDC_STATIC,138,7,48,14
+    EDITTEXT        IDC_EDIT_COUNTY,195,7,69,14,ES_AUTOHSCROLL | ES_NUMBER
+    RTEXT           "SizeX",IDC_STATIC,7,29,48,14
+    EDITTEXT        IDC_EDIT_SIZEX,64,29,69,14,ES_AUTOHSCROLL | ES_NUMBER
+    RTEXT           "SizeY",IDC_STATIC,138,29,48,14
+    EDITTEXT        IDC_EDIT_SIZEY,195,29,69,14,ES_AUTOHSCROLL | ES_NUMBER
+    PUSHBUTTON      "생 성",IDC_BUTTON_CREATE_TILEMAP,270,7,46,36
+    PUSHBUTTON      "이미지 불러오기",IDC_BUTTON_LOADTEXTURE,118,56,66,25
+    LISTBOX         IDC_LIST_TEXTURE,7,56,108,107,LBS_NOINTEGRALHEIGHT | WS_VSCROLL | WS_TABSTOP
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO
+BEGIN
+    IDD_DIALOG_EDIT, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 316
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 284
+        HORZGUIDE, 21
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// AFX_DIALOG_LAYOUT
+//
+
+IDD_DIALOG_EDIT AFX_DIALOG_LAYOUT
+BEGIN
+    0
+END
+
 #endif    // 한국어(대한민국) resources
 /////////////////////////////////////////////////////////////////////////////
 

@@ -68,6 +68,8 @@ bool CInput::Init(HWND hWnd)
 	AddBindKey("Skill1", '1');
 	AddBindKey("Skill2", '2');
 	SetKeyCtrl("Skill2");
+	AddBindKey("OpenTileMapEditor", 'T');
+	SetKeyCtrl("OpenTileMapEditor");
 
 	AddBindKey("Cam1", VK_F1);
 	AddBindKey("Cam2", VK_F2);

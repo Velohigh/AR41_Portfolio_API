@@ -6,6 +6,7 @@
 #include "../Scene/SceneResource.h"
 #include "../GameManager.h"
 #include "../Scene/MainScene.h"
+#include "../Scene/EditScene.h"
 #include "../Scene/SceneManager.h"
 #include "../Input.h"
 #include "ImageWidget.h"
@@ -203,6 +204,8 @@ void CStartWindow::StartButtonCallback()
 
 void CStartWindow::EditButtonCallback()
 {
+	CInput::GetInst()->ClearCallback();
+	CSceneManager::GetInst()->CreateScene<CEditScene>();
 }
 
 void CStartWindow::EndButtonCallback()
