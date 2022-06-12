@@ -176,6 +176,19 @@ bool CSceneResource::LoadTextureFullPath(const std::string& Name,
 
 #endif
 
+CTexture* CSceneResource::LoadTexture(FILE* File)
+{
+	CTexture* Texture = CResourceManager::GetInst()->LoadTexture(File);
+
+	if (!Texture)
+		return nullptr;
+
+	if (!FindTexture(Texture->GetName()))
+		m_mapTexture.insert(std::make_pair(Texture->GetName(), Texture));
+
+	return Texture;
+}
+
 bool CSceneResource::SetColorKey(const std::string& Name, unsigned char r, unsigned char g, unsigned char b, int Index)
 {
 	return CResourceManager::GetInst()->SetColorKey(Name, r, g, b, Index);

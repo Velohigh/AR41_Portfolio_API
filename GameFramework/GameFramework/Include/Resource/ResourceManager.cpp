@@ -84,6 +84,11 @@ bool CResourceManager::LoadTextureFullPath(const std::string& Name,
 
 #endif
 
+CTexture* CResourceManager::LoadTexture(FILE* File)
+{
+	return m_TextureManager->LoadTexture(File);
+}
+
 bool CResourceManager::SetColorKey(const std::string& Name, unsigned char r, unsigned char g, unsigned char b, int Index)
 {
 	return m_TextureManager->SetColorKey(Name, r, g, b, Index);

@@ -29,6 +29,7 @@
 #define	TEXTURE_PATH	"TexturePath"
 #define	SOUND_PATH		"SoundPath"
 #define	FONT_PATH		"FontPath"
+#define	MAP_PATH		"MapPath"
 
 
 #define	SAFE_DELETE(p)	if(p)	{ delete p; p = nullptr; }

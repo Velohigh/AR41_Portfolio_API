@@ -10,6 +10,9 @@ struct ImageInfo
     BITMAP   BmpInfo;
     COLORREF ColorKey;
     bool     EnableColorKey;
+    TCHAR   FileName[MAX_PATH];
+    TCHAR   FullPath[MAX_PATH];
+    std::string PathName;
 
     ImageInfo() :
         hMemDC(0),
@@ -17,7 +20,9 @@ struct ImageInfo
         hPrevBmp(0),
         BmpInfo{},
         ColorKey(RGB(255, 0, 255)),
-        EnableColorKey(false)
+        EnableColorKey(false),
+        FileName{},
+        FullPath{}
     {
     }
 
@@ -44,6 +49,16 @@ private:
     std::vector<ImageInfo*> m_vecImageInfo;
 
 public:
+    int GetWidth(int Index = 0)  const
+    {
+        return (int)m_vecImageInfo[Index]->BmpInfo.bmWidth;
+    }
+
+    int GetHeight(int Index = 0)  const
+    {
+        return (int)m_vecImageInfo[Index]->BmpInfo.bmHeight;
+    }
+
     ETexture_Type GetTextureType()  const
     {
         return m_Type;
@@ -100,6 +115,30 @@ public:
     bool LoadTextureFullPath(const std::vector<std::string>& vecFullPath);
 
 #endif // UNICODE
+
+
+private:
+    bool LoadTexture(ImageInfo* Info, const TCHAR* FileName,
+        const std::string& PathName = TEXTURE_PATH);
+    bool LoadTextureFullPath(ImageInfo* Info, const TCHAR* FullPath);
+
+#ifdef UNICODE
+
+    bool LoadTexture(std::vector<ImageInfo*>* vecInfo, const std::vector<std::wstring>& vecFileName,
+        const std::string& PathName = TEXTURE_PATH);
+    bool LoadTextureFullPath(std::vector<ImageInfo*>* vecInfo, const std::vector<std::wstring>& vecFullPath);
+
+#else
+
+    bool LoadTexture(std::vector<ImageInfo*>* vecInfo, const std::vector<std::string>& vecFileName,
+        const std::string& PathName = TEXTURE_PATH);
+    bool LoadTextureFullPath(std::vector<ImageInfo*>* vecInfo, const std::vector<std::string>& vecFullPath);
+
+#endif // UNICODE
+
+public:
+    void Save(FILE* File);
+    void Load(FILE* File);
 
 };
 

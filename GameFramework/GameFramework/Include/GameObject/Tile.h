@@ -23,6 +23,8 @@ private:
 	int			m_TileFrame;
 	Vector2		m_StartFrame;
 	Vector2		m_EndFrame;
+	bool		m_Render;
+	bool		m_SideCollision;
 
 public:
 	ETile_Option GetOption()	const
@@ -41,6 +43,16 @@ public:
 	}
 
 public:
+	void SetRender(bool Render)
+	{
+		m_Render = Render;
+	}
+
+	void SetSideCollision(bool Side)
+	{
+		m_SideCollision = Side;
+	}
+
 	void SetTileInfo(const Vector2& Pos, const Vector2& Size,
 		int IndexX, int IndexY, int Index, class CTexture* Texture);
 	void SetFrame(const Vector2& Start, const Vector2& End)
@@ -56,5 +68,7 @@ public:
 
 public:
 	void Render(HDC hDC);
+	void Save(FILE* File);
+	void Load(FILE* File);
 };
 

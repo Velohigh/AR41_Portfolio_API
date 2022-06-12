@@ -38,6 +38,7 @@ protected:
 	float		m_FallStartY;
 	bool		m_Jump;
 	float		m_JumpVelocity;
+	bool		m_SideWallCheck;
 
 public:
 	class CCollider* FindCollider(const std::string& Name);
@@ -68,6 +69,11 @@ public:
 	}
 
 public:
+	void SetSideWallCheck(bool Check)
+	{
+		m_SideWallCheck = Check;
+	}
+
 	void SetPhysicsSimulate(bool Physics)
 	{
 		m_PhysicsSimulate = Physics;
@@ -185,6 +191,12 @@ public:
 	virtual void PostUpdate(float DeltaTime);
 	virtual void Render(HDC hDC, float DeltaTime);
 	virtual float InflictDamage(float Damage);
+	virtual void Save(FILE* File);
+	virtual void Load(FILE* File);
+	void SaveFullPath(const char* FullPath);
+	void LoadFullPath(const char* FullPath);
+	void SaveFileName(const char* FileName, const std::string& PathName);
+	void LoadFileName(const char* FileName, const std::string& PathName);
 
 
 public:

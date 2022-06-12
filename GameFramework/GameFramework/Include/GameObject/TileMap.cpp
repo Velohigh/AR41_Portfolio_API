@@ -16,7 +16,7 @@ CTileMap::CTileMap()	:
 	m_EndY(-1)
 {
 	SetTypeID<CTileMap>();
-	m_RenderLayer = ERender_Layer::Back;
+	m_RenderLayer = ERender_Layer::Tile;
 }
 
 CTileMap::CTileMap(const CTileMap& Obj) :
@@ -54,6 +54,26 @@ void CTileMap::SetTileFrame(const Vector2& Pos, const Vector2& Start,
 		return;
 
 	m_vecTile[Index]->SetFrame(Start, End);
+}
+
+void CTileMap::SetTileRender(const Vector2& Pos, bool Render)
+{
+	int	Index = GetTileIndex(Pos);
+
+	if (Index == -1)
+		return;
+
+	m_vecTile[Index]->SetRender(Render);
+}
+
+void CTileMap::SetTileSideCollision(const Vector2& Pos, bool Side)
+{
+	int	Index = GetTileIndex(Pos);
+
+	if (Index == -1)
+		return;
+
+	m_vecTile[Index]->SetSideCollision(Side);
 }
 
 CTile* CTileMap::GetTile(const Vector2& Pos)
@@ -347,7 +367,69 @@ void CTileMap::Render(HDC hDC, float DeltaTime)
 	{
 		for (int j = m_StartX; j <= m_EndX; ++j)
 		{
-			m_vecTile[i * m_CountX + j]->Render(hDC);
+			if (m_vecTile[i * m_CountX + j]->m_Render)
+				m_vecTile[i * m_CountX + j]->Render(hDC);
 		}
+	}
+}
+
+void CTileMap::Save(FILE* File)
+{
+	CGameObject::Save(File);
+
+	bool	Texture = false;
+
+	if (m_TileTexture)
+		Texture = true;
+
+	fwrite(&Texture, sizeof(bool), 1, File);
+
+	if (m_TileTexture)
+		m_TileTexture->Save(File);
+
+	fwrite(&m_CountX, sizeof(int), 1, File);
+	fwrite(&m_CountY, sizeof(int), 1, File);
+	fwrite(&m_TileSize, sizeof(Vector2), 1, File);
+
+	int	TileCount = (int)m_vecTile.size();
+
+	fwrite(&TileCount, sizeof(int), 1, File);
+
+	for (int i = 0; i < TileCount; ++i)
+	{
+		m_vecTile[i]->Save(File);
+	}
+
+	//m_Texture = m_Scene->GetSceneResource()->LoadTexture(File);
+}
+
+void CTileMap::Load(FILE* File)
+{
+	CGameObject::Load(File);
+
+	bool	Texture = false;
+
+	fread(&Texture, sizeof(bool), 1, File);
+
+	if (Texture)
+		m_TileTexture = m_Scene->GetSceneResource()->LoadTexture(File);
+
+	fread(&m_CountX, sizeof(int), 1, File);
+	fread(&m_CountY, sizeof(int), 1, File);
+	fread(&m_TileSize, sizeof(Vector2), 1, File);
+
+	int	TileCount = 0;
+
+	fread(&TileCount, sizeof(int), 1, File);
+
+	for (int i = 0; i < TileCount; ++i)
+	{
+		CTile* Tile = new CTile;
+
+		Tile->m_Owner = this;
+		Tile->m_Scene = m_Scene;
+		Tile->Load(File);
+
+		m_vecTile.push_back(Tile);
 	}
 }

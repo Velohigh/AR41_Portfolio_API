@@ -84,5 +84,9 @@ public:
 		// 타입의 고유한 번호를 얻어온다.
 		m_TypeID = typeid(T).hash_code();
 	}
+
+public:
+	virtual void Save(FILE* File);
+	virtual void Load(FILE* File);
 };
 

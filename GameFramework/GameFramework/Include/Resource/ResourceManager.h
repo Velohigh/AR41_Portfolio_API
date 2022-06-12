@@ -34,6 +34,8 @@ public:	// ==================== Texture ====================
 
 #endif // UNICODE
 
+	class CTexture* LoadTexture(FILE* File);
+
 	bool SetColorKey(const std::string& Name, unsigned char r, unsigned char g, unsigned char b,
 		int Index = 0);
 	bool SetColorKeyAll(const std::string& Name, unsigned char r, unsigned char g, unsigned char b);

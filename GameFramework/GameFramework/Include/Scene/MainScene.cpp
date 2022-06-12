@@ -45,9 +45,11 @@ bool CMainScene::Init()
 
 	CTileMap* TileMap = CreateObject<CTileMap>("TileMap");
 
-	TileMap->CreateTile(100, 100, Vector2(40.f, 53.f));
+
+	TileMap->LoadFileName("MainMap.tmp", MAP_PATH);
+	/*TileMap->CreateTile(100, 100, Vector2(40.f, 53.f));
 	TileMap->SetTileTexture("Tile", TEXT("Stone.bmp"));
-	TileMap->SetTileColorKeyAll(255, 0, 255);
+	TileMap->SetTileColorKeyAll(255, 0, 255);*/
 
 	CInput::GetInst()->AddBindFunction<CMainScene>("Cam1",
 		Input_Type::Down, this, &CMainScene::Cam1Key);

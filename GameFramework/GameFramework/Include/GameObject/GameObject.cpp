@@ -9,6 +9,8 @@
 #include "../GameManager.h"
 #include "../Scene/Camera.h"
 #include "../Collision/Collider.h"
+#include "../PathManager.h"
+#include "TileMap.h"
 
 CGameObject::CGameObject()	:
 	m_Scene(nullptr),
@@ -22,7 +24,8 @@ CGameObject::CGameObject()	:
 	m_FallTime(0.f),
 	m_FallStartY(0.f),
 	m_Jump(false),
-	m_JumpVelocity(0.f)
+	m_JumpVelocity(0.f),
+	m_SideWallCheck(false)
 {
 	SetTypeID<CGameObject>();
 }
@@ -40,7 +43,8 @@ CGameObject::CGameObject(const CGameObject& Obj)	:
 	m_FallTime(0.f),
 	m_FallStartY(0.f),
 	m_Jump(false),
-	m_JumpVelocity(Obj.m_JumpVelocity)
+	m_JumpVelocity(Obj.m_JumpVelocity),
+	m_SideWallCheck(Obj.m_SideWallCheck)
 {
 }
 
@@ -86,11 +90,15 @@ CCollider* CGameObject::FindCollider(const std::string& Name)
 void CGameObject::SetTexture(const std::string& Name)
 {
 	m_Texture = m_Scene->GetSceneResource()->FindTexture(Name);
+
+	SetSize((float)m_Texture->GetWidth(), (float)m_Texture->GetHeight());
 }
 
 void CGameObject::SetTexture(CTexture* Texture)
 {
 	m_Texture = Texture;
+
+	SetSize((float)m_Texture->GetWidth(), (float)m_Texture->GetHeight());
 }
 
 void CGameObject::SetTexture(const std::string& Name, const TCHAR* FileName, 
@@ -99,6 +107,8 @@ void CGameObject::SetTexture(const std::string& Name, const TCHAR* FileName,
 	m_Scene->GetSceneResource()->LoadTexture(Name, FileName, PathName);
 
 	m_Texture = m_Scene->GetSceneResource()->FindTexture(Name);
+
+	SetSize((float)m_Texture->GetWidth(), (float)m_Texture->GetHeight());
 }
 
 void CGameObject::SetTextureFullPath(const std::string& Name,
@@ -107,6 +117,8 @@ void CGameObject::SetTextureFullPath(const std::string& Name,
 	m_Scene->GetSceneResource()->LoadTextureFullPath(Name, FullPath);
 
 	m_Texture = m_Scene->GetSceneResource()->FindTexture(Name);
+
+	SetSize((float)m_Texture->GetWidth(), (float)m_Texture->GetHeight());
 }
 
 #ifdef UNICODE
@@ -117,6 +129,8 @@ void CGameObject::SetTexture(const std::string& Name,
 	m_Scene->GetSceneResource()->LoadTexture(Name, vecFileName, PathName);
 
 	m_Texture = m_Scene->GetSceneResource()->FindTexture(Name);
+
+	SetSize((float)m_Texture->GetWidth(), (float)m_Texture->GetHeight());
 }
 
 void CGameObject::SetTextureFullPath(const std::string& Name,
@@ -125,6 +139,8 @@ void CGameObject::SetTextureFullPath(const std::string& Name,
 	m_Scene->GetSceneResource()->LoadTextureFullPath(Name, vecFullPath);
 
 	m_Texture = m_Scene->GetSceneResource()->FindTexture(Name);
+
+	SetSize((float)m_Texture->GetWidth(), (float)m_Texture->GetHeight());
 }
 
 #else
@@ -135,6 +151,8 @@ void CGameObject::SetTexture(const std::string& Name,
 	m_Scene->GetSceneResource()->LoadTexture(Name, vecFileName, PathName);
 
 	m_Texture = m_Scene->GetSceneResource()->FindTexture(Name);
+
+	SetSize((float)m_Texture->GetWidth(), (float)m_Texture->GetHeight());
 }
 
 void CGameObject::SetTextureFullPath(const std::string& Name,
@@ -143,6 +161,8 @@ void CGameObject::SetTextureFullPath(const std::string& Name,
 	m_Scene->GetSceneResource()->LoadTextureFullPath(Name, vecFullPath);
 
 	m_Texture = m_Scene->GetSceneResource()->FindTexture(Name);
+
+	SetSize((float)m_Texture->GetWidth(), (float)m_Texture->GetHeight());
 }
 
 #endif
@@ -380,6 +400,18 @@ void CGameObject::PostUpdate(float DeltaTime)
 			++iter;
 		}
 	}
+
+	if (m_Move.x != 0.f && m_SideWallCheck)
+	{
+	}
+
+	// 바닥에 착지시킨다.
+	if (m_PhysicsSimulate && m_Move.y > 0.f)
+	{
+		CTileMap* TileMap = m_Scene->GetTileMap();
+
+
+	}
 }
 
 void CGameObject::Render(HDC hDC, float DeltaTime)
@@ -554,4 +586,154 @@ void CGameObject::Render(HDC hDC, float DeltaTime)
 float CGameObject::InflictDamage(float Damage)
 {
 	return Damage;
+}
+
+void CGameObject::Save(FILE* File)
+{
+	CRef::Save(File);
+
+	fwrite(&m_RenderLayer, sizeof(ERender_Layer), 1, File);
+	fwrite(&m_PrevPos, sizeof(Vector2), 1, File);
+	fwrite(&m_Move, sizeof(Vector2), 1, File);
+	fwrite(&m_Pos, sizeof(Vector2), 1, File);
+	fwrite(&m_Size, sizeof(Vector2), 1, File);
+	fwrite(&m_Pivot, sizeof(Vector2), 1, File);
+
+	bool	Texture = false;
+
+	if (m_Texture)
+		Texture = true;
+
+	fwrite(&Texture, sizeof(bool), 1, File);
+
+	if (m_Texture)
+	{
+		// Texture 저장
+		m_Texture->Save(File);
+	}
+
+	bool	Animation = false;
+
+	if (m_Animation)
+		Animation = true;
+
+	fwrite(&Animation, sizeof(bool), 1, File);
+
+	if (m_Animation)
+	{
+		// Animation 저장
+	}
+
+	fwrite(&m_TimeScale, sizeof(float), 1, File);
+	fwrite(&m_MoveSpeed, sizeof(float), 1, File);
+
+	fwrite(&m_PhysicsSimulate, sizeof(bool), 1, File);
+	fwrite(&m_Ground, sizeof(bool), 1, File);
+
+	fwrite(&m_GravityAccel, sizeof(float), 1, File);
+	fwrite(&m_FallTime, sizeof(float), 1, File);
+	fwrite(&m_FallStartY, sizeof(float), 1, File);
+	fwrite(&m_JumpVelocity, sizeof(float), 1, File);
+
+	fwrite(&m_Jump, sizeof(bool), 1, File);
+}
+
+void CGameObject::Load(FILE* File)
+{
+	CRef::Load(File);
+
+	fread(&m_RenderLayer, sizeof(ERender_Layer), 1, File);
+	fread(&m_PrevPos, sizeof(Vector2), 1, File);
+	fread(&m_Move, sizeof(Vector2), 1, File);
+	fread(&m_Pos, sizeof(Vector2), 1, File);
+	fread(&m_Size, sizeof(Vector2), 1, File);
+	fread(&m_Pivot, sizeof(Vector2), 1, File);
+
+	bool	Texture = false;
+
+	fread(&Texture, sizeof(bool), 1, File);
+
+	if (Texture)
+	{
+		// Texture 불러오기
+		m_Texture = m_Scene->GetSceneResource()->LoadTexture(File);
+	}
+
+	bool	Animation = false;
+
+	fread(&Animation, sizeof(bool), 1, File);
+
+	if (Animation)
+	{
+		// Animation 불러오기
+	}
+
+	fread(&m_TimeScale, sizeof(float), 1, File);
+	fread(&m_MoveSpeed, sizeof(float), 1, File);
+
+	fread(&m_PhysicsSimulate, sizeof(bool), 1, File);
+	fread(&m_Ground, sizeof(bool), 1, File);
+
+	fread(&m_GravityAccel, sizeof(float), 1, File);
+	fread(&m_FallTime, sizeof(float), 1, File);
+	fread(&m_FallStartY, sizeof(float), 1, File);
+	fread(&m_JumpVelocity, sizeof(float), 1, File);
+
+	fread(&m_Jump, sizeof(bool), 1, File);
+}
+
+void CGameObject::SaveFullPath(const char* FullPath)
+{
+	FILE* File = nullptr;
+
+	fopen_s(&File, FullPath, "wb");
+
+	if (!File)
+		return;
+
+	Save(File);
+
+	fclose(File);
+}
+
+void CGameObject::LoadFullPath(const char* FullPath)
+{
+	FILE* File = nullptr;
+
+	fopen_s(&File, FullPath, "rb");
+
+	if (!File)
+		return;
+
+	Load(File);
+
+	fclose(File);
+}
+
+void CGameObject::SaveFileName(const char* FileName, const std::string& PathName)
+{
+	const PathInfo* Info = CPathManager::GetInst()->FindPath(PathName);
+
+	char	FullPath[MAX_PATH] = {};
+
+	if (Info)
+		strcpy_s(FullPath, Info->PathMultibyte);
+
+	strcat_s(FullPath, FileName);
+
+	SaveFullPath(FullPath);
+}
+
+void CGameObject::LoadFileName(const char* FileName, const std::string& PathName)
+{
+	const PathInfo* Info = CPathManager::GetInst()->FindPath(PathName);
+
+	char	FullPath[MAX_PATH] = {};
+
+	if (Info)
+		strcpy_s(FullPath, Info->PathMultibyte);
+
+	strcat_s(FullPath, FileName);
+
+	LoadFullPath(FullPath);
 }

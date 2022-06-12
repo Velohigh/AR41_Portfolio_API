@@ -26,6 +26,8 @@ bool CTextureManager::LoadTexture(const std::string& Name,
 
 	Texture = new CTexture;
 
+	Texture->SetName(Name);
+
 	if (!Texture->LoadTexture(FileName, PathName))
 	{
 		SAFE_RELEASE(Texture);
@@ -47,6 +49,8 @@ bool CTextureManager::LoadTextureFullPath(const std::string& Name,
 		return false;
 
 	Texture = new CTexture;
+
+	Texture->SetName(Name);
 
 	if (!Texture->LoadTextureFullPath(FullPath))
 	{
@@ -73,6 +77,8 @@ bool CTextureManager::LoadTexture(const std::string& Name,
 
 	Texture = new CTexture;
 
+	Texture->SetName(Name);
+
 	if (!Texture->LoadTexture(vecFileName, PathName))
 	{
 		SAFE_RELEASE(Texture);
@@ -94,6 +100,8 @@ bool CTextureManager::LoadTextureFullPath(const std::string& Name,
 		return false;
 
 	Texture = new CTexture;
+
+	Texture->SetName(Name);
 
 	if (!Texture->LoadTextureFullPath(vecFullPath))
 	{
@@ -119,6 +127,8 @@ bool CTextureManager::LoadTexture(const std::string& Name,
 
 	Texture = new CTexture;
 
+	Texture->SetName(Name);
+
 	if (!Texture->LoadTexture(vecFileName, PathName))
 	{
 		SAFE_RELEASE(Texture);
@@ -141,6 +151,8 @@ bool CTextureManager::LoadTextureFullPath(const std::string& Name,
 
 	Texture = new CTexture;
 
+	Texture->SetName(Name);
+
 	if (!Texture->LoadTextureFullPath(vecFullPath))
 	{
 		SAFE_RELEASE(Texture);
@@ -153,6 +165,26 @@ bool CTextureManager::LoadTextureFullPath(const std::string& Name,
 }
 
 #endif
+
+CTexture* CTextureManager::LoadTexture(FILE* File)
+{
+	// 같은 이름으로 저장된게 있다면 잘못된것이다.
+	CTexture* Texture = new CTexture;
+
+	Texture->Load(File);
+
+	CTexture* Find = FindTexture(Texture->GetName());
+
+	if (Find)
+	{
+		SAFE_DELETE(Texture);
+		return Find;
+	}
+
+	m_mapTexture.insert(std::make_pair(Texture->GetName(), Texture));
+
+	return Texture;
+}
 
 bool CTextureManager::SetColorKey(const std::string& Name, unsigned char r, unsigned char g, unsigned char b, int Index)
 {

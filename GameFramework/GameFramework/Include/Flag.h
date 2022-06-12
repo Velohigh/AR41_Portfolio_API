@@ -9,6 +9,7 @@ enum class ETexture_Type
 enum class ERender_Layer
 {
 	Back,
+	Tile,
 	Default,
 	Effect,
 	Max

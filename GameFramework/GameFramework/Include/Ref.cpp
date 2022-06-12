@@ -38,3 +38,36 @@ int CRef::Release()
 
 	return m_RefCount;
 }
+
+void CRef::Save(FILE* File)
+{
+	int	Length = m_Name.length();
+
+	fwrite(&Length, sizeof(int), 1, File);
+	fwrite(m_Name.c_str(), sizeof(char), Length, File);
+
+	Length = m_TypeName.length();
+
+	fwrite(&Length, sizeof(int), 1, File);
+	fwrite(m_TypeName.c_str(), sizeof(char), Length, File);
+
+	fwrite(&m_TypeID, sizeof(size_t), 1, File);
+}
+
+void CRef::Load(FILE* File)
+{
+	int	Length = 0;
+	char	Text[256] = {};
+
+	fread(&Length, sizeof(int), 1, File);
+	fread(Text, sizeof(char), Length, File);
+	m_Name = Text;
+
+	memset(Text, 0, 256);
+
+	fread(&Length, sizeof(int), 1, File);
+	fread(Text, sizeof(char), Length, File);
+	m_TypeName = Text;
+
+	fread(&m_TypeID, sizeof(size_t), 1, File);
+}

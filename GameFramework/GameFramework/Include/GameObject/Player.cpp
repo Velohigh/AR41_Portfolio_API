@@ -175,7 +175,7 @@ bool CPlayer::Init()
 
 	m_NameBar->SetPos(-25.f, -110.f);
 
-	//SetPhysicsSimulate(true);
+	SetPhysicsSimulate(true);
 	SetJumpVelocity(60.f);
 
 	return true;

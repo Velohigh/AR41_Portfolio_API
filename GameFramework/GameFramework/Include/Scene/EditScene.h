@@ -11,7 +11,6 @@ protected:
 
 private:
 	class CEditDlg* m_TileMapDlg;
-	CSharedPtr<class CTileMap> m_TileMap;
 
 public:
 	bool Init();
@@ -19,6 +18,7 @@ public:
 public:
 	void CreateTileMap(int CountX, int CountY, int SizeX, int SizeY);
 	void SetTileTexture(class CTexture* Texture);
+	void LoadTileMap(const char* FullPath);
 
 public:
 	void MoveLeft();
@@ -26,5 +26,11 @@ public:
 	void MoveUp();
 	void MoveDown();
 	void OpenTileMapEditor();
+	void MouseLButtonDrag();
+
+
+private:
+	void ChangeFrame();
+	void ChangeOption();
 };
 

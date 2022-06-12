@@ -38,6 +38,8 @@ public:
 	void ChangeTileOption(const Vector2& Pos, ETile_Option Option);
 	void SetTileFrame(const Vector2& Pos, const Vector2& Start,
 		const Vector2& End);
+	void SetTileRender(const Vector2& Pos, bool Render);
+	void SetTileSideCollision(const Vector2& Pos, bool Side);
 	class CTile* GetTile(const Vector2& Pos);
 	class CTile* GetTile(int Index);
 	class CTile* GetTile(int IndexX, int IndexY);
@@ -77,5 +79,7 @@ public:
 	virtual bool Init();
 	virtual void Update(float DeltaTime);
 	virtual void Render(HDC hDC, float DeltaTime);
+	virtual void Save(FILE* File);
+	virtual void Load(FILE* File);
 };
 
