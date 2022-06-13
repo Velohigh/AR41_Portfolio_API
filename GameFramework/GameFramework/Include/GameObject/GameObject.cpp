@@ -11,6 +11,7 @@
 #include "../Collision/Collider.h"
 #include "../PathManager.h"
 #include "TileMap.h"
+#include "Tile.h"
 
 CGameObject::CGameObject()	:
 	m_Scene(nullptr),
@@ -25,7 +26,8 @@ CGameObject::CGameObject()	:
 	m_FallStartY(0.f),
 	m_Jump(false),
 	m_JumpVelocity(0.f),
-	m_SideWallCheck(false)
+	m_SideWallCheck(false),
+	m_Start(false)
 {
 	SetTypeID<CGameObject>();
 }
@@ -44,7 +46,8 @@ CGameObject::CGameObject(const CGameObject& Obj)	:
 	m_FallStartY(0.f),
 	m_Jump(false),
 	m_JumpVelocity(Obj.m_JumpVelocity),
-	m_SideWallCheck(Obj.m_SideWallCheck)
+	m_SideWallCheck(Obj.m_SideWallCheck),
+	m_Start(false)
 {
 }
 
@@ -255,6 +258,13 @@ void CGameObject::Move(float Angle)
 	m_Pos += Dir * m_MoveSpeed * DELTA_TIME * m_TimeScale;
 }
 
+void CGameObject::Start()
+{
+	m_Start = true;
+
+	m_PrevPos = m_Pos;
+}
+
 bool CGameObject::Init()
 {
 	return true;
@@ -403,14 +413,98 @@ void CGameObject::PostUpdate(float DeltaTime)
 
 	if (m_Move.x != 0.f && m_SideWallCheck)
 	{
+		// 오른쪽으로 이동할때
+		if (m_Move.x > 0.f)
+		{
+			CheckMoveRight();
+		}
+
+		// 왼쪽으로 이동할때
+		else
+		{
+			CheckMoveLeft();
+		}
 	}
 
 	// 바닥에 착지시킨다.
-	if (m_PhysicsSimulate && m_Move.y > 0.f)
+	if (m_PhysicsSimulate && m_Move.y >= 0.f)
 	{
 		CTileMap* TileMap = m_Scene->GetTileMap();
 
+		float	PrevBottom = m_PrevPos.y + (1.f - m_Pivot.y) * m_Size.y;
+		float	CurBottom = m_Pos.y + (1.f - m_Pivot.y) * m_Size.y;
 
+		float	PrevLeft = m_PrevPos.x - m_Pivot.x * m_Size.x;
+		float	CurLeft = m_Pos.x - m_Pivot.x * m_Size.x;
+
+		float	PrevRight = m_PrevPos.x + (1.f - m_Pivot.x) * m_Size.x;
+		float	CurRight = m_Pos.x + (1.f - m_Pivot.x) * m_Size.x;
+
+		float ResultLeft = PrevLeft < CurLeft ? PrevLeft : CurLeft;
+		float ResultRight = PrevRight > CurRight ? PrevRight : CurRight;
+		float ResultTop = PrevBottom < CurBottom ? PrevBottom : CurBottom;
+		float ResultBottom = PrevBottom > CurBottom ? PrevBottom : CurBottom;
+
+		int LeftIndex = TileMap->GetTileOriginIndexX(ResultLeft);
+		int RightIndex = TileMap->GetTileOriginIndexX(ResultRight);
+		int TopIndex = TileMap->GetTileOriginIndexY(ResultTop);
+		int BottomIndex = TileMap->GetTileOriginIndexY(ResultBottom);
+
+		LeftIndex = LeftIndex < 0 ? 0 : LeftIndex;
+		TopIndex = TopIndex < 0 ? 0 : TopIndex;
+		RightIndex = RightIndex > TileMap->GetCountX() - 1 ? TileMap->GetCountX() - 1 : RightIndex;
+		BottomIndex = BottomIndex > TileMap->GetCountY() - 1 ? TileMap->GetCountY() - 1 : BottomIndex;
+
+		if (LeftIndex <= TileMap->GetCountX() - 1 && TopIndex <= TileMap->GetCountY() - 1 &&
+			RightIndex >= 0 && BottomIndex >= 0)
+		{
+			bool	Check = false;
+
+			// 위에서 아래로 차례로 검사를 해나간다.
+			// 아래에서부터 하게 되면 위에 벽이 있을 경우 무시하고 처리되버릴 수도 있기 때문이다.
+			for (int i = TopIndex; i <= BottomIndex; ++i)
+			{
+				for (int j = LeftIndex; j <= RightIndex; ++j)
+				{
+					CTile* Tile = TileMap->GetTile(j, i);
+
+					if (!Tile)
+						continue;
+
+					if (Tile->GetPos().y < PrevBottom)
+						continue;
+
+					// 현재 타일이 이동불가 타일일 경우 바닥을 밟았다는 것이다.
+					if (Tile->GetOption() == ETile_Option::ImpossibleToMove)
+					{
+						Check = true;
+						m_FallTime = 0.f;
+
+						// 현재 타일의 Top을 이 오브젝트의 Bottom값으로 지정한다.
+						m_Pos.y = Tile->GetPos().y - (1.f - m_Pivot.y) * m_Size.y;
+						m_Ground = true;
+						m_Jump = false;
+						break;
+					}
+				}
+
+				if (Check)
+					break;
+			}
+
+			// 바닥이 없을 경우
+			if (!Check)
+			{
+				// 땅을 밟고 있던 상태라면 이제 떨어지는 상태가 될것이다.
+				if (m_Ground)
+				{
+					m_FallTime = 0.f;
+					m_FallStartY = m_Pos.y;
+				}
+
+				m_Ground = false;
+			}
+		}
 	}
 }
 
@@ -736,4 +830,156 @@ void CGameObject::LoadFileName(const char* FileName, const std::string& PathName
 	strcat_s(FullPath, FileName);
 
 	LoadFullPath(FullPath);
+}
+
+void CGameObject::CheckMoveRight()
+{
+	Vector2	LT = m_Pos - m_Pivot * m_Size;
+	Vector2	RB = LT + m_Size;
+
+	Vector2	PrevLT = m_PrevPos - m_Pivot * m_Size;
+	Vector2	PrevRB = PrevLT + m_Size;
+
+	CTileMap* TileMap = m_Scene->GetTileMap();
+
+	Vector2	ResultLT, ResultRB;
+
+	ResultRB = RB;
+
+	ResultLT.x = PrevRB.x;
+	ResultLT.y = LT.y < PrevLT.y ? LT.y : PrevLT.y;
+
+	ResultRB.y = RB.y > PrevRB.y ? RB.y : PrevRB.y;
+
+	int LeftIndex = TileMap->GetTileOriginIndexX(ResultLT.x);
+	int TopIndex = TileMap->GetTileOriginIndexY(ResultLT.y);
+	int RightIndex = TileMap->GetTileOriginIndexX(ResultRB.x);
+	int BottomIndex = TileMap->GetTileOriginIndexY(ResultRB.y);
+
+	LeftIndex = LeftIndex < 0 ? 0 : LeftIndex;
+	TopIndex = TopIndex < 0 ? 0 : TopIndex;
+	RightIndex = RightIndex > TileMap->GetCountX() - 1 ? TileMap->GetCountX() - 1 : RightIndex;
+	BottomIndex = BottomIndex > TileMap->GetCountY() - 1 ? TileMap->GetCountY() - 1 : BottomIndex;
+
+	if (LeftIndex <= TileMap->GetCountX() - 1 && TopIndex <= TileMap->GetCountY() - 1 &&
+		RightIndex >= 0 && BottomIndex >= 0)
+	{
+		bool	SideCollision = false;
+
+		// 위에서 아래로 차례로 검사를 해나간다.
+		// 아래에서부터 하게 되면 위에 벽이 있을 경우 무시하고 처리되버릴 수도 있기 때문이다.
+		for (int i = TopIndex; i <= BottomIndex; ++i)
+		{
+			for (int j = LeftIndex; j <= RightIndex; ++j)
+			{
+				CTile* Tile = TileMap->GetTile(j, i);
+
+				if (Tile->GetOption() != ETile_Option::ImpossibleToMove ||
+					!Tile->GetSideCollision())
+					continue;
+
+				Vector2	TilePos = Tile->GetPos();
+				Vector2	TileSize = Tile->GetSize();
+
+				if (TilePos.y - 0.001f <= RB.y && RB.y <= TilePos.y + 0.001f)
+					continue;
+
+				/*if (RB.x - TilePos.x > 8.f)
+					continue;*/
+
+				// 현재 위치의 사각형과 타일을 충돌시켜서 파고들었는지 판단한다.
+				if (LT.x <= TilePos.x + TileSize.x && LT.y <= TilePos.y + TileSize.y &&
+					RB.x >= TilePos.x && RB.y >= TilePos.y)
+				{
+					SideCollision = true;
+
+					// 얼마나 파고들었는지 구한다.
+					float MoveX = TilePos.x - RB.x - 0.001f;
+
+					m_Pos.x += MoveX;
+					m_Move.x += MoveX;
+					break;
+				}
+			}
+
+			if (SideCollision)
+				break;
+		}
+	}
+}
+
+void CGameObject::CheckMoveLeft()
+{
+	Vector2	LT = m_Pos - m_Pivot * m_Size;
+	Vector2	RB = LT + m_Size;
+
+	Vector2	PrevLT = m_PrevPos - m_Pivot * m_Size;
+	Vector2	PrevRB = PrevLT + m_Size;
+
+	CTileMap* TileMap = m_Scene->GetTileMap();
+
+	Vector2	ResultLT, ResultRB;
+
+	ResultLT = LT;
+
+	ResultLT.y = LT.y < PrevLT.y ? LT.y : PrevLT.y;
+
+	ResultRB.x = PrevLT.x;
+	ResultRB.y = RB.y > PrevRB.y ? RB.y : PrevRB.y;
+
+	int LeftIndex = TileMap->GetTileOriginIndexX(ResultLT.x);
+	int TopIndex = TileMap->GetTileOriginIndexY(ResultLT.y);
+	int RightIndex = TileMap->GetTileOriginIndexX(ResultRB.x);
+	int BottomIndex = TileMap->GetTileOriginIndexY(ResultRB.y);
+
+	LeftIndex = LeftIndex < 0 ? 0 : LeftIndex;
+	TopIndex = TopIndex < 0 ? 0 : TopIndex;
+	RightIndex = RightIndex > TileMap->GetCountX() - 1 ? TileMap->GetCountX() - 1 : RightIndex;
+	BottomIndex = BottomIndex > TileMap->GetCountY() - 1 ? TileMap->GetCountY() - 1 : BottomIndex;
+
+	if (LeftIndex <= TileMap->GetCountX() - 1 && TopIndex <= TileMap->GetCountY() - 1 &&
+		RightIndex >= 0 && BottomIndex >= 0)
+	{
+		bool	SideCollision = false;
+
+		// 위에서 아래로 차례로 검사를 해나간다.
+		// 아래에서부터 하게 되면 위에 벽이 있을 경우 무시하고 처리되버릴 수도 있기 때문이다.
+		for (int i = TopIndex; i <= BottomIndex; ++i)
+		{
+			for (int j = RightIndex; j >= LeftIndex; --j)
+			{
+				CTile* Tile = TileMap->GetTile(j, i);
+
+				if (Tile->GetOption() != ETile_Option::ImpossibleToMove ||
+					!Tile->GetSideCollision())
+					continue;
+
+				Vector2	TilePos = Tile->GetPos();
+				Vector2	TileSize = Tile->GetSize();
+
+				if (TilePos.y - 0.001f <= RB.y && RB.y <= TilePos.y + 0.001f)
+					continue;
+
+				/*if (TilePos.x + TileSize.x - LT.x > 8.f)
+					continue;*/
+
+				// 현재 위치의 사각형과 타일을 충돌시켜서 파고들었는지 판단한다.
+				if (LT.x <= TilePos.x + TileSize.x && LT.y <= TilePos.y + TileSize.y &&
+					RB.x >= TilePos.x && RB.y >= TilePos.y)
+				{
+					SideCollision = true;
+
+					// 얼마나 파고들었는지 구한다.
+					float MoveX = TilePos.x + TileSize.x - LT.x + 0.001f;
+
+					m_Pos.x += MoveX;
+					m_Move.x += MoveX;
+					break;
+				}
+			}
+
+			if (SideCollision)
+				break;
+		}
+	}
 }

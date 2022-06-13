@@ -27,6 +27,11 @@ private:
 	bool		m_SideCollision;
 
 public:
+	bool GetSideCollision()	const
+	{
+		return m_SideCollision;
+	}
+
 	ETile_Option GetOption()	const
 	{
 		return m_Option;

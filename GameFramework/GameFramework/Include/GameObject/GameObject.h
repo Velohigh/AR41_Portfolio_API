@@ -39,6 +39,7 @@ protected:
 	bool		m_Jump;
 	float		m_JumpVelocity;
 	bool		m_SideWallCheck;
+	bool		m_Start;
 
 public:
 	class CCollider* FindCollider(const std::string& Name);
@@ -186,6 +187,7 @@ public:
 
 
 public:
+	virtual void Start();
 	virtual bool Init();
 	virtual void Update(float DeltaTime);
 	virtual void PostUpdate(float DeltaTime);
@@ -197,6 +199,12 @@ public:
 	void LoadFullPath(const char* FullPath);
 	void SaveFileName(const char* FileName, const std::string& PathName);
 	void LoadFileName(const char* FileName, const std::string& PathName);
+
+
+
+private:
+	void CheckMoveRight();
+	void CheckMoveLeft();
 
 
 public:

@@ -127,6 +127,16 @@ int CTileMap::GetTileIndex(const Vector2& Pos)
 	return IndexY * m_CountX + IndexX;
 }
 
+int CTileMap::GetTileOriginIndexX(float x)
+{
+	return (int)(x / m_TileSize.x);
+}
+
+int CTileMap::GetTileOriginIndexY(float y)
+{
+	return (int)(y / m_TileSize.y);
+}
+
 bool CTileMap::CreateTile(int CountX, int CountY,
 	const Vector2& TileSize)
 {
@@ -367,8 +377,7 @@ void CTileMap::Render(HDC hDC, float DeltaTime)
 	{
 		for (int j = m_StartX; j <= m_EndX; ++j)
 		{
-			if (m_vecTile[i * m_CountX + j]->m_Render)
-				m_vecTile[i * m_CountX + j]->Render(hDC);
+			m_vecTile[i * m_CountX + j]->Render(hDC);
 		}
 	}
 }

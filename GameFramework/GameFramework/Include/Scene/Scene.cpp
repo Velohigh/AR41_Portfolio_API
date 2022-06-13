@@ -54,6 +54,11 @@ void CScene::Update(float DeltaTime)
 
 		for (; iter != iterEnd;)
 		{
+			if (!(*iter)->m_Start)
+			{
+				(*iter)->Start();
+			}
+
 			if (!(*iter)->GetActive())
 			{
 				// 리스트에서 제거하는 순간 SharedPtr의 소멸자가 호출되어
@@ -109,6 +114,11 @@ void CScene::PostUpdate(float DeltaTime)
 
 		for (; iter != iterEnd;)
 		{
+			if (!(*iter)->m_Start)
+			{
+				(*iter)->Start();
+			}
+
 			if (!(*iter)->GetActive())
 			{
 				// 리스트에서 제거하는 순간 SharedPtr의 소멸자가 호출되어
@@ -191,6 +201,11 @@ void CScene::Render(HDC hDC, float DeltaTime)
 
 		for (; iter != iterEnd;)
 		{
+			if (!(*iter)->m_Start)
+			{
+				(*iter)->Start();
+			}
+
 			if (!(*iter)->GetActive())
 			{
 				// 리스트에서 제거하는 순간 SharedPtr의 소멸자가 호출되어

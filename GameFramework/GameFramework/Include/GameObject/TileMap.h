@@ -46,6 +46,8 @@ public:
 	int GetTileIndexX(float x);
 	int GetTileIndexY(float y);
 	int GetTileIndex(const Vector2& Pos);
+	int GetTileOriginIndexX(float x);
+	int GetTileOriginIndexY(float y);
 
 
 public:

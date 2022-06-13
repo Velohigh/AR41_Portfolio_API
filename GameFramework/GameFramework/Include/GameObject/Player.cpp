@@ -177,6 +177,7 @@ bool CPlayer::Init()
 
 	SetPhysicsSimulate(true);
 	SetJumpVelocity(60.f);
+	SetSideWallCheck(true);
 
 	return true;
 }
@@ -244,18 +245,18 @@ void CPlayer::PostUpdate(float DeltaTime)
 {
 	CCharacter::PostUpdate(DeltaTime);
 
-	if (m_PlayerDir == 1)
-	{
-		// 0일 경우라면 오른쪽으로 이동중 멈췄다는 것이다.
-		if (m_Move.x < 0.f)
-			m_PlayerDir = -1;
-	}
+	//if (m_PlayerDir == 1)
+	//{
+	//	// 0일 경우라면 오른쪽으로 이동중 멈췄다는 것이다.
+	//	if (m_Move.x < 0.f)
+	//		m_PlayerDir = -1;
+	//}
 
-	else
-	{
-		if (m_Move.x > 0.f)
-			m_PlayerDir = 1;
-	}
+	//else
+	//{
+	//	if (m_Move.x > 0.f)
+	//		m_PlayerDir = 1;
+	//}
 
 	int	AnimDirIndex = 0;
 
@@ -305,12 +306,14 @@ void CPlayer::GunRotation()
 {
 	//m_GunAngle += 180.f * DELTA_TIME * m_TimeScale;
 	MoveDir(Vector2(1.f, 0.f));
+	m_PlayerDir = 1;
 }
 
 void CPlayer::GunRotationInv()
 {
 	//m_GunAngle -= 180.f * DELTA_TIME * m_TimeScale;
 	MoveDir(Vector2(-1.f, 0.f));
+	m_PlayerDir = -1;
 }
 
 void CPlayer::Fire()

@@ -56,41 +56,44 @@ void CTile::Render(HDC hDC)
 		Resolution = Scene->GetCamera()->GetResolution();
 	}
 
-	if (m_Texture)
+	if (m_Render)
 	{
-		if (m_Texture->GetEnableColorKey())
+		if (m_Texture)
 		{
-			if (m_Texture->GetTextureType() == ETexture_Type::Sprite)
+			if (m_Texture->GetEnableColorKey())
 			{
-				TransparentBlt(hDC, (int)Pos.x, (int)Pos.y,
-					(int)m_Size.x, (int)m_Size.y, m_Texture->GetDC(),
-					(int)m_StartFrame.x, (int)m_StartFrame.y,
-					(int)m_Size.x, (int)m_Size.y, m_Texture->GetColorKey());
+				if (m_Texture->GetTextureType() == ETexture_Type::Sprite)
+				{
+					TransparentBlt(hDC, (int)Pos.x, (int)Pos.y,
+						(int)m_Size.x, (int)m_Size.y, m_Texture->GetDC(),
+						(int)m_StartFrame.x, (int)m_StartFrame.y,
+						(int)m_Size.x, (int)m_Size.y, m_Texture->GetColorKey());
+				}
+
+				else
+				{
+					TransparentBlt(hDC, (int)Pos.x, (int)Pos.y,
+						(int)m_Size.x, (int)m_Size.y, m_Texture->GetDC(m_TileFrame),
+						0, 0,
+						(int)m_Size.x, (int)m_Size.y, m_Texture->GetColorKey(m_TileFrame));
+				}
 			}
 
 			else
 			{
-				TransparentBlt(hDC, (int)Pos.x, (int)Pos.y,
-					(int)m_Size.x, (int)m_Size.y, m_Texture->GetDC(m_TileFrame),
-					0, 0,
-					(int)m_Size.x, (int)m_Size.y, m_Texture->GetColorKey(m_TileFrame));
-			}
-		}
+				if (m_Texture->GetTextureType() == ETexture_Type::Sprite)
+				{
+					BitBlt(hDC, (int)Pos.x, (int)Pos.y,
+						(int)m_Size.x, (int)m_Size.y, m_Texture->GetDC(),
+						(int)m_StartFrame.x, (int)m_StartFrame.y, SRCCOPY);
+				}
 
-		else
-		{
-			if (m_Texture->GetTextureType() == ETexture_Type::Sprite)
-			{
-				BitBlt(hDC, (int)Pos.x, (int)Pos.y,
-					(int)m_Size.x, (int)m_Size.y, m_Texture->GetDC(),
-					(int)m_StartFrame.x, (int)m_StartFrame.y, SRCCOPY);
-			}
-
-			else
-			{
-				BitBlt(hDC, (int)Pos.x, (int)Pos.y,
-					(int)m_Size.x, (int)m_Size.y, m_Texture->GetDC(m_TileFrame),
-					0, 0, SRCCOPY);
+				else
+				{
+					BitBlt(hDC, (int)Pos.x, (int)Pos.y,
+						(int)m_Size.x, (int)m_Size.y, m_Texture->GetDC(m_TileFrame),
+						0, 0, SRCCOPY);
+				}
 			}
 		}
 	}
