@@ -13,5 +13,13 @@ protected:
 
 public:
 	bool Init();
+	virtual void Update(float DeltaTime);
+	
+private:
+	int iSelect = 0;
+	int iPreSelect = 0;
+	bool isStart = false;
+	class CBackObj* Back;
+
 };
 

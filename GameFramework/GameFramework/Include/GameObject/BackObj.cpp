@@ -22,7 +22,7 @@ bool CBackObj::Init()
 	SetSize(1500.f, 1200.f);
 	SetPivot(0.f, 0.f);
 
-	SetTexture("Sky", TEXT("Sky.bmp"));
+	SetTexture("TitleBackGround", TEXT("TitleBackGround.bmp"));
 
 	return true;
 }

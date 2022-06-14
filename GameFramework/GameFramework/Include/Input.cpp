@@ -63,11 +63,11 @@ bool CInput::Init(HWND hWnd)
 	AddBindKey("MoveLeft", 'A');
 	AddBindKey("MoveUp", 'W');
 	AddBindKey("MoveDown", 'S');
-	AddBindKey("Fire", VK_LBUTTON);
-	AddBindKey("Jump", VK_SPACE);
-	AddBindKey("Skill1", '1');
-	AddBindKey("Skill2", '2');
-	SetKeyCtrl("Skill2");
+	AddBindKey("Enter", VK_RETURN);
+	AddBindKey("LButton", VK_LBUTTON);
+	AddBindKey("Space", VK_SPACE);
+
+	// 에디터 여는 단축키 Ctrl + T
 	AddBindKey("OpenTileMapEditor", 'T');
 	SetKeyCtrl("OpenTileMapEditor");
 
@@ -80,27 +80,6 @@ bool CInput::Init(HWND hWnd)
 
 	m_MouseProfile = CCollisionManager::GetInst()->FindProfile("Mouse");
 
-	std::vector<std::wstring>	vecFileName;
-
-	for (int i = 0; i <= 10; ++i)
-	{
-		TCHAR	FileName[MAX_PATH] = {};
-		// %d에 i의 값이 대입되어 문자열이 만들어지게 된다.
-		wsprintf(FileName, TEXT("Mouse/%d.bmp"), i);
-		vecFileName.push_back(FileName);
-	}
-
-	CResourceManager::GetInst()->CreateAnimationSequence("MouseDefault",
-		"MouseDefault", vecFileName, TEXTURE_PATH);
-
-	for (int i = 0; i < 11; ++i)
-	{
-		CResourceManager::GetInst()->AddAnimationFrame("MouseDefault", 0.f, 0.f,
-			32.f, 31.f);
-	}
-
-	CResourceManager::GetInst()->SetColorKey("MouseDefault", 255, 0, 255);
-
 	m_MouseObj = new CGameObject;
 
 	m_MouseObj->SetName("Mouse");
@@ -109,12 +88,11 @@ bool CInput::Init(HWND hWnd)
 
 	m_MouseObj->SetSize(32.f, 31.f);
 
-	m_MouseObj->CreateAnimation();
+	//ShowCursor(FALSE);
+	//m_ShowCursor = false;
 
-	m_MouseObj->AddAnimation("MouseDefault", true);
-
-	ShowCursor(FALSE);
-	m_ShowCursor = false;
+	ShowCursor(true);
+	m_ShowCursor = true;
 
 	return true;
 }

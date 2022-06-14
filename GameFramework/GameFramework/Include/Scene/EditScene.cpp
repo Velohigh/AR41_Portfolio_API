@@ -26,17 +26,17 @@ bool CEditScene::Init()
 	GetCamera()->SetWorldResolution(1280.f, 720.f);
 	GetCamera()->SetTargetPivot(0.5f, 0.5f);
 
-	CInput::GetInst()->AddBindFunction<CEditScene>("MoveFront",
+	CInput::GetInst()->AddBindFunction<CEditScene>("MoveUp",
 		Input_Type::Push, this, &CEditScene::MoveUp);
-	CInput::GetInst()->AddBindFunction<CEditScene>("MoveBack",
+	CInput::GetInst()->AddBindFunction<CEditScene>("MoveDown",
 		Input_Type::Push, this, &CEditScene::MoveDown);
-	CInput::GetInst()->AddBindFunction<CEditScene>("GunRotation",
+	CInput::GetInst()->AddBindFunction<CEditScene>("MoveRight",
 		Input_Type::Push, this, &CEditScene::MoveRight);
-	CInput::GetInst()->AddBindFunction<CEditScene>("GunRotationInv",
+	CInput::GetInst()->AddBindFunction<CEditScene>("MoveLeft",
 		Input_Type::Push, this, &CEditScene::MoveLeft);
 	CInput::GetInst()->AddBindFunction<CEditScene>("OpenTileMapEditor",
 		Input_Type::Down, this, &CEditScene::OpenTileMapEditor);
-	CInput::GetInst()->AddBindFunction<CEditScene>("Fire",
+	CInput::GetInst()->AddBindFunction<CEditScene>("LButton",
 		Input_Type::Push, this, &CEditScene::MouseLButtonDrag);
 
 	CGameManager::GetInst()->SetEditMode(true);

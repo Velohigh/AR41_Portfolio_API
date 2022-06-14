@@ -85,10 +85,10 @@ bool CPlayer::Init()
 	CInput::GetInst()->AddBindFunction<CPlayer>("MoveLeft",
 		Input_Type::Push, this, &CPlayer::MoveLeft);
 
-	CInput::GetInst()->AddBindFunction<CPlayer>("Fire",
+	CInput::GetInst()->AddBindFunction<CPlayer>("LButton",
 		Input_Type::Down, this, &CPlayer::Fire);
 
-	CInput::GetInst()->AddBindFunction<CPlayer>("Jump",
+	CInput::GetInst()->AddBindFunction<CPlayer>("Space",
 		Input_Type::Down, this, &CPlayer::JumpKey);
 
 
@@ -307,7 +307,7 @@ void CPlayer::AttackEnd()
 
 void CPlayer::Attack()
 {
-
+	
 }
 
 void CPlayer::CollisionBegin(CCollider* Src, CCollider* Dest)

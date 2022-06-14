@@ -97,6 +97,15 @@
     <Filter Include="02. GameObject\06. TileMap">
       <UniqueIdentifier>{76fe710f-1c45-4f1c-996d-4b71a7fd6ac6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03. Scene\05. Stage_Scene">
+      <UniqueIdentifier>{22eb7ed5-6e68-433f-a811-dfb42dea944b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Scene\04. Title_Scene">
+      <UniqueIdentifier>{f718792d-38ae-4fa2-bff3-385b0f077ace}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Scene\99. Edit_Scene">
+      <UniqueIdentifier>{fcf587d4-fcef-4949-bd88-ace429a1f1b4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -119,9 +128,6 @@
     </ClCompile>
     <ClCompile Include="GameInfo.cpp">
       <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="Scene\MainScene.cpp">
-      <Filter>03. Scene</Filter>
     </ClCompile>
     <ClCompile Include="Scene\Scene.cpp">
       <Filter>03. Scene</Filter>
@@ -207,9 +213,6 @@
     <ClCompile Include="Widget\WidgetWindow.cpp">
       <Filter>07. UI\02. Window</Filter>
     </ClCompile>
-    <ClCompile Include="Scene\StartScene.cpp">
-      <Filter>03. Scene</Filter>
-    </ClCompile>
     <ClCompile Include="Widget\StartWindow.cpp">
       <Filter>07. UI\02. Window</Filter>
     </ClCompile>
@@ -243,11 +246,17 @@
     <ClCompile Include="GameObject\Tile.cpp">
       <Filter>02. GameObject\06. TileMap</Filter>
     </ClCompile>
-    <ClCompile Include="Scene\EditScene.cpp">
-      <Filter>03. Scene</Filter>
+    <ClCompile Include="Scene\StartScene.cpp">
+      <Filter>03. Scene\04. Title_Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene\MainScene.cpp">
+      <Filter>03. Scene\05. Stage_Scene</Filter>
     </ClCompile>
     <ClCompile Include="Scene\EditDlg.cpp">
-      <Filter>03. Scene</Filter>
+      <Filter>03. Scene\99. Edit_Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene\EditScene.cpp">
+      <Filter>03. Scene\99. Edit_Scene</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -282,9 +291,6 @@
       <Filter>03. Scene</Filter>
     </ClInclude>
     <ClInclude Include="Scene\SceneManager.h">
-      <Filter>03. Scene</Filter>
-    </ClInclude>
-    <ClInclude Include="Scene\MainScene.h">
       <Filter>03. Scene</Filter>
     </ClInclude>
     <ClInclude Include="Ref.h">
@@ -395,9 +401,6 @@
     <ClInclude Include="Widget\WidgetWindow.h">
       <Filter>07. UI\02. Window</Filter>
     </ClInclude>
-    <ClInclude Include="Scene\StartScene.h">
-      <Filter>03. Scene</Filter>
-    </ClInclude>
     <ClInclude Include="Widget\StartWindow.h">
       <Filter>07. UI\02. Window</Filter>
     </ClInclude>
@@ -431,11 +434,17 @@
     <ClInclude Include="GameObject\Tile.h">
       <Filter>02. GameObject\06. TileMap</Filter>
     </ClInclude>
-    <ClInclude Include="Scene\EditScene.h">
-      <Filter>03. Scene</Filter>
+    <ClInclude Include="Scene\StartScene.h">
+      <Filter>03. Scene\04. Title_Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\MainScene.h">
+      <Filter>03. Scene\05. Stage_Scene</Filter>
     </ClInclude>
     <ClInclude Include="Scene\EditDlg.h">
-      <Filter>03. Scene</Filter>
+      <Filter>03. Scene\99. Edit_Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\EditScene.h">
+      <Filter>03. Scene\99. Edit_Scene</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
