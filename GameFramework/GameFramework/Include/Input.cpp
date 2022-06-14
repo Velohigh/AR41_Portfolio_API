@@ -59,10 +59,10 @@ bool CInput::Init(HWND hWnd)
 {
 	m_hWnd = hWnd;
 
-	AddBindKey("GunRotation", 'D');
-	AddBindKey("GunRotationInv", 'A');
-	AddBindKey("MoveFront", 'W');
-	AddBindKey("MoveBack", 'S');
+	AddBindKey("MoveRight", 'D');
+	AddBindKey("MoveLeft", 'A');
+	AddBindKey("MoveUp", 'W');
+	AddBindKey("MoveDown", 'S');
 	AddBindKey("Fire", VK_LBUTTON);
 	AddBindKey("Jump", VK_SPACE);
 	AddBindKey("Skill1", '1');

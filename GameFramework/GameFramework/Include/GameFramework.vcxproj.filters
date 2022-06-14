@@ -40,9 +40,6 @@
     <Filter Include="02. GameObject\02. Bullet">
       <UniqueIdentifier>{9e3c2edf-08bc-4d99-82ac-cb72cb792ba3}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02. GameObject\03. Aurelion Sol">
-      <UniqueIdentifier>{94890af0-39ad-4fa7-ab2b-76730d5dfdce}</UniqueIdentifier>
-    </Filter>
     <Filter Include="04. Resource">
       <UniqueIdentifier>{55c28738-7a5e-49a8-83ad-eb91d074f9fd}</UniqueIdentifier>
     </Filter>
@@ -143,12 +140,6 @@
     </ClCompile>
     <ClCompile Include="GameObject\Bullet.cpp">
       <Filter>02. GameObject\02. Bullet</Filter>
-    </ClCompile>
-    <ClCompile Include="GameObject\Tornado.cpp">
-      <Filter>02. GameObject\02. Bullet</Filter>
-    </ClCompile>
-    <ClCompile Include="GameObject\AurelionSol.cpp">
-      <Filter>02. GameObject\03. Aurelion Sol</Filter>
     </ClCompile>
     <ClCompile Include="Resource\ResourceManager.cpp">
       <Filter>04. Resource</Filter>
@@ -310,12 +301,6 @@
     </ClInclude>
     <ClInclude Include="GameObject\Bullet.h">
       <Filter>02. GameObject\02. Bullet</Filter>
-    </ClInclude>
-    <ClInclude Include="GameObject\Tornado.h">
-      <Filter>02. GameObject\02. Bullet</Filter>
-    </ClInclude>
-    <ClInclude Include="GameObject\AurelionSol.h">
-      <Filter>02. GameObject\03. Aurelion Sol</Filter>
     </ClInclude>
     <ClInclude Include="Resource\ResourceManager.h">
       <Filter>04. Resource</Filter>

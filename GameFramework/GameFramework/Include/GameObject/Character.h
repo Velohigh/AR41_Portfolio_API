@@ -1,5 +1,15 @@
 #pragma once
+
 #include "GameObject.h"
+
+enum class ActorState
+{
+	Idle,
+	Run,
+	Attack,
+	End
+};
+
 class CCharacter :
     public CGameObject
 {
@@ -9,6 +19,10 @@ protected:
 	CCharacter();
 	CCharacter(const CCharacter& Obj);
 	virtual ~CCharacter();
+
+protected:
+	ActorState m_eCurState;
+	ActorState m_ePreState;
 
 public:
 	virtual bool Init();

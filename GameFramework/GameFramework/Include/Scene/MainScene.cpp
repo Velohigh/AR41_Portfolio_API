@@ -40,16 +40,15 @@ bool CMainScene::Init()
 
 	GetCamera()->SetTarget(Player);
 
-	m_Monster = CreateObject<CMonster>("Monster");
+	//m_Monster = CreateObject<CMonster>("Monster");
 
 
-	CTileMap* TileMap = CreateObject<CTileMap>("TileMap");
+	//CTileMap* TileMap = CreateObject<CTileMap>("TileMap");
 
-
-	TileMap->LoadFileName("MainMap.tmp", MAP_PATH);
-	/*TileMap->CreateTile(100, 100, Vector2(40.f, 53.f));
-	TileMap->SetTileTexture("Tile", TEXT("Stone.bmp"));
-	TileMap->SetTileColorKeyAll(255, 0, 255);*/
+	//TileMap->LoadFileName("MainMap.tmp", MAP_PATH);
+	///*TileMap->CreateTile(100, 100, Vector2(40.f, 53.f));
+	//TileMap->SetTileTexture("Tile", TEXT("Stone.bmp"));
+	//TileMap->SetTileColorKeyAll(255, 0, 255);*/
 
 	CInput::GetInst()->AddBindFunction<CMainScene>("Cam1",
 		Input_Type::Down, this, &CMainScene::Cam1Key);
@@ -63,85 +62,85 @@ bool CMainScene::Init()
 
 void CMainScene::CreateAnimationSequence()
 {
-	GetSceneResource()->CreateAnimationSequence("PlayerRightIdle",
-		"PlayerRightIdle", TEXT("Player/Right/astand.bmp"), TEXTURE_PATH);
+	//GetSceneResource()->CreateAnimationSequence("PlayerRightIdle",
+	//	"PlayerRightIdle", TEXT("Player/Right/astand.bmp"), TEXTURE_PATH);
 
-	for (int i = 0; i < 6; ++i)
-	{
-		GetSceneResource()->AddAnimationFrame("PlayerRightIdle", 82.f * i, 0.f,
-			82.f, 73.f);
-	}
+	//for (int i = 0; i < 6; ++i)
+	//{
+	//	GetSceneResource()->AddAnimationFrame("PlayerRightIdle", 82.f * i, 0.f,
+	//		82.f, 73.f);
+	//}
 
-	GetSceneResource()->SetColorKey("PlayerRightIdle", 255, 0, 255);
+	//GetSceneResource()->SetColorKey("PlayerRightIdle", 255, 0, 255);
 
-	GetSceneResource()->CreateAnimationSequence("PlayerRightWalk",
-		"PlayerRightWalk", TEXT("Player/Right/awalk.bmp"), TEXTURE_PATH);
+	//GetSceneResource()->CreateAnimationSequence("PlayerRightWalk",
+	//	"PlayerRightWalk", TEXT("Player/Right/awalk.bmp"), TEXTURE_PATH);
 
-	for (int i = 0; i < 4; ++i)
-	{
-		GetSceneResource()->AddAnimationFrame("PlayerRightWalk", 85.f * i, 0.f,
-			85.f, 75.f);
-	}
+	//for (int i = 0; i < 4; ++i)
+	//{
+	//	GetSceneResource()->AddAnimationFrame("PlayerRightWalk", 85.f * i, 0.f,
+	//		85.f, 75.f);
+	//}
 
-	GetSceneResource()->SetColorKey("PlayerRightWalk", 255, 0, 255);
+	//GetSceneResource()->SetColorKey("PlayerRightWalk", 255, 0, 255);
 
-	GetSceneResource()->CreateAnimationSequence("PlayerRightAttack",
-		"PlayerRightAttack", TEXT("Player/Right/aswing.bmp"), TEXTURE_PATH);
+	//GetSceneResource()->CreateAnimationSequence("PlayerRightAttack",
+	//	"PlayerRightAttack", TEXT("Player/Right/aswing.bmp"), TEXTURE_PATH);
 
-	for (int i = 0; i < 3; ++i)
-	{
-		GetSceneResource()->AddAnimationFrame("PlayerRightAttack", 176.f * i, 0.f,
-			176.f, 89.f);
-	}
+	//for (int i = 0; i < 3; ++i)
+	//{
+	//	GetSceneResource()->AddAnimationFrame("PlayerRightAttack", 176.f * i, 0.f,
+	//		176.f, 89.f);
+	//}
 
-	GetSceneResource()->SetColorKey("PlayerRightAttack", 255, 0, 255);
-
-
-	GetSceneResource()->CreateAnimationSequence("PlayerLeftIdle",
-		"PlayerLeftIdle", TEXT("Player/Left/astand_left.bmp"), TEXTURE_PATH);
-
-	for (int i = 0; i < 6; ++i)
-	{
-		GetSceneResource()->AddAnimationFrame("PlayerLeftIdle", 82.f * i, 0.f,
-			82.f, 73.f);
-	}
-
-	GetSceneResource()->SetColorKey("PlayerLeftIdle", 255, 0, 255);
-
-	GetSceneResource()->CreateAnimationSequence("PlayerLeftWalk",
-		"PlayerLeftWalk", TEXT("Player/Left/awalk_left.bmp"), TEXTURE_PATH);
-
-	for (int i = 0; i < 4; ++i)
-	{
-		GetSceneResource()->AddAnimationFrame("PlayerLeftWalk", 85.f * i, 0.f,
-			85.f, 75.f);
-	}
-
-	GetSceneResource()->SetColorKey("PlayerLeftWalk", 255, 0, 255);
-
-	GetSceneResource()->CreateAnimationSequence("PlayerLeftAttack",
-		"PlayerLeftAttack", TEXT("Player/Left/aswing_left.bmp"), TEXTURE_PATH);
-
-	for (int i = 0; i < 3; ++i)
-	{
-		GetSceneResource()->AddAnimationFrame("PlayerLeftAttack", 176.f * i, 0.f,
-			176.f, 89.f);
-	}
-
-	GetSceneResource()->SetColorKey("PlayerLeftAttack", 255, 0, 255);
+	//GetSceneResource()->SetColorKey("PlayerRightAttack", 255, 0, 255);
 
 
+	//GetSceneResource()->CreateAnimationSequence("PlayerLeftIdle",
+	//	"PlayerLeftIdle", TEXT("Player/Left/astand_left.bmp"), TEXTURE_PATH);
 
-	GetSceneResource()->CreateAnimationSequence("LeftHitEffect",
-		"LeftHitEffect", TEXT("Hit.bmp"), TEXTURE_PATH);
+	//for (int i = 0; i < 6; ++i)
+	//{
+	//	GetSceneResource()->AddAnimationFrame("PlayerLeftIdle", 82.f * i, 0.f,
+	//		82.f, 73.f);
+	//}
 
-	for (int i = 0; i < 6; ++i)
-	{
-		GetSceneResource()->AddAnimationFrame("LeftHitEffect", 178.f * i, 0.f,
-			178.f, 164.f);
-	}
+	//GetSceneResource()->SetColorKey("PlayerLeftIdle", 255, 0, 255);
 
-	GetSceneResource()->SetColorKey("LeftHitEffect", 255, 0, 255);
+	//GetSceneResource()->CreateAnimationSequence("PlayerLeftWalk",
+	//	"PlayerLeftWalk", TEXT("Player/Left/awalk_left.bmp"), TEXTURE_PATH);
+
+	//for (int i = 0; i < 4; ++i)
+	//{
+	//	GetSceneResource()->AddAnimationFrame("PlayerLeftWalk", 85.f * i, 0.f,
+	//		85.f, 75.f);
+	//}
+
+	//GetSceneResource()->SetColorKey("PlayerLeftWalk", 255, 0, 255);
+
+	//GetSceneResource()->CreateAnimationSequence("PlayerLeftAttack",
+	//	"PlayerLeftAttack", TEXT("Player/Left/aswing_left.bmp"), TEXTURE_PATH);
+
+	//for (int i = 0; i < 3; ++i)
+	//{
+	//	GetSceneResource()->AddAnimationFrame("PlayerLeftAttack", 176.f * i, 0.f,
+	//		176.f, 89.f);
+	//}
+
+	//GetSceneResource()->SetColorKey("PlayerLeftAttack", 255, 0, 255);
+
+
+
+	//GetSceneResource()->CreateAnimationSequence("LeftHitEffect",
+	//	"LeftHitEffect", TEXT("Hit.bmp"), TEXTURE_PATH);
+
+	//for (int i = 0; i < 6; ++i)
+	//{
+	//	GetSceneResource()->AddAnimationFrame("LeftHitEffect", 178.f * i, 0.f,
+	//		178.f, 164.f);
+	//}
+
+	//GetSceneResource()->SetColorKey("LeftHitEffect", 255, 0, 255);
 }
 
 void CMainScene::Cam1Key()

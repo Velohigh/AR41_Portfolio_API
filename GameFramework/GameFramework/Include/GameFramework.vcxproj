@@ -98,6 +98,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -112,6 +113,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -126,6 +128,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -140,6 +143,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -157,7 +161,6 @@
     <ClCompile Include="Collision\CollisionManager.cpp" />
     <ClCompile Include="GameInfo.cpp" />
     <ClCompile Include="GameManager.cpp" />
-    <ClCompile Include="GameObject\AurelionSol.cpp" />
     <ClCompile Include="GameObject\BackObj.cpp" />
     <ClCompile Include="GameObject\Bullet.cpp" />
     <ClCompile Include="GameObject\Character.cpp" />
@@ -167,7 +170,6 @@
     <ClCompile Include="GameObject\Player.cpp" />
     <ClCompile Include="GameObject\Tile.cpp" />
     <ClCompile Include="GameObject\TileMap.cpp" />
-    <ClCompile Include="GameObject\Tornado.cpp" />
     <ClCompile Include="Input.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="PathManager.cpp" />
@@ -220,7 +222,6 @@
     <ClInclude Include="fmod_output.h" />
     <ClInclude Include="GameInfo.h" />
     <ClInclude Include="GameManager.h" />
-    <ClInclude Include="GameObject\AurelionSol.h" />
     <ClInclude Include="GameObject\BackObj.h" />
     <ClInclude Include="GameObject\Bullet.h" />
     <ClInclude Include="GameObject\Character.h" />
@@ -230,7 +231,6 @@
     <ClInclude Include="GameObject\Player.h" />
     <ClInclude Include="GameObject\Tile.h" />
     <ClInclude Include="GameObject\TileMap.h" />
-    <ClInclude Include="GameObject\Tornado.h" />
     <ClInclude Include="Input.h" />
     <ClInclude Include="PathManager.h" />
     <ClInclude Include="Ref.h" />

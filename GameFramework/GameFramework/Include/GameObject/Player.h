@@ -2,10 +2,10 @@
 
 #include "Character.h"
 
-struct SkillCoolDownInfo
+enum class PlayerDir
 {
-	float	CoolDown;
-	bool	CoolDownEnable;
+	Left = -1,
+	Right = 1,
 };
 
 class CPlayer :
@@ -19,24 +19,10 @@ protected:
 	virtual ~CPlayer();
 
 private:
-	float	m_GunAngle;
-	float	m_GunLength;
-	Vector2	m_GunPos;
-	float	m_SolAngle[3];
-	float	m_SolLengthMin;
-	float	m_SolLengthMax;
-	float	m_SolLength;
-	float	m_SolRotationSpeed;
-	float	m_SolSkillDir;
-	bool	m_SolSkillOn;
-	float	m_SolSkillTime;
-	class CAurelionSol* m_Sol[3];
 	int		m_PlayerDir;
-	std::vector<std::string>	m_vecSequenceKey[2];
 
 	bool	m_Attack;
 
-	std::vector<SkillCoolDownInfo>	m_vecCoolDown;
 	int		m_HP;
 	int		m_HPMax;
 
@@ -51,16 +37,17 @@ public:
 	virtual float InflictDamage(float Damage);
 
 private:
-	void MoveFront();
-	void MoveBack();
-	void GunRotation();
-	void GunRotationInv();
+	void CreateAnimationSequence();
+	void StateChange(ActorState State);
+	void StateUpdate();
+
+private:
+	void MoveUp();
+	void MoveDown();
+	void MoveRight();
+	void MoveLeft();
 	void Fire();
-	void Skill1();
-	void Skill2();
 	void JumpKey();
-
-
 
 private:
 	void AttackEnd();
@@ -69,5 +56,15 @@ private:
 private:
 	void CollisionBegin(CCollider* Src, CCollider* Dest);
 	void CollisionEnd(CCollider* Src, CCollider* Dest);
+
+private:
+	void IdleUpdate();
+	void RunUpdate();
+	void AttackUpdate();
+
+	void IdleStart();
+	void RunStart();
+	void AttackStart();
+
 };
 

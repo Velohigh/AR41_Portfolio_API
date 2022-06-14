@@ -164,7 +164,7 @@ void CAnimation::Update(float DeltaTime)
 	m_CurrentAnimation->m_Time += DeltaTime * m_CurrentAnimation->m_PlayScale;
 
 	bool AnimationEnd = false;
-
+	
 	// 진행된 시간이 1프레임당 흘러야 할 시간을 지났다면 프레임을 증가시킨다.
 	if (m_CurrentAnimation->m_Time >= m_CurrentAnimation->m_FrameTime)
 	{
