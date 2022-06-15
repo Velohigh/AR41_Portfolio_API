@@ -21,10 +21,10 @@ bool CMainScene::Init()
 {
 	CreateAnimationSequence();
 
-	GetSceneResource()->LoadSound("BGM", "MainBGM", true, "MainBgm.mp3");
-	GetSceneResource()->LoadSound("Effect", "TeemoSmile", false, "TeemoSmile.mp3");
-	GetSceneResource()->LoadSound("Effect", "Gabung", false, "Demasia.mp3");
-	GetSceneResource()->SoundPlay("MainBGM");
+	//GetSceneResource()->LoadSound("BGM", "MainBGM", true, "MainBgm.mp3");
+	//GetSceneResource()->LoadSound("Effect", "TeemoSmile", false, "TeemoSmile.mp3");
+	//GetSceneResource()->LoadSound("Effect", "Gabung", false, "Demasia.mp3");
+	//GetSceneResource()->SoundPlay("MainBGM");
 
 	GetSceneResource()->SetVolume(20);
 

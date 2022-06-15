@@ -191,7 +191,7 @@
     <ClCompile Include="Scene\SceneCollision.cpp" />
     <ClCompile Include="Scene\SceneManager.cpp" />
     <ClCompile Include="Scene\SceneResource.cpp" />
-    <ClCompile Include="Scene\StartScene.cpp" />
+    <ClCompile Include="Scene\TitleScene.cpp" />
     <ClCompile Include="Timer.cpp" />
     <ClCompile Include="Widget\Button.cpp" />
     <ClCompile Include="Widget\CharacterHUD.cpp" />
@@ -252,7 +252,7 @@
     <ClInclude Include="Scene\SceneCollision.h" />
     <ClInclude Include="Scene\SceneManager.h" />
     <ClInclude Include="Scene\SceneResource.h" />
-    <ClInclude Include="Scene\StartScene.h" />
+    <ClInclude Include="Scene\TitleScene.h" />
     <ClInclude Include="SharedPtr.h" />
     <ClInclude Include="SingletonMacro.h" />
     <ClInclude Include="Timer.h" />

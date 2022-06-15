@@ -2,14 +2,14 @@
 
 #include "Scene.h"
 
-class CStartScene :
+class CTitleScene :
     public CScene
 {
 	friend class CSceneManager;
 
 protected:
-	CStartScene();
-	virtual ~CStartScene();
+	CTitleScene();
+	virtual ~CTitleScene();
 
 public:
 	bool Init();
@@ -20,6 +20,12 @@ private:
 	int iPreSelect = 0;
 	bool isStart = false;
 	class CBackObj* Back;
+
+private:
+	void MoveUpPush();
+	void MoveDownPush();
+
+	void CreateAnimationSequence();
 
 };
 

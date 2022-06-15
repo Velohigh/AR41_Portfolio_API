@@ -1,5 +1,5 @@
 
-#include "StartScene.h"
+#include "TitleScene.h"
 #include "../GameObject/Player.h"
 #include "../GameObject/Monster.h"
 #include "../GameObject/BackObj.h"
@@ -9,17 +9,25 @@
 #include "../Widget/StartWindow.h"
 #include "../Resource/ResourceManager.h"
 
-CStartScene::CStartScene()	:	
+CTitleScene::CTitleScene()	:
 	Back(nullptr)
 {
 }
 
-CStartScene::~CStartScene()
+CTitleScene::~CTitleScene()
 {
 }
 
-bool CStartScene::Init()
+bool CTitleScene::Init()
 {
+
+	GetSceneResource()->LoadSound("BGM", "TitleBGM", true, "song_rainonbrick.ogg");
+	GetSceneResource()->LoadSound("BGM2", "TitleBGM2", true, "sound_ambience_rain_title_01.wav");
+	GetSceneResource()->LoadSound("Effect", "SelectTitleMenu", false, "sound_menubeep_2.wav");
+	GetSceneResource()->SoundPlay("TitleBGM");
+	GetSceneResource()->SoundPlay("TitleBGM2");
+	GetSceneResource()->SetVolume("BGM2", 40);
+
 	GetCamera()->SetResolution(1280.f, 720.f);
 	GetCamera()->SetWorldResolution(1280.f, 720.f);
 	GetCamera()->SetTargetPivot(0.5f, 0.5f);
@@ -27,6 +35,78 @@ bool CStartScene::Init()
 	// CreateWidgetWindow<CStartWindow>("StartWindow");
 
 	Back = CreateObject<CBackObj>("BackObj");
+	CreateAnimationSequence();
+
+	// 키 입력 함수 포인터
+	CInput::GetInst()->AddBindFunction<CTitleScene>("MoveUp",
+		Input_Type::Down, this, &CTitleScene::MoveUpPush);
+
+	CInput::GetInst()->AddBindFunction<CTitleScene>("MoveDown",
+		Input_Type::Down, this, &CTitleScene::MoveDownPush);
+
+	CInput::GetInst()->AddBindFunction<CTitleScene>("ArrowUp",
+		Input_Type::Down, this, &CTitleScene::MoveUpPush);
+
+	CInput::GetInst()->AddBindFunction<CTitleScene>("ArrowDown",
+		Input_Type::Down, this, &CTitleScene::MoveDownPush);
+
+
+	return true;
+}
+
+void CTitleScene::Update(float DeltaTime)
+{
+	CScene::Update(DeltaTime);
+
+	//  값이 바뀐경우
+	if (iSelect != iPreSelect)
+	{
+		if (iSelect == 0)
+		{
+			Back->ChangeAnimation("TitleAnimation_0");
+		}
+		else if (iSelect == 1)
+		{
+			Back->ChangeAnimation("TitleAnimation_1");
+		}
+
+		else if (iSelect == 2)
+		{
+			Back->ChangeAnimation("TitleAnimation_2");
+		}
+		else if (iSelect == 3)
+		{
+			Back->ChangeAnimation("TitleAnimation_3");
+		}
+		else if (iSelect == 4)
+		{
+			Back->ChangeAnimation("TitleAnimation_4");
+		}
+		
+		GetSceneResource()->SoundPlay("SelectTitleMenu");
+		iPreSelect = iSelect;
+	}
+
+
+
+}
+
+void CTitleScene::MoveUpPush()
+{
+	if (iSelect > 0)
+		iSelect -= 1;
+
+}
+
+void CTitleScene::MoveDownPush()
+{
+	if (iSelect < 4)
+		iSelect += 1;
+
+}
+
+void CTitleScene::CreateAnimationSequence()
+{
 	Back->CreateAnimation();
 
 	// Title Animation0
@@ -174,14 +254,4 @@ bool CStartScene::Init()
 	}
 
 	Back->ChangeAnimation("TitleAnimation_0");
-
-	return true;
-}
-
-void CStartScene::Update(float DeltaTime)
-{
-	CScene::Update(DeltaTime);
-
-	
-
 }

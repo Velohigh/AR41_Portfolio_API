@@ -66,6 +66,10 @@ bool CInput::Init(HWND hWnd)
 	AddBindKey("Enter", VK_RETURN);
 	AddBindKey("LButton", VK_LBUTTON);
 	AddBindKey("Space", VK_SPACE);
+	AddBindKey("ArrowUp", VK_UP);
+	AddBindKey("ArrowDown", VK_DOWN);
+	AddBindKey("ArrowLeft", VK_LEFT);
+	AddBindKey("ArrowRight", VK_RIGHT);
 
 	// 에디터 여는 단축키 Ctrl + T
 	AddBindKey("OpenTileMapEditor", 'T');

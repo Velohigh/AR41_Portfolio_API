@@ -6,6 +6,7 @@ class CBackObj :
     public CGameObject
 {
 	friend class CScene;
+	friend class CTitleScene;
 
 protected:
 	CBackObj();

@@ -246,7 +246,7 @@
     <ClCompile Include="GameObject\Tile.cpp">
       <Filter>02. GameObject\06. TileMap</Filter>
     </ClCompile>
-    <ClCompile Include="Scene\StartScene.cpp">
+    <ClCompile Include="Scene\TitleScene.cpp">
       <Filter>03. Scene\04. Title_Scene</Filter>
     </ClCompile>
     <ClCompile Include="Scene\MainScene.cpp">
@@ -434,7 +434,7 @@
     <ClInclude Include="GameObject\Tile.h">
       <Filter>02. GameObject\06. TileMap</Filter>
     </ClInclude>
-    <ClInclude Include="Scene\StartScene.h">
+    <ClInclude Include="Scene\TitleScene.h">
       <Filter>03. Scene\04. Title_Scene</Filter>
     </ClInclude>
     <ClInclude Include="Scene\MainScene.h">
