@@ -249,7 +249,7 @@
     <ClCompile Include="Scene\TitleScene.cpp">
       <Filter>03. Scene\04. Title_Scene</Filter>
     </ClCompile>
-    <ClCompile Include="Scene\MainScene.cpp">
+    <ClCompile Include="Scene\Stage_1.cpp">
       <Filter>03. Scene\05. Stage_Scene</Filter>
     </ClCompile>
     <ClCompile Include="Scene\EditDlg.cpp">
@@ -437,7 +437,7 @@
     <ClInclude Include="Scene\TitleScene.h">
       <Filter>03. Scene\04. Title_Scene</Filter>
     </ClInclude>
-    <ClInclude Include="Scene\MainScene.h">
+    <ClInclude Include="Scene\Stage_1.h">
       <Filter>03. Scene\05. Stage_Scene</Filter>
     </ClInclude>
     <ClInclude Include="Scene\EditDlg.h">

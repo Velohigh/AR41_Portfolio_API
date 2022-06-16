@@ -4,7 +4,7 @@
 #include "../Scene/Scene.h"
 #include "../Scene/SceneResource.h"
 #include "../GameManager.h"
-#include "../Scene/MainScene.h"
+#include "../Scene/Stage_1.h"
 #include "../Scene/SceneManager.h"
 #include "../Input.h"
 #include "ProgressBar.h"

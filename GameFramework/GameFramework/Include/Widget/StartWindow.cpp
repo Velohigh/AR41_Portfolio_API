@@ -5,7 +5,7 @@
 #include "../Scene/Scene.h"
 #include "../Scene/SceneResource.h"
 #include "../GameManager.h"
-#include "../Scene/MainScene.h"
+#include "../Scene/Stage_1.h"
 #include "../Scene/EditScene.h"
 #include "../Scene/SceneManager.h"
 #include "../Input.h"
@@ -199,7 +199,7 @@ void CStartWindow::Update(float DeltaTime)
 void CStartWindow::StartButtonCallback()
 {
 	CInput::GetInst()->ClearCallback();
-	CSceneManager::GetInst()->CreateScene<CMainScene>();
+	CSceneManager::GetInst()->CreateScene<CStage_1>();
 }
 
 void CStartWindow::EditButtonCallback()

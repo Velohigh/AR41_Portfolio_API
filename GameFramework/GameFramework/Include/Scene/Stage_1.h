@@ -1,13 +1,15 @@
 #pragma once
+
 #include "Scene.h"
-class CMainScene :
+
+class CStage_1 :
     public CScene
 {
 	friend class CSceneManager;
 
 protected:
-	CMainScene();
-	virtual ~CMainScene();
+	CStage_1();
+	virtual ~CStage_1();
 
 private:
 	CSharedPtr<class CMonster>	m_Monster;
@@ -19,7 +21,5 @@ private:
 	void CreateAnimationSequence();
 
 private:
-	void Cam1Key();
-	void Cam2Key();
 };
 

@@ -8,6 +8,8 @@
 #include "../Input.h"
 #include "../Widget/StartWindow.h"
 #include "../Resource/ResourceManager.h"
+#include "../Scene/SceneManager.h"
+#include "../Scene/Stage_1.h"
 
 CTitleScene::CTitleScene()	:
 	Back(nullptr)
@@ -16,17 +18,12 @@ CTitleScene::CTitleScene()	:
 
 CTitleScene::~CTitleScene()
 {
+	SAFE_DELETE(Back);
 }
 
 bool CTitleScene::Init()
 {
 
-	GetSceneResource()->LoadSound("BGM", "TitleBGM", true, "song_rainonbrick.ogg");
-	GetSceneResource()->LoadSound("BGM2", "TitleBGM2", true, "sound_ambience_rain_title_01.wav");
-	GetSceneResource()->LoadSound("Effect", "SelectTitleMenu", false, "sound_menubeep_2.wav");
-	GetSceneResource()->SoundPlay("TitleBGM");
-	GetSceneResource()->SoundPlay("TitleBGM2");
-	GetSceneResource()->SetVolume("BGM2", 40);
 
 	GetCamera()->SetResolution(1280.f, 720.f);
 	GetCamera()->SetWorldResolution(1280.f, 720.f);
@@ -37,19 +34,13 @@ bool CTitleScene::Init()
 	Back = CreateObject<CBackObj>("BackObj");
 	CreateAnimationSequence();
 
-	// 키 입력 함수 포인터
-	CInput::GetInst()->AddBindFunction<CTitleScene>("MoveUp",
-		Input_Type::Down, this, &CTitleScene::MoveUpPush);
-
-	CInput::GetInst()->AddBindFunction<CTitleScene>("MoveDown",
-		Input_Type::Down, this, &CTitleScene::MoveDownPush);
-
-	CInput::GetInst()->AddBindFunction<CTitleScene>("ArrowUp",
-		Input_Type::Down, this, &CTitleScene::MoveUpPush);
-
-	CInput::GetInst()->AddBindFunction<CTitleScene>("ArrowDown",
-		Input_Type::Down, this, &CTitleScene::MoveDownPush);
-
+	GetSceneResource()->LoadSound("BGM", "TitleBGM", true, "song_rainonbrick.ogg");
+	GetSceneResource()->LoadSound("BGM2", "TitleBGM2", true, "sound_ambience_rain_title_01.wav");
+	GetSceneResource()->LoadSound("Effect", "sound_menubeep_1", false, "sound_menubeep_1.wav");
+	GetSceneResource()->LoadSound("Effect", "sound_menubeep_2", false, "sound_menubeep_2.wav");
+	GetSceneResource()->SoundPlay("TitleBGM");
+	GetSceneResource()->SoundPlay("TitleBGM2");
+	GetSceneResource()->SetVolume("BGM2", 40);
 
 	return true;
 }
@@ -58,50 +49,10 @@ void CTitleScene::Update(float DeltaTime)
 {
 	CScene::Update(DeltaTime);
 
-	//  값이 바뀐경우
-	if (iSelect != iPreSelect)
-	{
-		if (iSelect == 0)
-		{
-			Back->ChangeAnimation("TitleAnimation_0");
-		}
-		else if (iSelect == 1)
-		{
-			Back->ChangeAnimation("TitleAnimation_1");
-		}
-
-		else if (iSelect == 2)
-		{
-			Back->ChangeAnimation("TitleAnimation_2");
-		}
-		else if (iSelect == 3)
-		{
-			Back->ChangeAnimation("TitleAnimation_3");
-		}
-		else if (iSelect == 4)
-		{
-			Back->ChangeAnimation("TitleAnimation_4");
-		}
-		
-		GetSceneResource()->SoundPlay("SelectTitleMenu");
-		iPreSelect = iSelect;
-	}
 
 
 
-}
 
-void CTitleScene::MoveUpPush()
-{
-	if (iSelect > 0)
-		iSelect -= 1;
-
-}
-
-void CTitleScene::MoveDownPush()
-{
-	if (iSelect < 4)
-		iSelect += 1;
 
 }
 

@@ -1,6 +1,6 @@
 
 #include "SceneManager.h"
-#include "MainScene.h"
+#include "Stage_1.h"
 #include "TitleScene.h"
 #include "../Input.h"
 

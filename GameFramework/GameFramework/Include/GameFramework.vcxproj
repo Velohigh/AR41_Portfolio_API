@@ -186,7 +186,7 @@
     <ClCompile Include="Scene\Camera.cpp" />
     <ClCompile Include="Scene\EditDlg.cpp" />
     <ClCompile Include="Scene\EditScene.cpp" />
-    <ClCompile Include="Scene\MainScene.cpp" />
+    <ClCompile Include="Scene\Stage_1.cpp" />
     <ClCompile Include="Scene\Scene.cpp" />
     <ClCompile Include="Scene\SceneCollision.cpp" />
     <ClCompile Include="Scene\SceneManager.cpp" />
@@ -247,7 +247,7 @@
     <ClInclude Include="Scene\Camera.h" />
     <ClInclude Include="Scene\EditDlg.h" />
     <ClInclude Include="Scene\EditScene.h" />
-    <ClInclude Include="Scene\MainScene.h" />
+    <ClInclude Include="Scene\Stage_1.h" />
     <ClInclude Include="Scene\Scene.h" />
     <ClInclude Include="Scene\SceneCollision.h" />
     <ClInclude Include="Scene\SceneManager.h" />
