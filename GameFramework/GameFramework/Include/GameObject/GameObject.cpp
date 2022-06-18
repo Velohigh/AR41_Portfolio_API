@@ -27,7 +27,8 @@ CGameObject::CGameObject()	:
 	m_Jump(false),
 	m_JumpVelocity(0.f),
 	m_SideWallCheck(false),
-	m_Start(false)
+	m_Start(false),
+	m_MapColTexture(nullptr)
 {
 	SetTypeID<CGameObject>();
 }
@@ -169,6 +170,87 @@ void CGameObject::SetTextureFullPath(const std::string& Name,
 }
 
 #endif
+
+void CGameObject::SetMapTexture(const std::string& Name)
+{
+	m_MapColTexture = m_Scene->GetSceneResource()->FindTexture(Name);
+
+	SetSize((float)m_MapColTexture->GetWidth(), (float)m_MapColTexture->GetHeight());
+}
+
+void CGameObject::SetMapTexture(CTexture* Texture)
+{
+	m_MapColTexture = Texture;
+
+	SetSize((float)m_MapColTexture->GetWidth(), (float)m_MapColTexture->GetHeight());
+}
+
+void CGameObject::SetMapTexture(const std::string& Name, const TCHAR* FileName,
+	const std::string& PathName)
+{
+	m_Scene->GetSceneResource()->LoadTexture(Name, FileName, PathName);
+
+	m_MapColTexture = m_Scene->GetSceneResource()->FindTexture(Name);
+
+	SetSize((float)m_MapColTexture->GetWidth(), (float)m_MapColTexture->GetHeight());
+}
+
+void CGameObject::SetMapTextureFullPath(const std::string& Name,
+	const TCHAR* FullPath)
+{
+	m_Scene->GetSceneResource()->LoadTextureFullPath(Name, FullPath);
+
+	m_MapColTexture = m_Scene->GetSceneResource()->FindTexture(Name);
+
+	SetSize((float)m_MapColTexture->GetWidth(), (float)m_MapColTexture->GetHeight());
+}
+
+#ifdef UNICODE
+
+void CGameObject::SetMapTexture(const std::string& Name,
+	const std::vector<std::wstring>& vecFileName, const std::string& PathName)
+{
+	m_Scene->GetSceneResource()->LoadTexture(Name, vecFileName, PathName);
+
+	m_MapColTexture = m_Scene->GetSceneResource()->FindTexture(Name);
+
+	SetSize((float)m_MapColTexture->GetWidth(), (float)m_MapColTexture->GetHeight());
+}
+
+void CGameObject::SetMapTextureFullPath(const std::string& Name,
+	const std::vector<std::wstring>& vecFullPath)
+{
+	m_Scene->GetSceneResource()->LoadTextureFullPath(Name, vecFullPath);
+
+	m_MapColTexture = m_Scene->GetSceneResource()->FindTexture(Name);
+
+	SetSize((float)m_MapColTexture->GetWidth(), (float)m_MapColTexture->GetHeight());
+}
+
+#else
+
+void CGameObject::SetMapTexture(const std::string& Name,
+	const std::vector<std::string>& vecFileName, const std::string& PathName)
+{
+	m_Scene->GetSceneResource()->LoadTexture(Name, vecFileName, PathName);
+
+	m_MapColTexture = m_Scene->GetSceneResource()->FindTexture(Name);
+
+	SetSize((float)m_MapColTexture->GetWidth(), (float)m_MapColTexture->GetHeight());
+}
+
+void CGameObject::SetMapTextureFullPath(const std::string& Name,
+	const std::vector<std::string>& vecFullPath)
+{
+	m_Scene->GetSceneResource()->LoadTextureFullPath(Name, vecFullPath);
+
+	m_MapColTexture = m_Scene->GetSceneResource()->FindTexture(Name);
+
+	SetSize((float)m_MapColTexture->GetWidth(), (float)m_MapColTexture->GetHeight());
+}
+
+#endif
+
 
 bool CGameObject::SetColorKey(unsigned char r, unsigned char g, unsigned char b, int Index)
 {

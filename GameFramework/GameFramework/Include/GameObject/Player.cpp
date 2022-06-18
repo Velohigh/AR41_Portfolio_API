@@ -13,6 +13,7 @@
 #include "../Widget/Text.h"
 #include "../Widget/ProgressBar.h"
 #include "../Resource/ResourceManager.h"
+#include "../Resource/Texture/Texture.h"
 
 CPlayer::CPlayer()
 {
@@ -46,13 +47,11 @@ bool CPlayer::Init()
 	// 애니메이션 추가
 	CreateAnimationSequence();
 
-
 	//SetEndFunction<CPlayer>("PlayerRightAttack", this, &CPlayer::AttackEnd);
 	//SetEndFunction<CPlayer>("PlayerLeftAttack", this, &CPlayer::AttackEnd);
 
 	//AddNotify<CPlayer>("PlayerRightAttack", 2, this, &CPlayer::Attack);
 	//AddNotify<CPlayer>("PlayerLeftAttack", 2, this, &CPlayer::Attack);
-
 
 	// 오른쪽 보고 있음.
 	m_PlayerDir = (int)PlayerDir::Right;
@@ -95,7 +94,6 @@ bool CPlayer::Init()
 	//m_HP = 100;
 	//m_HPMax = 100;
 
-
 	//m_HPBar = CreateWidgetComponent<CProgressBar>("HPBar");
 
 	//m_HPBar->GetWidget<CProgressBar>()->SetTexture(EProgressBar_Texture_Type::Bar,
@@ -116,6 +114,8 @@ bool CPlayer::Init()
 	//SetJumpVelocity(60.f);
 	//SetSideWallCheck(true);
 
+	SetMapTexture("room_factory_2_ColMap", TEXT("room_factory_2_ColMap.bmp"), "MapPath");
+
 	return true;
 }
 
@@ -126,6 +126,10 @@ void CPlayer::Update(float DeltaTime)
 	DeltaTime *= m_TimeScale;
 
 	StateUpdate();
+
+	int COLOR = m_MapColTexture->GetImagePixel(m_Pos.x, m_Pos.y);
+	if (RGB(0,0,0) == COLOR)
+		MessageBoxA(nullptr, "Hello", "Caption", MB_OK);
 
 }
 

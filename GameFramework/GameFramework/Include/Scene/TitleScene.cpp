@@ -18,7 +18,6 @@ CTitleScene::CTitleScene()	:
 
 CTitleScene::~CTitleScene()
 {
-	SAFE_DELETE(Back);
 }
 
 bool CTitleScene::Init()
@@ -42,6 +41,22 @@ bool CTitleScene::Init()
 	GetSceneResource()->SoundPlay("TitleBGM2");
 	GetSceneResource()->SetVolume("BGM2", 40);
 
+	// 키 입력 함수 포인터
+	CInput::GetInst()->AddBindFunction<CTitleScene>("MoveUp",
+		Input_Type::Down, this, &CTitleScene::MoveUpPush);
+
+	CInput::GetInst()->AddBindFunction<CTitleScene>("MoveDown",
+		Input_Type::Down, this, &CTitleScene::MoveDownPush);
+
+	CInput::GetInst()->AddBindFunction<CTitleScene>("ArrowUp",
+		Input_Type::Down, this, &CTitleScene::MoveUpPush);
+
+	CInput::GetInst()->AddBindFunction<CTitleScene>("ArrowDown",
+		Input_Type::Down, this, &CTitleScene::MoveDownPush);
+
+	CInput::GetInst()->AddBindFunction<CTitleScene>("Enter",
+		Input_Type::Down, this, &CTitleScene::EnterPush);
+
 	return true;
 }
 
@@ -49,10 +64,34 @@ void CTitleScene::Update(float DeltaTime)
 {
 	CScene::Update(DeltaTime);
 
+	//  값이 바뀐경우
+	if (m_iSelect != m_iPreSelect)
+	{
+		if (m_iSelect == 0)
+		{
+			Back->ChangeAnimation("TitleAnimation_0");
+		}
+		else if (m_iSelect == 1)
+		{
+			Back->ChangeAnimation("TitleAnimation_1");
+		}
 
+		else if (m_iSelect == 2)
+		{
+			Back->ChangeAnimation("TitleAnimation_2");
+		}
+		else if (m_iSelect == 3)
+		{
+			Back->ChangeAnimation("TitleAnimation_3");
+		}
+		else if (m_iSelect == 4)
+		{
+			Back->ChangeAnimation("TitleAnimation_4");
+		}
 
-
-
+		GetSceneResource()->SoundPlay("sound_menubeep_1");
+		m_iPreSelect = m_iSelect;
+	}
 
 }
 
@@ -195,14 +234,48 @@ void CTitleScene::CreateAnimationSequence()
 		CResourceManager::GetInst()->CreateAnimationSequence("TitleAnimation_Change",
 			"TitleAnimation_Change", vecFileName, TEXTURE_PATH);
 
-		for (int i = 0; i <= 229; ++i)
+		for (int i = 0; i <= 39; ++i)
 		{
 			CResourceManager::GetInst()->AddAnimationFrame("TitleAnimation_Change", 0.f, 0.f,
 				1280.f, 720.f);
 		}
 
-		Back->AddAnimation("TitleAnimation_Change", true, 7.59f);
+		Back->AddAnimation("TitleAnimation_Change", true, 1.287f);
 	}
 
 	Back->ChangeAnimation("TitleAnimation_0");
+}
+
+void CTitleScene::MoveUpPush()
+{
+	if (m_iSelect > 0)
+		m_iSelect -= 1;
+
+}
+
+void CTitleScene::MoveDownPush()
+{
+	if (m_iSelect < 4)
+		m_iSelect += 1;
+
+}
+
+void CTitleScene::EnterPush()
+{
+	if (m_iSelect == 0)
+	{
+		Back->ChangeAnimation("TitleAnimation_Change");
+		GetSceneResource()->SoundPlay("sound_menubeep_2");
+		Back->SetEndFunction<CTitleScene>("TitleAnimation_Change", this, &CTitleScene::SceneChange);
+	}
+
+}
+
+void CTitleScene::SceneChange()
+{
+	if (m_iSelect == 0)
+	{
+		CInput::GetInst()->ClearCallback();
+		CSceneManager::GetInst()->CreateScene<CStage_1>();
+	}
 }

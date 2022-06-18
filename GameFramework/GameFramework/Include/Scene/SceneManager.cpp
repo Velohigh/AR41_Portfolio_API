@@ -20,7 +20,8 @@ CSceneManager::~CSceneManager()
 
 bool CSceneManager::Init()
 {
-	CreateScene<CTitleScene>();
+	//CreateScene<CTitleScene>();
+	CreateScene<CStage_1>();
 
 	return true;
 }

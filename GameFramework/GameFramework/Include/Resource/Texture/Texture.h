@@ -97,6 +97,11 @@ public:
         return m_vecImageInfo[Index]->ColorKey;
     }
 
+    int GetImagePixel(int x, int y)
+    {
+        return GetPixel(m_vecImageInfo[0]->hMemDC, x, y);
+    }
+
 public:
     bool LoadTexture(const TCHAR* FileName,
         const std::string& PathName = TEXTURE_PATH);

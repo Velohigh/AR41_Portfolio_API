@@ -9,7 +9,8 @@
 #include "../Widget/CharacterHUD.h"
 #include "../GameObject/TileMap.h"
 
-CStage_1::CStage_1()
+CStage_1::CStage_1()	:
+	Back(nullptr)
 {
 }
 
@@ -27,7 +28,8 @@ bool CStage_1::Init()
 	GetCamera()->SetWorldResolution(1500.f, 1200.f);
 	GetCamera()->SetTargetPivot(0.5f, 0.5f);
 
-	//CreateObject<CBackObj>("BackObj");
+	Back = CreateObject<CBackObj>("BackObj");
+	Back->SetTexture("room_factory_2", TEXT("room_factory_2.bmp"), "MapPath");
 
 	CPlayer* Player = CreateObject<CPlayer>("Player");
 

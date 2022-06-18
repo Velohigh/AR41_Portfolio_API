@@ -12,6 +12,7 @@ protected:
 	virtual ~CStage_1();
 
 private:
+	class CBackObj* Back;
 	CSharedPtr<class CMonster>	m_Monster;
 
 public:

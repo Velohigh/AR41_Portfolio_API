@@ -26,6 +26,7 @@ protected:
 	Vector2		m_Size;
 	Vector2		m_Pivot;
 	CSharedPtr<class CTexture>	m_Texture;
+	CSharedPtr<class CTexture>	m_MapColTexture;
 	CAnimation* m_Animation;
 	float		m_TimeScale;
 	float		m_MoveSpeed;
@@ -164,6 +165,28 @@ public:
 	bool SetColorKey(unsigned char r, unsigned char g, unsigned char b,
 		int Index = 0);
 	bool SetColorKeyAll(unsigned char r, unsigned char g, unsigned char b);
+
+public:
+		void SetMapTexture(const std::string& Name);
+		void SetMapTexture(class CTexture* Texture);
+		void SetMapTexture(const std::string& Name, const TCHAR* FileName,
+			const std::string& PathName = TEXTURE_PATH);
+		void SetMapTextureFullPath(const std::string& Name, const TCHAR* FullPath);
+
+#ifdef UNICODE
+
+		void SetMapTexture(const std::string& Name, const std::vector<std::wstring>& vecFileName,
+			const std::string& PathName = TEXTURE_PATH);
+		void SetMapTextureFullPath(const std::string& Name, const std::vector<std::wstring>& vecFullPath);
+
+#else
+
+		void SetMapTexture(const std::string& Name, const std::vector<std::string>& vecFileName,
+			const std::string& PathName = TEXTURE_PATH);
+		void SetMapTextureFullPath(const std::string& Name, const std::vector<std::string>& vecFullPath);
+
+#endif // UNICODE
+
 
 public:
 	void CreateAnimation();
