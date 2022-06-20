@@ -2,16 +2,16 @@
 #include "Character.h"
 
 CCharacter::CCharacter()	:
-	m_eCurState(ActorState::End),
-	m_ePreState(ActorState::End)
+	m_CurState(ActorState::End),
+	m_PreState(ActorState::End)
 {
 	SetTypeID<CCharacter>();
 }
 
 CCharacter::CCharacter(const CCharacter& Obj) :
 	CGameObject(Obj),
-	m_eCurState(ActorState::End),
-	m_ePreState(ActorState::End)
+	m_CurState(ActorState::End),
+	m_PreState(ActorState::End)
 {
 }
 

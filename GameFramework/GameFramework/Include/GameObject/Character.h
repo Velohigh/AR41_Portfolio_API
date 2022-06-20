@@ -18,15 +18,13 @@ class CCharacter :
 
 protected:
 	ActorState	m_CurState;
+	ActorState	m_PreState;
 
 protected:
 	CCharacter();
 	CCharacter(const CCharacter& Obj);
 	virtual ~CCharacter();
 
-protected:
-	ActorState m_eCurState;
-	ActorState m_ePreState;
 
 public:
 	virtual bool Init();

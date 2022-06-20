@@ -54,10 +54,6 @@ bool CPlayer::Init()
 	// 방향
 	m_CurDir = PlayerDir::Right;
 
-	// 공격중이 아닐때.
-	m_Attack = false;
-
-
 	// 충돌체 추가
 	CColliderBox* Box = AddCollider<CColliderBox>("Body");
 
@@ -178,7 +174,7 @@ void CPlayer::CreateAnimationSequence()
 		CResourceManager::GetInst()->CreateAnimationSequence("spr_idle_left",
 			"spr_idle_left", vecFileName, TEXTURE_PATH);
 
-		for (int i = 0; i < 11; ++i)
+		for (int i = 0; i <= 10; ++i)
 		{
 			CResourceManager::GetInst()->AddAnimationFrame("spr_idle_left", 0.f, 0.f,
 				36.f, 35.f);
@@ -204,7 +200,7 @@ void CPlayer::CreateAnimationSequence()
 		CResourceManager::GetInst()->CreateAnimationSequence("spr_idle_right",
 			"spr_idle_right", vecFileName, TEXTURE_PATH);
 
-		for (int i = 0; i < 11; ++i)
+		for (int i = 0; i <= 10; ++i)
 		{
 			CResourceManager::GetInst()->AddAnimationFrame("spr_idle_right", 0.f, 0.f,
 				36.f, 35.f);
@@ -215,7 +211,57 @@ void CPlayer::CreateAnimationSequence()
 		AddAnimation("spr_idle_right", true, 1.1f);
 	}
 
+	// Idle_to_Run_Left
+	{
+		std::vector<std::wstring>	vecFileName;
 
+		for (int i = 0; i <= 3; ++i)
+		{
+			TCHAR	FileName[MAX_PATH] = {};
+			// %d에 i의 값이 대입되어 문자열이 만들어지게 된다.
+			wsprintf(FileName, TEXT("Player/spr_idle_to_run_left/%d.bmp"), i);
+			vecFileName.push_back(FileName);
+		}
+
+		CResourceManager::GetInst()->CreateAnimationSequence("spr_idle_to_run_left",
+			"spr_idle_to_run_left", vecFileName, TEXTURE_PATH);
+
+		for (int i = 0; i <= 3; ++i)
+		{
+			CResourceManager::GetInst()->AddAnimationFrame("spr_idle_to_run_left", 0.f, 0.f,
+				44.f, 32.f);
+		}
+
+		CResourceManager::GetInst()->SetColorKey("spr_idle_to_run_left", 255, 255, 255);
+
+		AddAnimation("spr_idle_to_run_left", true, 0.16f);
+	}
+
+	// Idle_to_Run_Right
+	{
+		std::vector<std::wstring>	vecFileName;
+
+		for (int i = 0; i <= 3; ++i)
+		{
+			TCHAR	FileName[MAX_PATH] = {};
+			// %d에 i의 값이 대입되어 문자열이 만들어지게 된다.
+			wsprintf(FileName, TEXT("Player/spr_idle_to_run_right/%d.bmp"), i);
+			vecFileName.push_back(FileName);
+		}
+
+		CResourceManager::GetInst()->CreateAnimationSequence("spr_idle_to_run_right",
+			"spr_idle_to_run_right", vecFileName, TEXTURE_PATH);
+
+		for (int i = 0; i <= 3; ++i)
+		{
+			CResourceManager::GetInst()->AddAnimationFrame("spr_idle_to_run_right", 0.f, 0.f,
+				44.f, 32.f);
+		}
+
+		CResourceManager::GetInst()->SetColorKey("spr_idle_to_run_right", 255, 255, 255);
+
+		AddAnimation("spr_idle_to_run_right", true, 0.16f);
+	}
 
 	// Run_Left
 	{
@@ -311,38 +357,72 @@ void CPlayer::DirAnimationCheck()
 
 }
 
-void CPlayer::StateChange(ActorState State)
+void CPlayer::StateChange(PlayerState State)
 {
-	if (m_eCurState != State)	// 상태가 바뀔때 한번만 실행시켜준다.
+	if (m_CurState != State)	// 상태가 바뀔때 한번만 실행시켜준다.
 	{
 		switch (State)
 		{
-		case ActorState::Idle:
+		case PlayerState::Idle:
 			IdleStart();
 			break;
-		case ActorState::Run:
+		case PlayerState::IdleToRun:
+			//IdleToRunStart();
+			break;
+		case PlayerState::Run:
 			RunStart();
 			break;
-		case ActorState::Attack:
-			AttackStart();
+		case PlayerState::RunToIdle:
+			break;
+		case PlayerState::Jump:
+			break;
+		case PlayerState::Landing:
+			break;
+		case PlayerState::Attack:
+			break;
+		case PlayerState::Fall:
+			break;
+		case PlayerState::Dodge:
+			break;
+		case PlayerState::PlaySong:
+			break;
+		case PlayerState::END:
 			break;
 		}
-	m_eCurState = State;
+	m_CurState = State;
 	}
 }
 
 void CPlayer::StateUpdate()
 {
-	switch (m_eCurState)
+	switch (m_CurState)
 	{
-	case ActorState::Idle:
+	case PlayerState::Idle:
 		IdleUpdate();
 		break;
-	case ActorState::Run:
+	case PlayerState::IdleToRun:
+		break;
+	case PlayerState::Run:
 		RunUpdate();
 		break;
-	case ActorState::Attack:
+	case PlayerState::RunToIdle:
+		break;
+	case PlayerState::Jump:
+		break;
+	case PlayerState::Landing:
+		break;
+	case PlayerState::Attack:
 		AttackUpdate();
+		break;
+	case PlayerState::Fall:
+		break;
+	case PlayerState::Dodge:
+		break;
+	case PlayerState::PlaySong:
+		break;
+	case PlayerState::END:
+		break;
+	default:
 		break;
 	}
 }
@@ -403,7 +483,17 @@ void CPlayer::JumpKey()
 
 void CPlayer::AttackEnd()
 {
-	m_Attack = false;
+}
+
+bool CPlayer::IsMoveKey()
+{
+	// 아무키도 눌리지 않았다면 false, 눌렀다면 true 리턴
+	if (false == CInput::GetInst()->IsPress('A') &&
+		false == CInput::GetInst()->IsPress('D'))
+	{
+		return false;
+	}
+	return true;
 }
 
 void CPlayer::Attack()
@@ -425,12 +515,26 @@ void CPlayer::CollisionEnd(CCollider* Src, CCollider* Dest)
 {
 }
 
+	//## Update
 void CPlayer::IdleUpdate()
 {
-	if (true == CInput::GetInst()->IsDown('A'))
+	if (true == IsMoveKey())
 	{
-		StateChange(ActorState::Run);
+		StateChange(PlayerState::Run);
+		return;
 	}
+}
+
+void CPlayer::IdleToRunUpdate()
+{
+}
+
+void CPlayer::RunToIdleUpdate()
+{
+}
+
+void CPlayer::JumpUpdate()
+{
 }
 
 void CPlayer::RunUpdate()
@@ -441,15 +545,37 @@ void CPlayer::AttackUpdate()
 {
 }
 
+void CPlayer::LandingUpdate()
+{
+}
+
+void CPlayer::FallUpdate()
+{
+}
+
+void CPlayer::DodgeUpdate()
+{
+}
+
+void CPlayer::PlaySongUpdate()
+{
+}
+
+
+	//## Start
 void CPlayer::IdleStart()
 {
 	// 애니메이션 체인지
 	m_AnimationName = "spr_idle_";
 	ChangeAnimation(m_AnimationName + m_ChangeDirText);
-
 	SetSpeed(0.f);
 
 }
+
+void CPlayer::IdleToRunStart()
+{
+}
+
 
 void CPlayer::RunStart()
 {
@@ -460,6 +586,30 @@ void CPlayer::RunStart()
 
 }
 
+void CPlayer::RunToIdleStart()
+{
+}
+
+void CPlayer::JumpStart()
+{
+}
+
+void CPlayer::LandingStart()
+{
+}
+
 void CPlayer::AttackStart()
+{
+}
+
+void CPlayer::FallStart()
+{
+}
+
+void CPlayer::DodgeStart()
+{
+}
+
+void CPlayer::PlaySongStart()
 {
 }

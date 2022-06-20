@@ -35,12 +35,6 @@ protected:
 	virtual ~CPlayer();
 
 private:
-	//int		m_PlayerDir;
-
-	bool	m_Attack;
-
-	int		m_HP;
-	int		m_HPMax;
 
 	CSharedPtr<class CWidgetComponent>	m_HPBar;
 	CSharedPtr<class CWidgetComponent>	m_NameBar;
@@ -60,11 +54,13 @@ protected:
 	void DirAnimationCheck();
 
 private:
+	bool IsMoveKey();	// 무브 키(wasd)를 눌렀는지 확인하는 함수, 눌렀다면 true
 	void CreateAnimationSequence();
-	void StateChange(ActorState State);
+	void StateChange(PlayerState State);
 	void StateUpdate();
 
 private:
+	// 키와 바인딩될 함수포인터
 	void MoveUp();
 	void MoveDown();
 	void MoveRight();
@@ -82,12 +78,26 @@ private:
 
 private:
 	void IdleUpdate();
+	void IdleToRunUpdate();
 	void RunUpdate();
+	void RunToIdleUpdate();
+	void JumpUpdate();
+	void LandingUpdate();
 	void AttackUpdate();
+	void FallUpdate();
+	void DodgeUpdate();
+	void PlaySongUpdate();
 
 	void IdleStart();
+	void IdleToRunStart();
 	void RunStart();
+	void RunToIdleStart();
+	void JumpStart();
+	void LandingStart();
 	void AttackStart();
+	void FallStart();
+	void DodgeStart();
+	void PlaySongStart();
 
 };
 
