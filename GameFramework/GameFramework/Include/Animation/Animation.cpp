@@ -8,8 +8,7 @@
 CAnimation::CAnimation() :
 	m_Owner(nullptr),
 	m_Scene(nullptr),
-	m_CurrentAnimation(nullptr),
-	IsEnd(false)
+	m_CurrentAnimation(nullptr)
 {
 }
 

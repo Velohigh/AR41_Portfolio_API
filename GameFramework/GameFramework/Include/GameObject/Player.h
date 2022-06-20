@@ -42,6 +42,7 @@ private:
 	std::string	m_AnimationName;
 	std::string m_ChangeDirText;
 	PlayerState	m_CurState;
+	float		m_StateTime[static_cast<int>(PlayerState::END)];	// 해당 상태가 되고 지난 시간
 
 public:
 	virtual bool Init();
@@ -68,6 +69,8 @@ private:
 	void Fire();
 	void JumpKey();
 
+	void RunningSound();
+
 private:
 	void AttackEnd();
 	void Attack();
@@ -75,6 +78,7 @@ private:
 private:
 	void CollisionBegin(CCollider* Src, CCollider* Dest);
 	void CollisionEnd(CCollider* Src, CCollider* Dest);
+
 
 private:
 	void IdleUpdate();

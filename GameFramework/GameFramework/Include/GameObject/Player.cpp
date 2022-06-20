@@ -48,8 +48,14 @@ bool CPlayer::Init()
 	//SetEndFunction<CPlayer>("PlayerRightAttack", this, &CPlayer::AttackEnd);
 	//SetEndFunction<CPlayer>("PlayerLeftAttack", this, &CPlayer::AttackEnd);
 
-	//AddNotify<CPlayer>("PlayerRightAttack", 2, this, &CPlayer::Attack);
-	//AddNotify<CPlayer>("PlayerLeftAttack", 2, this, &CPlayer::Attack);
+	// 노티파이 추가
+	AddNotify<CPlayer>("spr_run_left", 3, this, &CPlayer::RunningSound);
+	AddNotify<CPlayer>("spr_run_left", 8, this, &CPlayer::RunningSound);
+	AddNotify<CPlayer>("spr_run_right", 3, this, &CPlayer::RunningSound);
+	AddNotify<CPlayer>("spr_run_right", 8, this, &CPlayer::RunningSound);
+
+	// 사운드 로드
+	m_Scene->GetSceneResource()->LoadSound("Effect", "sound_player_running_2", false, "sound_player_running_2.wav");
 
 	// 방향
 	m_CurDir = PlayerDir::Right;
@@ -107,8 +113,6 @@ bool CPlayer::Init()
 	//SetPhysicsSimulate(true);
 	//SetJumpVelocity(60.f);
 	//SetSideWallCheck(true);
-
-	SetEndFunction<CPlayer>("spr_idle_to_run_right", this, &CPlayer::StateChange(PlayerState::Run));
 
 
 	// 충돌맵 세팅
@@ -409,28 +413,31 @@ void CPlayer::StateUpdate()
 		IdleUpdate();
 		break;
 	case PlayerState::IdleToRun:
+		IdleToRunUpdate();
 		break;
 	case PlayerState::Run:
 		RunUpdate();
 		break;
 	case PlayerState::RunToIdle:
+		RunToIdleUpdate();
 		break;
 	case PlayerState::Jump:
+		JumpUpdate();
 		break;
 	case PlayerState::Landing:
+		LandingUpdate();
 		break;
 	case PlayerState::Attack:
 		AttackUpdate();
 		break;
 	case PlayerState::Fall:
+		FallUpdate();
 		break;
 	case PlayerState::Dodge:
+		DodgeUpdate();
 		break;
 	case PlayerState::PlaySong:
-		break;
-	case PlayerState::END:
-		break;
-	default:
+		PlaySongUpdate();
 		break;
 	}
 }
@@ -536,12 +543,24 @@ void CPlayer::IdleUpdate()
 void CPlayer::IdleToRunUpdate()
 {
 	// 애니메이션 종료후 Run 모션으로
-	if (true == )
+	if (true == m_Animation->IsEndAnimation())
 	{
 		StateChange(PlayerState::Run);
 		return;
 	}
 
+	// 이동키를 안눌렀다면 Idle 상태로
+	if (false == IsMoveKey())				// 이동키를 안눌렀다면
+	{
+		StateChange(PlayerState::Idle);
+		return;
+	}
+
+
+}
+
+void CPlayer::RunUpdate()
+{
 }
 
 void CPlayer::RunToIdleUpdate()
@@ -552,9 +571,6 @@ void CPlayer::JumpUpdate()
 {
 }
 
-void CPlayer::RunUpdate()
-{
-}
 
 void CPlayer::AttackUpdate()
 {
@@ -631,4 +647,11 @@ void CPlayer::DodgeStart()
 
 void CPlayer::PlaySongStart()
 {
+}
+
+
+void CPlayer::RunningSound()
+{
+	m_Scene->GetSceneResource()->SoundPlay("sound_player_running_2");
+
 }
