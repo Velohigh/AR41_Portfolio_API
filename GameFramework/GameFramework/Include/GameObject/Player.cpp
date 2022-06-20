@@ -35,10 +35,10 @@ bool CPlayer::Init()
 
 	m_MoveSpeed = 400.f;
 
-	SetPos(100.f, 100.f);
-	SetSize(85.f, 75.f);
+	SetPos(200.f, 200.f);
+	SetSize(36.f, 70.f);
 	SetPivot(0.5f, 1.f);
-
+	SetRenderScale(2);
 	//SetTexture("Player", TEXT("Player/Right/alert.bmp"));
 	//SetColorKey(255, 0, 255);
 
@@ -63,8 +63,8 @@ bool CPlayer::Init()
 	// 충돌체 추가
 	CColliderBox* Box = AddCollider<CColliderBox>("Body");
 
-	Box->SetExtent(72.f, 70.f);
-	Box->SetOffset(0.f, 0.f);
+	Box->SetExtent(36.f, 70.f);
+	Box->SetOffset(0.f, -35.f);
 	Box->SetCollisionProfile("Player");
 
 	Box->SetCollisionBeginFunction<CPlayer>(this, &CPlayer::CollisionBegin);
@@ -274,24 +274,48 @@ void CPlayer::StateUpdate()
 
 void CPlayer::MoveUp()
 {
+	Vector2 NextPos = m_Pos + (Vector2{ 0.f, -1.f } * m_MoveSpeed * DELTA_TIME * m_TimeScale);
+
+	int COLOR = m_MapColTexture->GetImagePixel(NextPos.x, NextPos.y);
+
+	if (COLOR != RGB(0,0,0))
 	MoveDir(Vector2(0.f, -1.f));
 }
 
 void CPlayer::MoveDown()
 {
+	Vector2 NextPos = m_Pos + (Vector2{ 0.f, 1.f } *m_MoveSpeed * DELTA_TIME * m_TimeScale);
+
+	int COLOR = m_MapColTexture->GetImagePixel(NextPos.x, NextPos.y);
+
+	if (COLOR != RGB(0, 0, 0))
 	MoveDir(Vector2(0.f, 1.f));
 }
 
 void CPlayer::MoveRight()
 {
-	MoveDir(Vector2(1.f, 0.f));
-	m_PlayerDir = (int)PlayerDir::Right;
+	Vector2 NextPos = m_Pos + (Vector2{ 1.f, 0.f } *m_MoveSpeed * DELTA_TIME * m_TimeScale);
+
+	int COLOR = m_MapColTexture->GetImagePixel(NextPos.x, NextPos.y);
+
+	if (COLOR != RGB(0, 0, 0))
+	{
+		MoveDir(Vector2(1.f, 0.f));
+		m_PlayerDir = (int)PlayerDir::Right;
+	}
 }
 
 void CPlayer::MoveLeft()
 {
-	MoveDir(Vector2(-1.f, 0.f));
-	m_PlayerDir = (int)PlayerDir::Left;
+	Vector2 NextPos = m_Pos + (Vector2{ -1.f, 0.f } *m_MoveSpeed * DELTA_TIME * m_TimeScale);
+
+	int COLOR = m_MapColTexture->GetImagePixel(NextPos.x, NextPos.y);
+
+	if (COLOR != RGB(0, 0, 0))
+	{
+		MoveDir(Vector2(-1.f, 0.f));
+		m_PlayerDir = (int)PlayerDir::Left;
+	}
 }
 
 void CPlayer::Fire()

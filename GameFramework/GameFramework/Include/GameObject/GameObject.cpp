@@ -621,7 +621,7 @@ void CGameObject::Render(HDC hDC, float DeltaTime)
 
 		Vector2	RenderLT;
 
-		RenderLT = Pos - m_Pivot * Size;
+		RenderLT = Pos - m_Pivot * Size * m_RenderScale;
 
 		Vector2	CullPos = m_Pos - m_Pivot * Size;
 
@@ -663,7 +663,7 @@ void CGameObject::Render(HDC hDC, float DeltaTime)
 			if (Current->m_Sequence->GetTexture()->GetEnableColorKey())
 			{
 				TransparentBlt(hDC, (int)RenderLT.x, (int)RenderLT.y,
-					(int)Size.x, (int)Size.y,
+					(int)Size.x * m_RenderScale, (int)Size.y * m_RenderScale,
 					Current->m_Sequence->GetTexture()->GetDC(Current->m_Frame),
 					(int)FrameData.Start.x, (int)FrameData.Start.y,
 					(int)Size.x, (int)Size.y,

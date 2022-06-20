@@ -41,6 +41,7 @@ protected:
 	float		m_JumpVelocity;
 	bool		m_SideWallCheck;
 	bool		m_Start;
+	int			m_RenderScale = 1;
 
 public:
 	class CCollider* FindCollider(const std::string& Name);
@@ -139,6 +140,11 @@ public:
 	void SetPivot(const Vector2& Pivot)
 	{
 		m_Pivot = Pivot;
+	}
+
+	inline void SetRenderScale(const int Scale)
+	{
+		m_RenderScale = Scale;
 	}
 
 public:
