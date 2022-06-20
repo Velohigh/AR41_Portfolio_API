@@ -22,6 +22,7 @@ protected:
 	ERender_Layer	m_RenderLayer;
 	Vector2		m_PrevPos;
 	Vector2		m_Move;
+	Vector2		m_MoveDir;
 	Vector2		m_Pos;
 	Vector2		m_Size;
 	Vector2		m_Pivot;

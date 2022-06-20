@@ -28,7 +28,8 @@ CGameObject::CGameObject()	:
 	m_JumpVelocity(0.f),
 	m_SideWallCheck(false),
 	m_Start(false),
-	m_MapColTexture(nullptr)
+	m_MapColTexture(nullptr),
+	m_MoveDir(0.f, 0.f)
 {
 	SetTypeID<CGameObject>();
 }
@@ -48,7 +49,8 @@ CGameObject::CGameObject(const CGameObject& Obj)	:
 	m_Jump(false),
 	m_JumpVelocity(Obj.m_JumpVelocity),
 	m_SideWallCheck(Obj.m_SideWallCheck),
-	m_Start(false)
+	m_Start(false),
+	m_MoveDir(Obj.m_MoveDir)
 {
 }
 

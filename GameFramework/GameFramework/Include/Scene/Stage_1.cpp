@@ -25,7 +25,7 @@ bool CStage_1::Init()
 	GetSceneResource()->SetVolume(100);
 
 	GetCamera()->SetResolution(1280.f, 720.f);
-	GetCamera()->SetWorldResolution(1500.f, 1200.f);
+	GetCamera()->SetWorldResolution(1800.f, 784.f);
 	GetCamera()->SetTargetPivot(0.5f, 0.5f);
 
 	Back = CreateObject<CBackObj>("BackObj");

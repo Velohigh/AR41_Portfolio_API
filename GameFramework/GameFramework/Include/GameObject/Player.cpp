@@ -116,6 +116,8 @@ bool CPlayer::Init()
 
 	SetMapTexture("room_factory_2_ColMap", TEXT("room_factory_2_ColMap.bmp"), "MapPath");
 
+	//ChangeAnimation("")
+
 	return true;
 }
 
@@ -127,7 +129,7 @@ void CPlayer::Update(float DeltaTime)
 
 	StateUpdate();
 
-	int COLOR = m_MapColTexture->GetImagePixel(m_Pos.x, m_Pos.y);
+	int COLOR = m_MapColTexture->GetImagePixel((int)m_Pos.x, (int)m_Pos.y);
 	if (RGB(0,0,0) == COLOR)
 		MessageBoxA(nullptr, "Hello", "Caption", MB_OK);
 
@@ -232,6 +234,8 @@ void CPlayer::CreateAnimationSequence()
 
 		AddAnimation("spr_idle_left", true);
 	}
+
+
 
 }
 
