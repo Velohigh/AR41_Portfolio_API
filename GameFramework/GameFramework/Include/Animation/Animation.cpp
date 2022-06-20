@@ -5,10 +5,11 @@
 #include "../Scene/SceneResource.h"
 #include "../Resource/ResourceManager.h"
 
-CAnimation::CAnimation()	:
+CAnimation::CAnimation() :
 	m_Owner(nullptr),
 	m_Scene(nullptr),
-	m_CurrentAnimation(nullptr)
+	m_CurrentAnimation(nullptr),
+	IsEnd(false)
 {
 }
 
@@ -163,6 +164,7 @@ void CAnimation::Update(float DeltaTime)
 {
 	m_CurrentAnimation->m_Time += DeltaTime * m_CurrentAnimation->m_PlayScale;
 
+	m_CurrentAnimation->m_IsEnd = false;
 	bool AnimationEnd = false;
 	
 	// 진행된 시간이 1프레임당 흘러야 할 시간을 지났다면 프레임을 증가시킨다.
@@ -176,7 +178,10 @@ void CAnimation::Update(float DeltaTime)
 			--m_CurrentAnimation->m_Frame;
 
 			if (m_CurrentAnimation->m_Frame < 0)
+			{
 				AnimationEnd = true;
+				m_CurrentAnimation->m_IsEnd = true;
+			}
 		}
 		
 		else
@@ -184,7 +189,10 @@ void CAnimation::Update(float DeltaTime)
 			++m_CurrentAnimation->m_Frame;
 
 			if (m_CurrentAnimation->m_Frame == m_CurrentAnimation->m_Sequence->GetFrameCount())
+			{
 				AnimationEnd = true;
+				m_CurrentAnimation->m_IsEnd = true;
+			}
 		}
 	}
 
@@ -233,6 +241,11 @@ void CAnimation::Update(float DeltaTime)
 			m_CurrentAnimation->m_vecNotify[i]->Call = false;
 		}
 	}
+}
+
+bool CAnimation::IsEndAnimation()
+{
+	return m_CurrentAnimation->m_IsEnd;
 }
 
 CAnimationInfo* CAnimation::FindInfo(const std::string& Name)

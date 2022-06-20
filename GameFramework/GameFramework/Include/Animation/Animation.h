@@ -29,6 +29,7 @@ public:
 	void ChangeAnimation(const std::string& Name);
 	bool CheckCurrentAnimation(const std::string& Name);
 	void Update(float DeltaTime);
+	bool IsEndAnimation();
 
 private:
 	CAnimationInfo* FindInfo(const std::string& Name);

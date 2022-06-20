@@ -108,6 +108,9 @@ bool CPlayer::Init()
 	//SetJumpVelocity(60.f);
 	//SetSideWallCheck(true);
 
+	SetEndFunction<CPlayer>("spr_idle_to_run_right", this, &CPlayer::StateChange(PlayerState::Run));
+
+
 	// 충돌맵 세팅
 	SetMapTexture("room_factory_2_ColMap", TEXT("room_factory_2_ColMap.bmp"), "MapPath");
 
@@ -367,26 +370,31 @@ void CPlayer::StateChange(PlayerState State)
 			IdleStart();
 			break;
 		case PlayerState::IdleToRun:
-			//IdleToRunStart();
+			IdleToRunStart();
 			break;
 		case PlayerState::Run:
 			RunStart();
 			break;
 		case PlayerState::RunToIdle:
+			RunToIdleStart();
 			break;
 		case PlayerState::Jump:
+			JumpStart();
 			break;
 		case PlayerState::Landing:
+			LandingStart();
 			break;
 		case PlayerState::Attack:
+			AttackStart();
 			break;
 		case PlayerState::Fall:
+			FallStart();
 			break;
 		case PlayerState::Dodge:
+			DodgeStart();
 			break;
 		case PlayerState::PlaySong:
-			break;
-		case PlayerState::END:
+			PlaySongStart();
 			break;
 		}
 	m_CurState = State;
@@ -520,13 +528,20 @@ void CPlayer::IdleUpdate()
 {
 	if (true == IsMoveKey())
 	{
-		StateChange(PlayerState::Run);
+		StateChange(PlayerState::IdleToRun);
 		return;
 	}
 }
 
 void CPlayer::IdleToRunUpdate()
 {
+	// 애니메이션 종료후 Run 모션으로
+	if (true == )
+	{
+		StateChange(PlayerState::Run);
+		return;
+	}
+
 }
 
 void CPlayer::RunToIdleUpdate()
@@ -574,6 +589,10 @@ void CPlayer::IdleStart()
 
 void CPlayer::IdleToRunStart()
 {
+	m_AnimationName = "spr_idle_to_run_";
+	ChangeAnimation(m_AnimationName + m_ChangeDirText);
+	SetSpeed(200.f);
+
 }
 
 

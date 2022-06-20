@@ -9,7 +9,8 @@ CAnimationInfo::CAnimationInfo()	:
 	m_PlayTime(1.f),
 	m_PlayScale(1.f),
 	m_Loop(false),
-	m_Reverse(false)
+	m_Reverse(false),
+	m_IsEnd(false)
 {
 }
 
