@@ -139,6 +139,8 @@ private:
 public:
 	bool AddBindKey(const std::string& Name, unsigned char Key);
 	void ClearCallback();
+	bool IsDown(unsigned char Key);
+	bool IsPress(unsigned char Key);
 
 public:
 	template <typename T>

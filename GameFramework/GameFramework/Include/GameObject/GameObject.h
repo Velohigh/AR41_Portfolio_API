@@ -20,29 +20,29 @@ protected:
 
 protected:
 	ERender_Layer	m_RenderLayer;
-	Vector2		m_PrevPos;
-	Vector2		m_Move;
-	Vector2		m_MoveDir;
-	Vector2		m_Pos;
-	Vector2		m_Size;
-	Vector2		m_Pivot;
-	CSharedPtr<class CTexture>	m_Texture;
-	CSharedPtr<class CTexture>	m_MapColTexture;
-	CAnimation* m_Animation;
-	float		m_TimeScale;
-	float		m_MoveSpeed;
-	std::list<CSharedPtr<class CCollider>>	m_ColliderList;
-	std::list<CSharedPtr<CWidgetComponent>>	m_WidgetComponentList;
-	bool		m_PhysicsSimulate;
-	bool		m_Ground;	// 땅을 밟고 있는 상태인지 아닌지
-	float		m_GravityAccel;
-	float		m_FallTime;
-	float		m_FallStartY;
-	bool		m_Jump;
-	float		m_JumpVelocity;
-	bool		m_SideWallCheck;
+	Vector2		m_PrevPos;		// 이전 프레임 위치
+	Vector2		m_Move;			// 이동량 (현재 프레임 위치 - 과거 프레임 위치)
+	Vector2		m_MoveDir;		// 이동 방향
+	Vector2		m_Pos;			// 위치
+	Vector2		m_Size;			// 크기
+	Vector2		m_Pivot;		// 피봇
+	CSharedPtr<class CTexture>	m_Texture;	// 출력 텍스쳐
+	CSharedPtr<class CTexture>	m_MapColTexture;	// 충돌맵 텍스쳐
+	CAnimation* m_Animation;	// 애니메이션
+	float		m_TimeScale;	// 타임스케일 ( 시간 흐름 배속 )
+	float		m_MoveSpeed;	// 움직이는 속도
+	std::list<CSharedPtr<class CCollider>>	m_ColliderList;	// 충돌체
+	std::list<CSharedPtr<CWidgetComponent>>	m_WidgetComponentList;	// 위젯컴포넌트
+	bool		m_PhysicsSimulate;		// 물리효과 온/오프
+	bool		m_Ground;			// 땅을 밟고 있는 상태인지 아닌지
+	float		m_GravityAccel;		// 중력가속도
+	float		m_FallTime;			// 떨어지기 시작하고 지난 시간
+	float		m_FallStartY;		// 떨어지기 시작한 위치
+	bool		m_Jump;				// 점프중인지 아닌지
+	float		m_JumpVelocity;		// 점프 속도
+	bool		m_SideWallCheck;	// 타일맵 사이드 체크
 	bool		m_Start;
-	int			m_RenderScale = 1;
+	int			m_RenderScale = 1;	// 출력 배율
 
 public:
 	class CCollider* FindCollider(const std::string& Name);
@@ -146,6 +146,11 @@ public:
 	inline void SetRenderScale(const int Scale)
 	{
 		m_RenderScale = Scale;
+	}
+
+	void SetSpeed(const float Speed)
+	{
+		m_MoveSpeed = Speed;
 	}
 
 public:

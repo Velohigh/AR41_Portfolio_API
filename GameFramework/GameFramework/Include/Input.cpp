@@ -405,3 +405,15 @@ void CInput::ClearCallback()
 		}
 	}
 }
+
+bool CInput::IsDown(unsigned char Key)
+{
+	return FindKeyState(Key)->Down;
+
+	//return m_mapKeyState.find(Key)->second->Down;
+}
+
+bool CInput::IsPress(unsigned char Key)
+{
+	return FindKeyState(Key)->Push;
+}

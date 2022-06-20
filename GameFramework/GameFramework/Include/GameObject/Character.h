@@ -7,6 +7,7 @@ enum class ActorState
 	Idle,
 	Run,
 	Attack,
+
 	End
 };
 
@@ -14,6 +15,9 @@ class CCharacter :
     public CGameObject
 {
 	friend class CScene;
+
+protected:
+	ActorState	m_CurState;
 
 protected:
 	CCharacter();

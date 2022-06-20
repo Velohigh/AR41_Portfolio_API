@@ -51,8 +51,8 @@ bool CPlayer::Init()
 	//AddNotify<CPlayer>("PlayerRightAttack", 2, this, &CPlayer::Attack);
 	//AddNotify<CPlayer>("PlayerLeftAttack", 2, this, &CPlayer::Attack);
 
-	// 오른쪽 보고 있음.
-	m_PlayerDir = (int)PlayerDir::Right;
+	// 방향
+	m_CurDir = PlayerDir::Right;
 
 	// 공격중이 아닐때.
 	m_Attack = false;
@@ -112,9 +112,15 @@ bool CPlayer::Init()
 	//SetJumpVelocity(60.f);
 	//SetSideWallCheck(true);
 
+	// 충돌맵 세팅
 	SetMapTexture("room_factory_2_ColMap", TEXT("room_factory_2_ColMap.bmp"), "MapPath");
 
-	ChangeAnimation("spr_run_right");
+	ChangeAnimation("spr_idle_right");
+
+	m_AnimationName = "Idle_";
+	m_CurState = PlayerState::Idle;
+	m_CurDir = PlayerDir::Right;
+
 
 	return true;
 }
@@ -122,14 +128,16 @@ bool CPlayer::Init()
 void CPlayer::Update(float DeltaTime)
 {
 	CCharacter::Update(DeltaTime);
-
 	DeltaTime *= m_TimeScale;
 
+	// 공통 함수
+	DirAnimationCheck();
 	StateUpdate();
+
 
 	int COLOR = m_MapColTexture->GetImagePixel((int)m_Pos.x, (int)m_Pos.y);
 	if (RGB(0,0,0) == COLOR)
-		MessageBoxA(nullptr, "Hello", "Caption", MB_OK);
+		MessageBoxA(nullptr, "충돌맵과 겹쳤음.", "ERROR", MB_OK);
 
 }
 
@@ -137,33 +145,7 @@ void CPlayer::PostUpdate(float DeltaTime)
 {
 	CCharacter::PostUpdate(DeltaTime);
 
-	//if (m_PlayerDir == 1)
-	//{
-	//	// 0일 경우라면 오른쪽으로 이동중 멈췄다는 것이다.
-	//	if (m_Move.x < 0.f)
-	//		m_PlayerDir = -1;
-	//}
 
-	//else
-	//{
-	//	if (m_Move.x > 0.f)
-	//		m_PlayerDir = 1;
-	//}
-
-	int	AnimDirIndex = 0;
-
-	if (m_PlayerDir == -1)
-		AnimDirIndex = 1;
-
-	//if (m_Move.x != 0.f || m_Move.y != 0.f)
-	//{
-	//	// 이동을 할 경우 공격중이더라도 공격을 취소한다.
-	//	m_Attack = false;
-	//	ChangeAnimation(m_vecSequenceKey[AnimDirIndex][1]);
-	//}
-
-	//else if (!m_Attack)
-	//	ChangeAnimation(m_vecSequenceKey[AnimDirIndex][0]);
 }
 
 void CPlayer::Render(HDC hDC, float DeltaTime)
@@ -204,7 +186,7 @@ void CPlayer::CreateAnimationSequence()
 
 		CResourceManager::GetInst()->SetColorKey("spr_idle_left", 255, 255, 255);
 
-		AddAnimation("spr_idle_left", true);
+		AddAnimation("spr_idle_left", true, 1.1f);
 	}
 
 	// Idle_Right
@@ -230,7 +212,7 @@ void CPlayer::CreateAnimationSequence()
 
 		CResourceManager::GetInst()->SetColorKey("spr_idle_right", 255, 255, 255);
 
-		AddAnimation("spr_idle_right", true);
+		AddAnimation("spr_idle_right", true, 1.1f);
 	}
 
 
@@ -292,6 +274,43 @@ void CPlayer::CreateAnimationSequence()
 
 }
 
+void CPlayer::DirAnimationCheck()
+{
+	PlayerDir CheckDir = m_CurDir;
+
+	if (m_CurDir == PlayerDir::Right)
+	{
+		m_ChangeDirText = "right";
+	}
+	else if (m_CurDir == PlayerDir::Left)
+	{
+		m_ChangeDirText = "left";
+	}
+
+	if (m_CurState != PlayerState::Attack && m_CurState != PlayerState::Dodge)
+	{
+
+		if (true == CInput::GetInst()->IsPress('D'))
+		{
+			CheckDir = PlayerDir::Right;
+			m_ChangeDirText = "right";
+		}
+
+		else if (true == CInput::GetInst()->IsPress('A'))
+		{
+			CheckDir = PlayerDir::Left;
+			m_ChangeDirText = "left";
+		}
+
+		if (CheckDir != m_CurDir)
+		{
+			ChangeAnimation(m_AnimationName + m_ChangeDirText);
+			m_CurDir = CheckDir;
+		}
+	}
+
+}
+
 void CPlayer::StateChange(ActorState State)
 {
 	if (m_eCurState != State)	// 상태가 바뀔때 한번만 실행시켜준다.
@@ -308,8 +327,7 @@ void CPlayer::StateChange(ActorState State)
 			AttackStart();
 			break;
 		}
-
-		m_eCurState = State;
+	m_eCurState = State;
 	}
 }
 
@@ -358,7 +376,6 @@ void CPlayer::MoveRight()
 	if (COLOR != RGB(0, 0, 0))
 	{
 		MoveDir(Vector2(1.f, 0.f));
-		m_PlayerDir = (int)PlayerDir::Right;
 	}
 }
 
@@ -371,7 +388,6 @@ void CPlayer::MoveLeft()
 	if (COLOR != RGB(0, 0, 0))
 	{
 		MoveDir(Vector2(-1.f, 0.f));
-		m_PlayerDir = (int)PlayerDir::Left;
 	}
 }
 
@@ -411,6 +427,10 @@ void CPlayer::CollisionEnd(CCollider* Src, CCollider* Dest)
 
 void CPlayer::IdleUpdate()
 {
+	if (true == CInput::GetInst()->IsDown('A'))
+	{
+		StateChange(ActorState::Run);
+	}
 }
 
 void CPlayer::RunUpdate()
@@ -423,10 +443,21 @@ void CPlayer::AttackUpdate()
 
 void CPlayer::IdleStart()
 {
+	// 애니메이션 체인지
+	m_AnimationName = "spr_idle_";
+	ChangeAnimation(m_AnimationName + m_ChangeDirText);
+
+	SetSpeed(0.f);
+
 }
 
 void CPlayer::RunStart()
 {
+	m_AnimationName = "spr_run_";
+	ChangeAnimation(m_AnimationName + m_ChangeDirText);
+	SetSpeed(450.f);
+
+
 }
 
 void CPlayer::AttackStart()

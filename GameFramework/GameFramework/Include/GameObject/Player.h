@@ -4,8 +4,24 @@
 
 enum class PlayerDir
 {
-	Left = -1,
-	Right = 1,
+	Left,
+	Right,
+	END
+};
+
+enum class PlayerState
+{
+	Idle,
+	IdleToRun,
+	Run,
+	RunToIdle,
+	Jump,
+	Landing,
+	Attack,
+	Fall,
+	Dodge,
+	PlaySong,
+	END
 };
 
 class CPlayer :
@@ -19,7 +35,7 @@ protected:
 	virtual ~CPlayer();
 
 private:
-	int		m_PlayerDir;
+	//int		m_PlayerDir;
 
 	bool	m_Attack;
 
@@ -28,6 +44,10 @@ private:
 
 	CSharedPtr<class CWidgetComponent>	m_HPBar;
 	CSharedPtr<class CWidgetComponent>	m_NameBar;
+	PlayerDir	m_CurDir;								// 현재 바라보고 있는 방향
+	std::string	m_AnimationName;
+	std::string m_ChangeDirText;
+	PlayerState	m_CurState;
 
 public:
 	virtual bool Init();
@@ -35,6 +55,9 @@ public:
 	virtual void PostUpdate(float DeltaTime);
 	virtual void Render(HDC hDC, float DeltaTime);
 	virtual float InflictDamage(float Damage);
+
+protected:
+	void DirAnimationCheck();
 
 private:
 	void CreateAnimationSequence();
