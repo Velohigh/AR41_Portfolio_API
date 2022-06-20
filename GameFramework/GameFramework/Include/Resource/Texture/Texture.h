@@ -99,6 +99,18 @@ public:
 
     int GetImagePixel(int x, int y)
     {
+        // 맵 바깥의 Pixel 을 달라고 하면 검은색(갈수 없는곳) 을 리턴한다.
+        if (0 > x || 0 > y)
+        {
+            return RGB(0, 0, 0);
+        }
+
+        if (GetWidth() <= x || GetHeight() <= y)
+        {
+            return RGB(0, 0, 0);
+        }
+
+
         return GetPixel(m_vecImageInfo[0]->hMemDC, x, y);
     }
 

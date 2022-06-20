@@ -39,8 +39,6 @@ bool CPlayer::Init()
 	SetSize(36.f, 70.f);
 	SetPivot(0.5f, 1.f);
 	SetRenderScale(2);
-	//SetTexture("Player", TEXT("Player/Right/alert.bmp"));
-	//SetColorKey(255, 0, 255);
 
 	CreateAnimation();
 
@@ -116,7 +114,7 @@ bool CPlayer::Init()
 
 	SetMapTexture("room_factory_2_ColMap", TEXT("room_factory_2_ColMap.bmp"), "MapPath");
 
-	//ChangeAnimation("")
+	ChangeAnimation("spr_run_right");
 
 	return true;
 }
@@ -183,6 +181,32 @@ float CPlayer::InflictDamage(float Damage)
 
 void CPlayer::CreateAnimationSequence()
 {
+	// Idle_Left
+	{
+		std::vector<std::wstring>	vecFileName;
+
+		for (int i = 0; i <= 10; ++i)
+		{
+			TCHAR	FileName[MAX_PATH] = {};
+			// %d에 i의 값이 대입되어 문자열이 만들어지게 된다.
+			wsprintf(FileName, TEXT("Player/spr_idle_left/%d.bmp"), i);
+			vecFileName.push_back(FileName);
+		}
+
+		CResourceManager::GetInst()->CreateAnimationSequence("spr_idle_left",
+			"spr_idle_left", vecFileName, TEXTURE_PATH);
+
+		for (int i = 0; i < 11; ++i)
+		{
+			CResourceManager::GetInst()->AddAnimationFrame("spr_idle_left", 0.f, 0.f,
+				36.f, 35.f);
+		}
+
+		CResourceManager::GetInst()->SetColorKey("spr_idle_left", 255, 255, 255);
+
+		AddAnimation("spr_idle_left", true);
+	}
+
 	// Idle_Right
 	{
 		std::vector<std::wstring>	vecFileName;
@@ -209,31 +233,60 @@ void CPlayer::CreateAnimationSequence()
 		AddAnimation("spr_idle_right", true);
 	}
 
-	// Idle_Left
+
+
+	// Run_Left
 	{
 		std::vector<std::wstring>	vecFileName;
 
-		for (int i = 0; i <= 10; ++i)
+		for (int i = 0; i <= 9; ++i)
 		{
 			TCHAR	FileName[MAX_PATH] = {};
 			// %d에 i의 값이 대입되어 문자열이 만들어지게 된다.
-			wsprintf(FileName, TEXT("Player/spr_idle_left/%d.bmp"), i);
+			wsprintf(FileName, TEXT("Player/spr_run_left/%d.bmp"), i);
 			vecFileName.push_back(FileName);
 		}
 
-		CResourceManager::GetInst()->CreateAnimationSequence("spr_idle_left",
-			"spr_idle_left", vecFileName, TEXTURE_PATH);
+		CResourceManager::GetInst()->CreateAnimationSequence("spr_run_left",
+			"spr_run_left", vecFileName, TEXTURE_PATH);
 
-		for (int i = 0; i < 11; ++i)
+		for (int i = 0; i <= 9; ++i)
 		{
-			CResourceManager::GetInst()->AddAnimationFrame("spr_idle_left", 0.f, 0.f,
-				36.f, 35.f);
+			CResourceManager::GetInst()->AddAnimationFrame("spr_run_left", 0.f, 0.f,
+				44.f, 32.f);
 		}
 
-		CResourceManager::GetInst()->SetColorKey("spr_idle_left", 255, 255, 255);
+		CResourceManager::GetInst()->SetColorKey("spr_run_left", 255, 255, 255);
 
-		AddAnimation("spr_idle_left", true);
+		AddAnimation("spr_run_left", true, 0.7f);
 	}
+
+	// Run_Right
+	{
+		std::vector<std::wstring>	vecFileName;
+
+		for (int i = 0; i <= 9; ++i)
+		{
+			TCHAR	FileName[MAX_PATH] = {};
+			// %d에 i의 값이 대입되어 문자열이 만들어지게 된다.
+			wsprintf(FileName, TEXT("Player/spr_run_right/%d.bmp"), i);
+			vecFileName.push_back(FileName);
+		}
+
+		CResourceManager::GetInst()->CreateAnimationSequence("spr_run_right",
+			"spr_run_right", vecFileName, TEXTURE_PATH);
+
+		for (int i = 0; i <= 9; ++i)
+		{
+			CResourceManager::GetInst()->AddAnimationFrame("spr_run_right", 0.f, 0.f,
+				44.f, 32.f);
+		}
+
+		CResourceManager::GetInst()->SetColorKey("spr_run_right", 255, 255, 255);
+
+		AddAnimation("spr_run_right", true, 0.7f);
+	}
+
 
 
 
@@ -280,7 +333,7 @@ void CPlayer::MoveUp()
 {
 	Vector2 NextPos = m_Pos + (Vector2{ 0.f, -1.f } * m_MoveSpeed * DELTA_TIME * m_TimeScale);
 
-	int COLOR = m_MapColTexture->GetImagePixel(NextPos.x, NextPos.y);
+	int COLOR = m_MapColTexture->GetImagePixel((int)NextPos.x, (int)NextPos.y);
 
 	if (COLOR != RGB(0,0,0))
 	MoveDir(Vector2(0.f, -1.f));
@@ -290,7 +343,7 @@ void CPlayer::MoveDown()
 {
 	Vector2 NextPos = m_Pos + (Vector2{ 0.f, 1.f } *m_MoveSpeed * DELTA_TIME * m_TimeScale);
 
-	int COLOR = m_MapColTexture->GetImagePixel(NextPos.x, NextPos.y);
+	int COLOR = m_MapColTexture->GetImagePixel((int)NextPos.x, (int)NextPos.y);
 
 	if (COLOR != RGB(0, 0, 0))
 	MoveDir(Vector2(0.f, 1.f));
@@ -300,7 +353,7 @@ void CPlayer::MoveRight()
 {
 	Vector2 NextPos = m_Pos + (Vector2{ 1.f, 0.f } *m_MoveSpeed * DELTA_TIME * m_TimeScale);
 
-	int COLOR = m_MapColTexture->GetImagePixel(NextPos.x, NextPos.y);
+	int COLOR = m_MapColTexture->GetImagePixel((int)NextPos.x, (int)NextPos.y);
 
 	if (COLOR != RGB(0, 0, 0))
 	{
@@ -313,7 +366,7 @@ void CPlayer::MoveLeft()
 {
 	Vector2 NextPos = m_Pos + (Vector2{ -1.f, 0.f } *m_MoveSpeed * DELTA_TIME * m_TimeScale);
 
-	int COLOR = m_MapColTexture->GetImagePixel(NextPos.x, NextPos.y);
+	int COLOR = m_MapColTexture->GetImagePixel((int)NextPos.x, (int)NextPos.y);
 
 	if (COLOR != RGB(0, 0, 0))
 	{
