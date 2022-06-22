@@ -51,6 +51,7 @@ bool CSoundManager::Init()
 	CreateSoundChannel("BGM");
 	CreateSoundChannel("BGM2");
 	CreateSoundChannel("Effect");
+	CreateSoundChannel("Effect_Jump");
 	CreateSoundChannel("UI");
 
 	return true;

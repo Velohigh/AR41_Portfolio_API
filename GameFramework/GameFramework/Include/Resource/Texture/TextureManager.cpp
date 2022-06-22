@@ -22,7 +22,7 @@ bool CTextureManager::LoadTexture(const std::string& Name,
 	CTexture* Texture = FindTexture(Name);
 
 	if (Texture)
-		return false;
+		return true;
 
 	Texture = new CTexture;
 
@@ -46,7 +46,7 @@ bool CTextureManager::LoadTextureFullPath(const std::string& Name,
 	CTexture* Texture = FindTexture(Name);
 
 	if (Texture)
-		return false;
+		return true;
 
 	Texture = new CTexture;
 
@@ -73,7 +73,7 @@ bool CTextureManager::LoadTexture(const std::string& Name,
 	CTexture* Texture = FindTexture(Name);
 
 	if (Texture)
-		return false;
+		return true;
 
 	Texture = new CTexture;
 
@@ -97,7 +97,7 @@ bool CTextureManager::LoadTextureFullPath(const std::string& Name,
 	CTexture* Texture = FindTexture(Name);
 
 	if (Texture)
-		return false;
+		return true;
 
 	Texture = new CTexture;
 
@@ -123,7 +123,7 @@ bool CTextureManager::LoadTexture(const std::string& Name,
 	CTexture* Texture = FindTexture(Name);
 
 	if (Texture)
-		return false;
+		return true;
 
 	Texture = new CTexture;
 
@@ -147,7 +147,7 @@ bool CTextureManager::LoadTextureFullPath(const std::string& Name,
 	CTexture* Texture = FindTexture(Name);
 
 	if (Texture)
-		return false;
+		return true;
 
 	Texture = new CTexture;
 

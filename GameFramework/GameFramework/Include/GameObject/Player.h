@@ -43,6 +43,11 @@ private:
 	std::string m_ChangeDirText;
 	PlayerState	m_CurState;
 	float		m_StateTime[static_cast<int>(PlayerState::END)];	// 해당 상태가 되고 지난 시간
+	float	m_JumpPower = 300.f;
+	float	m_LongJumpPower = 2000.f;
+	bool	m_IsLongJump = false;
+	int		m_AttackCount = 0;
+
 
 public:
 	virtual bool Init();
@@ -102,6 +107,12 @@ private:
 	void FallStart();
 	void DodgeStart();
 	void PlaySongStart();
+
+private:
+	// 미래의 위치를 계산하여 그곳의 RGB값을 체크하고, 이동 가능한 곳이면 이동한다.
+	void MapCollisionCheckMoveGround();
+	void MapCollisionCheckMoveAir();
+
 
 };
 

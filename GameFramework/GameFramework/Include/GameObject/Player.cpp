@@ -45,10 +45,11 @@ bool CPlayer::Init()
 	// 애니메이션 추가
 	CreateAnimationSequence();
 
+	// 애니메이션 종료시 호출함수
 	//SetEndFunction<CPlayer>("PlayerRightAttack", this, &CPlayer::AttackEnd);
 	//SetEndFunction<CPlayer>("PlayerLeftAttack", this, &CPlayer::AttackEnd);
 
-	// 노티파이 추가
+	// Notify 추가
 	AddNotify<CPlayer>("spr_run_left", 3, this, &CPlayer::RunningSound);
 	AddNotify<CPlayer>("spr_run_left", 8, this, &CPlayer::RunningSound);
 	AddNotify<CPlayer>("spr_run_right", 3, this, &CPlayer::RunningSound);
@@ -56,6 +57,10 @@ bool CPlayer::Init()
 
 	// 사운드 로드
 	m_Scene->GetSceneResource()->LoadSound("Effect", "sound_player_running_2", false, "sound_player_running_2.wav");
+	m_Scene->GetSceneResource()->LoadSound("Effect_Jump", "sound_player_jump", false, "sound_player_jump.wav");
+	m_Scene->GetSceneResource()->SetVolume("Effect_Jump", 65);
+	m_Scene->GetSceneResource()->LoadSound("Effect", "sound_player_land", false, "sound_player_land.wav");
+
 
 	// 방향
 	m_CurDir = PlayerDir::Right;
@@ -71,24 +76,24 @@ bool CPlayer::Init()
 	Box->SetCollisionEndFunction<CPlayer>(this, &CPlayer::CollisionEnd);
 
 
-	// 키 입력 함수 포인터
-	CInput::GetInst()->AddBindFunction<CPlayer>("MoveUp", 
-		Input_Type::Push, this, &CPlayer::MoveUp);
+	//// 키 입력 함수 포인터
+	//CInput::GetInst()->AddBindFunction<CPlayer>("MoveUp", 
+	//	Input_Type::Push, this, &CPlayer::MoveUp);
 
-	CInput::GetInst()->AddBindFunction<CPlayer>("MoveDown",
-		Input_Type::Push, this, &CPlayer::MoveDown);
+	//CInput::GetInst()->AddBindFunction<CPlayer>("MoveDown",
+	//	Input_Type::Push, this, &CPlayer::MoveDown);
 
-	CInput::GetInst()->AddBindFunction<CPlayer>("MoveRight",
-		Input_Type::Push, this, &CPlayer::MoveRight);
+	//CInput::GetInst()->AddBindFunction<CPlayer>("MoveRight",
+	//	Input_Type::Push, this, &CPlayer::MoveRight);
 
-	CInput::GetInst()->AddBindFunction<CPlayer>("MoveLeft",
-		Input_Type::Push, this, &CPlayer::MoveLeft);
+	//CInput::GetInst()->AddBindFunction<CPlayer>("MoveLeft",
+	//	Input_Type::Push, this, &CPlayer::MoveLeft);
 
-	CInput::GetInst()->AddBindFunction<CPlayer>("LButton",
-		Input_Type::Down, this, &CPlayer::Fire);
+	//CInput::GetInst()->AddBindFunction<CPlayer>("LButton",
+	//	Input_Type::Down, this, &CPlayer::Fire);
 
-	CInput::GetInst()->AddBindFunction<CPlayer>("Space",
-		Input_Type::Down, this, &CPlayer::JumpKey);
+	//CInput::GetInst()->AddBindFunction<CPlayer>("Space",
+	//	Input_Type::Down, this, &CPlayer::JumpKey);
 
 
 	//m_HP = 100;
@@ -322,6 +327,58 @@ void CPlayer::CreateAnimationSequence()
 		AddAnimation("spr_run_right", true, 0.7f);
 	}
 
+	// Run_To_Idle_Left
+	{
+		std::vector<std::wstring>	vecFileName;
+
+		for (int i = 0; i <= 4; ++i)
+		{
+			TCHAR	FileName[MAX_PATH] = {};
+			// %d에 i의 값이 대입되어 문자열이 만들어지게 된다.
+			wsprintf(FileName, TEXT("Player/spr_run_to_idle_left/%d.bmp"), i);
+			vecFileName.push_back(FileName);
+		}
+
+		CResourceManager::GetInst()->CreateAnimationSequence("spr_run_to_idle_left",
+			"spr_run_to_idle_left", vecFileName, TEXTURE_PATH);
+
+		for (int i = 0; i <= 4; ++i)
+		{
+			CResourceManager::GetInst()->AddAnimationFrame("spr_run_to_idle_left", 0.f, 0.f,
+				52.f, 36.f);
+		}
+
+		CResourceManager::GetInst()->SetColorKey("spr_run_to_idle_left", 255, 255, 255);
+
+		AddAnimation("spr_run_to_idle_left", true, 0.35f);
+	}
+
+	// Run_To_Idle_Right
+	{
+		std::vector<std::wstring>	vecFileName;
+
+		for (int i = 0; i <= 4; ++i)
+		{
+			TCHAR	FileName[MAX_PATH] = {};
+			// %d에 i의 값이 대입되어 문자열이 만들어지게 된다.
+			wsprintf(FileName, TEXT("Player/spr_run_to_idle_right/%d.bmp"), i);
+			vecFileName.push_back(FileName);
+		}
+
+		CResourceManager::GetInst()->CreateAnimationSequence("spr_run_to_idle_right",
+			"spr_run_to_idle_right", vecFileName, TEXTURE_PATH);
+
+		for (int i = 0; i <= 4; ++i)
+		{
+			CResourceManager::GetInst()->AddAnimationFrame("spr_run_to_idle_right", 0.f, 0.f,
+				52.f, 36.f);
+		}
+
+		CResourceManager::GetInst()->SetColorKey("spr_run_to_idle_right", 255, 255, 255);
+
+		AddAnimation("spr_run_to_idle_right", true, 0.35f);
+	}
+
 
 
 
@@ -533,11 +590,54 @@ void CPlayer::CollisionEnd(CCollider* Src, CCollider* Dest)
 	//## Update
 void CPlayer::IdleUpdate()
 {
+	// 이동키를 누르면 IdleToRun 상태로
 	if (true == IsMoveKey())
 	{
 		StateChange(PlayerState::IdleToRun);
 		return;
 	}
+
+	// 아래쪽에 지형이 없다면 Fall상태로
+	int color = m_MapColTexture->GetImagePixel(m_Pos + Vector2{ 0,10 });
+	int Rcolor = m_MapColTexture->GetImagePixel(m_Pos + Vector2{ 0,1 });
+	if (color != RGB(0, 0, 0) && m_CurState != PlayerState::Jump &&
+		Rcolor != RGB(255, 0, 0) &&
+		Rcolor != RGB(0, 0, 0))
+	{
+		StateChange(PlayerState::Fall);
+		return;
+	}
+
+	// 충돌맵 빨간색이면 아래로 이동 가능
+	if (Rcolor == RGB(255, 0, 0) &&
+		true == CInput::GetInst()->IsDown('S'))
+	{
+		SetPos(m_Pos + Vector2{ 0, 2 });
+	}
+
+	// 점프키를 누르면 Jump 상태로
+	if (true == CInput::GetInst()->IsDown(VK_SPACE))		// @@@ 점프 추가.
+	{
+		StateChange(PlayerState::Jump);
+		return;
+	}
+
+	// 공격키를 누르면 공격상태로
+	if (true == CInput::GetInst()->IsDown(VK_LBUTTON))
+	{
+		StateChange(PlayerState::Attack);
+		return;
+	}
+
+	// 회피
+	if (true == CInput::GetInst()->IsDown(VK_LSHIFT))	// @@@ 회피 추가.
+	{
+		StateChange(PlayerState::Dodge);
+		return;
+	}
+
+
+
 }
 
 void CPlayer::IdleToRunUpdate()
@@ -556,15 +656,210 @@ void CPlayer::IdleToRunUpdate()
 		return;
 	}
 
+	// 점프키를 누르면 Jump 상태로
+	if (true == CInput::GetInst()->IsDown(VK_SPACE))		// @@@ 점프 추가.
+	{
+		StateChange(PlayerState::Jump);
+		return;
+	}
+
+	// 회피키를 누르면 Dodge 상태로
+	if (true == CInput::GetInst()->IsDown(VK_LSHIFT))	// @@@ 회피 추가.
+	{
+		StateChange(PlayerState::Dodge);
+		return;
+	}
+
+	// 공격
+	if (true == CInput::GetInst()->IsDown(VK_LBUTTON))
+	{
+		StateChange(PlayerState::Attack);
+		return;
+	}
+
+	// 아래쪽에 지형이 없다면 Fall상태로
+	int color = m_MapColTexture->GetImagePixel(m_Pos + Vector2{ 0,10 });
+	int Rcolor = m_MapColTexture->GetImagePixel(m_Pos + Vector2{ 0,1 });
+	if (color != RGB(0, 0, 0) && m_CurState != PlayerState::Jump &&
+		Rcolor != RGB(255, 0, 0) &&
+		Rcolor != RGB(0, 0, 0))
+	{
+		StateChange(PlayerState::Fall);
+		return;
+	}
+
+	// 충돌맵 빨간색이면 아래로 이동 가능
+	if (Rcolor == RGB(255, 0, 0) &&
+		true == CInput::GetInst()->IsDown('S'))
+	{
+		SetPos(m_Pos + Vector2{ 0, 2 });
+	}
+
+	m_MoveDir = Vector2{ 0,0 };
+
+	if (true == CInput::GetInst()->IsPress('A'))
+	{
+		m_MoveDir = Vector2{ -1.f, 0.f };
+	}
+
+	if (true == CInput::GetInst()->IsPress('D'))
+	{
+		m_MoveDir = Vector2{ 1.f, 0.f };
+	}
+
+	MapCollisionCheckMoveGround();
+
+
 
 }
 
 void CPlayer::RunUpdate()
 {
+	m_StateTime[static_cast<int>(PlayerState::Run)] += DELTA_TIME;
+
+	// 이동키를 안누르면 Idle 상태로
+	if (false == IsMoveKey())
+	{
+		StateChange(PlayerState::RunToIdle);
+		return;
+	}
+
+	// 점프키를 누르면 Jump 상태로
+	if (true == CInput::GetInst()->IsDown(VK_SPACE))		// @@@ 점프 추가.
+	{
+		StateChange(PlayerState::Jump);
+		return;
+	}
+
+	// 아래쪽에 지형이 없다면 Fall상태로
+	int color = m_MapColTexture->GetImagePixel(m_Pos + Vector2{ 0,10 });
+	int Rcolor = m_MapColTexture->GetImagePixel(m_Pos + Vector2{ 0,1 });
+	if (color != RGB(0, 0, 0) && m_CurState != PlayerState::Jump &&
+		Rcolor != RGB(255, 0, 0) &&
+		Rcolor != RGB(0, 0, 0))
+	{
+		StateChange(PlayerState::Fall);
+		return;
+	}
+
+	// 충돌맵 빨간색이면 아래로 이동 가능
+	if (Rcolor == RGB(255, 0, 0) &&
+		true == CInput::GetInst()->IsDown('S'))
+	{
+		SetPos(m_Pos + Vector2{ 0, 2 });
+	}
+
+	// 회피키를 누르면 Dodge 상태로
+	if (true == CInput::GetInst()->IsDown(VK_LSHIFT))	// @@@ 회피 추가.
+	{
+		StateChange(PlayerState::Dodge);
+		return;
+	}
+
+	// 공격
+	if (true == CInput::GetInst()->IsDown(VK_LBUTTON))
+	{
+		StateChange(PlayerState::Attack);
+		return;
+	}
+
+
+	m_MoveDir = Vector2{0.f, 0.f};
+
+	if (true == CInput::GetInst()->IsPress('A'))
+	{
+		m_MoveDir = Vector2{ -1.f, 0.f };
+	}
+
+	if (true == CInput::GetInst()->IsPress('D'))
+	{
+		m_MoveDir = Vector2{ 1.f, 0.f };
+	}
+
+	MapCollisionCheckMoveGround();
+
 }
 
 void CPlayer::RunToIdleUpdate()
 {
+	// 이동키를 누르면 Run 상태로
+	if (true == IsMoveKey())
+	{
+		StateChange(PlayerState::IdleToRun);
+		return;
+	}
+
+	////############################################
+	// 점프키를 누르면 Jump 상태로
+	if (true == CInput::GetInst()->IsDown(VK_SPACE))		// @@@ 점프 추가.
+	{
+		StateChange(PlayerState::Jump);
+		return;
+	}
+
+	// 아래쪽에 지형이 없다면 Fall상태로
+	int color = m_MapColTexture->GetImagePixel(m_Pos + Vector2{ 0,10 });
+	int Rcolor = m_MapColTexture->GetImagePixel(m_Pos + Vector2{ 0,1 });
+	if (color != RGB(0, 0, 0) && m_CurState != PlayerState::Jump &&
+		Rcolor != RGB(255, 0, 0) &&
+		Rcolor != RGB(0, 0, 0))
+	{
+		StateChange(PlayerState::Fall);
+		return;
+	}
+
+	// 충돌맵 빨간색이면 아래로 이동 가능
+	if (Rcolor == RGB(255, 0, 0) &&
+		true == CInput::GetInst()->IsDown('S'))
+	{
+		SetPos(m_Pos + Vector2{ 0, 2 });
+	}
+
+	// 회피키를 누르면 Dodge 상태로
+	if (true == CInput::GetInst()->IsDown(VK_LSHIFT))	// @@@ 회피 추가.
+	{
+		StateChange(PlayerState::Dodge);
+		return;
+	}
+
+	// 공격
+	if (true == CInput::GetInst()->IsDown(VK_LBUTTON))
+	{
+		StateChange(PlayerState::Attack);
+		return;
+	}
+
+	// 이동키를 안누르고, 애니메이션이 끝까지 재생되면 Idle 상태로
+	if (false == IsMoveKey() &&
+		true == m_Animation->IsEndAnimation())
+	{
+		StateChange(PlayerState::Idle);
+		return;
+	}
+	else if (false == IsMoveKey() &&
+		false == m_Animation->IsEndAnimation())
+	{
+		Vector2 MoveDir = Vector2{ 0.f,0.f };
+
+		if (m_CurDir == PlayerDir::Left)
+		{
+			MoveDir = Vector2{ -1.f,0.f };
+		}
+
+		else if (m_CurDir == PlayerDir::Right)
+		{
+			MoveDir = Vector2{ 1.f,0.f };
+		}
+
+		MapCollisionCheckMoveGround();
+	}
+
+	// 멈추는중에 다시 이동키를 누르면
+	if (true == IsMoveKey())
+	{
+		StateChange(PlayerState::IdleToRun);
+		return;
+	}
 }
 
 void CPlayer::JumpUpdate()
@@ -623,14 +918,47 @@ void CPlayer::RunStart()
 
 void CPlayer::RunToIdleStart()
 {
+	m_AnimationName = "spr_run_to_idle_";
+	ChangeAnimation(m_AnimationName + m_ChangeDirText);
+	SetSpeed(100.f);
+
 }
 
 void CPlayer::JumpStart()
 {
+	//// 점프 이펙트
+	//Effect_JumpCloud* NewEffect = GetLevel()->CreateActor<Effect_JumpCloud>((int)ORDER::Effect);
+	//NewEffect->SetPosition(GetPosition());
+
+	// 점프 사운드
+	m_Scene->GetSceneResource()->SoundPlay("sound_player_jump.wav");
+
+	SetPos(m_Pos + Vector2{ 0, -3 });
+	m_AnimationName = "spr_jump_";
+	ChangeAnimation(m_AnimationName + m_ChangeDirText);
+	m_MoveDir *= m_MoveSpeed;
+	m_MoveDir += Vector2{ 0.f, -1.f } * m_JumpPower;	// 점프 파워
+
+	m_StateTime[static_cast<int>(PlayerState::Jump)] = 0.f;
+	m_IsLongJump = false;
 }
 
 void CPlayer::LandingStart()
 {
+	//// 착지 이펙트
+	//Effect_LandCloud* NewEffect = GetLevel()->CreateActor<Effect_LandCloud>((int)ORDER::Effect);
+	//NewEffect->SetPosition(GetPosition());
+
+	// 착지 사운드
+	m_Scene->GetSceneResource()->SoundPlay("sound_player_land.wav");
+
+	m_AnimationName = "spr_landing_";
+	ChangeAnimation(m_AnimationName + m_ChangeDirText);
+	m_MoveDir = Vector2{ 0.f, 0.f };
+	SetSpeed(0.f);
+	m_AttackCount = 0;
+
+
 }
 
 void CPlayer::AttackStart()
@@ -646,6 +974,76 @@ void CPlayer::DodgeStart()
 }
 
 void CPlayer::PlaySongStart()
+{
+}
+
+void CPlayer::MapCollisionCheckMoveGround()
+{
+	{
+		// 미래의 위치를 계산하여 그곳의 RGB값을 체크하고, 이동 가능한 곳이면 이동한다.
+		Vector2 NextPos = m_Pos + (Vector2{ 0,m_MoveDir.y } * DELTA_TIME * m_MoveSpeed);
+		Vector2 CheckPos = NextPos + Vector2{ 0,0 };	// 미래 위치의 발기준 색상
+		Vector2 CheckPosTopRight = NextPos + Vector2{ 18,-80 };	// 미래 위치의 머리기준 색상
+		Vector2 CheckPosTopLeft = NextPos + Vector2{ -18,-80 };	// 미래 위치의 머리기준 색상
+
+		int Color = m_MapColTexture->GetImagePixel(CheckPos.x, CheckPos.y);
+		int TopRightColor = m_MapColTexture->GetImagePixel(CheckPosTopRight.x, CheckPosTopRight.y);
+		int TopLeftColor = m_MapColTexture->GetImagePixel(CheckPosTopLeft.x, CheckPosTopLeft.y);
+
+
+
+		if (RGB(0, 0, 0) != Color &&
+			RGB(0, 0, 0) != TopRightColor &&
+			RGB(0, 0, 0) != TopLeftColor)
+		{
+			MoveDir(m_MoveDir);
+		}
+	}
+
+	{
+		// 미래의 위치를 계산하여 그곳의 RGB값을 체크하고, 이동 가능한 곳이면 이동한다.
+		Vector2 NextPos = m_Pos + (Vector2{ m_MoveDir.x,0 } * DELTA_TIME * m_MoveSpeed);
+		Vector2 CheckPos = NextPos + Vector2{ 0,0 };	// 미래 위치의 발기준 색상
+		Vector2 CheckPosTopRight = NextPos + Vector2{ 18,-80 };	// 미래 위치의 머리기준 색상
+		Vector2 CheckPosTopLeft = NextPos + Vector2{ -18,-80 };	// 미래 위치의 머리기준 색상
+		Vector2 ForDownPos = m_Pos + Vector2{ 0,1.f };	// 미래 위치의 머리기준 색상
+
+		int CurColor = m_MapColTexture->GetImagePixel(m_Pos.x, m_Pos.y);
+		int ForDownColor = m_MapColTexture->GetImagePixel(ForDownPos.x, ForDownPos.y);
+		int Color = m_MapColTexture->GetImagePixel(CheckPos.x, CheckPos.y);
+		int TopRightColor = m_MapColTexture->GetImagePixel(CheckPosTopRight.x, CheckPosTopRight.y);
+		int TopLeftColor = m_MapColTexture->GetImagePixel(CheckPosTopLeft.x, CheckPosTopLeft.y);
+
+
+		// 항상 땅에 붙어있기
+		if (RGB(0, 0, 0) != ForDownColor && RGB(255, 0, 0) != ForDownColor)
+		{
+			SetPos(Vector2{ m_Pos.x, m_Pos.y + 1.0f });
+		}
+
+		// 계단 올라가기
+		while (RGB(0, 0, 0) == Color &&
+			TopRightColor != RGB(0, 0, 0) && TopLeftColor != RGB(0, 0, 0))
+		{
+			CheckPos.y -= 1.0f;
+			Color = m_MapColTexture->GetImagePixel(CheckPos.x, CheckPos.y);
+			SetPos(Vector2{ m_Pos.x, m_Pos.y -1.0f });
+		}
+
+
+		if (RGB(0, 0, 0) != Color &&
+			RGB(0, 0, 0) != TopRightColor &&
+			RGB(0, 0, 0) != TopLeftColor)
+		{
+			MoveDir(Vector2{ m_MoveDir.x,0 });
+		}
+
+	}
+
+
+}
+
+void CPlayer::MapCollisionCheckMoveAir()
 {
 }
 

@@ -22,7 +22,7 @@ bool CAnimationManager::CreateAnimationSequence(const std::string& Name,
 	CAnimationSequence* Sequence = FindAnimation(Name);
 
 	if (Sequence)
-		return false;
+		return true;
 
 	Sequence = new CAnimationSequence;
 

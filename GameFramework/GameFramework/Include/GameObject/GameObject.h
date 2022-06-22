@@ -22,7 +22,7 @@ protected:
 	ERender_Layer	m_RenderLayer;
 	Vector2		m_PrevPos;		// 이전 프레임 위치
 	Vector2		m_Move;			// 이동량 (현재 프레임 위치 - 과거 프레임 위치)
-	Vector2		m_MoveDir;		// 이동 방향
+	Vector2		m_MoveDir;		// 이동 방향 벡터
 	Vector2		m_Pos;			// 위치
 	Vector2		m_Size;			// 크기
 	Vector2		m_Pivot;		// 피봇

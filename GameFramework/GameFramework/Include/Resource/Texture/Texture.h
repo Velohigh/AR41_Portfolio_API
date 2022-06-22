@@ -114,6 +114,11 @@ public:
         return GetPixel(m_vecImageInfo[0]->hMemDC, x, y);
     }
 
+    int GetImagePixel(Vector2 Vector)
+    {
+        return GetImagePixel((int)Vector.x, (int)Vector.y);
+    }
+
 public:
     bool LoadTexture(const TCHAR* FileName,
         const std::string& PathName = TEXTURE_PATH);
