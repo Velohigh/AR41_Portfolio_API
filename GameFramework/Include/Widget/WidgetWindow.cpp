@@ -18,21 +18,51 @@ bool CWidgetWindow::Init()
 
 void CWidgetWindow::Update(float DeltaTime)
 {
-	size_t	Size = m_vecWidget.size();
+	auto	iter = m_vecWidget.begin();
+	auto	iterEnd = m_vecWidget.end();
 
-	for (size_t i = 0; i < Size; ++i)
+	for (; iter != iterEnd;)
 	{
-		m_vecWidget[i]->Update(DeltaTime);
+		if (!(*iter)->GetActive())
+		{
+			iter = m_vecWidget.erase(iter);
+			iterEnd = m_vecWidget.end();
+			continue;
+		}
+
+		else if (!(*iter)->GetEnable())
+		{
+			++iter;
+			continue;
+		}
+
+		(*iter)->Update(DeltaTime);
+		++iter;
 	}
 }
 
 void CWidgetWindow::PostUpdate(float DeltaTime)
 {
-	size_t	Size = m_vecWidget.size();
+	auto	iter = m_vecWidget.begin();
+	auto	iterEnd = m_vecWidget.end();
 
-	for (size_t i = 0; i < Size; ++i)
+	for (; iter != iterEnd;)
 	{
-		m_vecWidget[i]->PostUpdate(DeltaTime);
+		if (!(*iter)->GetActive())
+		{
+			iter = m_vecWidget.erase(iter);
+			iterEnd = m_vecWidget.end();
+			continue;
+		}
+
+		else if (!(*iter)->GetEnable())
+		{
+			++iter;
+			continue;
+		}
+
+		(*iter)->PostUpdate(DeltaTime);
+		++iter;
 	}
 }
 
@@ -45,9 +75,26 @@ void CWidgetWindow::Render(HDC hDC, float DeltaTime)
 		std::sort(m_vecWidget.begin(), m_vecWidget.end(), CWidgetWindow::SortWidget);
 	}
 
-	for (size_t i = 0; i < Size; ++i)
+	auto	iter = m_vecWidget.begin();
+	auto	iterEnd = m_vecWidget.end();
+
+	for (; iter != iterEnd;)
 	{
-		m_vecWidget[i]->Render(hDC, DeltaTime);
+		if (!(*iter)->GetActive())
+		{
+			iter = m_vecWidget.erase(iter);
+			iterEnd = m_vecWidget.end();
+			continue;
+		}
+
+		else if (!(*iter)->GetEnable())
+		{
+			++iter;
+			continue;
+		}
+
+		(*iter)->Render(hDC, DeltaTime);
+		++iter;
 	}
 }
 
