@@ -379,6 +379,270 @@ void CPlayer::CreateAnimationSequence()
 		AddAnimation("spr_run_to_idle_right", true, 0.35f);
 	}
 
+	// spr_jump_left
+	{
+		std::vector<std::wstring>	vecFileName;
+
+		for (int i = 0; i <= 3; ++i)
+		{
+			TCHAR	FileName[MAX_PATH] = {};
+			// %d에 i의 값이 대입되어 문자열이 만들어지게 된다.
+			wsprintf(FileName, TEXT("Player/spr_jump_left/%d.bmp"), i);
+			vecFileName.push_back(FileName);
+		}
+
+		CResourceManager::GetInst()->CreateAnimationSequence("spr_jump_left",
+			"spr_jump_left", vecFileName, TEXTURE_PATH);
+
+		for (int i = 0; i <= 3; ++i)
+		{
+			CResourceManager::GetInst()->AddAnimationFrame("spr_jump_left", 0.f, 0.f,
+				32.f, 42.f);
+		}
+
+		CResourceManager::GetInst()->SetColorKey("spr_jump_left", 255, 255, 255);
+
+		AddAnimation("spr_jump_left", true, 0.28f);
+	}
+
+	// spr_jump_right
+	{
+		std::vector<std::wstring>	vecFileName;
+
+		for (int i = 0; i <= 3; ++i)
+		{
+			TCHAR	FileName[MAX_PATH] = {};
+			// %d에 i의 값이 대입되어 문자열이 만들어지게 된다.
+			wsprintf(FileName, TEXT("Player/spr_jump_right/%d.bmp"), i);
+			vecFileName.push_back(FileName);
+		}
+
+		CResourceManager::GetInst()->CreateAnimationSequence("spr_jump_right",
+			"spr_jump_right", vecFileName, TEXTURE_PATH);
+
+		for (int i = 0; i <= 3; ++i)
+		{
+			CResourceManager::GetInst()->AddAnimationFrame("spr_jump_right", 0.f, 0.f,
+				32.f, 42.f);
+		}
+
+		CResourceManager::GetInst()->SetColorKey("spr_jump_right", 255, 255, 255);
+
+		AddAnimation("spr_jump_right", true, 0.28f);
+	}
+
+	// spr_fall_left
+	{
+		std::vector<std::wstring>	vecFileName;
+
+		for (int i = 0; i <= 3; ++i)
+		{
+			TCHAR	FileName[MAX_PATH] = {};
+			// %d에 i의 값이 대입되어 문자열이 만들어지게 된다.
+			wsprintf(FileName, TEXT("Player/spr_fall_left/%d.bmp"), i);
+			vecFileName.push_back(FileName);
+		}
+
+		CResourceManager::GetInst()->CreateAnimationSequence("spr_fall_left",
+			"spr_fall_left", vecFileName, TEXTURE_PATH);
+
+		for (int i = 0; i <= 3; ++i)
+		{
+			CResourceManager::GetInst()->AddAnimationFrame("spr_fall_left", 0.f, 0.f,
+				42.f, 48.f);
+		}
+
+		CResourceManager::GetInst()->SetColorKey("spr_fall_left", 255, 255, 255);
+
+		AddAnimation("spr_fall_left", true, 0.28f);
+	}
+
+	// spr_fall_right
+	{
+		std::vector<std::wstring>	vecFileName;
+
+		for (int i = 0; i <= 3; ++i)
+		{
+			TCHAR	FileName[MAX_PATH] = {};
+			// %d에 i의 값이 대입되어 문자열이 만들어지게 된다.
+			wsprintf(FileName, TEXT("Player/spr_fall_right/%d.bmp"), i);
+			vecFileName.push_back(FileName);
+		}
+
+		CResourceManager::GetInst()->CreateAnimationSequence("spr_fall_right",
+			"spr_fall_right", vecFileName, TEXTURE_PATH);
+
+		for (int i = 0; i <= 3; ++i)
+		{
+			CResourceManager::GetInst()->AddAnimationFrame("spr_fall_right", 0.f, 0.f,
+				42.f, 48.f);
+		}
+
+		CResourceManager::GetInst()->SetColorKey("spr_fall_right", 255, 255, 255);
+
+		AddAnimation("spr_fall_left", true, 0.28f);
+	}
+
+	// spr_attack_left
+	{
+		std::vector<std::wstring>	vecFileName;
+
+		for (int i = 0; i <= 6; ++i)
+		{
+			TCHAR	FileName[MAX_PATH] = {};
+			// %d에 i의 값이 대입되어 문자열이 만들어지게 된다.
+			wsprintf(FileName, TEXT("Player/spr_attack_left/%d.bmp"), i);
+			vecFileName.push_back(FileName);
+		}
+
+		CResourceManager::GetInst()->CreateAnimationSequence("spr_attack_left",
+			"spr_attack_left", vecFileName, TEXTURE_PATH);
+
+		for (int i = 0; i <= 6; ++i)
+		{
+			CResourceManager::GetInst()->AddAnimationFrame("spr_attack_left", 0.f, 0.f,
+				62.f, 42.f);
+		}
+
+		CResourceManager::GetInst()->SetColorKey("spr_attack_left", 255, 255, 255);
+
+		AddAnimation("spr_attack_left", true, 0.196f);
+	}
+
+	// spr_attack_right
+	{
+		std::vector<std::wstring>	vecFileName;
+
+		for (int i = 0; i <= 6; ++i)
+		{
+			TCHAR	FileName[MAX_PATH] = {};
+			// %d에 i의 값이 대입되어 문자열이 만들어지게 된다.
+			wsprintf(FileName, TEXT("Player/spr_attack_right/%d.bmp"), i);
+			vecFileName.push_back(FileName);
+		}
+
+		CResourceManager::GetInst()->CreateAnimationSequence("spr_attack_right",
+			"spr_attack_right", vecFileName, TEXTURE_PATH);
+
+		for (int i = 0; i <= 6; ++i)
+		{
+			CResourceManager::GetInst()->AddAnimationFrame("spr_attack_right", 0.f, 0.f,
+				62.f, 42.f);
+		}
+
+		CResourceManager::GetInst()->SetColorKey("spr_attack_right", 255, 255, 255);
+
+		AddAnimation("spr_attack_right", true, 0.196f);
+	}
+
+	// spr_landing_left
+	{
+		std::vector<std::wstring>	vecFileName;
+
+		for (int i = 0; i <= 4; ++i)
+		{
+			TCHAR	FileName[MAX_PATH] = {};
+			// %d에 i의 값이 대입되어 문자열이 만들어지게 된다.
+			wsprintf(FileName, TEXT("Player/spr_landing_left/%d.bmp"), i);
+			vecFileName.push_back(FileName);
+		}
+
+		CResourceManager::GetInst()->CreateAnimationSequence("spr_landing_left",
+			"spr_landing_left", vecFileName, TEXTURE_PATH);
+
+		for (int i = 0; i <= 4; ++i)
+		{
+			CResourceManager::GetInst()->AddAnimationFrame("spr_landing_left", 0.f, 0.f,
+				52.f, 36.f);
+		}
+
+		CResourceManager::GetInst()->SetColorKey("spr_landing_left", 255, 255, 255);
+
+		AddAnimation("spr_landing_left", true, 0.3f);
+	}
+
+	// spr_landing_right
+	{
+		std::vector<std::wstring>	vecFileName;
+
+		for (int i = 0; i <= 4; ++i)
+		{
+			TCHAR	FileName[MAX_PATH] = {};
+			// %d에 i의 값이 대입되어 문자열이 만들어지게 된다.
+			wsprintf(FileName, TEXT("Player/spr_landing_right/%d.bmp"), i);
+			vecFileName.push_back(FileName);
+		}
+
+		CResourceManager::GetInst()->CreateAnimationSequence("spr_landing_right",
+			"spr_landing_right", vecFileName, TEXTURE_PATH);
+
+		for (int i = 0; i <= 4; ++i)
+		{
+			CResourceManager::GetInst()->AddAnimationFrame("spr_landing_right", 0.f, 0.f,
+				52.f, 36.f);
+		}
+
+		CResourceManager::GetInst()->SetColorKey("spr_landing_right", 255, 255, 255);
+
+		AddAnimation("spr_landing_right", true, 0.3f);
+	}
+
+	// spr_roll_left
+	{
+		std::vector<std::wstring>	vecFileName;
+
+		for (int i = 0; i <= 6; ++i)
+		{
+			TCHAR	FileName[MAX_PATH] = {};
+			// %d에 i의 값이 대입되어 문자열이 만들어지게 된다.
+			wsprintf(FileName, TEXT("Player/spr_roll_left/%d.bmp"), i);
+			vecFileName.push_back(FileName);
+		}
+
+		CResourceManager::GetInst()->CreateAnimationSequence("spr_roll_left",
+			"spr_roll_left", vecFileName, TEXTURE_PATH);
+
+		for (int i = 0; i <= 6; ++i)
+		{
+			CResourceManager::GetInst()->AddAnimationFrame("spr_roll_left", 0.f, 0.f,
+				48.f, 33.f);
+		}
+
+		CResourceManager::GetInst()->SetColorKey("spr_roll_left", 255, 255, 255);
+
+		AddAnimation("spr_roll_left", true, 0.315f);
+	}
+
+	// spr_roll_right
+	{
+		std::vector<std::wstring>	vecFileName;
+
+		for (int i = 0; i <= 6; ++i)
+		{
+			TCHAR	FileName[MAX_PATH] = {};
+			// %d에 i의 값이 대입되어 문자열이 만들어지게 된다.
+			wsprintf(FileName, TEXT("Player/spr_roll_right/%d.bmp"), i);
+			vecFileName.push_back(FileName);
+		}
+
+		CResourceManager::GetInst()->CreateAnimationSequence("spr_roll_right",
+			"spr_roll_right", vecFileName, TEXTURE_PATH);
+
+		for (int i = 0; i <= 6; ++i)
+		{
+			CResourceManager::GetInst()->AddAnimationFrame("spr_roll_right", 0.f, 0.f,
+				48.f, 33.f);
+		}
+
+		CResourceManager::GetInst()->SetColorKey("spr_roll_right", 255, 255, 255);
+
+		AddAnimation("spr_roll_right", true, 0.315f);
+	}
+
+
+
+
+
 
 
 
@@ -986,9 +1250,9 @@ void CPlayer::MapCollisionCheckMoveGround()
 		Vector2 CheckPosTopRight = NextPos + Vector2{ 18,-80 };	// 미래 위치의 머리기준 색상
 		Vector2 CheckPosTopLeft = NextPos + Vector2{ -18,-80 };	// 미래 위치의 머리기준 색상
 
-		int Color = m_MapColTexture->GetImagePixel(CheckPos.x, CheckPos.y);
-		int TopRightColor = m_MapColTexture->GetImagePixel(CheckPosTopRight.x, CheckPosTopRight.y);
-		int TopLeftColor = m_MapColTexture->GetImagePixel(CheckPosTopLeft.x, CheckPosTopLeft.y);
+		int Color = m_MapColTexture->GetImagePixel(CheckPos);
+		int TopRightColor = m_MapColTexture->GetImagePixel(CheckPosTopRight);
+		int TopLeftColor = m_MapColTexture->GetImagePixel(CheckPosTopLeft);
 
 
 
@@ -1008,11 +1272,11 @@ void CPlayer::MapCollisionCheckMoveGround()
 		Vector2 CheckPosTopLeft = NextPos + Vector2{ -18,-80 };	// 미래 위치의 머리기준 색상
 		Vector2 ForDownPos = m_Pos + Vector2{ 0,1.f };	// 미래 위치의 머리기준 색상
 
-		int CurColor = m_MapColTexture->GetImagePixel(m_Pos.x, m_Pos.y);
-		int ForDownColor = m_MapColTexture->GetImagePixel(ForDownPos.x, ForDownPos.y);
-		int Color = m_MapColTexture->GetImagePixel(CheckPos.x, CheckPos.y);
-		int TopRightColor = m_MapColTexture->GetImagePixel(CheckPosTopRight.x, CheckPosTopRight.y);
-		int TopLeftColor = m_MapColTexture->GetImagePixel(CheckPosTopLeft.x, CheckPosTopLeft.y);
+		int CurColor = m_MapColTexture->GetImagePixel(m_Pos);
+		int ForDownColor = m_MapColTexture->GetImagePixel(ForDownPos);
+		int Color = m_MapColTexture->GetImagePixel(CheckPos);
+		int TopRightColor = m_MapColTexture->GetImagePixel(CheckPosTopRight);
+		int TopLeftColor = m_MapColTexture->GetImagePixel(CheckPosTopLeft);
 
 
 		// 항상 땅에 붙어있기
@@ -1026,7 +1290,7 @@ void CPlayer::MapCollisionCheckMoveGround()
 			TopRightColor != RGB(0, 0, 0) && TopLeftColor != RGB(0, 0, 0))
 		{
 			CheckPos.y -= 1.0f;
-			Color = m_MapColTexture->GetImagePixel(CheckPos.x, CheckPos.y);
+			Color = m_MapColTexture->GetImagePixel(CheckPos);
 			SetPos(Vector2{ m_Pos.x, m_Pos.y -1.0f });
 		}
 
