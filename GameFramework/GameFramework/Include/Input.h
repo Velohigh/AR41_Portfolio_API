@@ -46,15 +46,13 @@ struct BindKey
 	KeyState* key;
 	bool	Ctrl;
 	bool	Alt;
-	bool	Shift;
 
 	std::vector<BindFunction*>	vecFunction[(int)Input_Type::End];
 
 	BindKey() :
 		key(nullptr),
 		Ctrl(false),
-		Alt(false),
-		Shift(false)
+		Alt(false)
 	{
 	}
 };
@@ -66,7 +64,6 @@ private:
 	std::unordered_map<std::string, BindKey*>		m_mapBindKey;
 	bool	m_Ctrl;
 	bool	m_Alt;
-	bool	m_Shift;
 	HWND	m_hWnd;
 
 	Vector2	m_MousePos;			// 윈도우 창에서의 위치
@@ -131,7 +128,6 @@ private:
 
 	void SetKeyCtrl(const std::string& Name, bool Ctrl = true);
 	void SetKeyAlt(const std::string& Name, bool Alt = true);
-	void SetKeyShift(const std::string& Name, bool Shift = true);
 
 	KeyState* FindKeyState(unsigned char Key);
 	BindKey* FindBindKey(const std::string& Name);

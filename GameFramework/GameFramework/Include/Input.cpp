@@ -70,6 +70,7 @@ bool CInput::Init(HWND hWnd)
 	AddBindKey("ArrowDown", VK_DOWN);
 	AddBindKey("ArrowLeft", VK_LEFT);
 	AddBindKey("ArrowRight", VK_RIGHT);
+	AddBindKey("Shift", VK_SHIFT);
 
 	// 에디터 여는 단축키 Ctrl + T
 	AddBindKey("OpenTileMapEditor", 'T');
@@ -80,7 +81,6 @@ bool CInput::Init(HWND hWnd)
 
 	m_Ctrl = false;
 	m_Alt = false;
-	m_Shift = false;
 
 	m_MouseProfile = CCollisionManager::GetInst()->FindProfile("Mouse");
 
@@ -202,12 +202,6 @@ void CInput::UpdateKeyState(float DeltaTime)
 	else
 		m_Alt = false;
 
-	if (GetAsyncKeyState(VK_SHIFT) & 0x8000)
-		m_Shift = true;
-
-	else
-		m_Shift = false;
-
 	auto	iter = m_mapKeyState.begin();
 	auto	iterEnd = m_mapKeyState.end();
 
@@ -260,8 +254,7 @@ void CInput::UpdateBindKey(float DeltaTime)
 	{
 		if (iter->second->key->Down &&
 			iter->second->Ctrl == m_Ctrl &&
-			iter->second->Alt == m_Alt &&
-			iter->second->Shift == m_Shift)
+			iter->second->Alt == m_Alt)
 		{
 			size_t	Size = iter->second->vecFunction[(int)Input_Type::Down].size();
 
@@ -273,8 +266,7 @@ void CInput::UpdateBindKey(float DeltaTime)
 
 		if (iter->second->key->Push &&
 			iter->second->Ctrl == m_Ctrl &&
-			iter->second->Alt == m_Alt &&
-			iter->second->Shift == m_Shift)
+			iter->second->Alt == m_Alt)
 		{
 			size_t	Size = iter->second->vecFunction[(int)Input_Type::Push].size();
 
@@ -286,8 +278,7 @@ void CInput::UpdateBindKey(float DeltaTime)
 
 		if (iter->second->key->Up &&
 			iter->second->Ctrl == m_Ctrl &&
-			iter->second->Alt == m_Alt &&
-			iter->second->Shift == m_Shift)
+			iter->second->Alt == m_Alt)
 		{
 			size_t	Size = iter->second->vecFunction[(int)Input_Type::Up].size();
 
@@ -319,15 +310,6 @@ void CInput::SetKeyAlt(const std::string& Name, bool Alt)
 	Key->Alt = Alt;
 }
 
-void CInput::SetKeyShift(const std::string& Name, bool Shift)
-{
-	BindKey* Key = FindBindKey(Name);
-
-	if (!Key)
-		return;
-
-	Key->Shift = Shift;
-}
 
 KeyState* CInput::FindKeyState(unsigned char Key)
 {
@@ -409,8 +391,6 @@ void CInput::ClearCallback()
 bool CInput::IsDown(unsigned char Key)
 {
 	return FindKeyState(Key)->Down;
-
-	//return m_mapKeyState.find(Key)->second->Down;
 }
 
 bool CInput::IsPress(unsigned char Key)

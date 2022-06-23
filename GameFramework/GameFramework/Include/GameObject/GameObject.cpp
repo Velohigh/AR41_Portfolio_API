@@ -21,7 +21,6 @@ CGameObject::CGameObject()	:
 	m_RenderLayer(ERender_Layer::Default),
 	m_PhysicsSimulate(false),
 	m_Ground(false),
-	m_GravityAccel(10.f),
 	m_FallTime(0.f),
 	m_FallStartY(0.f),
 	m_Jump(false),

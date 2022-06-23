@@ -14,6 +14,9 @@
 #include "../Widget/ProgressBar.h"
 #include "../Resource/ResourceManager.h"
 #include "../Resource/Texture/Texture.h"
+#include <random>
+
+Vector2 g_AttackDir = Vector2{ 0.f , 0.f };
 
 CPlayer::CPlayer()
 {
@@ -57,9 +60,13 @@ bool CPlayer::Init()
 
 	// 사운드 로드
 	m_Scene->GetSceneResource()->LoadSound("Effect", "sound_player_running_2", false, "sound_player_running_2.wav");
-	m_Scene->GetSceneResource()->LoadSound("Effect_Jump", "sound_player_jump", false, "sound_player_jump.wav");
-	m_Scene->GetSceneResource()->SetVolume("Effect_Jump", 65);
+	m_Scene->GetSceneResource()->LoadSound("Sound_Jump", "sound_player_jump", false, "sound_player_jump.wav");
+	m_Scene->GetSceneResource()->SetVolume("Sound_Jump", 65);
 	m_Scene->GetSceneResource()->LoadSound("Effect", "sound_player_land", false, "sound_player_land.wav");
+	m_Scene->GetSceneResource()->LoadSound("Sound_Slash", "sound_player_slash_1", false, "sound_player_slash_1.wav");
+	m_Scene->GetSceneResource()->LoadSound("Sound_Slash", "sound_player_slash_2", false, "sound_player_slash_2.wav");
+	m_Scene->GetSceneResource()->LoadSound("Sound_Slash", "sound_player_slash_3", false, "sound_player_slash_3.wav");
+	m_Scene->GetSceneResource()->SetVolume("Sound_Slash", 90);
 
 
 	// 방향
@@ -129,9 +136,9 @@ void CPlayer::Update(float DeltaTime)
 	StateUpdate();
 
 
-	int COLOR = m_MapColTexture->GetImagePixel((int)m_Pos.x, (int)m_Pos.y);
-	if (RGB(0,0,0) == COLOR)
-		MessageBoxA(nullptr, "충돌맵과 겹쳤음.", "ERROR", MB_OK);
+	//int COLOR = m_MapColTexture->GetImagePixel((int)m_Pos.x, (int)m_Pos.y);
+	//if (RGB(0,0,0) == COLOR)
+	//	MessageBoxA(nullptr, "충돌맵과 겹쳤음.", "ERROR", MB_OK);
 
 }
 
@@ -906,7 +913,7 @@ void CPlayer::IdleUpdate()
 	}
 
 	// 회피
-	if (true == CInput::GetInst()->IsDown(VK_LSHIFT))	// @@@ 회피 추가.
+	if (true == CInput::GetInst()->IsDown(VK_SHIFT))	// @@@ 회피 추가.
 	{
 		StateChange(PlayerState::Dodge);
 		return;
@@ -940,7 +947,7 @@ void CPlayer::IdleToRunUpdate()
 	}
 
 	// 회피키를 누르면 Dodge 상태로
-	if (true == CInput::GetInst()->IsDown(VK_LSHIFT))	// @@@ 회피 추가.
+	if (true == CInput::GetInst()->IsDown(VK_SHIFT))	// @@@ 회피 추가.
 	{
 		StateChange(PlayerState::Dodge);
 		return;
@@ -1026,7 +1033,7 @@ void CPlayer::RunUpdate()
 	}
 
 	// 회피키를 누르면 Dodge 상태로
-	if (true == CInput::GetInst()->IsDown(VK_LSHIFT))	// @@@ 회피 추가.
+	if (true == CInput::GetInst()->IsDown(VK_SHIFT))	// @@@ 회피 추가.
 	{
 		StateChange(PlayerState::Dodge);
 		return;
@@ -1065,7 +1072,6 @@ void CPlayer::RunToIdleUpdate()
 		return;
 	}
 
-	////############################################
 	// 점프키를 누르면 Jump 상태로
 	if (true == CInput::GetInst()->IsDown(VK_SPACE))		// @@@ 점프 추가.
 	{
@@ -1092,7 +1098,7 @@ void CPlayer::RunToIdleUpdate()
 	}
 
 	// 회피키를 누르면 Dodge 상태로
-	if (true == CInput::GetInst()->IsDown(VK_LSHIFT))	// @@@ 회피 추가.
+	if (true == CInput::GetInst()->IsDown(VK_SHIFT))	// @@@ 회피 추가.
 	{
 		StateChange(PlayerState::Dodge);
 		return;
@@ -1224,16 +1230,90 @@ void CPlayer::JumpUpdate()
 
 void CPlayer::AttackUpdate()
 {
+	//if (true == m_Animation->IsEndAnimation() &&
+	//	PlayerAttackCollision_ != nullptr)
+	//{
+	//	PlayerAttackCollision_->Death();
+	//}
+
+	// 공격 끝날시 Fall 상태로
+	if (true == m_Animation->IsEndAnimation())
+	{
+		StateChange(PlayerState::Fall);
+		return;
+	}
+
+	MapCollisionCheckMoveAir();
+
 }
 
 void CPlayer::LandingUpdate()
 {
+	if (true == m_Animation->IsEndAnimation())
+	{
+		StateChange(PlayerState::Idle);
+		return;
+	}
+
+	// 이동키를 누르면 IdleToRun 상태로
+	if (true == IsMoveKey())
+	{
+		StateChange(PlayerState::IdleToRun);
+		return;
+	}
+
+	//// 아래쪽에 지형이 없다면 Fall상태로
+	int color = m_MapColTexture->GetImagePixel(m_Pos + Vector2{ 0.f,10.f });
+	int Rcolor = m_MapColTexture->GetImagePixel(m_Pos + Vector2{ 0.f,1.f });
+	if (color != RGB(0, 0, 0) && m_CurState != PlayerState::Jump &&
+		Rcolor != RGB(255, 0, 0) &&
+		Rcolor != RGB(0, 0, 0))
+	{
+		StateChange(PlayerState::Fall);
+		return;
+	}
+
+	// 회피키를 누르면 Dodge 상태로
+	if (true == CInput::GetInst()->IsDown(VK_SHIFT))	// @@@ 회피 추가.
+	{
+		StateChange(PlayerState::Dodge);
+		return;
+	}
+
+	// 공격
+	if (true == CInput::GetInst()->IsDown(VK_LBUTTON))
+	{
+		StateChange(PlayerState::Attack);
+		return;
+	}
+
+
+	// 충돌맵 빨간색이면 아래로 이동 가능
+	if (Rcolor == RGB(255, 0, 0) &&
+		true == CInput::GetInst()->IsDown('S'))
+	{
+		SetPos(m_Pos + Vector2{ 0, 2 });
+	}
+
+	// 점프키를 누르면 Jump 상태로
+	if (true == CInput::GetInst()->IsDown(VK_SPACE))		// @@@ 점프 추가.
+	{
+		StateChange(PlayerState::Jump);
+		return;
+	}
+
+	if (true == CInput::GetInst()->IsDown(VK_LBUTTON))
+	{
+		StateChange(PlayerState::Attack);
+		return;
+	}
+
 }
 
 void CPlayer::FallUpdate()
 {
 	// 공중에 뜬 상태일경우 중력영향을 받는다.
-// 중력 가속도에 따른 낙하 속도.
+	// 중력 가속도에 따른 낙하 속도.
 	{
 		// 내포지션에서 원하는 위치의 픽셀의 색상을 구할 수 있다.
 		int Color = m_MapColTexture->GetImagePixel(m_Pos + Vector2{ 0.f,1.f });
@@ -1376,6 +1456,80 @@ void CPlayer::LandingStart()
 
 void CPlayer::AttackStart()
 {
+	// 시드값을 얻기 위한 random_device 생성.
+	std::random_device rd;
+
+	// random_device 를 통해 난수 생성 엔진을 초기화 한다.
+	std::mt19937 gen(rd());
+
+	// 0 부터 99 까지 균등하게 나타나는 난수열을 생성하기 위해 균등 분포 정의.
+	std::uniform_int_distribution<int> IntRange(0, 2);
+
+	int Num = IntRange(gen);
+
+	// 어택 사운드 랜덤 재생
+	if (Num == 0)
+	{
+		m_Scene->GetSceneResource()->SoundPlay("sound_player_slash_1");
+	}
+	else if (Num == 1)
+	{
+		m_Scene->GetSceneResource()->SoundPlay("sound_player_slash_2");
+	}
+	else if (Num == 2)
+	{
+		m_Scene->GetSceneResource()->SoundPlay("sound_player_slash_3");
+	}
+
+	//	// 어택 이펙트
+	//	Effect_Slash* NewEffect = GetLevel()->CreateActor<Effect_Slash>((int)ORDER::Effect);
+	//NewEffect->SetPosition(GetPosition());
+
+	// 공격 방향은 마우스 방향 고정
+	m_AnimationName = "spr_attack_";
+	if (CInput::GetInst()->GetMouseWorldPos().x >= (m_Pos + Vector2{0.f, -35}).x)
+	{
+		m_CurDir = PlayerDir::Right;
+		m_ChangeDirText = "right";
+	}
+	else if (CInput::GetInst()->GetMouseWorldPos().x < (m_Pos + Vector2{ 0.f, -35 }).x)
+	{
+		m_CurDir = PlayerDir::Left;
+		m_ChangeDirText = "left";
+	}
+	ChangeAnimation(m_AnimationName + m_ChangeDirText);
+
+	// 플레이어->마우스 방향 벡터 획득
+	Vector2 AttackDir = CInput::GetInst()->GetMouseWorldPos() - (m_Pos + Vector2{0,-35});
+	AttackDir.Normalize();
+
+	// 전역 변수 공격방향에 저장.
+	g_AttackDir = AttackDir;
+
+	//// 공격판정 콜리전 생성
+	//PlayerAttackCollision_ = CreateCollision("PlayerAttack", { 76, 76 }, AttackDir * 66 + float4{ 0,-35 });
+
+	m_MoveDir = Vector2{ 0.f, 0.f };
+	// 공중에서 최초 한번의 공격일때만 y축 전진성을 부여한다.
+	if (m_AttackCount <= 0)
+	{
+		m_MoveDir = AttackDir * 480.f;
+		++m_AttackCount;
+	}
+	else if (m_AttackCount >= 1)
+	{
+		// 플레이어는 2회 공격이후 y축 이동 제한, 공중 무한 날기 방지용
+		if (AttackDir.y < 0)
+		{
+			m_MoveDir = Vector2{ AttackDir.x, 0 } *480.f;
+		}
+		else
+		{
+			m_MoveDir = Vector2{ AttackDir.x, AttackDir.y } *480.f;
+		}
+	}
+	m_Gravity = 10.f;	// 공격 후 중력 초기화
+
 }
 
 void CPlayer::FallStart()
@@ -1411,7 +1565,7 @@ void CPlayer::MapCollisionCheckMoveGround()
 			RGB(0, 0, 0) != TopRightColor &&
 			RGB(0, 0, 0) != TopLeftColor)
 		{
-			MoveDir(m_MoveDir);
+			MoveDir(Vector2{ 0.f, m_MoveDir.y });
 		}
 	}
 
