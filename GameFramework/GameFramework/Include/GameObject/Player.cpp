@@ -80,21 +80,6 @@ bool CPlayer::Init()
 	//CInput::GetInst()->AddBindFunction<CPlayer>("MoveUp", 
 	//	Input_Type::Push, this, &CPlayer::MoveUp);
 
-	//CInput::GetInst()->AddBindFunction<CPlayer>("MoveDown",
-	//	Input_Type::Push, this, &CPlayer::MoveDown);
-
-	//CInput::GetInst()->AddBindFunction<CPlayer>("MoveRight",
-	//	Input_Type::Push, this, &CPlayer::MoveRight);
-
-	//CInput::GetInst()->AddBindFunction<CPlayer>("MoveLeft",
-	//	Input_Type::Push, this, &CPlayer::MoveLeft);
-
-	//CInput::GetInst()->AddBindFunction<CPlayer>("LButton",
-	//	Input_Type::Down, this, &CPlayer::Fire);
-
-	//CInput::GetInst()->AddBindFunction<CPlayer>("Space",
-	//	Input_Type::Down, this, &CPlayer::JumpKey);
-
 
 	//m_HP = 100;
 	//m_HPMax = 100;
@@ -125,6 +110,7 @@ bool CPlayer::Init()
 
 	ChangeAnimation("spr_idle_right");
 
+	// 초기 세팅
 	m_AnimationName = "Idle_";
 	m_CurState = PlayerState::Idle;
 	m_CurDir = PlayerDir::Right;
@@ -639,6 +625,32 @@ void CPlayer::CreateAnimationSequence()
 		AddAnimation("spr_roll_right", true, 0.315f);
 	}
 
+	// spr_player_playsong
+	{
+		std::vector<std::wstring>	vecFileName;
+
+		for (int i = 0; i <= 30; ++i)
+		{
+			TCHAR	FileName[MAX_PATH] = {};
+			// %d에 i의 값이 대입되어 문자열이 만들어지게 된다.
+			wsprintf(FileName, TEXT("Player/spr_player_playsong/%d.bmp"), i);
+			vecFileName.push_back(FileName);
+		}
+
+		CResourceManager::GetInst()->CreateAnimationSequence("spr_player_playsong",
+			"spr_player_playsong", vecFileName, TEXTURE_PATH);
+
+		for (int i = 0; i <= 30; ++i)
+		{
+			CResourceManager::GetInst()->AddAnimationFrame("spr_player_playsong", 0.f, 0.f,
+				34.f, 36.f);
+		}
+
+		CResourceManager::GetInst()->SetColorKey("spr_player_playsong", 255, 255, 255);
+
+		AddAnimation("spr_player_playsong", true, 3.41f);
+	}
+
 
 
 
@@ -1128,6 +1140,85 @@ void CPlayer::RunToIdleUpdate()
 
 void CPlayer::JumpUpdate()
 {
+	m_StateTime[static_cast<int>(PlayerState::Jump)] += DELTA_TIME;
+
+	if (m_StateTime[static_cast<int>(PlayerState::Jump)] > 0.f &&
+		m_StateTime[static_cast<int>(PlayerState::Jump)] <= 0.15f &&
+		true == CInput::GetInst()->IsPress(VK_SPACE))
+	{
+		m_MoveDir += Vector2{ 0.f,-1.f } *DELTA_TIME * m_LongJumpPower;
+	}
+
+
+
+	m_MoveDir += Vector2{ 0.f, 1.f } * DELTA_TIME * 1500.f;
+
+	Vector2 TempY = { 0.f ,m_MoveDir.y };
+
+	if (30.0f >= TempY.Length())
+	{
+		m_MoveDir.y = 0;
+		//MoveDir.Normal2D();
+		StateChange(PlayerState::Fall);
+		return;
+	}
+
+	// 공격
+	if (true == CInput::GetInst()->IsDown(VK_LBUTTON))
+	{
+		StateChange(PlayerState::Attack);
+		return;
+	}
+
+	if (true == CInput::GetInst()->IsDown('S'))
+	{
+		StateChange(PlayerState::Fall);
+		return;
+	}
+
+
+	if (true == CInput::GetInst()->IsPress('A'))
+	{
+		m_MoveDir += Vector2{ -1.f, 0 } * DELTA_TIME * 2000.f;
+		Vector2 TempX = { m_MoveDir.x,0.f };
+
+		if (TempX.Length() >= 450.f)
+		{
+			TempX.Normalize();
+			TempX *= 450.f;
+			m_MoveDir.x = TempX.x;
+		}
+	}
+	if (true == CInput::GetInst()->IsPress('D'))
+	{
+		m_MoveDir += Vector2{ 1.f, 0.f } * DELTA_TIME * 2000.f;
+		Vector2 TempX = { m_MoveDir.x,0.f };
+
+		if (TempX.Length() >= 450.f)
+		{
+			TempX.Normalize();
+			TempX *= 450.f;
+			m_MoveDir.x = TempX.x;
+		}
+	}
+
+	// 검은 땅에 닿을 경우 
+	int Color = m_MapColTexture->GetImagePixel(m_Pos + Vector2{ 0,1 });
+	if (RGB(0, 0, 0) == Color)
+	{
+		m_Gravity = 10.0f;
+		m_MoveDir.Normalize();
+
+		//Effect_LandCloud* NewEffect = GetLevel()->CreateActor<Effect_LandCloud>((int)ORDER::UI);
+		//NewEffect->SetPosition(GetPosition());
+
+		StateChange(PlayerState::Landing);
+		return;
+	}
+
+
+	MapCollisionCheckMoveAir();
+
 }
 
 
@@ -1141,6 +1232,64 @@ void CPlayer::LandingUpdate()
 
 void CPlayer::FallUpdate()
 {
+	// 공중에 뜬 상태일경우 중력영향을 받는다.
+// 중력 가속도에 따른 낙하 속도.
+	{
+		// 내포지션에서 원하는 위치의 픽셀의 색상을 구할 수 있다.
+		int Color = m_MapColTexture->GetImagePixel(m_Pos + Vector2{ 0.f,1.f });
+		m_Gravity += m_GravityAccel * DELTA_TIME;
+		if (RGB(0, 0, 0) == Color || RGB(255, 0, 0) == Color)	// 땅에 닿을 경우 
+		{
+			m_Gravity = 10.0f;
+			m_MoveDir.Normalize();
+
+
+			StateChange(PlayerState::Landing);
+			return;
+		}
+		Move(Vector2{ 0.f, 1.f } *m_Gravity * DELTA_TIME);
+	}
+
+
+	// 공격
+	if (true == CInput::GetInst()->IsDown(VK_LBUTTON))
+	{
+		StateChange(PlayerState::Attack);
+		return;
+	}
+
+	if (true == CInput::GetInst()->IsPress('A'))
+	{
+		m_MoveDir += Vector2{ -1.f, 0.f } * DELTA_TIME * 2000.f;
+		Vector2 TempX = { m_MoveDir.x, 0.f };
+
+		if (TempX.Length() >= 450.f)
+		{
+			TempX.Normalize();
+			TempX *= 450.f;
+			m_MoveDir.x = TempX.x;
+		}
+	}
+	if (true == CInput::GetInst()->IsPress('D'))
+	{
+		m_MoveDir += Vector2{ 1.f, 0.f } * DELTA_TIME * 2000.f;
+		Vector2 TempX = { m_MoveDir.x, 0.f };
+
+		if (TempX.Length() >= 450.f)
+		{
+			TempX.Normalize();
+			TempX *= 450.f;
+			m_MoveDir.x = TempX.x;
+		}
+	}
+
+	if (true == CInput::GetInst()->IsPress('S'))
+	{
+		m_MoveDir += Vector2{ 0.f , 1.f } * DELTA_TIME * 4000;
+	}
+
+	MapCollisionCheckMoveAir();
+
 }
 
 void CPlayer::DodgeUpdate()
@@ -1231,6 +1380,8 @@ void CPlayer::AttackStart()
 
 void CPlayer::FallStart()
 {
+	m_AnimationName = "spr_fall_";
+	ChangeAnimation(m_AnimationName + m_ChangeDirText);
 }
 
 void CPlayer::DodgeStart()
@@ -1309,6 +1460,45 @@ void CPlayer::MapCollisionCheckMoveGround()
 
 void CPlayer::MapCollisionCheckMoveAir()
 {
+	{
+		// 미래의 위치를 계산하여 그곳의 RGB값을 체크하고, 이동 가능한 곳이면 이동한다.
+		Vector2 NextPos = m_Pos + (Vector2{ 0,m_MoveDir.y } * DELTA_TIME);
+		Vector2 CheckPos = NextPos + Vector2{ 0,0 };	// 미래 위치의 발기준 색상
+		Vector2 CheckPosTopRight = NextPos + Vector2{ 18,-80 };	// 미래 위치의 머리기준 색상
+		Vector2 CheckPosTopLeft = NextPos + Vector2{ -18,-80 };	// 미래 위치의 머리기준 색상
+
+		int Color = m_MapColTexture->GetImagePixel(CheckPos);
+		int TopRightColor = m_MapColTexture->GetImagePixel(CheckPosTopRight);
+		int TopLeftColor = m_MapColTexture->GetImagePixel(CheckPosTopLeft);
+
+
+		if (RGB(0, 0, 0) != Color &&
+			RGB(0, 0, 0) != TopRightColor &&
+			RGB(0, 0, 0) != TopLeftColor)
+		{
+			Move(Vector2{ 0.f , m_MoveDir.y } * DELTA_TIME);
+		}
+	}
+
+	{
+		// 미래의 위치를 계산하여 그곳의 RGB값을 체크하고, 이동 가능한 곳이면 이동한다.
+		Vector2 NextPos = m_Pos + (Vector2{ m_MoveDir.x,0.f } * DELTA_TIME);
+		Vector2 CheckPos = NextPos + Vector2{ 0.f, 0.f };	// 미래 위치의 발기준 색상
+		Vector2 CheckPosTopRight = NextPos + Vector2{ 18,-80 };	// 미래 위치의 머리기준 색상
+		Vector2 CheckPosTopLeft = NextPos + Vector2{ -18,-80 };	// 미래 위치의 머리기준 색상
+
+		int Color = m_MapColTexture->GetImagePixel(CheckPos);
+		int TopRightColor = m_MapColTexture->GetImagePixel(CheckPosTopRight);
+		int TopLeftColor = m_MapColTexture->GetImagePixel(CheckPosTopLeft);
+
+		if (RGB(0, 0, 0) != Color &&
+			RGB(0, 0, 0) != TopRightColor &&
+			RGB(0, 0, 0) != TopLeftColor)
+		{
+			Move(Vector2{ m_MoveDir.x,0 } * DELTA_TIME);
+		}
+	}
+
 }
 
 

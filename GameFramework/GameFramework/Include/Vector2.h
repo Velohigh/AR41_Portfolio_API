@@ -268,9 +268,32 @@ struct Vector2
 
 	float Distance(const Vector2& v)	const
 	{
+		// 상대 좌표와의 거리
 		float Width = x - v.x;
 		float Height = y - v.y;
 
 		return sqrtf(Width * Width + Height * Height);
 	}
+
+	float Length() const
+	{
+		// 벡터의 길이 반환
+		return sqrtf((x * x) + (y * y));
+	}
+
+	void Normalize()
+	{
+		// 정규화
+		float Len = Length();
+		if (0 == Len)
+		{
+			return;
+		}
+
+		x /= Len;
+		y /= Len;
+
+		return;
+	}
+
 };
