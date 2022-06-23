@@ -473,7 +473,7 @@ void CPlayer::CreateAnimationSequence()
 
 		CResourceManager::GetInst()->SetColorKey("spr_fall_right", 255, 255, 255);
 
-		AddAnimation("spr_fall_left", true, 0.28f);
+		AddAnimation("spr_fall_right", true, 0.28f);
 	}
 
 	// spr_attack_left
@@ -1503,7 +1503,7 @@ void CPlayer::AttackStart()
 	Vector2 AttackDir = CInput::GetInst()->GetMouseWorldPos() - (m_Pos + Vector2{0,-35});
 	AttackDir.Normalize();
 
-	// 전역 변수 공격방향에 저장.
+	// 전역 변수에 공격방향 저장.
 	g_AttackDir = AttackDir;
 
 	//// 공격판정 콜리전 생성
