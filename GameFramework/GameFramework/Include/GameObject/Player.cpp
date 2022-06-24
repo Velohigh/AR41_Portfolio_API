@@ -67,6 +67,11 @@ bool CPlayer::Init()
 	m_Scene->GetSceneResource()->LoadSound("Sound_Slash", "sound_player_slash_2", false, "sound_player_slash_2.wav");
 	m_Scene->GetSceneResource()->LoadSound("Sound_Slash", "sound_player_slash_3", false, "sound_player_slash_3.wav");
 	m_Scene->GetSceneResource()->SetVolume("Sound_Slash", 90);
+	m_Scene->GetSceneResource()->LoadSound("Sound_Roll", "sound_player_roll", false, "sound_player_roll.wav");
+	m_Scene->GetSceneResource()->SetVolume("Sound_Roll", 40);
+	m_Scene->GetSceneResource()->LoadSound("Sound_Roll_Real", "sound_player_roll_real", false, "sound_player_roll_real.wav");
+	m_Scene->GetSceneResource()->SetVolume("sound_player_roll_real", 74);
+
 
 
 	// 방향
@@ -1374,6 +1379,43 @@ void CPlayer::FallUpdate()
 
 void CPlayer::DodgeUpdate()
 {
+	//// 닷지 구름 이펙트 생성
+	//StateTime[static_cast<int>(PlayerState::Dodge)] += GameEngineTime::GetDeltaTime();
+	//if (0.02f <= StateTime[static_cast<int>(PlayerState::Dodge)])
+	//{
+	//	Effect_DustCloud* NewEffect = GetLevel()->CreateActor<Effect_DustCloud>((int)ORDER::Effect);
+	//	NewEffect->SetPosition(GetPosition());
+	//	if (CurDir_ == PlayerDir::Right)
+	//		NewEffect->SetDir(ActorDir::Left);
+	//	else if (CurDir_ == PlayerDir::Left)
+	//		NewEffect->SetDir(ActorDir::Right);
+	//	StateTime[static_cast<int>(PlayerState::Dodge)] = 0.f;
+	//}
+
+	// 닷지 종료시 RunToIdle 상태로
+	if (true == m_Animation->IsEndAnimation())
+	{
+		StateChange(PlayerState::RunToIdle);
+		return;
+	}
+
+
+
+	// 점프키를 누르면 Jump 상태로
+	if (true == CInput::GetInst()->IsDown(VK_SPACE))		// @@@ 점프 추가.
+	{
+		StateChange(PlayerState::Jump);
+		return;
+	}
+
+	if (true == CInput::GetInst()->IsDown(VK_LBUTTON))
+	{
+		StateChange(PlayerState::Attack);
+		return;
+	}
+
+	MapCollisionCheckMoveGround();
+
 }
 
 void CPlayer::PlaySongUpdate()
@@ -1540,6 +1582,21 @@ void CPlayer::FallStart()
 
 void CPlayer::DodgeStart()
 {
+
+	// 닷지 사운드
+	{
+		m_Scene->GetSceneResource()->SoundPlay("sound_player_roll");
+	}
+	{
+		m_Scene->GetSceneResource()->SoundPlay("sound_player_roll_real");
+	}
+
+	m_StateTime[static_cast<int>(PlayerState::Dodge)] = 0.f;
+
+	m_AnimationName = "spr_roll_";
+	ChangeAnimation(m_AnimationName + m_ChangeDirText);
+	SetSpeed(680.f);
+
 }
 
 void CPlayer::PlaySongStart()

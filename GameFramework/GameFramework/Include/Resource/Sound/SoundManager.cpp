@@ -53,6 +53,8 @@ bool CSoundManager::Init()
 	CreateSoundChannel("Effect");
 	CreateSoundChannel("Sound_Jump");
 	CreateSoundChannel("Sound_Slash");
+	CreateSoundChannel("Sound_Roll");
+	CreateSoundChannel("Sound_Roll_Real");
 	CreateSoundChannel("UI");
 
 	return true;
