@@ -14,6 +14,7 @@
 #include "../Widget/ProgressBar.h"
 #include "../Resource/ResourceManager.h"
 #include "../Resource/Texture/Texture.h"
+#include "Effect_DustCloud.h"
 #include <random>
 
 Vector2 g_AttackDir = Vector2{ 0.f , 0.f };
@@ -123,7 +124,7 @@ bool CPlayer::Init()
 	ChangeAnimation("spr_idle_right");
 
 	// 초기 세팅
-	m_AnimationName = "Idle_";
+	m_AnimationName = "spr_idle_";
 	m_CurState = PlayerState::Idle;
 	m_CurDir = PlayerDir::Right;
 
@@ -662,6 +663,33 @@ void CPlayer::CreateAnimationSequence()
 
 		AddAnimation("spr_player_playsong", true, 3.41f);
 	}
+
+	// Dust_Cloud Animation
+	{
+		std::vector<std::wstring>	vecFileName;
+
+		for (int i = 0; i <= 6; ++i)
+		{
+			TCHAR	FileName[MAX_PATH] = {};
+			// %d에 i의 값이 대입되어 문자열이 만들어지게 된다.
+			wsprintf(FileName, TEXT("Effect/spr_dustcloud/%d.bmp"), i);
+			vecFileName.push_back(FileName);
+		}
+
+		CResourceManager::GetInst()->CreateAnimationSequence("spr_dustcloud",
+			"spr_dustcloud", vecFileName, TEXTURE_PATH);
+
+		for (int i = 0; i <= 6; ++i)
+		{
+			CResourceManager::GetInst()->AddAnimationFrame("spr_dustcloud", 0.f, 0.f,
+				19.f, 19.f);
+		}
+
+		CResourceManager::GetInst()->SetColorKey("spr_dustcloud", 255, 255, 255);
+
+		AddAnimation("spr_dustcloud", true, 0.42f);
+	}
+
 
 
 
@@ -1379,18 +1407,24 @@ void CPlayer::FallUpdate()
 
 void CPlayer::DodgeUpdate()
 {
-	//// 닷지 구름 이펙트 생성
-	//StateTime[static_cast<int>(PlayerState::Dodge)] += GameEngineTime::GetDeltaTime();
-	//if (0.02f <= StateTime[static_cast<int>(PlayerState::Dodge)])
-	//{
-	//	Effect_DustCloud* NewEffect = GetLevel()->CreateActor<Effect_DustCloud>((int)ORDER::Effect);
-	//	NewEffect->SetPosition(GetPosition());
-	//	if (CurDir_ == PlayerDir::Right)
-	//		NewEffect->SetDir(ActorDir::Left);
-	//	else if (CurDir_ == PlayerDir::Left)
-	//		NewEffect->SetDir(ActorDir::Right);
-	//	StateTime[static_cast<int>(PlayerState::Dodge)] = 0.f;
-	//}
+	// 닷지 구름 이펙트 생성
+	m_StateTime[static_cast<int>(PlayerState::Dodge)] += DELTA_TIME;
+	if (0.02f <= m_StateTime[static_cast<int>(PlayerState::Dodge)])
+	{
+		CEffect* NewEffect = m_Scene->CreateObject<CEffect_DustCloud>("DustCloud");
+
+		NewEffect->SetPivot(0.5f, 0.5f);
+		NewEffect->SetPos(m_Pos);
+
+		//if (m_CurDir == PlayerDir::Right)
+		//	NewEffect->SetDir(ObjDir::Left);
+		//else if (m_CurDir == PlayerDir::Left)
+		//	NewEffect->SetDir(ObjDir::Right);
+		m_StateTime[static_cast<int>(PlayerState::Dodge)] = 0.f;
+
+		NewEffect->AddAnimation("spr_dustcloud", false, 0.36f);
+
+	}
 
 	// 닷지 종료시 RunToIdle 상태로
 	if (true == m_Animation->IsEndAnimation())

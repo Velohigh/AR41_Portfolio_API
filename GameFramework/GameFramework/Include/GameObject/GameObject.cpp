@@ -341,6 +341,86 @@ void CGameObject::Move(float Angle)
 	m_Pos += Dir * m_MoveSpeed * DELTA_TIME * m_TimeScale;
 }
 
+void CGameObject::DirAnimationCheck()
+{
+	if (m_PreDir != m_CurDir)
+	{
+
+		if (m_CurDir == ObjDir::Right)
+		{
+			m_ChangeDirText = "right";
+		}
+		else if (m_CurDir == ObjDir::Left)
+		{
+			m_ChangeDirText = "left";
+		}
+
+		m_Animation->ChangeAnimation(m_AnimationName + m_ChangeDirText);
+		m_PreDir = m_CurDir;
+	}
+
+}
+
+void CGameObject::StateChange(ObjState State)
+{
+	if (State != m_CurState)
+	{
+		switch (State)
+		{
+		case ObjState::Idle:
+			IdleStart();
+			break;
+		case ObjState::Walk:
+			WalkStart();
+			break;
+		case ObjState::Turn:
+			TurnStart();
+			break;
+		case ObjState::Run:
+			RunStart();
+			break;
+		case ObjState::Attack:
+			AttackStart();
+			break;
+		case ObjState::HurtGround:
+			HurtGroundStart();
+			break;
+		case ObjState::HurtFly:
+			HurtFlyStart();
+			break;
+		}
+		m_CurState = State;
+	}
+}
+
+void CGameObject::ObjStateUpdate()
+{
+	switch (m_CurState)
+	{
+	case ObjState::Idle:
+		IdleUpdate();
+		break;
+	case ObjState::Walk:
+		WalkUpdate();
+		break;
+	case ObjState::Turn:
+		TurnUpdate();
+		break;
+	case ObjState::Run:
+		RunUpdate();
+		break;
+	case ObjState::Attack:
+		AttackUpdate();
+		break;
+	case ObjState::HurtGround:
+		HurtGroundUpdate();
+		break;
+	case ObjState::HurtFly:
+		HurtFlyUpdate();
+		break;
+	}
+}
+
 void CGameObject::Start()
 {
 	m_Start = true;

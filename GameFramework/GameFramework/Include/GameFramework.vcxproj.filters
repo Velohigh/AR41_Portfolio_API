@@ -106,6 +106,18 @@
     <Filter Include="03. Scene\99. Edit_Scene">
       <UniqueIdentifier>{fcf587d4-fcef-4949-bd88-ace429a1f1b4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GameObject\01. Character\00. Player">
+      <UniqueIdentifier>{c75cbfd5-bd91-40af-9873-56480731fed7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. Character\01. Enemy">
+      <UniqueIdentifier>{1c55be1d-1138-4a0d-81eb-76db9f1bcb92}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. Character\00. Player\00. Effect">
+      <UniqueIdentifier>{d1d3a1fa-1c53-4e61-bc3c-a2747ee37823}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. Character\00. Player\00. Effect\DustCloud">
+      <UniqueIdentifier>{74bf7e23-58f4-4c80-934f-7765422b8d3d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -123,9 +135,6 @@
     <ClCompile Include="GameObject\Character.cpp">
       <Filter>02. GameObject\01. Character</Filter>
     </ClCompile>
-    <ClCompile Include="GameObject\Player.cpp">
-      <Filter>02. GameObject\01. Character</Filter>
-    </ClCompile>
     <ClCompile Include="GameInfo.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
@@ -140,9 +149,6 @@
     </ClCompile>
     <ClCompile Include="Input.cpp">
       <Filter>01. GameManager\04. Input</Filter>
-    </ClCompile>
-    <ClCompile Include="GameObject\Monster.cpp">
-      <Filter>02. GameObject\01. Character</Filter>
     </ClCompile>
     <ClCompile Include="GameObject\Bullet.cpp">
       <Filter>02. GameObject\02. Bullet</Filter>
@@ -258,6 +264,15 @@
     <ClCompile Include="Scene\EditScene.cpp">
       <Filter>03. Scene\99. Edit_Scene</Filter>
     </ClCompile>
+    <ClCompile Include="GameObject\Player.cpp">
+      <Filter>02. GameObject\01. Character\00. Player</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\Monster.cpp">
+      <Filter>02. GameObject\01. Character\01. Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\Effect_DustCloud.cpp">
+      <Filter>02. GameObject\01. Character\00. Player\00. Effect\DustCloud</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameManager.h">
@@ -281,9 +296,6 @@
     <ClInclude Include="GameObject\Character.h">
       <Filter>02. GameObject\01. Character</Filter>
     </ClInclude>
-    <ClInclude Include="GameObject\Player.h">
-      <Filter>02. GameObject\01. Character</Filter>
-    </ClInclude>
     <ClInclude Include="Vector2.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
@@ -301,9 +313,6 @@
     </ClInclude>
     <ClInclude Include="Input.h">
       <Filter>01. GameManager\04. Input</Filter>
-    </ClInclude>
-    <ClInclude Include="GameObject\Monster.h">
-      <Filter>02. GameObject\01. Character</Filter>
     </ClInclude>
     <ClInclude Include="GameObject\Bullet.h">
       <Filter>02. GameObject\02. Bullet</Filter>
@@ -445,6 +454,15 @@
     </ClInclude>
     <ClInclude Include="Scene\EditScene.h">
       <Filter>03. Scene\99. Edit_Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\Player.h">
+      <Filter>02. GameObject\01. Character\00. Player</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\Monster.h">
+      <Filter>02. GameObject\01. Character\01. Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\Effect_DustCloud.h">
+      <Filter>02. GameObject\01. Character\00. Player\00. Effect\DustCloud</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

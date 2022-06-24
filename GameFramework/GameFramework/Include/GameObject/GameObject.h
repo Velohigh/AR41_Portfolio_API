@@ -4,6 +4,26 @@
 #include "../Animation/Animation.h"
 #include "../Widget/WidgetComponent.h"
 
+enum class ObjDir
+{
+	Left,
+	Right,
+	End
+};
+
+enum class ObjState
+{
+	Idle,
+	Walk,
+	Turn,
+	Run,
+	Attack,
+	HurtGround,
+	HurtFly,
+	END
+};
+
+
 class CGameObject	:
 	public CRef
 {
@@ -44,6 +64,17 @@ protected:
 	bool		m_SideWallCheck;	// 타일맵 사이드 체크
 	bool		m_Start;
 	int			m_RenderScale = 1;	// 출력 배율
+	ObjDir		m_CurDir = ObjDir::Right;	// 바라보고있는 방향
+	ObjDir		m_PreDir = ObjDir::End;		// 이전에 보고있던 방향
+	std::string m_AnimationName;			// 재생할 애니메이션
+	std::string m_ChangeDirText;			// 좌우 애니메이션 재생을 결정할 텍스트
+	bool m_bPatrol = false;		// 해당 유닛의 정찰 행동 유무
+
+
+protected:
+	ObjState	m_CurState;				// 현재 상태
+	ObjState	m_PreState;				// 이전 상태
+
 
 public:
 	class CCollider* FindCollider(const std::string& Name);
@@ -154,6 +185,32 @@ public:
 		m_MoveSpeed = Speed;
 	}
 
+	inline void SetDir(ObjDir Dir)
+	{
+		m_CurDir = Dir;
+	}
+
+	inline void SetMoveDir(Vector2 MoveDir)
+	{
+		m_MoveDir = MoveDir;
+	}
+
+	inline void SetState(ObjState State)
+	{
+		StateChange(State);
+	}
+
+	inline void SetPatrol(bool _b)
+	{
+		m_bPatrol = _b;
+	}
+
+	inline ObjDir GetDir()
+	{
+		return m_CurDir;
+	}
+
+
 public:
 	void SetTexture(const std::string& Name);
 	void SetTexture(class CTexture* Texture);
@@ -220,6 +277,28 @@ public:
 	void Move(const Vector2& MoveValue);
 	void Move(float Angle);
 
+protected:
+	virtual void DirAnimationCheck();
+	virtual void StateChange(ObjState State);
+	virtual void ObjStateUpdate();
+
+protected:
+	virtual void IdleStart() {};
+	virtual void WalkStart() {};
+	virtual void TurnStart() {};
+	virtual void RunStart() {};
+	virtual void AttackStart() {};
+	virtual void HurtGroundStart() {};
+	virtual void HurtFlyStart() {};
+
+
+	virtual void IdleUpdate() {};
+	virtual void WalkUpdate() {};
+	virtual void TurnUpdate() {};
+	virtual void RunUpdate() {};
+	virtual void AttackUpdate() {};
+	virtual void HurtGroundUpdate() {};
+	virtual void HurtFlyUpdate() {};
 
 
 public:

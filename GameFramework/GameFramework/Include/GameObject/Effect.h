@@ -18,6 +18,11 @@ private:
 	float			m_Time;
 
 public:
+	void SetEffectType(EEffect_Type Type)
+	{
+		m_EffectType = Type;
+	}
+
 	EEffect_Type GetEffectType()	const
 	{
 		return m_EffectType;
