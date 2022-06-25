@@ -15,6 +15,7 @@
 #include "../Resource/ResourceManager.h"
 #include "../Resource/Texture/Texture.h"
 #include "Effect_DustCloud.h"
+#include "Effect_JumpCloud.h"
 #include <random>
 
 Vector2 g_AttackDir = Vector2{ 0.f , 0.f };
@@ -664,6 +665,7 @@ void CPlayer::CreateAnimationSequence()
 		AddAnimation("spr_player_playsong", true, 3.41f);
 	}
 
+	// #################### EFFECT ####################
 	// Dust_Cloud Animation
 	{
 		std::vector<std::wstring>	vecFileName;
@@ -689,6 +691,33 @@ void CPlayer::CreateAnimationSequence()
 
 		AddAnimation("spr_dustcloud", true, 0.42f);
 	}
+
+	// Jump_Cloud
+	{
+		std::vector<std::wstring>	vecFileName;
+
+		for (int i = 0; i <= 3; ++i)
+		{
+			TCHAR	FileName[MAX_PATH] = {};
+			// %d에 i의 값이 대입되어 문자열이 만들어지게 된다.
+			wsprintf(FileName, TEXT("Effect/spr_jumpcloud/%d.bmp"), i);
+			vecFileName.push_back(FileName);
+		}
+
+		CResourceManager::GetInst()->CreateAnimationSequence("spr_jumpcloud",
+			"spr_jumpcloud", vecFileName, TEXTURE_PATH);
+
+		for (int i = 0; i <= 3; ++i)
+		{
+			CResourceManager::GetInst()->AddAnimationFrame("spr_jumpcloud", 0.f, 0.f,
+				32.f, 51.f);
+		}
+
+		CResourceManager::GetInst()->SetColorKey("spr_jumpcloud", 255, 255, 255);
+
+		AddAnimation("spr_jumpcloud", true, 0.24f);
+	}
+
 
 
 
@@ -1495,12 +1524,14 @@ void CPlayer::RunToIdleStart()
 
 void CPlayer::JumpStart()
 {
-	//// 점프 이펙트
-	//Effect_JumpCloud* NewEffect = GetLevel()->CreateActor<Effect_JumpCloud>((int)ORDER::Effect);
-	//NewEffect->SetPosition(GetPosition());
+	// 점프 이펙트
+	CEffect_JumpCloud* NewEffect = m_Scene->CreateObject<CEffect_JumpCloud>("JumpCloud");
+	NewEffect->SetPos(m_Pos);
+	NewEffect->SetPivot(0.5f, 1.f);
+	NewEffect->AddAnimation("spr_jumpcloud", false, 0.24f);
 
 	// 점프 사운드
-	m_Scene->GetSceneResource()->SoundPlay("sound_player_jump.wav");
+	m_Scene->GetSceneResource()->SoundPlay("sound_player_jump");
 
 	SetPos(m_Pos + Vector2{ 0, -3 });
 	m_AnimationName = "spr_jump_";

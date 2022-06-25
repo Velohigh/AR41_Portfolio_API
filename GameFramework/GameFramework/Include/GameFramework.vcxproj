@@ -166,7 +166,9 @@
     <ClCompile Include="GameObject\Character.cpp" />
     <ClCompile Include="GameObject\Effect.cpp" />
     <ClCompile Include="GameObject\Effect_DustCloud.cpp" />
+    <ClCompile Include="GameObject\Effect_JumpCloud.cpp" />
     <ClCompile Include="GameObject\GameObject.cpp" />
+    <ClCompile Include="GameObject\Grunt.cpp" />
     <ClCompile Include="GameObject\Monster.cpp" />
     <ClCompile Include="GameObject\Player.cpp" />
     <ClCompile Include="GameObject\Tile.cpp" />
@@ -228,7 +230,9 @@
     <ClInclude Include="GameObject\Character.h" />
     <ClInclude Include="GameObject\Effect.h" />
     <ClInclude Include="GameObject\Effect_DustCloud.h" />
+    <ClInclude Include="GameObject\Effect_JumpCloud.h" />
     <ClInclude Include="GameObject\GameObject.h" />
+    <ClInclude Include="GameObject\Grunt.h" />
     <ClInclude Include="GameObject\Monster.h" />
     <ClInclude Include="GameObject\Player.h" />
     <ClInclude Include="GameObject\Tile.h" />

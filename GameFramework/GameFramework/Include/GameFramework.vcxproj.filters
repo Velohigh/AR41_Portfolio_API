@@ -118,6 +118,12 @@
     <Filter Include="02. GameObject\01. Character\00. Player\00. Effect\DustCloud">
       <UniqueIdentifier>{74bf7e23-58f4-4c80-934f-7765422b8d3d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GameObject\01. Character\00. Player\00. Effect\Effect_JumpCloud">
+      <UniqueIdentifier>{10203ec3-e07e-45a0-a3eb-ec948d049c6b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. Character\01. Enemy\00. Grunt">
+      <UniqueIdentifier>{569e5a1c-5bf9-4bfe-b996-a707bb319724}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -272,6 +278,12 @@
     </ClCompile>
     <ClCompile Include="GameObject\Effect_DustCloud.cpp">
       <Filter>02. GameObject\01. Character\00. Player\00. Effect\DustCloud</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\Effect_JumpCloud.cpp">
+      <Filter>02. GameObject\01. Character\00. Player\00. Effect\Effect_JumpCloud</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\Grunt.cpp">
+      <Filter>02. GameObject\01. Character\01. Enemy\00. Grunt</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -463,6 +475,12 @@
     </ClInclude>
     <ClInclude Include="GameObject\Effect_DustCloud.h">
       <Filter>02. GameObject\01. Character\00. Player\00. Effect\DustCloud</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\Effect_JumpCloud.h">
+      <Filter>02. GameObject\01. Character\00. Player\00. Effect\Effect_JumpCloud</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\Grunt.h">
+      <Filter>02. GameObject\01. Character\01. Enemy\00. Grunt</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

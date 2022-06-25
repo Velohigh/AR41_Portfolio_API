@@ -8,6 +8,7 @@
 #include "../Input.h"
 #include "../Widget/CharacterHUD.h"
 #include "../GameObject/TileMap.h"
+#include "../Resource/ResourceManager.h"
 
 CStage_1::CStage_1()	:
 	Back(nullptr)
@@ -44,6 +45,348 @@ bool CStage_1::Init()
 
 void CStage_1::CreateAnimationSequence()
 {
+	// ## Grunt Animation ##
+	// Grunt Idle_Left
+	{
+		std::vector<std::wstring>	vecFileName;
+
+		for (int i = 0; i <= 7; ++i)
+		{
+			TCHAR	FileName[MAX_PATH] = {};
+			// %d에 i의 값이 대입되어 문자열이 만들어지게 된다.
+			wsprintf(FileName, TEXT("Enemy/spr_grunt_idle_left/%d.bmp"), i);
+			vecFileName.push_back(FileName);
+		}
+
+		CResourceManager::GetInst()->CreateAnimationSequence("spr_grunt_idle_left",
+			"spr_grunt_idle_left", vecFileName, TEXTURE_PATH);
+
+		for (int i = 0; i <= 7; ++i)
+		{
+			CResourceManager::GetInst()->AddAnimationFrame("spr_grunt_idle_left", 0.f, 0.f,
+				30.f, 36.f);
+		}
+
+		CResourceManager::GetInst()->SetColorKey("spr_grunt_idle_left", 255, 255, 255);
+	}
+
+	// Grunt Idle_Right
+	{
+		std::vector<std::wstring>	vecFileName;
+
+		for (int i = 0; i <= 7; ++i)
+		{
+			TCHAR	FileName[MAX_PATH] = {};
+			// %d에 i의 값이 대입되어 문자열이 만들어지게 된다.
+			wsprintf(FileName, TEXT("Enemy/spr_grunt_idle_right/%d.bmp"), i);
+			vecFileName.push_back(FileName);
+		}
+
+		CResourceManager::GetInst()->CreateAnimationSequence("spr_grunt_idle_right",
+			"spr_grunt_idle_right", vecFileName, TEXTURE_PATH);
+
+		for (int i = 0; i <= 7; ++i)
+		{
+			CResourceManager::GetInst()->AddAnimationFrame("spr_grunt_idle_right", 0.f, 0.f,
+				30.f, 36.f);
+		}
+
+		CResourceManager::GetInst()->SetColorKey("spr_grunt_idle_right", 255, 255, 255);
+	}
+
+	// Grunt Run_Left
+	{
+		std::vector<std::wstring>	vecFileName;
+
+		for (int i = 0; i <= 9; ++i)
+		{
+			TCHAR	FileName[MAX_PATH] = {};
+			// %d에 i의 값이 대입되어 문자열이 만들어지게 된다.
+			wsprintf(FileName, TEXT("Enemy/spr_grunt_run_left/%d.bmp"), i);
+			vecFileName.push_back(FileName);
+		}
+
+		CResourceManager::GetInst()->CreateAnimationSequence("spr_grunt_run_left",
+			"spr_grunt_run_left", vecFileName, TEXTURE_PATH);
+
+		for (int i = 0; i <= 9; ++i)
+		{
+			CResourceManager::GetInst()->AddAnimationFrame("spr_grunt_run_left", 0.f, 0.f,
+				36.f, 39.f);
+		}
+
+		CResourceManager::GetInst()->SetColorKey("spr_grunt_run_left", 255, 255, 255);
+	}
+
+	// Grunt Run_Right
+	{
+		std::vector<std::wstring>	vecFileName;
+
+		for (int i = 0; i <= 9; ++i)
+		{
+			TCHAR	FileName[MAX_PATH] = {};
+			// %d에 i의 값이 대입되어 문자열이 만들어지게 된다.
+			wsprintf(FileName, TEXT("Enemy/spr_grunt_run_right/%d.bmp"), i);
+			vecFileName.push_back(FileName);
+		}
+
+		CResourceManager::GetInst()->CreateAnimationSequence("spr_grunt_run_right",
+			"spr_grunt_run_right", vecFileName, TEXTURE_PATH);
+
+		for (int i = 0; i <= 9; ++i)
+		{
+			CResourceManager::GetInst()->AddAnimationFrame("spr_grunt_run_right", 0.f, 0.f,
+				36.f, 39.f);
+		}
+
+		CResourceManager::GetInst()->SetColorKey("spr_grunt_run_right", 255, 255, 255);
+	}
+
+	// Grunt Turn_Left
+	{
+		std::vector<std::wstring>	vecFileName;
+
+		for (int i = 0; i <= 7; ++i)
+		{
+			TCHAR	FileName[MAX_PATH] = {};
+			// %d에 i의 값이 대입되어 문자열이 만들어지게 된다.
+			wsprintf(FileName, TEXT("Enemy/spr_grunt_turn_left/%d.bmp"), i);
+			vecFileName.push_back(FileName);
+		}
+
+		CResourceManager::GetInst()->CreateAnimationSequence("spr_grunt_turn_left",
+			"spr_grunt_turn_left", vecFileName, TEXTURE_PATH);
+
+		for (int i = 0; i <= 7; ++i)
+		{
+			CResourceManager::GetInst()->AddAnimationFrame("spr_grunt_turn_left", 0.f, 0.f,
+				36.f, 35.f);
+		}
+
+		CResourceManager::GetInst()->SetColorKey("spr_grunt_turn_left", 255, 255, 255);
+	}
+
+	// Grunt Turn_Right
+	{
+		std::vector<std::wstring>	vecFileName;
+
+		for (int i = 0; i <= 7; ++i)
+		{
+			TCHAR	FileName[MAX_PATH] = {};
+			// %d에 i의 값이 대입되어 문자열이 만들어지게 된다.
+			wsprintf(FileName, TEXT("Enemy/spr_grunt_turn_right/%d.bmp"), i);
+			vecFileName.push_back(FileName);
+		}
+
+		CResourceManager::GetInst()->CreateAnimationSequence("spr_grunt_turn_right",
+			"spr_grunt_turn_right", vecFileName, TEXTURE_PATH);
+
+		for (int i = 0; i <= 7; ++i)
+		{
+			CResourceManager::GetInst()->AddAnimationFrame("spr_grunt_turn_right", 0.f, 0.f,
+				36.f, 35.f);
+		}
+
+		CResourceManager::GetInst()->SetColorKey("spr_grunt_turn_right", 255, 255, 255);
+	}
+
+	// Grunt Walk_Left
+	{
+		std::vector<std::wstring>	vecFileName;
+
+		for (int i = 0; i <= 9; ++i)
+		{
+			TCHAR	FileName[MAX_PATH] = {};
+			// %d에 i의 값이 대입되어 문자열이 만들어지게 된다.
+			wsprintf(FileName, TEXT("Enemy/spr_grunt_walk_left/%d.bmp"), i);
+			vecFileName.push_back(FileName);
+		}
+
+		CResourceManager::GetInst()->CreateAnimationSequence("spr_grunt_walk_left",
+			"spr_grunt_walk_left", vecFileName, TEXTURE_PATH);
+
+		for (int i = 0; i <= 9; ++i)
+		{
+			CResourceManager::GetInst()->AddAnimationFrame("spr_grunt_walk_left", 0.f, 0.f,
+				32.f, 40.f);
+		}
+
+		CResourceManager::GetInst()->SetColorKey("spr_grunt_walk_left", 255, 255, 255);
+	}
+
+	// Grunt Walk_Right
+	{
+		std::vector<std::wstring>	vecFileName;
+
+		for (int i = 0; i <= 9; ++i)
+		{
+			TCHAR	FileName[MAX_PATH] = {};
+			// %d에 i의 값이 대입되어 문자열이 만들어지게 된다.
+			wsprintf(FileName, TEXT("Enemy/spr_grunt_walk_right/%d.bmp"), i);
+			vecFileName.push_back(FileName);
+		}
+
+		CResourceManager::GetInst()->CreateAnimationSequence("spr_grunt_walk_right",
+			"spr_grunt_walk_right", vecFileName, TEXTURE_PATH);
+
+		for (int i = 0; i <= 9; ++i)
+		{
+			CResourceManager::GetInst()->AddAnimationFrame("spr_grunt_walk_right", 0.f, 0.f,
+				32.f, 40.f);
+		}
+
+		CResourceManager::GetInst()->SetColorKey("spr_grunt_walk_right", 255, 255, 255);
+	}
+
+	// Grunt Attack_Left
+	{
+		std::vector<std::wstring>	vecFileName;
+
+		for (int i = 0; i <= 7; ++i)
+		{
+			TCHAR	FileName[MAX_PATH] = {};
+			// %d에 i의 값이 대입되어 문자열이 만들어지게 된다.
+			wsprintf(FileName, TEXT("Enemy/spr_grunt_attack_left/%d.bmp"), i);
+			vecFileName.push_back(FileName);
+		}
+
+		CResourceManager::GetInst()->CreateAnimationSequence("spr_grunt_attack_left",
+			"spr_grunt_attack_left", vecFileName, TEXTURE_PATH);
+
+		for (int i = 0; i <= 7; ++i)
+		{
+			CResourceManager::GetInst()->AddAnimationFrame("spr_grunt_attack_left", 0.f, 0.f,
+				44.f, 42.f);
+		}
+
+		CResourceManager::GetInst()->SetColorKey("spr_grunt_attack_left", 255, 255, 255);
+	}
+
+	// Grunt Attack_Right
+	{
+		std::vector<std::wstring>	vecFileName;
+
+		for (int i = 0; i <= 7; ++i)
+		{
+			TCHAR	FileName[MAX_PATH] = {};
+			// %d에 i의 값이 대입되어 문자열이 만들어지게 된다.
+			wsprintf(FileName, TEXT("Enemy/spr_grunt_attack_right/%d.bmp"), i);
+			vecFileName.push_back(FileName);
+		}
+
+		CResourceManager::GetInst()->CreateAnimationSequence("spr_grunt_attack_right",
+			"spr_grunt_attack_right", vecFileName, TEXTURE_PATH);
+
+		for (int i = 0; i <= 7; ++i)
+		{
+			CResourceManager::GetInst()->AddAnimationFrame("spr_grunt_attack_right", 0.f, 0.f,
+				44.f, 42.f);
+		}
+
+		CResourceManager::GetInst()->SetColorKey("spr_grunt_attack_right", 255, 255, 255);
+	}
+
+	// Grunt HurtFly_Left
+	{
+		std::vector<std::wstring>	vecFileName;
+
+		for (int i = 0; i <= 1; ++i)
+		{
+			TCHAR	FileName[MAX_PATH] = {};
+			// %d에 i의 값이 대입되어 문자열이 만들어지게 된다.
+			wsprintf(FileName, TEXT("Enemy/spr_grunt_hurtfly_left/%d.bmp"), i);
+			vecFileName.push_back(FileName);
+		}
+
+		CResourceManager::GetInst()->CreateAnimationSequence("spr_grunt_hurtfly_left",
+			"spr_grunt_hurtfly_left", vecFileName, TEXTURE_PATH);
+
+		for (int i = 0; i <= 1; ++i)
+		{
+			CResourceManager::GetInst()->AddAnimationFrame("spr_grunt_hurtfly_left", 0.f, 0.f,
+				43.f, 37.f);
+		}
+
+		CResourceManager::GetInst()->SetColorKey("spr_grunt_hurtfly_left", 255, 255, 255);
+	}
+
+	// Grunt HurtFly_Right
+	{
+		std::vector<std::wstring>	vecFileName;
+
+		for (int i = 0; i <= 1; ++i)
+		{
+			TCHAR	FileName[MAX_PATH] = {};
+			// %d에 i의 값이 대입되어 문자열이 만들어지게 된다.
+			wsprintf(FileName, TEXT("Enemy/spr_grunt_hurtfly_right/%d.bmp"), i);
+			vecFileName.push_back(FileName);
+		}
+
+		CResourceManager::GetInst()->CreateAnimationSequence("spr_grunt_hurtfly_right",
+			"spr_grunt_hurtfly_right", vecFileName, TEXTURE_PATH);
+
+		for (int i = 0; i <= 1; ++i)
+		{
+			CResourceManager::GetInst()->AddAnimationFrame("spr_grunt_hurtfly_right", 0.f, 0.f,
+				43.f, 37.f);
+		}
+
+		CResourceManager::GetInst()->SetColorKey("spr_grunt_hurtfly_right", 255, 255, 255);
+	}
+
+	// Grunt HurtGround_Left
+	{
+		std::vector<std::wstring>	vecFileName;
+
+		for (int i = 0; i <= 15; ++i)
+		{
+			TCHAR	FileName[MAX_PATH] = {};
+			// %d에 i의 값이 대입되어 문자열이 만들어지게 된다.
+			wsprintf(FileName, TEXT("Enemy/spr_grunt_hurtground_left/%d.bmp"), i);
+			vecFileName.push_back(FileName);
+		}
+
+		CResourceManager::GetInst()->CreateAnimationSequence("spr_grunt_hurtground_left",
+			"spr_grunt_hurtground_left", vecFileName, TEXTURE_PATH);
+
+		for (int i = 0; i <= 15; ++i)
+		{
+			CResourceManager::GetInst()->AddAnimationFrame("spr_grunt_hurtground_left", 0.f, 0.f,
+				56.f, 41.f);
+		}
+
+		CResourceManager::GetInst()->SetColorKey("spr_grunt_hurtground_left", 255, 255, 255);
+	}
+
+	// Grunt HurtGround_Right
+	{
+		std::vector<std::wstring>	vecFileName;
+
+		for (int i = 0; i <= 15; ++i)
+		{
+			TCHAR	FileName[MAX_PATH] = {};
+			// %d에 i의 값이 대입되어 문자열이 만들어지게 된다.
+			wsprintf(FileName, TEXT("Enemy/spr_grunt_hurtground_right/%d.bmp"), i);
+			vecFileName.push_back(FileName);
+		}
+
+		CResourceManager::GetInst()->CreateAnimationSequence("spr_grunt_hurtground_right",
+			"spr_grunt_hurtground_right", vecFileName, TEXTURE_PATH);
+
+		for (int i = 0; i <= 15; ++i)
+		{
+			CResourceManager::GetInst()->AddAnimationFrame("spr_grunt_hurtground_right", 0.f, 0.f,
+				56.f, 41.f);
+		}
+
+		CResourceManager::GetInst()->SetColorKey("spr_grunt_hurtground_right", 255, 255, 255);
+	}
+
+
+
+
+
+
 
 }
 
