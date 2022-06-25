@@ -1,11 +1,11 @@
 
+#include "Effect.h"
 #include "Effect_DustCloud.h"
 #include "../Resource/ResourceManager.h"
 #include <random>
 
 CEffect_DustCloud::CEffect_DustCloud()
 {
-	SetTypeID<CEffect_DustCloud>();
 }
 
 CEffect_DustCloud::CEffect_DustCloud(const CEffect_DustCloud& Obj) :
@@ -20,36 +20,6 @@ CEffect_DustCloud::~CEffect_DustCloud()
 bool CEffect_DustCloud::Init()
 {
 	CEffect::Init();
-
-	// Dust_Cloud Animation
-	{
-		std::vector<std::wstring>	vecFileName;
-
-		for (int i = 0; i <= 6; ++i)
-		{
-			TCHAR	FileName[MAX_PATH] = {};
-			// %d에 i의 값이 대입되어 문자열이 만들어지게 된다.
-			wsprintf(FileName, TEXT("Effect/spr_dustcloud/%d.bmp"), i);
-			vecFileName.push_back(FileName);
-		}
-
-		CResourceManager::GetInst()->CreateAnimationSequence("spr_dustcloud",
-			"spr_dustcloud", vecFileName, TEXTURE_PATH);
-
-		for (int i = 0; i <= 6; ++i)
-		{
-			CResourceManager::GetInst()->AddAnimationFrame("spr_dustcloud", 0.f, 0.f,
-				19.f, 19.f);
-		}
-
-		CResourceManager::GetInst()->SetColorKey("spr_dustcloud", 255, 255, 255);
-
-		AddAnimation("spr_dustcloud", true, 0.42f);
-	}
-
-	ChangeAnimation("spr_dustcloud");
-
-	SetPivot(0.5f, 0.5f);
 
 	// 외부 디바이스 설정값으로 랜덤값을 받아온다.
 	std::random_device rd;
@@ -77,10 +47,10 @@ void CEffect_DustCloud::Update(float DeltaTime)
 		MoveDir((Vector2{ -1.f, 0.f } - m_MoveDir));
 	}
 
-	if (true == m_Animation->IsEndAnimation())
-	{
-		SetActive(false);
-	}
+	//if (true == m_Animation->IsEndAnimation())
+	//{
+	//	SetActive(false);
+	//}
 }
 
 void CEffect_DustCloud::PostUpdate(float DeltaTime)

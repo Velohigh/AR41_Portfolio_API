@@ -1411,15 +1411,15 @@ void CPlayer::DodgeUpdate()
 	m_StateTime[static_cast<int>(PlayerState::Dodge)] += DELTA_TIME;
 	if (0.02f <= m_StateTime[static_cast<int>(PlayerState::Dodge)])
 	{
-		CEffect* NewEffect = m_Scene->CreateObject<CEffect_DustCloud>("DustCloud");
+		CEffect_DustCloud* NewEffect = m_Scene->CreateObject<CEffect_DustCloud>("DustCloud");
 
 		NewEffect->SetPivot(0.5f, 0.5f);
 		NewEffect->SetPos(m_Pos);
 
-		//if (m_CurDir == PlayerDir::Right)
-		//	NewEffect->SetDir(ObjDir::Left);
-		//else if (m_CurDir == PlayerDir::Left)
-		//	NewEffect->SetDir(ObjDir::Right);
+		if (m_CurDir == PlayerDir::Right)
+			NewEffect->SetDir(ObjDir::Left);
+		else if (m_CurDir == PlayerDir::Left)
+			NewEffect->SetDir(ObjDir::Right);
 		m_StateTime[static_cast<int>(PlayerState::Dodge)] = 0.f;
 
 		NewEffect->AddAnimation("spr_dustcloud", false, 0.36f);
