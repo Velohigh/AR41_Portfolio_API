@@ -1,5 +1,6 @@
 
 #include "Effect_Slash.h"
+#include "../Scene/Scene.h"
 
 CEffect_Slash::CEffect_Slash()
 {
@@ -25,6 +26,8 @@ bool CEffect_Slash::Init()
 void CEffect_Slash::Update(float DeltaTime)
 {
 	CEffect::Update(DeltaTime);
+
+	SetPos(m_Scene->GetPlayer()->GetPos());
 
 }
 
