@@ -127,6 +127,9 @@
     <Filter Include="02. GameObject\01. Character\00. Player\00. Effect\Effect_LandCloud">
       <UniqueIdentifier>{ee338723-78b3-4b1b-9de4-aa2be327f171}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GameObject\01. Character\00. Player\00. Effect\Effect_Slash">
+      <UniqueIdentifier>{934c1077-f812-4462-8d65-803666c595c3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -290,6 +293,9 @@
     </ClCompile>
     <ClCompile Include="GameObject\Effect_LandCloud.cpp">
       <Filter>02. GameObject\01. Character\00. Player\00. Effect\Effect_LandCloud</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\Effect_Slash.cpp">
+      <Filter>02. GameObject\01. Character\00. Player\00. Effect\Effect_Slash</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -490,6 +496,9 @@
     </ClInclude>
     <ClInclude Include="GameObject\Effect_LandCloud.h">
       <Filter>02. GameObject\01. Character\00. Player\00. Effect\Effect_LandCloud</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\Effect_Slash.h">
+      <Filter>02. GameObject\01. Character\00. Player\00. Effect\Effect_Slash</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

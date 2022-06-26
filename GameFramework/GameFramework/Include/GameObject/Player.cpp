@@ -17,6 +17,7 @@
 #include "Effect_DustCloud.h"
 #include "Effect_JumpCloud.h"
 #include "Effect_LandCloud.h"
+#include "Effect_Slash.h"
 #include <random>
 
 Vector2 g_AttackDir = Vector2{ 0.f , 0.f };
@@ -744,6 +745,32 @@ void CPlayer::CreateAnimationSequence()
 		CResourceManager::GetInst()->SetColorKey("spr_landcloud", 255, 0, 255);
 
 		AddAnimation("spr_landcloud", true, 0.42f);
+	}
+
+	// Slash
+	{
+		std::vector<std::wstring>	vecFileName;
+
+		for (int i = 0; i <= 4; ++i)
+		{
+			TCHAR	FileName[MAX_PATH] = {};
+			// %d에 i의 값이 대입되어 문자열이 만들어지게 된다.
+			wsprintf(FileName, TEXT("Effect/spr_slash/%d.bmp"), i);
+			vecFileName.push_back(FileName);
+		}
+
+		CResourceManager::GetInst()->CreateAnimationSequence("spr_slash",
+			"spr_slash", vecFileName, TEXTURE_PATH);
+
+		for (int i = 0; i <= 4; ++i)
+		{
+			CResourceManager::GetInst()->AddAnimationFrame("spr_slash", 0.f, 0.f,
+				106.f, 32.f);
+		}
+
+		CResourceManager::GetInst()->SetColorKey("spr_slash", 255, 255, 255);
+
+		AddAnimation("spr_slash", true, 0.196f);
 	}
 
 
@@ -1617,9 +1644,12 @@ void CPlayer::AttackStart()
 		m_Scene->GetSceneResource()->SoundPlay("sound_player_slash_3");
 	}
 
-	//	// 어택 이펙트
-	//	Effect_Slash* NewEffect = GetLevel()->CreateActor<Effect_Slash>((int)ORDER::Effect);
-	//NewEffect->SetPosition(GetPosition());
+	// 어택 이펙트
+	CEffect_Slash* NewEffect = m_Scene->CreateObject<CEffect_Slash>("Slash");
+	NewEffect->SetPos(m_Pos);
+	NewEffect->SetPivot(0.5f, 1.f);
+	NewEffect->AddAnimation("spr_slash", false, 0.196f);
+
 
 	// 공격 방향은 마우스 방향 고정
 	m_AnimationName = "spr_attack_";
