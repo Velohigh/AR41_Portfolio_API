@@ -48,7 +48,14 @@ private:
 	float	m_LongJumpPower = 2000.f;
 	bool	m_IsLongJump = false;
 	int		m_AttackCount = 0;
+	CCollider* m_PlayerAttackCollision = nullptr;
 
+
+public:
+	PlayerState GetState() const
+	{
+		return m_CurState;
+	}
 
 public:
 	virtual bool Init();

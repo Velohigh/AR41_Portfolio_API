@@ -9,6 +9,7 @@
 #include "../Widget/CharacterHUD.h"
 #include "../GameObject/TileMap.h"
 #include "../Resource/ResourceManager.h"
+#include "../GameObject/Grunt.h"
 
 CStage_1::CStage_1()	:
 	Back(nullptr)
@@ -47,6 +48,26 @@ bool CStage_1::Init()
 
 	SetPlayer(Player);
 	GetCamera()->SetTarget(Player);
+
+
+	{
+	// 그런트
+		CGrunt* NewGrunt = CreateObject<CGrunt>("Grunt");
+		NewGrunt->SetPos({ 1054.f, 383.f });
+		NewGrunt->SetDir(ObjDir::Right);
+		NewGrunt->SetState(ObjState::Walk);
+		NewGrunt->SetPatrol(true);
+		NewGrunt = CreateObject<CGrunt>("Grunt");
+		NewGrunt->SetPos({ 338, 383 });
+		NewGrunt->SetDir(ObjDir::Right);
+
+		//NewGrunt->SetPosition({ 913, 505 });
+		NewGrunt = CreateObject<CGrunt>("Grunt");
+		NewGrunt->SetPos({ 530, 671 });
+		NewGrunt = CreateObject<CGrunt>("Grunt");
+		NewGrunt->SetPos({ 338, 671 });
+	}
+
 
 	//CreateWidgetWindow<CCharacterHUD>("CharacterHUD");
 
@@ -407,8 +428,56 @@ void CStage_1::CreateAnimationSequence()
 
 
 
+	// ## EFFECT
+	// BloodAnimation_Left 한장짜리 이미지 방식
+	GetSceneResource()->CreateAnimationSequence("effect_bloodanimation_left",
+		"effect_bloodanimation_left", TEXT("Effect/effect_bloodanimation_left.bmp"), TEXTURE_PATH);
+
+	for (int i = 0; i < 5; ++i)
+	{
+		GetSceneResource()->AddAnimationFrame("effect_bloodanimation_left", 80.f * i, 0.f,
+			80.f, 79.f);
+	}
+
+	GetSceneResource()->SetColorKey("effect_bloodanimation_left", 255, 0, 255);
 
 
+	// BloodAnimation_Right 한장짜리 이미지 방식
+	GetSceneResource()->CreateAnimationSequence("effect_bloodanimation_right",
+		"effect_bloodanimation_right", TEXT("Effect/effect_bloodanimation_right.bmp"), TEXTURE_PATH);
+
+	for (int i = 0; i < 5; ++i)
+	{
+		GetSceneResource()->AddAnimationFrame("effect_bloodanimation_right", 80.f * i, 0.f,
+			80.f, 79.f);
+	}
+
+	GetSceneResource()->SetColorKey("effect_bloodanimation_right", 255, 0, 255);
+
+
+	// BloodAnimation2_Left 한장짜리 이미지 방식
+	GetSceneResource()->CreateAnimationSequence("effect_bloodanimation2_left",
+		"effect_bloodanimation2_left", TEXT("Effect/effect_bloodanimation2_left.bmp"), TEXTURE_PATH);
+
+	for (int i = 0; i < 9; ++i)
+	{
+		GetSceneResource()->AddAnimationFrame("effect_bloodanimation2_left", 80.f * i, 0.f,
+			80.f, 79.f);
+	}
+
+	GetSceneResource()->SetColorKey("effect_bloodanimation2_left", 255, 0, 255);
+
+	// BloodAnimation2_Right 한장짜리 이미지 방식
+	GetSceneResource()->CreateAnimationSequence("effect_bloodanimation2_right",
+		"effect_bloodanimation2_right", TEXT("Effect/effect_bloodanimation2_right.bmp"), TEXTURE_PATH);
+
+	for (int i = 0; i < 9; ++i)
+	{
+		GetSceneResource()->AddAnimationFrame("effect_bloodanimation2_right", 80.f * i, 0.f,
+			80.f, 79.f);
+	}
+
+	GetSceneResource()->SetColorKey("effect_bloodanimation2_right", 255, 0, 255);
 
 
 }

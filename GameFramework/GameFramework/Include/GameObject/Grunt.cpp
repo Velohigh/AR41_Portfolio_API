@@ -5,6 +5,11 @@
 #include "../Scene/Scene.h"
 #include "../Scene/SceneResource.h"
 #include "Effect_BloodRemain.h"
+#include "Effect_BloodAnimation.h"
+#include "Effect_BloodAnimation2.h"
+#include "../GameManager.h"
+#include "../Collision/CollisionManager.h"
+#include "../Resource/Texture/Texture.h"
 
 extern Vector2 g_AttackDir;
 
@@ -44,6 +49,24 @@ bool CGrunt::Init()
 
 	// 충돌맵 세팅
 	SetMapTexture("room_factory_2_ColMap", TEXT("room_factory_2_ColMap.bmp"), "MapPath");
+
+	// 애니메이션
+	AddAnimation("spr_grunt_idle_left", true, 0.88f);
+	AddAnimation("spr_grunt_idle_right", true, 0.88f);
+
+	AddAnimation("spr_grunt_walk_left", true, 0.7f);
+	AddAnimation("spr_grunt_walk_right", true, 0.7f);
+
+	AddAnimation("spr_grunt_turn_left", true, 0.48f);
+	AddAnimation("spr_grunt_turn_right", true, 0.48f);
+
+	AddAnimation("spr_grunt_hurtground_left", true, 0.96f);
+	AddAnimation("spr_grunt_hurtground_right", true, 0.96f);
+
+	AddAnimation("spr_grunt_hurtfly_left", false, 0.8f);
+	AddAnimation("spr_grunt_hurtfly_right", false, 0.8f);
+
+
 
 	return true;
 }
@@ -122,17 +145,24 @@ void CGrunt::AttackStart()
 void CGrunt::HurtGroundStart()
 {
 
-	//// 피분출 애니메이션
-	//if (m_CurDir == ObjDir::Left)
-	//{
-	//	NewBloodAnimation->ChangeAnimation("BloodAnimation2_right");
-	//	NewBloodAnimation->SetPivot({ 50.f, -45.f });
-	//}
-	//else if (CurDir_ == ActorDir::Right)
-	//{
-	//	NewBloodAnimation->ChangeAnimation("BloodAnimation2_left");
-	//	NewBloodAnimation->SetPivot({ -50.f, -45.f });
-	//}
+	// 피분출 애니메이션
+	if (m_CurDir == ObjDir::Left)
+	{
+		CEffect_BloodAnimation2* NewBloodAnimation2 = m_Scene->CreateObject<CEffect_BloodAnimation2>("BloodAnimation2");
+		NewBloodAnimation2->SetPos(m_Pos + Vector2{ 50.f, -45.f });
+		NewBloodAnimation2->ChangeAnimation("effect_bloodanimation2_right");
+
+		NewBloodAnimation2->SetPivot({ 0.5f, 1.f });
+	}
+
+	else if (m_CurDir == ObjDir::Right)
+	{
+		CEffect_BloodAnimation2* NewBloodAnimation2 = m_Scene->CreateObject<CEffect_BloodAnimation2>("BloodAnimation2");
+		NewBloodAnimation2->SetPos(m_Pos + Vector2{ -50.f, -45.f });
+		NewBloodAnimation2->ChangeAnimation("effect_bloodanimation2_left");
+
+		NewBloodAnimation2->SetPivot({ 0.5f, 1.f });
+	}
 
 	m_StateTime[static_cast<int>(ObjState::HurtGround)] = 0.f;
 	m_AnimationName = "spr_grunt_hurtground_";
@@ -185,174 +215,182 @@ void CGrunt::HurtFlyStart()
 	CEffect_BloodRemain* BloodRemainEffect = m_Scene->CreateObject<CEffect_BloodRemain>("BloodRemain");
 	BloodRemainEffect->SetPos(m_Pos + Vector2{ 0,-35 });
 
-	// 피분출 애니메이션
-	NewBloodAnimation = CreateRenderer();
-	NewBloodAnimation->CreateAnimation("effect_bloodanimation_right.bmp", "BloodAnimation_right", 0, 5, 0.06, true);
-	NewBloodAnimation->CreateAnimation("effect_bloodanimation_left.bmp", "BloodAnimation_left", 0, 5, 0.06, true);
+	//// 피분출 애니메이션
+	//NewBloodAnimation = CreateRenderer();
+	//NewBloodAnimation->CreateAnimation("effect_bloodanimation_right.bmp", "BloodAnimation_right", 0, 5, 0.06, true);
+	//NewBloodAnimation->CreateAnimation("effect_bloodanimation_left.bmp", "BloodAnimation_left", 0, 5, 0.06, true);
 
-	NewBloodAnimation->CreateAnimation("effect_bloodanimation2_right.bmp", "BloodAnimation2_right", 0, 9, 0.06, true);
-	NewBloodAnimation->CreateAnimation("effect_bloodanimation2_left.bmp", "BloodAnimation2_left", 0, 9, 0.06, true);
+	//NewBloodAnimation->CreateAnimation("effect_bloodanimation2_right.bmp", "BloodAnimation2_right", 0, 9, 0.06, true);
+	//NewBloodAnimation->CreateAnimation("effect_bloodanimation2_left.bmp", "BloodAnimation2_left", 0, 9, 0.06, true);
 
 	if (g_AttackDir.x >= 0.f)
 	{
-		NewBloodAnimation->SetPivot({ 40.f, -50.f });
-		NewBloodAnimation->ChangeAnimation("BloodAnimation_right");
+		CEffect_BloodAnimation* NewBloodAnimation = m_Scene->CreateObject<CEffect_BloodAnimation>("BloodAnimation");
+		NewBloodAnimation->SetPos(m_Pos + Vector2{ 40.f, -50.f });
+		NewBloodAnimation->SetDir(ObjDir::Right);
+		NewBloodAnimation->ChangeAnimation("effect_bloodanimation_right");
+		NewBloodAnimation->SetOwner(this);
 	}
 	else if (g_AttackDir.x < 0.f)
 	{
-		NewBloodAnimation->SetPivot({ -40.f, -50.f });
-		NewBloodAnimation->ChangeAnimation("BloodAnimation_left");
+		CEffect_BloodAnimation* NewBloodAnimation = m_Scene->CreateObject<CEffect_BloodAnimation>("BloodAnimation");
+		NewBloodAnimation->SetPos(m_Pos + Vector2{ -40.f, -50.f });
+		NewBloodAnimation->SetDir(ObjDir::Left);
+		NewBloodAnimation->ChangeAnimation("effect_bloodanimation_left");
+		NewBloodAnimation->SetOwner(this);
 	}
-	NewBloodAnimation->SetPivotType(RenderPivot::BOT);
 
-	SetPosition(GetPosition() + float4{ 0,-2 });
-	StateTime[static_cast<int>(ActorState::HurtGround)] = 0.f;
-	AnimationName_ = "Grunt_HurtFly_";
-	ActorAnimationRenderer->ChangeAnimation(AnimationName_ + ChangeDirText);
+	SetPos(m_Pos + Vector2{ 0,-2 });
+	m_StateTime[static_cast<int>(ObjState::HurtGround)] = 0.f;
+	m_AnimationName = "spr_grunt_hurtfly_";
+	ChangeAnimation(m_AnimationName + m_ChangeDirText);
 	SetSpeed(0.f);
 
-	MoveDir = g_AttackDir * 800;	// 맞았을때 넉백
+	m_MoveDir = g_AttackDir * 800;	// 맞았을때 넉백
 
 }
 
-void Grunt::IdleUpdate()
+void CGrunt::IdleUpdate()
 {
 	// 정찰 행동
-	StateTime[static_cast<int>(ActorState::Idle)] += GameEngineTime::GetDeltaTime();
-	if (StateTime[static_cast<int>(ActorState::Idle)] >= 2 && bPatrol_ == true)
+	m_StateTime[static_cast<int>(ObjState::Idle)] += DELTA_TIME;
+	if (m_StateTime[static_cast<int>(ObjState::Idle)] >= 2 && m_bPatrol == true)
 	{
-		ChangeState(ActorState::Turn);
+		StateChange(ObjState::Turn);
 		return;
 	}
 
+
+	CCollider* PlayerAttack = m_Scene->GetPlayer()->FindCollider("PlayerAttack");
 	// 플레이어 공격에 맞으면 사망
-	if (true == IsHit())
+	if (true == FindCollider("Body")->CheckCollisionList(PlayerAttack))
 	{
-		ChangeState(ActorState::HurtFly);
+		StateChange(ObjState::HurtFly);
 		return;
 	}
 }
 
-void Grunt::WalkUpdate()
+void CGrunt::WalkUpdate()
 {
-	StateTime[static_cast<int>(ActorState::Walk)] += GameEngineTime::GetDeltaTime();
+	m_StateTime[static_cast<int>(ObjState::Walk)] += DELTA_TIME;
 
-	if (StateTime[static_cast<int>(ActorState::Walk)] >= 5)
+	if (m_StateTime[static_cast<int>(ObjState::Walk)] >= 5)
 	{
-		ChangeState(ActorState::Idle);
+		StateChange(ObjState::Idle);
 		return;
 	}
 
+
+	CCollider* PlayerAttack = m_Scene->GetPlayer()->FindCollider("PlayerAttack");
 	// 플레이어 공격에 맞으면 사망
-	if (true == IsHit())
+	if (true == FindCollider("Body")->CheckCollisionList(PlayerAttack))
 	{
-		ChangeState(ActorState::HurtFly);
+		StateChange(ObjState::HurtFly);
 		return;
 	}
 
 	// 좌우 이동
-	if (CurDir_ == ActorDir::Right)
+	if (m_CurDir == ObjDir::Right)
 	{
-		MoveDir = float4::RIGHT;
+		m_MoveDir = Vector2{ 1.f, 0.f };
 	}
 
-	else if (CurDir_ == ActorDir::Left)
+	else if (m_CurDir == ObjDir::Left)
 	{
-		MoveDir = float4::LEFT;
+		m_MoveDir = Vector2{ -1.f, 0.f };
 	}
 
 	MapCollisionCheckMoveGround();
 
 }
 
-void Grunt::TurnUpdate()
+void CGrunt::TurnUpdate()
 {
-	if (true == ActorAnimationRenderer->IsEndAnimation())
+	if (true == m_Animation->IsEndAnimation())
 	{
-		ChangeState(ActorState::Walk);
-		if (CurDir_ == ActorDir::Right)
+		StateChange(ObjState::Walk);
+		if (m_CurDir == ObjDir::Right)
 		{
-			CurDir_ = ActorDir::Left;
+			m_CurDir = ObjDir::Left;
 		}
-		else if (CurDir_ == ActorDir::Left)
+		else if (m_CurDir == ObjDir::Left)
 		{
-			CurDir_ = ActorDir::Right;
+			m_CurDir = ObjDir::Right;
 		}
 		return;
 	}
 
+	CCollider* PlayerAttack = m_Scene->GetPlayer()->FindCollider("PlayerAttack");
 	// 플레이어 공격에 맞으면 사망
-	if (true == IsHit())
+	if (true == FindCollider("Body")->CheckCollisionList(PlayerAttack))
 	{
-		ChangeState(ActorState::HurtFly);
+		StateChange(ObjState::HurtFly);
 		return;
 	}
 }
 
 
-void Grunt::RunUpdate()
+void CGrunt::RunUpdate()
 {
+	CCollider* PlayerAttack = m_Scene->GetPlayer()->FindCollider("PlayerAttack");
 	// 플레이어 공격에 맞으면 사망
-	if (true == IsHit())
+	if (true == FindCollider("Body")->CheckCollisionList(PlayerAttack))
 	{
-		ChangeState(ActorState::HurtFly);
+		StateChange(ObjState::HurtFly);
 		return;
 	}
 }
 
-void Grunt::AttackUpdate()
+void CGrunt::AttackUpdate()
 {
+	CCollider* PlayerAttack = m_Scene->GetPlayer()->FindCollider("PlayerAttack");
 	// 플레이어 공격에 맞으면 사망
-	if (true == IsHit())
+	if (true == FindCollider("Body")->CheckCollisionList(PlayerAttack))
 	{
-		ChangeState(ActorState::HurtFly);
+		StateChange(ObjState::HurtFly);
 		return;
 	}
 }
 
-void Grunt::HurtGroundUpdate()
+void CGrunt::HurtGroundUpdate()
 {
-	// 피분출이 끝나면 렌더러 Death
-	if (true == NewBloodAnimation->IsEndAnimation())
-	{
-		NewBloodAnimation->Off();
-	}
+	// 피분출이 끝나면 BloodAnimation SetActive(false) 할것
 
 	// 쓰러지는 모션이 끝나면, 충돌체 Death
-	if (true == ActorAnimationRenderer->IsEndAnimation())
+	if (true == m_Animation->IsEndAnimation())
 	{
-		ActorCollision_->Death();
+		FindCollider("Box")->SetActive(false);
 	}
 
-	MoveDir += -MoveDir * GameEngineTime::GetDeltaTime() * 3.4;
+	m_MoveDir += -m_MoveDir * DELTA_TIME * 3.4f;
 
-	if (1.f >= MoveDir.Len2D())
+	if (1.f >= m_MoveDir.Length())
 	{
-		MoveDir = float4::ZERO;
+		m_MoveDir = Vector2{ 0,0 };
 	}
 
 	MapCollisionCheckMoveGroundDie();
 
 }
 
-void Grunt::HurtFlyUpdate()
+void CGrunt::HurtFlyUpdate()
 {
 
 	// 공중에 뜬 상태일경우 중력영향을 받는다.
 	// 중력 가속도에 따른 낙하 속도.
 	{
 		// 내포지션에서 원하는 위치의 픽셀의 색상을 구할 수 있다.
-		int RColor = MapColImage_->GetImagePixel(GetPosition() + float4{ 0,1 });
-		Gravity_ += AccGravity_ * GameEngineTime::GetDeltaTime();
-		if (MoveDir.y > 0.f)	// 떨어질때만
+		int RColor = m_MapColTexture->GetImagePixel(m_Pos + Vector2{ 0,1 });
+		m_Gravity += m_GravityAccel * DELTA_TIME;
+		if (m_MoveDir.y > 0.f)	// 떨어질때만
 		{
 			if (RGB(0, 0, 0) == RColor || RGB(255, 0, 0) == RColor)	// 땅에 닿을 경우 
 			{
-				ChangeState(ActorState::HurtGround);
+				StateChange(ObjState::HurtGround);
 				return;
 			}
 		}
-		MoveDir += float4::DOWN * Gravity_ * GameEngineTime::GetDeltaTime();
+		m_MoveDir += Vector2{ 0.f, 1.f } *m_Gravity * DELTA_TIME;
 	}
 
 	MapCollisionCheckMoveAirDie();

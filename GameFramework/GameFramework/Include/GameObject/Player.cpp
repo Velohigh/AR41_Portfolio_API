@@ -1375,11 +1375,13 @@ void CPlayer::JumpUpdate()
 
 void CPlayer::AttackUpdate()
 {
-	//if (true == m_Animation->IsEndAnimation() &&
-	//	PlayerAttackCollision_ != nullptr)
-	//{
-	//	PlayerAttackCollision_->Death();
-	//}
+	
+	if (true == m_Animation->IsEndAnimation() &&
+		m_PlayerAttackCollision != nullptr)
+	{
+		m_PlayerAttackCollision->SetActive(false);
+		m_PlayerAttackCollision = nullptr;
+	}
 
 	// 공격 끝날시 Fall 상태로
 	if (true == m_Animation->IsEndAnimation())
@@ -1706,8 +1708,13 @@ void CPlayer::AttackStart()
 	// 전역 변수에 공격방향 저장.
 	g_AttackDir = AttackDir;
 
-	//// 공격판정 콜리전 생성
-	//PlayerAttackCollision_ = CreateCollision("PlayerAttack", { 76, 76 }, AttackDir * 66 + float4{ 0,-35 });
+	// 공격 판정 충돌체 추가
+	CColliderBox* Box = AddCollider<CColliderBox>("Attack");
+	Box->SetExtent(76.f, 76.f);
+	Box->SetOffset(Vector2{ 0.f, -35.f } + AttackDir * 66.f);
+	Box->SetCollisionProfile("PlayerAttack");
+	m_PlayerAttackCollision = Box;
+
 
 	m_MoveDir = Vector2{ 0.f, 0.f };
 	// 공중에서 최초 한번의 공격일때만 y축 전진성을 부여한다.

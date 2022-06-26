@@ -266,6 +266,12 @@ struct Vector2
 		return Angle;
 	}
 
+	Vector2 operator-() const
+	{
+		return Vector2{ -x, -y };
+	}
+
+
 	float Distance(const Vector2& v)	const
 	{
 		// 상대 좌표와의 거리

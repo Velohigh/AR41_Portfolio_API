@@ -16,6 +16,18 @@ private:
 	EEffect_Type	m_EffectType;
 	float			m_Duration;
 	float			m_Time;
+	CGameObject*	m_Owner = nullptr;
+
+public:
+	EEffect_Type GetEffectType()	const
+	{
+		return m_EffectType;
+	}
+	
+	CGameObject* GetOwner() const
+	{
+		return m_Owner;
+	}
 
 public:
 	void SetEffectType(EEffect_Type Type)
@@ -23,14 +35,14 @@ public:
 		m_EffectType = Type;
 	}
 
-	EEffect_Type GetEffectType()	const
-	{
-		return m_EffectType;
-	}
-
 	void SetDuration(float Duration)
 	{
 		m_Duration = Duration;
+	}
+
+	void SetOwner(CGameObject* Owner)
+	{
+		m_Owner = Owner;
 	}
 
 public:

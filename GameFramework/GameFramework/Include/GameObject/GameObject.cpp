@@ -421,6 +421,202 @@ void CGameObject::ObjStateUpdate()
 	}
 }
 
+void CGameObject::MapCollisionCheckMoveGround()
+{
+	{
+		// 미래의 위치를 계산하여 그곳의 RGB값을 체크하고, 이동 가능한 곳이면 이동한다.
+		Vector2 NextPos = m_Pos + (Vector2{ 0,m_MoveDir.y } *DELTA_TIME * m_MoveSpeed);
+		Vector2 CheckPos = NextPos + Vector2{ 0,0 };	// 미래 위치의 발기준 색상
+		Vector2 CheckPosTopRight = NextPos + Vector2{ 18,-80 };	// 미래 위치의 머리기준 색상
+		Vector2 CheckPosTopLeft = NextPos + Vector2{ -18,-80 };	// 미래 위치의 머리기준 색상
+
+		int Color = m_MapColTexture->GetImagePixel(CheckPos);
+		int TopRightColor = m_MapColTexture->GetImagePixel(CheckPosTopRight);
+		int TopLeftColor = m_MapColTexture->GetImagePixel(CheckPosTopLeft);
+
+
+
+		if (RGB(0, 0, 0) != Color &&
+			RGB(0, 0, 0) != TopRightColor &&
+			RGB(0, 0, 0) != TopLeftColor)
+		{
+			MoveDir(Vector2{ 0.f, m_MoveDir.y });
+		}
+	}
+
+	{
+		// 미래의 위치를 계산하여 그곳의 RGB값을 체크하고, 이동 가능한 곳이면 이동한다.
+		Vector2 NextPos = m_Pos + (Vector2{ m_MoveDir.x,0 } *DELTA_TIME * m_MoveSpeed);
+		Vector2 CheckPos = NextPos + Vector2{ 0,0 };	// 미래 위치의 발기준 색상
+		Vector2 CheckPosTopRight = NextPos + Vector2{ 18,-80 };	// 미래 위치의 머리기준 색상
+		Vector2 CheckPosTopLeft = NextPos + Vector2{ -18,-80 };	// 미래 위치의 머리기준 색상
+		Vector2 ForDownPos = m_Pos + Vector2{ 0,1.f };	// 발 아래 색상
+
+		int CurColor = m_MapColTexture->GetImagePixel(m_Pos);
+		int ForDownColor = m_MapColTexture->GetImagePixel(ForDownPos);
+		int Color = m_MapColTexture->GetImagePixel(CheckPos);
+		int TopRightColor = m_MapColTexture->GetImagePixel(CheckPosTopRight);
+		int TopLeftColor = m_MapColTexture->GetImagePixel(CheckPosTopLeft);
+
+
+		// 항상 땅에 붙어있기
+		if (RGB(0, 0, 0) != ForDownColor && RGB(255, 0, 0) != ForDownColor)
+		{
+			SetPos(Vector2{ m_Pos.x, m_Pos.y + 1.5f });
+		}
+
+		// 계단 올라가기
+		while (RGB(0, 0, 0) == Color &&
+			TopRightColor != RGB(0, 0, 0) && TopLeftColor != RGB(0, 0, 0))
+		{
+			CheckPos.y -= 1.0f;
+			Color = m_MapColTexture->GetImagePixel(CheckPos);
+			SetPos(Vector2{ m_Pos.x, m_Pos.y - 1.0f });
+		}
+
+
+		if (RGB(0, 0, 0) != Color &&
+			RGB(0, 0, 0) != TopRightColor &&
+			RGB(0, 0, 0) != TopLeftColor)
+		{
+			MoveDir(Vector2{ m_MoveDir.x,0 });
+		}
+
+	}
+
+}
+
+void CGameObject::MapCollisionCheckMoveAir()
+{
+	{
+		// 미래의 위치를 계산하여 그곳의 RGB값을 체크하고, 이동 가능한 곳이면 이동한다.
+		Vector2 NextPos = m_Pos + (Vector2{ 0,m_MoveDir.y } *DELTA_TIME);
+		Vector2 CheckPos = NextPos + Vector2{ 0,0 };	// 미래 위치의 발기준 색상
+		Vector2 CheckPosTopRight = NextPos + Vector2{ 18,-80 };	// 미래 위치의 머리기준 색상
+		Vector2 CheckPosTopLeft = NextPos + Vector2{ -18,-80 };	// 미래 위치의 머리기준 색상
+
+		int Color = m_MapColTexture->GetImagePixel(CheckPos);
+		int TopRightColor = m_MapColTexture->GetImagePixel(CheckPosTopRight);
+		int TopLeftColor = m_MapColTexture->GetImagePixel(CheckPosTopLeft);
+
+
+		if (RGB(0, 0, 0) != Color &&
+			RGB(0, 0, 0) != TopRightColor &&
+			RGB(0, 0, 0) != TopLeftColor)
+		{
+			Move(Vector2{ 0.f , m_MoveDir.y } *DELTA_TIME);
+		}
+	}
+
+	{
+		// 미래의 위치를 계산하여 그곳의 RGB값을 체크하고, 이동 가능한 곳이면 이동한다.
+		Vector2 NextPos = m_Pos + (Vector2{ m_MoveDir.x,0.f } *DELTA_TIME);
+		Vector2 CheckPos = NextPos + Vector2{ 0.f, 0.f };	// 미래 위치의 발기준 색상
+		Vector2 CheckPosTopRight = NextPos + Vector2{ 18,-80 };	// 미래 위치의 머리기준 색상
+		Vector2 CheckPosTopLeft = NextPos + Vector2{ -18,-80 };	// 미래 위치의 머리기준 색상
+
+		int Color = m_MapColTexture->GetImagePixel(CheckPos);
+		int TopRightColor = m_MapColTexture->GetImagePixel(CheckPosTopRight);
+		int TopLeftColor = m_MapColTexture->GetImagePixel(CheckPosTopLeft);
+
+		if (RGB(0, 0, 0) != Color &&
+			RGB(0, 0, 0) != TopRightColor &&
+			RGB(0, 0, 0) != TopLeftColor)
+		{
+			Move(Vector2{ m_MoveDir.x,0 } *DELTA_TIME);
+		}
+	}
+
+}
+
+void CGameObject::MapCollisionCheckMoveGroundDie()
+{
+	{
+		// 미래의 위치를 계산하여 그곳의 RGB값을 체크하고, 이동 가능한 곳이면 이동한다.
+		Vector2 NextPos = m_Pos + (Vector2{ 0,m_MoveDir.y } *DELTA_TIME * m_MoveSpeed);
+		Vector2 CheckPos = NextPos + Vector2{ 0,0 };	// 미래 위치의 발기준 색상
+		Vector2 CheckPosTopRight = NextPos + Vector2{ 18,-80 };	// 미래 위치의 머리기준 색상
+		Vector2 CheckPosTopLeft = NextPos + Vector2{ -18,-80 };	// 미래 위치의 머리기준 색상
+
+		int Color = m_MapColTexture->GetImagePixel(CheckPos);
+		int TopRightColor = m_MapColTexture->GetImagePixel(CheckPosTopRight);
+		int TopLeftColor = m_MapColTexture->GetImagePixel(CheckPosTopLeft);
+
+
+
+		if (RGB(0, 0, 0) != Color &&
+			RGB(0, 0, 0) != TopRightColor &&
+			RGB(0, 0, 0) != TopLeftColor)
+		{
+			MoveDir(Vector2{ 0.f, m_MoveDir.y });
+		}
+	}
+
+	{
+		// 미래의 위치를 계산하여 그곳의 RGB값을 체크하고, 이동 가능한 곳이면 이동한다.
+		Vector2 NextPos = m_Pos + (Vector2{ 0,m_MoveDir.y } *DELTA_TIME * m_MoveSpeed);
+		Vector2 CheckPos = NextPos + Vector2{ 0,0 };	// 미래 위치의 발기준 색상
+		Vector2 CheckPosTopRight = NextPos + Vector2{ 18,-80 };	// 미래 위치의 머리기준 색상
+		Vector2 CheckPosTopLeft = NextPos + Vector2{ -18,-80 };	// 미래 위치의 머리기준 색상
+
+		int Color = m_MapColTexture->GetImagePixel(CheckPos);
+		int TopRightColor = m_MapColTexture->GetImagePixel(CheckPosTopRight);
+		int TopLeftColor = m_MapColTexture->GetImagePixel(CheckPosTopLeft);
+
+		if (RGB(0, 0, 0) != Color &&
+			RGB(0, 0, 0) != TopRightColor &&
+			RGB(0, 0, 0) != TopLeftColor)
+		{
+			MoveDir(Vector2{ m_MoveDir.x,0 });
+		}
+	}
+
+}
+
+void CGameObject::MapCollisionCheckMoveAirDie()
+{
+	{
+		// 미래의 위치를 계산하여 그곳의 RGB값을 체크하고, 이동 가능한 곳이면 이동한다.
+		Vector2 NextPos = m_Pos + (Vector2{ 0,m_MoveDir.y } *DELTA_TIME * m_MoveSpeed);
+		Vector2 CheckPos = NextPos + Vector2{ 0,0 };	// 미래 위치의 발기준 색상
+		Vector2 CheckPosTopRight = NextPos + Vector2{ 18,-80 };	// 미래 위치의 머리기준 색상
+		Vector2 CheckPosTopLeft = NextPos + Vector2{ -18,-80 };	// 미래 위치의 머리기준 색상
+
+		int Color = m_MapColTexture->GetImagePixel(CheckPos);
+		int TopRightColor = m_MapColTexture->GetImagePixel(CheckPosTopRight);
+		int TopLeftColor = m_MapColTexture->GetImagePixel(CheckPosTopLeft);
+
+
+
+		if (RGB(0, 0, 0) != Color &&
+			RGB(0, 0, 0) != TopRightColor &&
+			RGB(0, 0, 0) != TopLeftColor)
+		{
+			MoveDir(Vector2{ 0.f, m_MoveDir.y });
+		}
+	}
+
+	{
+		// 미래의 위치를 계산하여 그곳의 RGB값을 체크하고, 이동 가능한 곳이면 이동한다.
+		Vector2 NextPos = m_Pos + (Vector2{ 0,m_MoveDir.y } *DELTA_TIME * m_MoveSpeed);
+		Vector2 CheckPos = NextPos + Vector2{ 0,0 };	// 미래 위치의 발기준 색상
+		Vector2 CheckPosTopRight = NextPos + Vector2{ 18,-80 };	// 미래 위치의 머리기준 색상
+		Vector2 CheckPosTopLeft = NextPos + Vector2{ -18,-80 };	// 미래 위치의 머리기준 색상
+
+		int Color = m_MapColTexture->GetImagePixel(CheckPos);
+		int TopRightColor = m_MapColTexture->GetImagePixel(CheckPosTopRight);
+		int TopLeftColor = m_MapColTexture->GetImagePixel(CheckPosTopLeft);
+
+		if (RGB(0, 0, 0) != Color &&
+			RGB(0, 0, 0) != TopRightColor &&
+			RGB(0, 0, 0) != TopLeftColor)
+		{
+			MoveDir(Vector2{ m_MoveDir.x,0 });
+		}
+	}
+
+}
+
 void CGameObject::Start()
 {
 	m_Start = true;

@@ -139,6 +139,9 @@
     <Filter Include="02. GameObject\01. Character\01. Enemy\00. Effect\Effect_BloodAnimation">
       <UniqueIdentifier>{166bf5f6-8157-44d3-87b9-3701564115cc}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GameObject\01. Character\01. Enemy\00. Effect\Effect_BloodAnimation2">
+      <UniqueIdentifier>{aa019f61-4e69-4b73-bc2f-17d31d8a1687}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -308,6 +311,12 @@
     </ClCompile>
     <ClCompile Include="GameObject\Effect_BloodRemain.cpp">
       <Filter>02. GameObject\01. Character\01. Enemy\00. Effect\Effect_BloodRemain</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\Effect_BloodAnimation.cpp">
+      <Filter>02. GameObject\01. Character\01. Enemy\00. Effect\Effect_BloodAnimation</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\Effect_BloodAnimation2.cpp">
+      <Filter>02. GameObject\01. Character\01. Enemy\00. Effect\Effect_BloodAnimation2</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -514,6 +523,12 @@
     </ClInclude>
     <ClInclude Include="GameObject\Effect_BloodRemain.h">
       <Filter>02. GameObject\01. Character\01. Enemy\00. Effect\Effect_BloodRemain</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\Effect_BloodAnimation.h">
+      <Filter>02. GameObject\01. Character\01. Enemy\00. Effect\Effect_BloodAnimation</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\Effect_BloodAnimation2.h">
+      <Filter>02. GameObject\01. Character\01. Enemy\00. Effect\Effect_BloodAnimation2</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

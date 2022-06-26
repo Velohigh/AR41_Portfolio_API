@@ -71,12 +71,9 @@ protected:
 	bool m_bPatrol = false;		// 해당 유닛의 정찰 행동 유무
 	float		m_StateTime[static_cast<int>(ObjState::END)];	// 해당 상태가 되고 지난 시간
 
-
-
 protected:
 	ObjState	m_CurState;				// 현재 상태
 	ObjState	m_PreState;				// 이전 상태
-
 
 public:
 	class CCollider* FindCollider(const std::string& Name);
@@ -104,6 +101,11 @@ public:
 	const Vector2& GetPivot()	const
 	{
 		return m_Pivot;
+	}
+
+	const ObjState& GetState() const
+	{
+		return m_CurState;
 	}
 
 public:
@@ -301,6 +303,12 @@ protected:
 	virtual void AttackUpdate() {};
 	virtual void HurtGroundUpdate() {};
 	virtual void HurtFlyUpdate() {};
+
+
+	virtual void MapCollisionCheckMoveGround();
+	virtual void MapCollisionCheckMoveAir();
+	virtual void MapCollisionCheckMoveGroundDie();	//
+	virtual void MapCollisionCheckMoveAirDie();
 
 
 public:
