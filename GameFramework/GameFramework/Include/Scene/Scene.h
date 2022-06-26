@@ -22,6 +22,7 @@ protected:
 	std::list<CSharedPtr<CWidgetComponent>>	m_WidgetComponentList;
 	CSharedPtr<class CGameObject>	m_Player;
 	CSharedPtr<class CTileMap>		m_TileMap;
+	bool		m_BgmOn = false;
 
 	std::vector<CSharedPtr<CWidgetWindow>>	m_vecWidgetWindow;
 
@@ -56,6 +57,10 @@ public:
 	void AddWidgetComponent(CWidgetComponent* Widget)
 	{
 		m_WidgetComponentList.push_back(Widget);
+	}
+	void SetBgmOn(bool Bgm)
+	{
+		m_BgmOn = Bgm;
 	}
 
 public:

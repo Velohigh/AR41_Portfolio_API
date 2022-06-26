@@ -16,7 +16,8 @@ private:
 	CSharedPtr<class CMonster>	m_Monster;
 
 public:
-	bool Init();
+	virtual bool Init();
+	virtual void Update(float DeltaTime);
 
 private:
 	void CreateAnimationSequence();

@@ -247,6 +247,11 @@ bool CAnimation::IsEndAnimation()
 	return m_CurrentAnimation->m_IsEnd;
 }
 
+int CAnimation::GetCurrentFrame()
+{
+	return m_CurrentAnimation->m_Frame;
+}
+
 CAnimationInfo* CAnimation::FindInfo(const std::string& Name)
 {
 	auto	iter = m_mapAnimation.find(Name);

@@ -22,7 +22,7 @@ CTitleScene::~CTitleScene()
 
 bool CTitleScene::Init()
 {
-
+	CScene::Init();
 
 	GetCamera()->SetResolution(1280.f, 720.f);
 	GetCamera()->SetWorldResolution(1280.f, 720.f);

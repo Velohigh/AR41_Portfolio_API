@@ -61,6 +61,10 @@ bool CPlayer::Init()
 	AddNotify<CPlayer>("spr_run_left", 8, this, &CPlayer::RunningSound);
 	AddNotify<CPlayer>("spr_run_right", 3, this, &CPlayer::RunningSound);
 	AddNotify<CPlayer>("spr_run_right", 8, this, &CPlayer::RunningSound);
+	AddNotify<CPlayer>("spr_player_playsong", 4, this, &CPlayer::HeadphoneSound);
+	AddNotify<CPlayer>("spr_player_playsong", 13, this, &CPlayer::CarsetteRewindSound);
+	AddNotify<CPlayer>("spr_player_playsong", 27, this, &CPlayer::CarsettePlaySound);
+
 
 	// 사운드 로드
 	m_Scene->GetSceneResource()->LoadSound("Effect", "sound_player_running_2", false, "sound_player_running_2.wav");
@@ -75,7 +79,9 @@ bool CPlayer::Init()
 	m_Scene->GetSceneResource()->SetVolume("Sound_Roll", 40);
 	m_Scene->GetSceneResource()->LoadSound("Sound_Roll_Real", "sound_player_roll_real", false, "sound_player_roll_real.wav");
 	m_Scene->GetSceneResource()->SetVolume("sound_player_roll_real", 74);
-
+	m_Scene->GetSceneResource()->LoadSound("Effect", "sound_playerheadphones", false, "sound_playerheadphones.wav");
+	m_Scene->GetSceneResource()->LoadSound("Effect", "sound_playercasette_rewind", false, "sound_playercasette_rewind.wav");
+	m_Scene->GetSceneResource()->LoadSound("Effect", "sound_playercasette_play", false, "sound_playercasette_play.wav");
 
 
 	// 방향
@@ -124,10 +130,11 @@ bool CPlayer::Init()
 	// 충돌맵 세팅
 	SetMapTexture("room_factory_2_ColMap", TEXT("room_factory_2_ColMap.bmp"), "MapPath");
 
-	ChangeAnimation("spr_idle_right");
+	//ChangeAnimation("spr_idle_right");
+	ChangeAnimation("spr_player_playsong");
 
 	// 초기 세팅
-	m_AnimationName = "spr_idle_";
+	//m_AnimationName = "spr_idle_";
 	m_CurState = PlayerState::Idle;
 	m_CurDir = PlayerDir::Right;
 
@@ -658,13 +665,21 @@ void CPlayer::CreateAnimationSequence()
 
 		for (int i = 0; i <= 30; ++i)
 		{
+			// wstring, string 변환
+			//std::string AName = {};
+			//AName.assign(vecFileName[i].begin(), vecFileName[i].end());
+			
+			CTexture* Texture = CResourceManager::GetInst()->FindTexture("spr_player_playsong");
+			int NewWidth = Texture->GetWidth(i);
+			int NewHeight = Texture->GetHeight(i);
+
 			CResourceManager::GetInst()->AddAnimationFrame("spr_player_playsong", 0.f, 0.f,
-				34.f, 36.f);
+				(float)NewWidth, (float)NewHeight);
 		}
 
 		CResourceManager::GetInst()->SetColorKey("spr_player_playsong", 255, 255, 255);
 
-		AddAnimation("spr_player_playsong", true, 3.41f);
+		AddAnimation("spr_player_playsong", true, 3.5f);
 	}
 
 	// #################### EFFECT ####################
@@ -948,6 +963,21 @@ void CPlayer::Fire()
 void CPlayer::JumpKey()
 {
 	Jump();
+}
+
+void CPlayer::HeadphoneSound()
+{
+	m_Scene->GetSceneResource()->SoundPlay("sound_playerheadphones");
+}
+
+void CPlayer::CarsetteRewindSound()
+{
+	m_Scene->GetSceneResource()->SoundPlay("sound_playercasette_rewind");
+}
+
+void CPlayer::CarsettePlaySound()
+{
+	m_Scene->GetSceneResource()->SoundPlay("sound_playercasette_play");
 }
 
 void CPlayer::AttackEnd()
@@ -1536,6 +1566,13 @@ void CPlayer::DodgeUpdate()
 
 void CPlayer::PlaySongUpdate()
 {
+	// 애니메이션이 끝나면 Idle 상태로
+	if (true == m_Animation->IsEndAnimation())
+	{
+		StateChange(PlayerState::Idle);
+		m_Scene->SetBgmOn(true);
+		return;
+	}
 }
 
 
@@ -1725,6 +1762,11 @@ void CPlayer::DodgeStart()
 
 void CPlayer::PlaySongStart()
 {
+	m_StateTime[static_cast<int>(PlayerState::PlaySong)] = 0.f;
+
+	m_AnimationName = "spr_player_playsong";
+	ChangeAnimation(m_AnimationName);
+
 }
 
 void CPlayer::MapCollisionCheckMoveGround()

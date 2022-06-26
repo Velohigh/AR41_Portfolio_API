@@ -21,8 +21,11 @@ CStage_1::~CStage_1()
 
 bool CStage_1::Init()
 {
+	CScene::Init();
+
 	CreateAnimationSequence();
 
+	GetSceneResource()->LoadSound("BGM", "song_youwillneverknow", true, "song_youwillneverknow.ogg");
 	GetSceneResource()->SetVolume(100);
 
 	GetCamera()->SetResolution(1280.f, 720.f);
@@ -32,15 +35,31 @@ bool CStage_1::Init()
 	Back = CreateObject<CBackObj>("BackObj");
 	Back->SetTexture("room_factory_2", TEXT("room_factory_2.bmp"), "MapPath");
 
+
+	// 플레이어
 	CPlayer* Player = CreateObject<CPlayer>("Player");
+	Player->SetPos({ 230.f, 671.f });
+	Player->StateChange(PlayerState::PlaySong);
 
 	SetPlayer(Player);
-
 	GetCamera()->SetTarget(Player);
 
 	//CreateWidgetWindow<CCharacterHUD>("CharacterHUD");
 
 	return true;
+}
+
+void CStage_1::Update(float DeltaTime)
+{
+	CScene::Update(DeltaTime);
+
+	if (m_BgmOn == true)
+	{
+		m_BgmOn = !m_BgmOn;
+
+		GetSceneResource()->SoundPlay("song_youwillneverknow");
+	}
+
 }
 
 void CStage_1::CreateAnimationSequence()

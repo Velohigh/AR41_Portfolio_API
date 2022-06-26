@@ -30,6 +30,7 @@ public:
 	bool CheckCurrentAnimation(const std::string& Name);
 	void Update(float DeltaTime);
 	bool IsEndAnimation();
+	int  GetCurrentFrame();
 
 private:
 	CAnimationInfo* FindInfo(const std::string& Name);

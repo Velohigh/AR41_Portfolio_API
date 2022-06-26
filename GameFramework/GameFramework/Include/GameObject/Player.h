@@ -28,6 +28,7 @@ class CPlayer :
     public CCharacter
 {
 	friend class CScene;
+	friend class CStage_1;
 
 protected:
 	CPlayer();
@@ -74,7 +75,11 @@ private:
 	void Fire();
 	void JumpKey();
 
+	// Notify
 	void RunningSound();
+	void HeadphoneSound();
+	void CarsetteRewindSound();
+	void CarsettePlaySound();
 
 private:
 	void AttackEnd();
