@@ -26,6 +26,10 @@ bool CStage_1::Init()
 	CreateAnimationSequence();
 
 	GetSceneResource()->LoadSound("BGM", "song_youwillneverknow", true, "song_youwillneverknow.ogg");
+	GetSceneResource()->LoadSound("Effect", "sound_enemy_bloodsplat1", true, "sound_enemy_bloodsplat1.wav");
+	GetSceneResource()->LoadSound("Effect", "sound_enemy_bloodsplat2", true, "sound_enemy_bloodsplat2.wav");
+	GetSceneResource()->LoadSound("Effect", "sound_enemy_bloodsplat3", true, "sound_enemy_bloodsplat3.wav");
+	GetSceneResource()->LoadSound("Effect", "sound_enemy_bloodsplat4", true, "sound_enemy_bloodsplat4.wav");
 	GetSceneResource()->SetVolume(100);
 
 	GetCamera()->SetResolution(1280.f, 720.f);

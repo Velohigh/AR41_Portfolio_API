@@ -69,6 +69,8 @@ protected:
 	std::string m_AnimationName;			// 재생할 애니메이션
 	std::string m_ChangeDirText;			// 좌우 애니메이션 재생을 결정할 텍스트
 	bool m_bPatrol = false;		// 해당 유닛의 정찰 행동 유무
+	float		m_StateTime[static_cast<int>(ObjState::END)];	// 해당 상태가 되고 지난 시간
+
 
 
 protected:

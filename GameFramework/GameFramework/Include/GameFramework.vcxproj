@@ -165,6 +165,7 @@
     <ClCompile Include="GameObject\Bullet.cpp" />
     <ClCompile Include="GameObject\Character.cpp" />
     <ClCompile Include="GameObject\Effect.cpp" />
+    <ClCompile Include="GameObject\Effect_BloodRemain.cpp" />
     <ClCompile Include="GameObject\Effect_DustCloud.cpp" />
     <ClCompile Include="GameObject\Effect_JumpCloud.cpp" />
     <ClCompile Include="GameObject\Effect_LandCloud.cpp" />
@@ -231,6 +232,7 @@
     <ClInclude Include="GameObject\Bullet.h" />
     <ClInclude Include="GameObject\Character.h" />
     <ClInclude Include="GameObject\Effect.h" />
+    <ClInclude Include="GameObject\Effect_BloodRemain.h" />
     <ClInclude Include="GameObject\Effect_DustCloud.h" />
     <ClInclude Include="GameObject\Effect_JumpCloud.h" />
     <ClInclude Include="GameObject\Effect_LandCloud.h" />
