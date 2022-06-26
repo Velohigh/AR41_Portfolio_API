@@ -55,7 +55,7 @@ protected:
 	std::list<CSharedPtr<CWidgetComponent>>	m_WidgetComponentList;	// 위젯컴포넌트
 	bool		m_PhysicsSimulate;		// 물리효과 온/오프
 	bool		m_Ground;			// 땅을 밟고 있는 상태인지 아닌지
-	float		m_Gravity = 10.f;
+	float		m_Gravity = 20.f;
 	float		m_GravityAccel = 2200.f;		// 중력가속도
 	float		m_FallTime;			// 떨어지기 시작하고 지난 시간
 	float		m_FallStartY;		// 떨어지기 시작한 위치

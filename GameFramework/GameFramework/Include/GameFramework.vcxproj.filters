@@ -124,6 +124,9 @@
     <Filter Include="02. GameObject\01. Character\01. Enemy\00. Grunt">
       <UniqueIdentifier>{569e5a1c-5bf9-4bfe-b996-a707bb319724}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GameObject\01. Character\00. Player\00. Effect\Effect_LandCloud">
+      <UniqueIdentifier>{ee338723-78b3-4b1b-9de4-aa2be327f171}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -284,6 +287,9 @@
     </ClCompile>
     <ClCompile Include="GameObject\Grunt.cpp">
       <Filter>02. GameObject\01. Character\01. Enemy\00. Grunt</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\Effect_LandCloud.cpp">
+      <Filter>02. GameObject\01. Character\00. Player\00. Effect\Effect_LandCloud</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -481,6 +487,9 @@
     </ClInclude>
     <ClInclude Include="GameObject\Grunt.h">
       <Filter>02. GameObject\01. Character\01. Enemy\00. Grunt</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\Effect_LandCloud.h">
+      <Filter>02. GameObject\01. Character\00. Player\00. Effect\Effect_LandCloud</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

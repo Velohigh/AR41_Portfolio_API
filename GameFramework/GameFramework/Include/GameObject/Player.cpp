@@ -16,6 +16,7 @@
 #include "../Resource/Texture/Texture.h"
 #include "Effect_DustCloud.h"
 #include "Effect_JumpCloud.h"
+#include "Effect_LandCloud.h"
 #include <random>
 
 Vector2 g_AttackDir = Vector2{ 0.f , 0.f };
@@ -719,7 +720,31 @@ void CPlayer::CreateAnimationSequence()
 	}
 
 
+	// Land_Cloud
+	{
+		std::vector<std::wstring>	vecFileName;
 
+		for (int i = 0; i <= 6; ++i)
+		{
+			TCHAR	FileName[MAX_PATH] = {};
+			// %d에 i의 값이 대입되어 문자열이 만들어지게 된다.
+			wsprintf(FileName, TEXT("Effect/spr_landcloud/%d.bmp"), i);
+			vecFileName.push_back(FileName);
+		}
+
+		CResourceManager::GetInst()->CreateAnimationSequence("spr_landcloud",
+			"spr_landcloud", vecFileName, TEXTURE_PATH);
+
+		for (int i = 0; i <= 6; ++i)
+		{
+			CResourceManager::GetInst()->AddAnimationFrame("spr_landcloud", 0.f, 0.f,
+				50.f, 14.f);
+		}
+
+		CResourceManager::GetInst()->SetColorKey("spr_landcloud", 255, 0, 255);
+
+		AddAnimation("spr_landcloud", true, 0.42f);
+	}
 
 
 
@@ -1152,6 +1177,7 @@ void CPlayer::RunToIdleUpdate()
 		return;
 	}
 
+
 	// 충돌맵 빨간색이면 아래로 이동 가능
 	if (Rcolor == RGB(255, 0, 0) &&
 		true == CInput::GetInst()->IsDown('S'))
@@ -1546,11 +1572,14 @@ void CPlayer::JumpStart()
 void CPlayer::LandingStart()
 {
 	//// 착지 이펙트
-	//Effect_LandCloud* NewEffect = GetLevel()->CreateActor<Effect_LandCloud>((int)ORDER::Effect);
-	//NewEffect->SetPosition(GetPosition());
+	CEffect_LandCloud* NewEffect = m_Scene->CreateObject<CEffect_LandCloud>("LandCloud");
+	NewEffect->SetPos(m_Pos);
+	NewEffect->SetPivot(0.5f, 1.f);
+	NewEffect->AddAnimation("spr_landcloud", false, 0.42f);
+
 
 	// 착지 사운드
-	m_Scene->GetSceneResource()->SoundPlay("sound_player_land.wav");
+	m_Scene->GetSceneResource()->SoundPlay("sound_player_land");
 
 	m_AnimationName = "spr_landing_";
 	ChangeAnimation(m_AnimationName + m_ChangeDirText);
@@ -1697,7 +1726,7 @@ void CPlayer::MapCollisionCheckMoveGround()
 		Vector2 CheckPos = NextPos + Vector2{ 0,0 };	// 미래 위치의 발기준 색상
 		Vector2 CheckPosTopRight = NextPos + Vector2{ 18,-80 };	// 미래 위치의 머리기준 색상
 		Vector2 CheckPosTopLeft = NextPos + Vector2{ -18,-80 };	// 미래 위치의 머리기준 색상
-		Vector2 ForDownPos = m_Pos + Vector2{ 0,1.f };	// 미래 위치의 머리기준 색상
+		Vector2 ForDownPos = m_Pos + Vector2{ 0,1.f };	// 발 아래 색상
 
 		int CurColor = m_MapColTexture->GetImagePixel(m_Pos);
 		int ForDownColor = m_MapColTexture->GetImagePixel(ForDownPos);
@@ -1709,7 +1738,7 @@ void CPlayer::MapCollisionCheckMoveGround()
 		// 항상 땅에 붙어있기
 		if (RGB(0, 0, 0) != ForDownColor && RGB(255, 0, 0) != ForDownColor)
 		{
-			SetPos(Vector2{ m_Pos.x, m_Pos.y + 1.0f });
+			SetPos(Vector2{ m_Pos.x, m_Pos.y + 1.5f });
 		}
 
 		// 계단 올라가기
