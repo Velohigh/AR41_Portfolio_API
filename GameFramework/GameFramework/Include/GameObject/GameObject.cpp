@@ -544,7 +544,7 @@ void CGameObject::MapCollisionCheckMoveGroundDie()
 
 
 
-		if (RGB(0, 0, 0) != Color &&
+		if (RGB(0, 0, 0) != Color && RGB(255, 0, 0) != Color &&
 			RGB(0, 0, 0) != TopRightColor &&
 			RGB(0, 0, 0) != TopLeftColor)
 		{

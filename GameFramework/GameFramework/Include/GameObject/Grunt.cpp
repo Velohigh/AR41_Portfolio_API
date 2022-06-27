@@ -153,19 +153,21 @@ void CGrunt::HurtGroundStart()
 	if (m_CurDir == ObjDir::Left)
 	{
 		CEffect_BloodAnimation2* NewBloodAnimation2 = m_Scene->CreateObject<CEffect_BloodAnimation2>("BloodAnimation2");
-		NewBloodAnimation2->SetPos(m_Pos + Vector2{ 50.f, -45.f });
+		NewBloodAnimation2->SetPos(m_Pos);
 		NewBloodAnimation2->ChangeAnimation("effect_bloodanimation2_right");
-
+		NewBloodAnimation2->SetDir(ObjDir::Right);
 		NewBloodAnimation2->SetPivot({ 0.5f, 1.f });
+		NewBloodAnimation2->SetOwner(this);
 	}
 
 	else if (m_CurDir == ObjDir::Right)
 	{
 		CEffect_BloodAnimation2* NewBloodAnimation2 = m_Scene->CreateObject<CEffect_BloodAnimation2>("BloodAnimation2");
-		NewBloodAnimation2->SetPos(m_Pos + Vector2{ -50.f, -45.f });
+		NewBloodAnimation2->SetPos(m_Pos);
 		NewBloodAnimation2->ChangeAnimation("effect_bloodanimation2_left");
-
+		NewBloodAnimation2->SetDir(ObjDir::Left);
 		NewBloodAnimation2->SetPivot({ 0.5f, 1.f });
+		NewBloodAnimation2->SetOwner(this);
 	}
 
 	m_StateTime[static_cast<int>(ObjState::HurtGround)] = 0.f;
@@ -230,7 +232,7 @@ void CGrunt::HurtFlyStart()
 	if (g_AttackDir.x >= 0.f)
 	{
 		CEffect_BloodAnimation* NewBloodAnimation = m_Scene->CreateObject<CEffect_BloodAnimation>("BloodAnimation");
-		NewBloodAnimation->SetPos(m_Pos + Vector2{ 40.f, -50.f });
+		NewBloodAnimation->SetPos(m_Pos);
 		NewBloodAnimation->SetDir(ObjDir::Right);
 		NewBloodAnimation->ChangeAnimation("effect_bloodanimation_right");
 		NewBloodAnimation->SetOwner(this);
@@ -238,7 +240,7 @@ void CGrunt::HurtFlyStart()
 	else if (g_AttackDir.x < 0.f)
 	{
 		CEffect_BloodAnimation* NewBloodAnimation = m_Scene->CreateObject<CEffect_BloodAnimation>("BloodAnimation");
-		NewBloodAnimation->SetPos(m_Pos + Vector2{ -40.f, -50.f });
+		NewBloodAnimation->SetPos(m_Pos);
 		NewBloodAnimation->SetDir(ObjDir::Left);
 		NewBloodAnimation->ChangeAnimation("effect_bloodanimation_left");
 		NewBloodAnimation->SetOwner(this);
@@ -364,7 +366,6 @@ void CGrunt::HurtGroundUpdate()
 	if (true == m_Animation->IsEndAnimation())
 	{
 		//FindCollider("Box")->SetActive(false);
-		SetEnable(false);
 	}
 
 	m_MoveDir += -(m_MoveDir * DELTA_TIME * 3.4f);

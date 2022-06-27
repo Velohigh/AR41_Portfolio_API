@@ -44,6 +44,7 @@ private:
 	std::string m_ChangeDirText;
 	PlayerState	m_CurState;
 	float		m_StateTime[static_cast<int>(PlayerState::END)];	// 해당 상태가 되고 지난 시간
+	float	m_Gravity = 10.f;		// 플레이어 중력
 	float	m_JumpPower = 300.f;
 	float	m_LongJumpPower = 2000.f;
 	bool	m_IsLongJump = false;

@@ -25,7 +25,7 @@ bool CEffect_BloodAnimation::Init()
 
 	SetEffectType(EEffect_Type::Loop);
 
-	SetRenderScale(2);
+	SetRenderScale(1);
 	SetPivot({ 0.5f, 1.f });
 
 	return true;
@@ -36,9 +36,9 @@ void CEffect_BloodAnimation::Update(float DeltaTime)
 	CEffect::Update(DeltaTime);
 	
 	if(m_CurDir == ObjDir::Right)
-		SetPos(m_Scene->GetPlayer()->GetPos() + Vector2{ 40.f, -50.f });
+		SetPos(GetOwner()->GetPos() + Vector2{40.f, -50.f});
 	else if (m_CurDir == ObjDir::Left)
-		SetPos(m_Scene->GetPlayer()->GetPos() + Vector2{ -40.f, -50.f });
+		SetPos(GetOwner()->GetPos() + Vector2{-40.f, -50.f});
 
 	if (ObjState::HurtFly != GetOwner()->GetState())
 	{
