@@ -1709,7 +1709,7 @@ void CPlayer::AttackStart()
 	g_AttackDir = AttackDir;
 
 	// 공격 판정 충돌체 추가
-	CColliderBox* Box = AddCollider<CColliderBox>("Attack");
+	CColliderBox* Box = AddCollider<CColliderBox>("PlayerAttack");
 	Box->SetExtent(76.f, 76.f);
 	Box->SetOffset(Vector2{ 0.f, -35.f } + AttackDir * 66.f);
 	Box->SetCollisionProfile("PlayerAttack");

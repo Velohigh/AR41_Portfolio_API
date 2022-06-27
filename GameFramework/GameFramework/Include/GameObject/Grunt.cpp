@@ -31,7 +31,11 @@ bool CGrunt::Init()
 {
 	CGameObject::Init();
 
+	CreateAnimation();
+
 	SetSize(36.f, 70.f);
+	SetRenderScale(2);
+	SetPivot(0.5f, 1.f);
 
 	// 충돌체 추가
 	CColliderBox* Box = AddCollider<CColliderBox>("Body");
@@ -60,8 +64,8 @@ bool CGrunt::Init()
 	AddAnimation("spr_grunt_turn_left", true, 0.48f);
 	AddAnimation("spr_grunt_turn_right", true, 0.48f);
 
-	AddAnimation("spr_grunt_hurtground_left", true, 0.96f);
-	AddAnimation("spr_grunt_hurtground_right", true, 0.96f);
+	AddAnimation("spr_grunt_hurtground_left", false, 0.96f);
+	AddAnimation("spr_grunt_hurtground_right", false, 0.96f);
 
 	AddAnimation("spr_grunt_hurtfly_left", false, 0.8f);
 	AddAnimation("spr_grunt_hurtfly_right", false, 0.8f);
@@ -356,13 +360,14 @@ void CGrunt::HurtGroundUpdate()
 {
 	// 피분출이 끝나면 BloodAnimation SetActive(false) 할것
 
-	// 쓰러지는 모션이 끝나면, 충돌체 Death
+	// 쓰러지는 모션이 끝나면, 충돌체 삭제
 	if (true == m_Animation->IsEndAnimation())
 	{
-		FindCollider("Box")->SetActive(false);
+		//FindCollider("Box")->SetActive(false);
+		SetEnable(false);
 	}
 
-	m_MoveDir += -m_MoveDir * DELTA_TIME * 3.4f;
+	m_MoveDir += -(m_MoveDir * DELTA_TIME * 3.4f);
 
 	if (1.f >= m_MoveDir.Length())
 	{

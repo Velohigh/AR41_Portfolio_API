@@ -533,7 +533,7 @@ void CGameObject::MapCollisionCheckMoveGroundDie()
 {
 	{
 		// 미래의 위치를 계산하여 그곳의 RGB값을 체크하고, 이동 가능한 곳이면 이동한다.
-		Vector2 NextPos = m_Pos + (Vector2{ 0,m_MoveDir.y } *DELTA_TIME * m_MoveSpeed);
+		Vector2 NextPos = m_Pos + (Vector2{ 0,m_MoveDir.y } *DELTA_TIME);
 		Vector2 CheckPos = NextPos + Vector2{ 0,0 };	// 미래 위치의 발기준 색상
 		Vector2 CheckPosTopRight = NextPos + Vector2{ 18,-80 };	// 미래 위치의 머리기준 색상
 		Vector2 CheckPosTopLeft = NextPos + Vector2{ -18,-80 };	// 미래 위치의 머리기준 색상
@@ -548,13 +548,13 @@ void CGameObject::MapCollisionCheckMoveGroundDie()
 			RGB(0, 0, 0) != TopRightColor &&
 			RGB(0, 0, 0) != TopLeftColor)
 		{
-			MoveDir(Vector2{ 0.f, m_MoveDir.y });
+			Move(Vector2{ 0.f, m_MoveDir.y } * DELTA_TIME);
 		}
 	}
 
 	{
 		// 미래의 위치를 계산하여 그곳의 RGB값을 체크하고, 이동 가능한 곳이면 이동한다.
-		Vector2 NextPos = m_Pos + (Vector2{ 0,m_MoveDir.y } *DELTA_TIME * m_MoveSpeed);
+		Vector2 NextPos = m_Pos + (Vector2{ m_MoveDir.x, 0} *DELTA_TIME);
 		Vector2 CheckPos = NextPos + Vector2{ 0,0 };	// 미래 위치의 발기준 색상
 		Vector2 CheckPosTopRight = NextPos + Vector2{ 18,-80 };	// 미래 위치의 머리기준 색상
 		Vector2 CheckPosTopLeft = NextPos + Vector2{ -18,-80 };	// 미래 위치의 머리기준 색상
@@ -567,7 +567,7 @@ void CGameObject::MapCollisionCheckMoveGroundDie()
 			RGB(0, 0, 0) != TopRightColor &&
 			RGB(0, 0, 0) != TopLeftColor)
 		{
-			MoveDir(Vector2{ m_MoveDir.x,0 });
+			Move(Vector2{ m_MoveDir.x,0 } * DELTA_TIME);
 		}
 	}
 
@@ -577,7 +577,7 @@ void CGameObject::MapCollisionCheckMoveAirDie()
 {
 	{
 		// 미래의 위치를 계산하여 그곳의 RGB값을 체크하고, 이동 가능한 곳이면 이동한다.
-		Vector2 NextPos = m_Pos + (Vector2{ 0,m_MoveDir.y } *DELTA_TIME * m_MoveSpeed);
+		Vector2 NextPos = m_Pos + (Vector2{ 0,m_MoveDir.y } *DELTA_TIME);
 		Vector2 CheckPos = NextPos + Vector2{ 0,0 };	// 미래 위치의 발기준 색상
 		Vector2 CheckPosTopRight = NextPos + Vector2{ 18,-80 };	// 미래 위치의 머리기준 색상
 		Vector2 CheckPosTopLeft = NextPos + Vector2{ -18,-80 };	// 미래 위치의 머리기준 색상
@@ -592,13 +592,13 @@ void CGameObject::MapCollisionCheckMoveAirDie()
 			RGB(0, 0, 0) != TopRightColor &&
 			RGB(0, 0, 0) != TopLeftColor)
 		{
-			MoveDir(Vector2{ 0.f, m_MoveDir.y });
+			Move(Vector2{ 0.f , m_MoveDir.y } * DELTA_TIME);
 		}
 	}
 
 	{
 		// 미래의 위치를 계산하여 그곳의 RGB값을 체크하고, 이동 가능한 곳이면 이동한다.
-		Vector2 NextPos = m_Pos + (Vector2{ 0,m_MoveDir.y } *DELTA_TIME * m_MoveSpeed);
+		Vector2 NextPos = m_Pos + (Vector2{ m_MoveDir.x,0 } * DELTA_TIME);
 		Vector2 CheckPos = NextPos + Vector2{ 0,0 };	// 미래 위치의 발기준 색상
 		Vector2 CheckPosTopRight = NextPos + Vector2{ 18,-80 };	// 미래 위치의 머리기준 색상
 		Vector2 CheckPosTopLeft = NextPos + Vector2{ -18,-80 };	// 미래 위치의 머리기준 색상
@@ -611,7 +611,7 @@ void CGameObject::MapCollisionCheckMoveAirDie()
 			RGB(0, 0, 0) != TopRightColor &&
 			RGB(0, 0, 0) != TopLeftColor)
 		{
-			MoveDir(Vector2{ m_MoveDir.x,0 });
+			Move(Vector2{ m_MoveDir.x,0 } * DELTA_TIME);
 		}
 	}
 
