@@ -44,7 +44,7 @@ bool CStage_1::Init()
 	// 플레이어
 	CPlayer* Player = CreateObject<CPlayer>("Player");
 	Player->SetPos({ 230.f, 671.f });
-	Player->StateChange(PlayerState::Idle);
+	Player->StateChange(PlayerState::PlaySong);
 
 	SetPlayer(Player);
 	GetCamera()->SetTarget(Player);
