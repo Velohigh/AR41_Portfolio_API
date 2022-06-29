@@ -109,7 +109,7 @@ public:
 	}
 
 	template <typename T>
-	T* FindWidget(const std::string& Name)
+	T* FindWidgetWindow(const std::string& Name)
 	{
 		size_t	Size = m_vecWidgetWindow.size();
 
@@ -117,6 +117,22 @@ public:
 		{
 			if (m_vecWidgetWindow[i]->GetName() == Name)
 				return (T*)m_vecWidgetWindow[i].Get();
+		}
+
+		return nullptr;
+	}
+
+	template <typename T>
+	T* FindWidget(const std::string& Name)
+	{
+		size_t	Size = m_vecWidgetWindow.size();
+
+		for (size_t i = 0; i < Size; ++i)
+		{
+			T* Widget = m_vecWidgetWindow[i]->FindWidget<T>(Name);
+
+			if (Widget)
+				return Widget;
 		}
 
 		return nullptr;
