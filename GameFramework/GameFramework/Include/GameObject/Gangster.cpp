@@ -58,11 +58,11 @@ bool CGangster::Init()
 	AddAnimation("spr_gangster_idle_left", true, 0.96f);
 	AddAnimation("spr_gangster_idle_right", true, 0.96f);
 
-	//AddAnimation("spr_grunt_walk_left", true, 0.7f);
-	//AddAnimation("spr_grunt_walk_right", true, 0.7f);
+	AddAnimation("spr_gangsterhurtground_left", true, 0.98f);
+	AddAnimation("spr_gangsterhurtground_right", true, 0.98f);
 
-	//AddAnimation("spr_grunt_turn_left", true, 0.48f);
-	//AddAnimation("spr_grunt_turn_right", true, 0.48f);
+	AddAnimation("spr_gangsterhurtfly_left", false, 0.4f);
+	AddAnimation("spr_gangsterhurtfly_right", false, 0.4f);
 
 	//AddAnimation("spr_grunt_hurtground_left", false, 0.96f);
 	//AddAnimation("spr_grunt_hurtground_right", false, 0.96f);
