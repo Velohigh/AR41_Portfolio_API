@@ -1762,6 +1762,13 @@ void CPlayer::DodgeStart()
 	ChangeAnimation(m_AnimationName + m_ChangeDirText);
 	SetSpeed(680.f);
 
+	// 점프 후 착지시 방향벡터가 0이 되는순간에 구르기할시 제자리에서 구르기 방지.
+	if (m_CurDir == PlayerDir::Right)
+		m_MoveDir = { 1.f, 0.f };
+	else if (m_CurDir == PlayerDir::Left)
+		m_MoveDir = { -1.f, 0.f };
+
+
 }
 
 void CPlayer::PlaySongStart()
