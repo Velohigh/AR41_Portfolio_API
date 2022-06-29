@@ -457,7 +457,6 @@ void CStage_1::CreateAnimationSequence()
 			int NewWidth = Texture->GetWidth(i);
 			int NewHeight = Texture->GetHeight(i);
 
-
 			CResourceManager::GetInst()->AddAnimationFrame("spr_gangster_idle_left", 0.f, 0.f,
 				(float)NewWidth, (float)NewHeight);
 		}
@@ -486,13 +485,131 @@ void CStage_1::CreateAnimationSequence()
 			int NewWidth = Texture->GetWidth(i);
 			int NewHeight = Texture->GetHeight(i);
 
-
 			CResourceManager::GetInst()->AddAnimationFrame("spr_gangster_idle_right", 0.f, 0.f,
 				(float)NewWidth, (float)NewHeight);
 		}
 
 		CResourceManager::GetInst()->SetColorKey("spr_gangster_idle_right", 255, 255, 255);
 	}
+
+
+	// Gangster HurtFly_Left
+	{
+		std::vector<std::wstring>	vecFileName;
+
+		for (int i = 0; i <= 1; ++i)
+		{
+			TCHAR	FileName[MAX_PATH] = {};
+			// %d에 i의 값이 대입되어 문자열이 만들어지게 된다.
+			wsprintf(FileName, TEXT("Enemy/spr_gangsterhurtfly_left/%d.bmp"), i);
+			vecFileName.push_back(FileName);
+		}
+
+		CResourceManager::GetInst()->CreateAnimationSequence("spr_gangsterhurtfly_left",
+			"spr_gangsterhurtfly_left", vecFileName, TEXTURE_PATH);
+
+		for (int i = 0; i <= 1; ++i)
+		{
+			CTexture* Texture = CResourceManager::GetInst()->FindTexture("spr_gangsterhurtfly_left");
+			int NewWidth = Texture->GetWidth(i);
+			int NewHeight = Texture->GetHeight(i);
+
+			CResourceManager::GetInst()->AddAnimationFrame("spr_gangsterhurtfly_left", 0.f, 0.f,
+				(float)NewWidth, (float)NewHeight);
+		}
+
+		CResourceManager::GetInst()->SetColorKey("spr_gangsterhurtfly_left", 255, 255, 255);
+	}
+
+	// Gangster HurtFly_Right
+	{
+		std::vector<std::wstring>	vecFileName;
+
+		for (int i = 0; i <= 1; ++i)
+		{
+			TCHAR	FileName[MAX_PATH] = {};
+			// %d에 i의 값이 대입되어 문자열이 만들어지게 된다.
+			wsprintf(FileName, TEXT("Enemy/spr_gangsterhurtfly_right/%d.bmp"), i);
+			vecFileName.push_back(FileName);
+		}
+
+		CResourceManager::GetInst()->CreateAnimationSequence("spr_gangsterhurtfly_right",
+			"spr_gangsterhurtfly_right", vecFileName, TEXTURE_PATH);
+
+		for (int i = 0; i <= 1; ++i)
+		{
+			CTexture* Texture = CResourceManager::GetInst()->FindTexture("spr_gangsterhurtfly_right");
+			int NewWidth = Texture->GetWidth(i);
+			int NewHeight = Texture->GetHeight(i);
+
+			CResourceManager::GetInst()->AddAnimationFrame("spr_gangsterhurtfly_right", 0.f, 0.f,
+				(float)NewWidth, (float)NewHeight);
+		}
+
+		CResourceManager::GetInst()->SetColorKey("spr_gangsterhurtfly_right", 255, 255, 255);
+	}
+
+
+	// Gangster HurtGround_Left
+	{
+		std::vector<std::wstring>	vecFileName;
+
+		for (int i = 0; i <= 13; ++i)
+		{
+			TCHAR	FileName[MAX_PATH] = {};
+			// %d에 i의 값이 대입되어 문자열이 만들어지게 된다.
+			wsprintf(FileName, TEXT("Enemy/spr_gangsterhurtground_left/%d.bmp"), i);
+			vecFileName.push_back(FileName);
+		}
+
+		CResourceManager::GetInst()->CreateAnimationSequence("spr_gangsterhurtground_left",
+			"spr_gangsterhurtground_left", vecFileName, TEXTURE_PATH);
+
+		for (int i = 0; i <= 13; ++i)
+		{
+			CTexture* Texture = CResourceManager::GetInst()->FindTexture("spr_gangsterhurtground_left");
+			int NewWidth = Texture->GetWidth(i);
+			int NewHeight = Texture->GetHeight(i);
+
+			CResourceManager::GetInst()->AddAnimationFrame("spr_gangsterhurtground_left", 0.f, 0.f,
+				(float)NewWidth, (float)NewHeight);
+		}
+
+		CResourceManager::GetInst()->SetColorKey("spr_gangsterhurtground_left", 255, 255, 255);
+	}
+
+	// Gangster HurtGround_Right
+	{
+		std::vector<std::wstring>	vecFileName;
+
+		for (int i = 0; i <= 13; ++i)
+		{
+			TCHAR	FileName[MAX_PATH] = {};
+			// %d에 i의 값이 대입되어 문자열이 만들어지게 된다.
+			wsprintf(FileName, TEXT("Enemy/spr_gangsterhurtground_right/%d.bmp"), i);
+			vecFileName.push_back(FileName);
+		}
+
+		CResourceManager::GetInst()->CreateAnimationSequence("spr_gangsterhurtground_right",
+			"spr_gangsterhurtground_right", vecFileName, TEXTURE_PATH);
+
+		for (int i = 0; i <= 13; ++i)
+		{
+			CTexture* Texture = CResourceManager::GetInst()->FindTexture("spr_gangsterhurtground_right");
+			int NewWidth = Texture->GetWidth(i);
+			int NewHeight = Texture->GetHeight(i);
+
+			CResourceManager::GetInst()->AddAnimationFrame("spr_gangsterhurtground_right", 0.f, 0.f,
+				(float)NewWidth, (float)NewHeight);
+		}
+
+		CResourceManager::GetInst()->SetColorKey("spr_gangsterhurtground_right", 255, 255, 255);
+	}
+
+
+
+
+
 
 
 
