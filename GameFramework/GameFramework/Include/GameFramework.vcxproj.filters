@@ -142,6 +142,9 @@
     <Filter Include="02. GameObject\01. Character\01. Enemy\00. Effect\Effect_BloodAnimation2">
       <UniqueIdentifier>{aa019f61-4e69-4b73-bc2f-17d31d8a1687}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GameObject\01. Character\01. Enemy\02. Gangster">
+      <UniqueIdentifier>{e8b402f6-e1ea-4693-be29-10cb3390c811}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -317,6 +320,9 @@
     </ClCompile>
     <ClCompile Include="GameObject\Effect_BloodAnimation2.cpp">
       <Filter>02. GameObject\01. Character\01. Enemy\00. Effect\Effect_BloodAnimation2</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\Gangster.cpp">
+      <Filter>02. GameObject\01. Character\01. Enemy\02. Gangster</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -529,6 +535,9 @@
     </ClInclude>
     <ClInclude Include="GameObject\Effect_BloodAnimation2.h">
       <Filter>02. GameObject\01. Character\01. Enemy\00. Effect\Effect_BloodAnimation2</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\Gangster.h">
+      <Filter>02. GameObject\01. Character\01. Enemy\02. Gangster</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

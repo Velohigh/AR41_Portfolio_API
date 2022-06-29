@@ -10,6 +10,8 @@
 #include "../GameObject/TileMap.h"
 #include "../Resource/ResourceManager.h"
 #include "../GameObject/Grunt.h"
+#include "../GameObject/Gangster.h"
+#include "../Resource/Texture/Texture.h"
 
 CStage_1::CStage_1()	:
 	Back(nullptr)
@@ -66,6 +68,13 @@ bool CStage_1::Init()
 		NewGrunt->SetPos({ 530, 671 });
 		NewGrunt = CreateObject<CGrunt>("Grunt");
 		NewGrunt->SetPos({ 338, 671 });
+
+		// 갱스터
+		CGangster* NewGangster = CreateObject<CGangster>("Gangster");
+		NewGangster->SetPos({ 545, 383 });
+		NewGangster->SetDir(ObjDir::Left);
+		NewGangster->SetState(ObjState::Idle);
+
 	}
 
 
@@ -424,6 +433,65 @@ void CStage_1::CreateAnimationSequence()
 		}
 
 		CResourceManager::GetInst()->SetColorKey("spr_grunt_hurtground_right", 255, 255, 255);
+	}
+
+
+	// Gangster Idle_Left
+	{
+		std::vector<std::wstring>	vecFileName;
+
+		for (int i = 0; i <= 7; ++i)
+		{
+			TCHAR	FileName[MAX_PATH] = {};
+			// %d에 i의 값이 대입되어 문자열이 만들어지게 된다.
+			wsprintf(FileName, TEXT("Enemy/spr_gangster_idle_left/%d.bmp"), i);
+			vecFileName.push_back(FileName);
+		}
+
+		CResourceManager::GetInst()->CreateAnimationSequence("spr_gangster_idle_left",
+			"spr_gangster_idle_left", vecFileName, TEXTURE_PATH);
+
+		for (int i = 0; i <= 7; ++i)
+		{
+			CTexture* Texture = CResourceManager::GetInst()->FindTexture("spr_gangster_idle_left");
+			int NewWidth = Texture->GetWidth(i);
+			int NewHeight = Texture->GetHeight(i);
+
+
+			CResourceManager::GetInst()->AddAnimationFrame("spr_gangster_idle_left", 0.f, 0.f,
+				(float)NewWidth, (float)NewHeight);
+		}
+
+		CResourceManager::GetInst()->SetColorKey("spr_gangster_idle_left", 255, 255, 255);
+	}
+
+	// Gangster Idle_Right
+	{
+		std::vector<std::wstring>	vecFileName;
+
+		for (int i = 0; i <= 7; ++i)
+		{
+			TCHAR	FileName[MAX_PATH] = {};
+			// %d에 i의 값이 대입되어 문자열이 만들어지게 된다.
+			wsprintf(FileName, TEXT("Enemy/spr_gangster_idle_right/%d.bmp"), i);
+			vecFileName.push_back(FileName);
+		}
+
+		CResourceManager::GetInst()->CreateAnimationSequence("spr_gangster_idle_right",
+			"spr_gangster_idle_right", vecFileName, TEXTURE_PATH);
+
+		for (int i = 0; i <= 7; ++i)
+		{
+			CTexture* Texture = CResourceManager::GetInst()->FindTexture("spr_gangster_idle_right");
+			int NewWidth = Texture->GetWidth(i);
+			int NewHeight = Texture->GetHeight(i);
+
+
+			CResourceManager::GetInst()->AddAnimationFrame("spr_gangster_idle_right", 0.f, 0.f,
+				(float)NewWidth, (float)NewHeight);
+		}
+
+		CResourceManager::GetInst()->SetColorKey("spr_gangster_idle_right", 255, 255, 255);
 	}
 
 
