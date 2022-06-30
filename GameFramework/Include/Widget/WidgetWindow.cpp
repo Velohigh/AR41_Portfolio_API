@@ -122,6 +122,9 @@ bool CWidgetWindow::CollisionMouse(class CWidget** Widget, const Vector2& Pos)
 
 	for (size_t i = 0; i < WidgetCount; ++i)
 	{
+		if (!m_vecWidget[i]->GetEnable())
+			continue;
+
 		if (m_vecWidget[i]->CollisionMouse(Pos))
 		{
 			*Widget = m_vecWidget[i];

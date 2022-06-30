@@ -93,7 +93,7 @@ public:
         for (size_t i = 0; i < Size; ++i)
         {
             if (m_vecWidget[i]->GetName() == Name)
-                return (T*)m_vecWidget[i];
+                return (T*)m_vecWidget[i].Get();
         }
 
         return nullptr;

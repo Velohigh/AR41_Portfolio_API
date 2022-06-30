@@ -15,7 +15,7 @@ bool CFontManager::Init()
 {
 	LoadFont(TEXT("NotoSansKR-Black.otf"));
 
-	LoadFont("DefaultFont", TEXT("NotoSansKR-Black.otf"), 0, 0);
+	LoadFont("DefaultFont", TEXT("Noto Sans KR Black"), 0, -30);
 
 	return true;
 }
