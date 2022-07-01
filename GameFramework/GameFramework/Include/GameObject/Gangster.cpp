@@ -51,9 +51,6 @@ bool CGangster::Init()
 	m_CurDir = ObjDir::Right;
 	m_ChangeDirText = "right";
 
-	// 충돌맵 세팅
-	SetMapTexture("room_factory_2_ColMap", TEXT("room_factory_2_ColMap.bmp"), "MapPath");
-
 	// 애니메이션
 	AddAnimation("spr_gangster_idle_left", true, 0.96f);
 	AddAnimation("spr_gangster_idle_right", true, 0.96f);

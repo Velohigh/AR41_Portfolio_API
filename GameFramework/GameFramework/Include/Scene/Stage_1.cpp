@@ -59,21 +59,29 @@ bool CStage_1::Init()
 		NewGrunt->SetDir(ObjDir::Right);
 		NewGrunt->SetState(ObjState::Walk);
 		NewGrunt->SetPatrol(true);
+		NewGrunt->SetMapTexture("room_factory_2_ColMap", TEXT("room_factory_2_ColMap.bmp"), "MapPath");
+
 		NewGrunt = CreateObject<CGrunt>("Grunt");
 		NewGrunt->SetPos({ 338, 383 });
 		NewGrunt->SetDir(ObjDir::Right);
+		NewGrunt->SetMapTexture("room_factory_2_ColMap", TEXT("room_factory_2_ColMap.bmp"), "MapPath");
 
-		//NewGrunt->SetPosition({ 913, 505 });
 		NewGrunt = CreateObject<CGrunt>("Grunt");
 		NewGrunt->SetPos({ 530, 671 });
+		NewGrunt->SetMapTexture("room_factory_2_ColMap", TEXT("room_factory_2_ColMap.bmp"), "MapPath");
+
 		NewGrunt = CreateObject<CGrunt>("Grunt");
 		NewGrunt->SetPos({ 338, 671 });
+		NewGrunt->SetMapTexture("room_factory_2_ColMap", TEXT("room_factory_2_ColMap.bmp"), "MapPath");
+
 
 		// ∞ªΩ∫≈Õ
 		CGangster* NewGangster = CreateObject<CGangster>("Gangster");
 		NewGangster->SetPos({ 545, 383 });
 		NewGangster->SetDir(ObjDir::Left);
 		NewGangster->SetState(ObjState::Idle);
+		NewGangster->SetMapTexture("room_factory_2_ColMap", TEXT("room_factory_2_ColMap.bmp"), "MapPath");
+
 
 	}
 

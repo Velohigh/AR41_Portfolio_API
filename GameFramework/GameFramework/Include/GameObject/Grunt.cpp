@@ -366,6 +366,7 @@ void CGrunt::HurtGroundUpdate()
 	if (true == m_Animation->IsEndAnimation())
 	{
 		//FindCollider("Box")->SetActive(false);
+		SetEnable(false);
 	}
 
 	m_MoveDir += -(m_MoveDir * DELTA_TIME * 3.4f);
