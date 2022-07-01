@@ -146,15 +146,18 @@ void CPlayer::Update(float DeltaTime)
 {
 	CCharacter::Update(DeltaTime);
 	DeltaTime *= m_TimeScale;
+	m_GameTime += DeltaTime;
 
 	// 공통 함수
 	DirAnimationCheck();
 	StateUpdate();
 
+	m_Scene->FindWidgetWindow<CCharacterHUD>("CharacterHUD")->SetTimeBar((100.f - m_GameTime)/100.f);
 
-	//int COLOR = m_MapColTexture->GetImagePixel((int)m_Pos.x, (int)m_Pos.y);
-	//if (RGB(0,0,0) == COLOR)
-	//	MessageBoxA(nullptr, "충돌맵과 겹쳤음.", "ERROR", MB_OK);
+	// if( 시간이 100초 지나면 스타트 씬으로)
+
+	m_Scene->FindWidgetWindow<CCharacterHUD>("CharacterHUD")->SetBatteryBar( m_Battery / 11.f);
+
 
 }
 
@@ -1747,7 +1750,6 @@ void CPlayer::FallStart()
 
 void CPlayer::DodgeStart()
 {
-
 	// 닷지 사운드
 	{
 		m_Scene->GetSceneResource()->SoundPlay("sound_player_roll");

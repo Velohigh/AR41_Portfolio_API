@@ -919,7 +919,7 @@ void CGameObject::Render(HDC hDC, float DeltaTime)
 			if (Current->m_Sequence->GetTexture()->GetEnableColorKey())
 			{
 				TransparentBlt(hDC, (int)RenderLT.x, (int)RenderLT.y,
-					(int)Size.x, (int)Size.y,
+					(int)Size.x * m_RenderScale, (int)Size.y * m_RenderScale,
 					Current->m_Sequence->GetTexture()->GetDC(),
 					(int)FrameData.Start.x, (int)FrameData.Start.y, 
 					(int)Size.x, (int)Size.y,
@@ -963,7 +963,7 @@ void CGameObject::Render(HDC hDC, float DeltaTime)
 		{
 			Vector2	RenderLT;
 
-			RenderLT = Pos - m_Pivot * m_Size;
+			RenderLT = Pos - m_Pivot * m_Size * m_RenderScale;
 
 			Vector2	CullPos = m_Pos - m_Pivot * m_Size;
 
@@ -984,7 +984,7 @@ void CGameObject::Render(HDC hDC, float DeltaTime)
 				if (m_Texture->GetTextureType() == ETexture_Type::Sprite)
 				{
 					TransparentBlt(hDC, (int)RenderLT.x, (int)RenderLT.y,
-						(int)m_Size.x, (int)m_Size.y, m_Texture->GetDC(),
+						(int)m_Size.x * m_RenderScale, (int)m_Size.y* m_RenderScale, m_Texture->GetDC(),
 						0, 0, (int)m_Size.x, (int)m_Size.y, m_Texture->GetColorKey());
 				}
 

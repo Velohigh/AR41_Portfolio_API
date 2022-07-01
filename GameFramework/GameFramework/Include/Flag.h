@@ -12,6 +12,7 @@ enum class ERender_Layer
 	Tile,
 	Default,
 	Effect,
+	UI,
 	Max
 };
 

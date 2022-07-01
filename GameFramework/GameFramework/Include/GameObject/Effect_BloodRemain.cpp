@@ -35,7 +35,7 @@ bool CEffect_BloodRemain::Init()
 
 	SetPivot(0.5f, 1.f);
 
-	SetRenderScale(2);
+	SetRenderScale(1);
 	
 	return true;
 }

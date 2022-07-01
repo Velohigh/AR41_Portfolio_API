@@ -37,8 +37,8 @@ protected:
 
 private:
 
-	CSharedPtr<class CWidgetComponent>	m_HPBar;
-	CSharedPtr<class CWidgetComponent>	m_NameBar;
+	//CSharedPtr<class CWidgetComponent>	m_HPBar;
+	//CSharedPtr<class CWidgetComponent>	m_NameBar;
 	PlayerDir	m_CurDir;								// 현재 바라보고 있는 방향
 	std::string	m_AnimationName;
 	std::string m_ChangeDirText;
@@ -49,6 +49,8 @@ private:
 	float	m_LongJumpPower = 2000.f;
 	bool	m_IsLongJump = false;
 	int		m_AttackCount = 0;
+	float		m_GameTime = 0.f;
+	int			m_Battery = 11;
 	CCollider* m_PlayerAttackCollision = nullptr;
 
 

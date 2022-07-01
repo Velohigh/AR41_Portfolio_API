@@ -11,6 +11,7 @@
 #include "../Resource/ResourceManager.h"
 #include "../GameObject/Grunt.h"
 #include "../GameObject/Gangster.h"
+#include "../GameObject/Cursor.h"
 #include "../Resource/Texture/Texture.h"
 
 CStage_1::CStage_1()	:
@@ -42,6 +43,13 @@ bool CStage_1::Init()
 	Back = CreateObject<CBackObj>("BackObj");
 	Back->SetTexture("room_factory_2", TEXT("room_factory_2.bmp"), "MapPath");
 
+	auto iter = m_ObjList[(int)ERender_Layer::Default].begin();
+	auto iterEnd = m_ObjList[(int)ERender_Layer::Default].end();
+
+	// 마우스
+	CCursor* Cursor = CreateObject<CCursor>("Cursor");
+	Cursor->SetPos(CInput::GetInst()->GetMouseWorldPos());
+	Cursor->SetColorKey(255, 0, 255);
 
 	// 플레이어
 	CPlayer* Player = CreateObject<CPlayer>("Player");
@@ -657,8 +665,8 @@ void CStage_1::CreateAnimationSequence()
 		GetSceneResource()->AddAnimationFrame("effect_bloodanimation2_left", 80.f * i, 0.f,
 			80.f, 79.f);
 	}
-
 	GetSceneResource()->SetColorKey("effect_bloodanimation2_left", 255, 0, 255);
+
 
 	// BloodAnimation2_Right 한장짜리 이미지 방식
 	GetSceneResource()->CreateAnimationSequence("effect_bloodanimation2_right",
@@ -669,8 +677,8 @@ void CStage_1::CreateAnimationSequence()
 		GetSceneResource()->AddAnimationFrame("effect_bloodanimation2_right", 80.f * i, 0.f,
 			80.f, 79.f);
 	}
-
 	GetSceneResource()->SetColorKey("effect_bloodanimation2_right", 255, 0, 255);
+
 
 
 }

@@ -90,13 +90,13 @@ bool CInput::Init(HWND hWnd)
 
 	m_MouseObj->Init();
 
-	m_MouseObj->SetSize(32.f, 31.f);
+	m_MouseObj->SetSize(25.f, 25.f);
 
-	//ShowCursor(FALSE);
-	//m_ShowCursor = false;
+	ShowCursor(FALSE);
+	m_ShowCursor = false;
 
-	ShowCursor(true);
-	m_ShowCursor = true;
+	//ShowCursor(true);
+	//m_ShowCursor = true;
 
 	return true;
 }

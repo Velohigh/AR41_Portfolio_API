@@ -145,6 +145,9 @@
     <Filter Include="02. GameObject\01. Character\01. Enemy\02. Gangster">
       <UniqueIdentifier>{e8b402f6-e1ea-4693-be29-10cb3390c811}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GameObject\01. Character\00. Player\01. Cursor">
+      <UniqueIdentifier>{3ba59420-ddff-419b-b96c-f213ad8df7c1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -323,6 +326,9 @@
     </ClCompile>
     <ClCompile Include="GameObject\Gangster.cpp">
       <Filter>02. GameObject\01. Character\01. Enemy\02. Gangster</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\Cursor.cpp">
+      <Filter>02. GameObject\01. Character\00. Player\01. Cursor</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -538,6 +544,9 @@
     </ClInclude>
     <ClInclude Include="GameObject\Gangster.h">
       <Filter>02. GameObject\01. Character\01. Enemy\02. Gangster</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\Cursor.h">
+      <Filter>02. GameObject\01. Character\00. Player\01. Cursor</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
