@@ -10,12 +10,15 @@ protected:
     virtual ~CCharacterHUD();
 
 protected:
-    CSharedPtr<class CProgressBar>  m_HPBar;
-    CSharedPtr<class CImageWidget>  m_HPBarFrame;
+    CSharedPtr<class CImageWidget>  m_HudFrame;
+    CSharedPtr<class CProgressBar>  m_BatteryBar;
+    CSharedPtr<class CProgressBar>  m_TimeBar;
+
     CSharedPtr<class CText>     m_FPSText;
 
 public:
-    void SetHP(float HP);
+    void SetBatteryBar(float Battery);
+    void SetTimeBar(float Time);
 
 public:
     virtual bool Init();

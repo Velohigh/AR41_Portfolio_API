@@ -86,7 +86,7 @@ bool CStage_1::Init()
 	}
 
 
-	//CreateWidgetWindow<CCharacterHUD>("CharacterHUD");
+	CreateWidgetWindow<CCharacterHUD>("CharacterHUD");
 
 	return true;
 }

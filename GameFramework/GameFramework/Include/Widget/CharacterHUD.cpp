@@ -19,9 +19,14 @@ CCharacterHUD::~CCharacterHUD()
 {
 }
 
-void CCharacterHUD::SetHP(float HP)
+void CCharacterHUD::SetBatteryBar(float Battery)
 {
-	m_HPBar->SetValue(HP);
+	m_BatteryBar->SetValue(Battery);
+}
+
+void CCharacterHUD::SetTimeBar(float Time)
+{
+	m_TimeBar->SetValue(Time);
 }
 
 bool CCharacterHUD::Init()
@@ -29,37 +34,45 @@ bool CCharacterHUD::Init()
 	if (!CWidgetWindow::Init())
 		return false;
 
-	/*m_Scene->GetSceneResource()->LoadSound("UI", "ButtonHovered", false,
-		"1Up.wav");
-	m_Scene->GetSceneResource()->LoadSound("UI", "ButtonClick", false,
-		"Stun.wav");*/
+	//m_Scene->GetSceneResource()->LoadSound("UI", "ButtonHovered", false,
+	//	"1Up.wav");
+	//m_Scene->GetSceneResource()->LoadSound("UI", "ButtonClick", false,
+	//	"Stun.wav");
 
-	SetSize(210.f, 110.f);
-	SetPos(50.f, 50.f);
+	SetSize(1280.f, 46.f);
+	SetPos(0.f, 0.f);
 
-	m_HPBarFrame = CreateWidget<CImageWidget>("HPBarFrame");
+	m_HudFrame = CreateWidget<CImageWidget>("Hud_Collapse");
 
-	m_HPBarFrame->SetTexture("BarFrame", TEXT("BarBack.bmp"));
-	m_HPBarFrame->SetColorKey(255, 0, 255);
+	m_HudFrame->SetTexture("Hud_Collapse", TEXT("hud_collapse.bmp"));
+	m_HudFrame->SetColorKey(255, 0, 255);
 
-	m_HPBarFrame->SetSize(220.f, 50.f);
+	m_HudFrame->SetSize(1280.f, 46.f);
 
-	m_HPBar = CreateWidget<CProgressBar>("HPBar");
+	m_BatteryBar = CreateWidget<CProgressBar>("BatteryBar");
+	m_BatteryBar->SetTexture(EProgressBar_Texture_Type::Bar, "BatteryBar", TEXT("effect_battery.bmp"));
+	m_BatteryBar->SetSize(110.f, 20.f);
+	m_BatteryBar->SetPos(24.f, 14.f);
+	m_BatteryBar->SetBarDir(EProgressBar_Dir::LeftToRight);
+	m_BatteryBar->SetColorKey(EProgressBar_Texture_Type::Bar, 255, 0, 255);
 
-	m_HPBar->SetTexture(EProgressBar_Texture_Type::Bar, "HUDHPBar", TEXT("BarDefault.bmp"));
+	m_TimeBar = CreateWidget<CProgressBar>("TimeBar");
+	m_TimeBar->SetTexture(EProgressBar_Texture_Type::Bar, "TimeBar", TEXT("effect_timer.bmp"));
+	m_TimeBar->SetSize(188.f, 22.f);
+	m_TimeBar->SetPos(551.f, 6.f);
+	m_TimeBar->SetBarDir(EProgressBar_Dir::LeftToRight);
+	m_TimeBar->SetColorKey(EProgressBar_Texture_Type::Bar, 255, 0, 255);
 
-	m_HPBar->SetSize(200.f, 30.f);
-	m_HPBar->SetPos(10.f, 10.f);
-	m_HPBar->SetBarDir(EProgressBar_Dir::LeftToRight);
 
-	m_FPSText = CreateWidget<CText>("Text");
 
-	m_FPSText->SetText(TEXT("FPS"));
-	m_FPSText->SetPos(900.f, 50.f);
-	m_FPSText->SetTextColor(255, 0, 0);
+	//m_FPSText = CreateWidget<CText>("Text");
 
-	m_FPSText->EnableShadow(true);
-	m_FPSText->SetShadowOffset(2.f, 2.f);
+	//m_FPSText->SetText(TEXT("FPS"));
+	//m_FPSText->SetPos(900.f, 50.f);
+	//m_FPSText->SetTextColor(255, 0, 0);
+
+	//m_FPSText->EnableShadow(true);
+	//m_FPSText->SetShadowOffset(2.f, 2.f);
 
 	return true;
 }
@@ -68,14 +81,14 @@ void CCharacterHUD::Update(float DeltaTime)
 {
 	CWidgetWindow::Update(DeltaTime);
 
-	float FPS = CGameManager::GetInst()->GetFPS();
+	//float FPS = CGameManager::GetInst()->GetFPS();
 
-	char	Text[256] = {};
-	sprintf_s(Text, "FPS : %.5f", FPS);
+	//char	Text[256] = {};
+	//sprintf_s(Text, "FPS : %.5f", FPS);
 
-	TCHAR	Unicode[256] = {};
-	int Length = MultiByteToWideChar(CP_ACP, 0, Text, -1, 0, 0);
-	MultiByteToWideChar(CP_ACP, 0, Text, -1, Unicode, Length);
+	//TCHAR	Unicode[256] = {};
+	//int Length = MultiByteToWideChar(CP_ACP, 0, Text, -1, 0, 0);
+	//MultiByteToWideChar(CP_ACP, 0, Text, -1, Unicode, Length);
 
-	m_FPSText->SetText(Unicode);
+	//m_FPSText->SetText(Unicode);
 }
