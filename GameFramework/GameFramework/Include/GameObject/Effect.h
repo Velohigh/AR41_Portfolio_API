@@ -18,6 +18,7 @@ private:
 	float			m_Time;
 	CGameObject*	m_Owner = nullptr;
 
+
 public:
 	EEffect_Type GetEffectType()	const
 	{
@@ -44,6 +45,8 @@ public:
 	{
 		m_Owner = Owner;
 	}
+
+
 
 public:
 	virtual bool Init();

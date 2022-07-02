@@ -148,6 +148,9 @@
     <Filter Include="02. GameObject\01. Character\00. Player\01. Cursor">
       <UniqueIdentifier>{3ba59420-ddff-419b-b96c-f213ad8df7c1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GameObject\01. Character\00. Player\00. Effect\Effect_Hit_Lazer">
+      <UniqueIdentifier>{eb99434c-8605-46c1-8db1-59a8fa7b8164}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -329,6 +332,9 @@
     </ClCompile>
     <ClCompile Include="GameObject\Cursor.cpp">
       <Filter>02. GameObject\01. Character\00. Player\01. Cursor</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\Effect_Hit_Lazer.cpp">
+      <Filter>02. GameObject\01. Character\00. Player\00. Effect\Effect_Hit_Lazer</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -547,6 +553,9 @@
     </ClInclude>
     <ClInclude Include="GameObject\Cursor.h">
       <Filter>02. GameObject\01. Character\00. Player\01. Cursor</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\Effect_Hit_Lazer.h">
+      <Filter>02. GameObject\01. Character\00. Player\00. Effect\Effect_Hit_Lazer</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

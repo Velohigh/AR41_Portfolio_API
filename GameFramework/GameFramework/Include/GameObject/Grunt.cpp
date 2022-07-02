@@ -7,6 +7,7 @@
 #include "Effect_BloodRemain.h"
 #include "Effect_BloodAnimation.h"
 #include "Effect_BloodAnimation2.h"
+#include "Effect_Hit_Lazer.h"
 #include "../GameManager.h"
 #include "../Collision/CollisionManager.h"
 #include "../Resource/Texture/Texture.h"
@@ -245,6 +246,12 @@ void CGrunt::HurtFlyStart()
 		NewBloodAnimation->ChangeAnimation("effect_bloodanimation_left");
 		NewBloodAnimation->SetOwner(this);
 	}
+
+	CEffect_Hit_Lazer* NewHitLazer = m_Scene->CreateObject<CEffect_Hit_Lazer>("HitLazer");
+	NewHitLazer->SetTexture("HitLazer", TEXT("effect_hit_lazer.bmp"));
+	NewHitLazer->SetColorKey(255, 0, 255);
+	NewHitLazer->SetOwner(this);
+
 
 	SetPos(m_Pos + Vector2{ 0,-2 });
 	m_StateTime[static_cast<int>(ObjState::HurtGround)] = 0.f;

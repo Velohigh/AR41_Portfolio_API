@@ -48,6 +48,7 @@ protected:
 	Vector2		m_Pivot;		// 피봇
 	CSharedPtr<class CTexture>	m_Texture;	// 출력 텍스쳐
 	CSharedPtr<class CTexture>	m_MapColTexture;	// 충돌맵 텍스쳐
+	CSharedPtr<class CTexture>	m_PlgTexture = nullptr;	// 회전용 텍스쳐
 	CAnimation* m_Animation;	// 애니메이션
 	float		m_TimeScale;	// 타임스케일 ( 시간 흐름 배속 )
 	float		m_MoveSpeed;	// 움직이는 속도
@@ -68,8 +69,13 @@ protected:
 	ObjDir		m_PreDir = ObjDir::End;		// 이전에 보고있던 방향
 	std::string m_AnimationName;			// 재생할 애니메이션
 	std::string m_ChangeDirText;			// 좌우 애니메이션 재생을 결정할 텍스트
-	bool m_bPatrol = false;		// 해당 유닛의 정찰 행동 유무
+	bool		m_bPatrol = false;		// 해당 유닛의 정찰 행동 유무
 	float		m_StateTime[static_cast<int>(ObjState::END)];	// 해당 상태가 되고 지난 시간
+
+protected:
+	bool		m_bRotate = false;
+	POINT		m_ptPos[3] = {};
+	float		m_Angle = 0.f;
 
 protected:
 	ObjState	m_CurState;				// 현재 상태
@@ -214,6 +220,11 @@ public:
 		return m_CurDir;
 	}
 
+	inline void SetAngle(float Angle)
+	{
+		m_Angle = Angle;
+	}
+
 
 public:
 	void SetTexture(const std::string& Name);
@@ -274,7 +285,6 @@ public:
 	void SetCurrentAnimation(std::string& Name);
 	void ChangeAnimation(const std::string& Name);
 	bool CheckCurrentAnimation(const std::string& Name);
-
 
 public:
 	void MoveDir(const Vector2& Dir);
