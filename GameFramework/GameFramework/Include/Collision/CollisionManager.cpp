@@ -24,6 +24,7 @@ bool CCollisionManager::Init()
 {
 	CreateProfile("Default", ECollision_Channel::Default, true);
 	CreateProfile("Player", ECollision_Channel::Player, true, ECollision_Interaction::Ignore);
+	CreateProfile("PlayerHitBox", ECollision_Channel::PlayerHitBox, true, ECollision_Interaction::Ignore);
 	CreateProfile("Monster", ECollision_Channel::Monster, true, ECollision_Interaction::Ignore);
 	CreateProfile("PlayerAttack", ECollision_Channel::PlayerAttack, true, ECollision_Interaction::Ignore);
 	CreateProfile("MonsterAttack", ECollision_Channel::MonsterAttack, true, ECollision_Interaction::Ignore);
@@ -33,6 +34,12 @@ bool CCollisionManager::Init()
 	SetCollisionInteraction("Player", ECollision_Channel::MonsterAttack, ECollision_Interaction::Collision);
 	SetCollisionInteraction("Player", ECollision_Channel::Monster, ECollision_Interaction::Collision);
 	SetCollisionInteraction("Player", ECollision_Channel::Mouse, ECollision_Interaction::Collision);
+
+	SetCollisionInteraction("PlayerHitBox", ECollision_Channel::Default, ECollision_Interaction::Ignore);
+	SetCollisionInteraction("PlayerHitBox", ECollision_Channel::MonsterAttack, ECollision_Interaction::Collision);
+	SetCollisionInteraction("PlayerHitBox", ECollision_Channel::Monster, ECollision_Interaction::Ignore);
+	SetCollisionInteraction("PlayerHitBox", ECollision_Channel::Mouse, ECollision_Interaction::Ignore);
+
 
 	SetCollisionInteraction("Monster", ECollision_Channel::Default, ECollision_Interaction::Collision);
 	SetCollisionInteraction("Monster", ECollision_Channel::PlayerAttack, ECollision_Interaction::Collision);
@@ -44,6 +51,7 @@ bool CCollisionManager::Init()
 
 	SetCollisionInteraction("MonsterAttack", ECollision_Channel::Default, ECollision_Interaction::Collision);
 	SetCollisionInteraction("MonsterAttack", ECollision_Channel::Player, ECollision_Interaction::Collision);
+	SetCollisionInteraction("MonsterAttack", ECollision_Channel::PlayerHitBox, ECollision_Interaction::Collision);
 
 	return true;
 }

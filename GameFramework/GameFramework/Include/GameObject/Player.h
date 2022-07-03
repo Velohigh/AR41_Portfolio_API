@@ -21,6 +21,9 @@ enum class PlayerState
 	Fall,
 	Dodge,
 	PlaySong,
+	HurtFlyLoop,
+	HurtGround,
+	Dead,
 	END
 };
 
@@ -96,8 +99,8 @@ private:
 	void Attack();
 
 private:
-	void CollisionBegin(CCollider* Src, CCollider* Dest);
-	void CollisionEnd(CCollider* Src, CCollider* Dest);
+	void HitBoxCollisionBegin(CCollider* Src, CCollider* Dest);
+	void HitBoxCollisionEnd(CCollider* Src, CCollider* Dest);
 
 
 private:
@@ -111,6 +114,10 @@ private:
 	void FallUpdate();
 	void DodgeUpdate();
 	void PlaySongUpdate();
+	void HurtFlyLoopUpdate();
+	void HurtGroundUpdate();
+	void DeadUpdate();
+
 
 	void IdleStart();
 	void IdleToRunStart();
@@ -122,6 +129,10 @@ private:
 	void FallStart();
 	void DodgeStart();
 	void PlaySongStart();
+	void HurtFlyLoopStart();
+	void HurtGroundStart();
+	void DeadStart();
+
 
 private:
 	// 미래의 위치를 계산하여 그곳의 RGB값을 체크하고, 이동 가능한 곳이면 이동한다.

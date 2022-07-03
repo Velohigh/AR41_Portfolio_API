@@ -37,7 +37,8 @@ void CEffect_Enemy_Follow::Update(float DeltaTime)
 	if (GetOwner() != nullptr)
 		SetPos(GetOwner()->GetPos() + Vector2(0.f, -80));
 
-	if (GetOwner()->GetState() == ObjState::Dead)
+	if (GetOwner()->GetState() == ObjState::HurtFly ||
+		GetOwner()->GetState() == ObjState::Dead)
 		SetActive(false);
 
 }

@@ -45,6 +45,10 @@ private:
 	virtual void HurtFlyUpdate() override;
 	virtual void DeadUpdate() override;
 
+private:
+	// Notify
+	void CreateAttackCollision();
+
 
 };
 

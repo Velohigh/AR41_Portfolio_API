@@ -21,6 +21,7 @@
 #include <random>
 
 Vector2 g_AttackDir = Vector2{ 0.f , 0.f };
+Vector2 g_EnemyAttackDir = Vector2{ 0.f, 0.f };
 
 CPlayer::CPlayer()
 {
@@ -89,13 +90,18 @@ bool CPlayer::Init()
 
 	// 충돌체 추가
 	CColliderBox* Box = AddCollider<CColliderBox>("Body");
-
 	Box->SetExtent(36.f, 70.f);
 	Box->SetOffset(0.f, -35.f);
 	Box->SetCollisionProfile("Player");
 
-	Box->SetCollisionBeginFunction<CPlayer>(this, &CPlayer::CollisionBegin);
-	Box->SetCollisionEndFunction<CPlayer>(this, &CPlayer::CollisionEnd);
+	CColliderBox* HitBox = AddCollider<CColliderBox>("HitBox");
+	HitBox->SetExtent(36.f, 70.f);
+	HitBox->SetOffset(0.f, -35.f);
+	HitBox->SetCollisionProfile("PlayerHitBox");
+
+
+	HitBox->SetCollisionBeginFunction<CPlayer>(this, &CPlayer::HitBoxCollisionBegin);
+	HitBox->SetCollisionEndFunction<CPlayer>(this, &CPlayer::HitBoxCollisionEnd);
 
 
 	//// 키 입력 함수 포인터
@@ -125,7 +131,6 @@ bool CPlayer::Init()
 	//SetPhysicsSimulate(true);
 	//SetJumpVelocity(60.f);
 	//SetSideWallCheck(true);
-
 
 	// 충돌맵 세팅
 	SetMapTexture("room_factory_2_ColMap", TEXT("room_factory_2_ColMap.bmp"), "MapPath");
@@ -164,8 +169,6 @@ void CPlayer::Update(float DeltaTime)
 void CPlayer::PostUpdate(float DeltaTime)
 {
 	CCharacter::PostUpdate(DeltaTime);
-
-
 }
 
 void CPlayer::Render(HDC hDC, float DeltaTime)
@@ -668,10 +671,6 @@ void CPlayer::CreateAnimationSequence()
 
 		for (int i = 0; i <= 30; ++i)
 		{
-			// wstring, string 변환
-			//std::string AName = {};
-			//AName.assign(vecFileName[i].begin(), vecFileName[i].end());
-			
 			CTexture* Texture = CResourceManager::GetInst()->FindTexture("spr_player_playsong");
 			int NewWidth = Texture->GetWidth(i);
 			int NewHeight = Texture->GetHeight(i);
@@ -684,6 +683,195 @@ void CPlayer::CreateAnimationSequence()
 
 		AddAnimation("spr_player_playsong", true, 3.5f);
 	}
+
+
+	// spr_hurtfly_begin_left
+	{
+		std::vector<std::wstring>	vecFileName;
+
+		for (int i = 0; i <= 1; ++i)
+		{
+			TCHAR	FileName[MAX_PATH] = {};
+			// %d에 i의 값이 대입되어 문자열이 만들어지게 된다.
+			wsprintf(FileName, TEXT("Player/spr_hurtfly_begin_left/%d.bmp"), i);
+			vecFileName.push_back(FileName);
+		}
+
+		CResourceManager::GetInst()->CreateAnimationSequence("spr_hurtfly_begin_left",
+			"spr_hurtfly_begin_left", vecFileName, TEXTURE_PATH);
+
+		for (int i = 0; i <= 1; ++i)
+		{
+			CTexture* Texture = CResourceManager::GetInst()->FindTexture("spr_hurtfly_begin_left");
+			int NewWidth = Texture->GetWidth(i);
+			int NewHeight = Texture->GetHeight(i);
+
+			CResourceManager::GetInst()->AddAnimationFrame("spr_hurtfly_begin_left", 0.f, 0.f,
+				(float)NewWidth, (float)NewHeight);
+		}
+
+		CResourceManager::GetInst()->SetColorKey("spr_hurtfly_begin_left", 255, 255, 255);
+
+		AddAnimation("spr_hurtfly_begin_left", true, 0.14f);
+	}
+
+	// spr_hurtfly_begin_right
+	{
+		std::vector<std::wstring>	vecFileName;
+
+		for (int i = 0; i <= 1; ++i)
+		{
+			TCHAR	FileName[MAX_PATH] = {};
+			// %d에 i의 값이 대입되어 문자열이 만들어지게 된다.
+			wsprintf(FileName, TEXT("Player/spr_hurtfly_begin_right/%d.bmp"), i);
+			vecFileName.push_back(FileName);
+		}
+
+		CResourceManager::GetInst()->CreateAnimationSequence("spr_hurtfly_begin_right",
+			"spr_hurtfly_begin_right", vecFileName, TEXTURE_PATH);
+
+		for (int i = 0; i <= 1; ++i)
+		{
+			CTexture* Texture = CResourceManager::GetInst()->FindTexture("spr_hurtfly_begin_right");
+			int NewWidth = Texture->GetWidth(i);
+			int NewHeight = Texture->GetHeight(i);
+
+			CResourceManager::GetInst()->AddAnimationFrame("spr_hurtfly_begin_right", 0.f, 0.f,
+				(float)NewWidth, (float)NewHeight);
+		}
+
+		CResourceManager::GetInst()->SetColorKey("spr_hurtfly_begin_right", 255, 255, 255);
+
+		AddAnimation("spr_hurtfly_begin_right", true, 0.28f);
+	}
+
+
+	// spr_hurtfly_loop_left
+	{
+		std::vector<std::wstring>	vecFileName;
+
+		for (int i = 0; i <= 3; ++i)
+		{
+			TCHAR	FileName[MAX_PATH] = {};
+			// %d에 i의 값이 대입되어 문자열이 만들어지게 된다.
+			wsprintf(FileName, TEXT("Player/spr_hurtfly_loop_left/%d.bmp"), i);
+			vecFileName.push_back(FileName);
+		}
+
+		CResourceManager::GetInst()->CreateAnimationSequence("spr_hurtfly_loop_left",
+			"spr_hurtfly_loop_left", vecFileName, TEXTURE_PATH);
+
+		for (int i = 0; i <= 3; ++i)
+		{
+			CTexture* Texture = CResourceManager::GetInst()->FindTexture("spr_hurtfly_loop_left");
+			int NewWidth = Texture->GetWidth(i);
+			int NewHeight = Texture->GetHeight(i);
+
+			CResourceManager::GetInst()->AddAnimationFrame("spr_hurtfly_loop_left", 0.f, 0.f,
+				(float)NewWidth, (float)NewHeight);
+		}
+
+		CResourceManager::GetInst()->SetColorKey("spr_hurtfly_loop_left", 255, 255, 255);
+
+		AddAnimation("spr_hurtfly_loop_left", true, 0.28f);
+	}
+
+
+	// spr_hurtfly_loop_right
+	{
+		std::vector<std::wstring>	vecFileName;
+
+		for (int i = 0; i <= 3; ++i)
+		{
+			TCHAR	FileName[MAX_PATH] = {};
+			// %d에 i의 값이 대입되어 문자열이 만들어지게 된다.
+			wsprintf(FileName, TEXT("Player/spr_hurtfly_loop_right/%d.bmp"), i);
+			vecFileName.push_back(FileName);
+		}
+
+		CResourceManager::GetInst()->CreateAnimationSequence("spr_hurtfly_loop_right",
+			"spr_hurtfly_loop_right", vecFileName, TEXTURE_PATH);
+
+		for (int i = 0; i <= 3; ++i)
+		{
+			CTexture* Texture = CResourceManager::GetInst()->FindTexture("spr_hurtfly_loop_right");
+			int NewWidth = Texture->GetWidth(i);
+			int NewHeight = Texture->GetHeight(i);
+
+			CResourceManager::GetInst()->AddAnimationFrame("spr_hurtfly_loop_right", 0.f, 0.f,
+				(float)NewWidth, (float)NewHeight);
+		}
+
+		CResourceManager::GetInst()->SetColorKey("spr_hurtfly_loop_right", 255, 255, 255);
+
+		AddAnimation("spr_hurtfly_loop_right", true, 0.28f);
+	}
+
+
+	// spr_hurtground_left
+	{
+		std::vector<std::wstring>	vecFileName;
+
+		for (int i = 0; i <= 5; ++i)
+		{
+			TCHAR	FileName[MAX_PATH] = {};
+			// %d에 i의 값이 대입되어 문자열이 만들어지게 된다.
+			wsprintf(FileName, TEXT("Player/spr_hurtground_left/%d.bmp"), i);
+			vecFileName.push_back(FileName);
+		}
+
+		CResourceManager::GetInst()->CreateAnimationSequence("spr_hurtground_left",
+			"spr_hurtground_left", vecFileName, TEXTURE_PATH);
+
+		for (int i = 0; i <= 5; ++i)
+		{
+			CTexture* Texture = CResourceManager::GetInst()->FindTexture("spr_hurtground_left");
+			int NewWidth = Texture->GetWidth(i);
+			int NewHeight = Texture->GetHeight(i);
+
+			CResourceManager::GetInst()->AddAnimationFrame("spr_hurtground_left", 0.f, 0.f,
+				(float)NewWidth, (float)NewHeight);
+		}
+
+		CResourceManager::GetInst()->SetColorKey("spr_hurtground_left", 255, 255, 255);
+
+		AddAnimation("spr_hurtground_left", false, 0.7f);
+	}
+
+	// spr_hurtground_right
+	{
+		std::vector<std::wstring>	vecFileName;
+
+		for (int i = 0; i <= 5; ++i)
+		{
+			TCHAR	FileName[MAX_PATH] = {};
+			// %d에 i의 값이 대입되어 문자열이 만들어지게 된다.
+			wsprintf(FileName, TEXT("Player/spr_hurtground_right/%d.bmp"), i);
+			vecFileName.push_back(FileName);
+		}
+
+		CResourceManager::GetInst()->CreateAnimationSequence("spr_hurtground_right",
+			"spr_hurtground_right", vecFileName, TEXTURE_PATH);
+
+		for (int i = 0; i <= 5; ++i)
+		{
+			CTexture* Texture = CResourceManager::GetInst()->FindTexture("spr_hurtground_right");
+			int NewWidth = Texture->GetWidth(i);
+			int NewHeight = Texture->GetHeight(i);
+
+			CResourceManager::GetInst()->AddAnimationFrame("spr_hurtground_right", 0.f, 0.f,
+				(float)NewWidth, (float)NewHeight);
+		}
+
+		CResourceManager::GetInst()->SetColorKey("spr_hurtground_right", 255, 255, 255);
+
+		AddAnimation("spr_hurtground_right", false, 0.7f);
+	}
+
+
+
+
+
 
 	// #################### EFFECT ####################
 	// Dust_Cloud Animation
@@ -812,7 +1000,9 @@ void CPlayer::DirAnimationCheck()
 		m_ChangeDirText = "left";
 	}
 
-	if (m_CurState != PlayerState::Attack && m_CurState != PlayerState::Dodge)
+	if (m_CurState != PlayerState::Attack && m_CurState != PlayerState::Dodge &&
+		m_CurState != PlayerState::Dead && m_CurState != PlayerState::HurtFlyLoop &&
+		m_CurState != PlayerState::HurtGround)
 	{
 
 		if (true == CInput::GetInst()->IsPress('D'))
@@ -872,6 +1062,16 @@ void CPlayer::StateChange(PlayerState State)
 		case PlayerState::PlaySong:
 			PlaySongStart();
 			break;
+		case PlayerState::HurtFlyLoop:
+			HurtFlyLoopStart();
+			break;
+		case PlayerState::HurtGround:
+			HurtGroundStart();
+			break;
+		case PlayerState::Dead:
+			DeadStart();
+			break;
+
 		}
 	m_CurState = State;
 	}
@@ -911,6 +1111,16 @@ void CPlayer::StateUpdate()
 	case PlayerState::PlaySong:
 		PlaySongUpdate();
 		break;
+	case PlayerState::HurtFlyLoop:
+		HurtFlyLoopUpdate();
+		break;
+	case PlayerState::HurtGround:
+		HurtGroundUpdate();
+		break;
+	case PlayerState::Dead:
+		DeadUpdate();
+		break;
+
 	}
 }
 
@@ -1003,7 +1213,7 @@ void CPlayer::Attack()
 	
 }
 
-void CPlayer::CollisionBegin(CCollider* Src, CCollider* Dest)
+void CPlayer::HitBoxCollisionBegin(CCollider* Src, CCollider* Dest)
 {
 	//m_Scene->GetSceneResource()->SoundPlay("Gabung");
 
@@ -1011,9 +1221,18 @@ void CPlayer::CollisionBegin(CCollider* Src, CCollider* Dest)
 
 	//m_Scene->FindWidget<CCharacterHUD>("CharacterHUD")->SetHP(m_HP / (float)m_HPMax);
 	//m_HPBar->GetWidget<CProgressBar>()->SetValue(m_HP / (float)m_HPMax);
+
+	// 이미 사망상태가 아닐때만
+	if (m_CurState != PlayerState::Dead &&
+		m_CurState != PlayerState::HurtFlyLoop &&
+		m_CurState != PlayerState::HurtGround)
+	{
+		StateChange(PlayerState::HurtFlyLoop);
+		return;
+	}
 }
 
-void CPlayer::CollisionEnd(CCollider* Src, CCollider* Dest)
+void CPlayer::HitBoxCollisionEnd(CCollider* Src, CCollider* Dest)
 {
 }
 
@@ -1065,6 +1284,7 @@ void CPlayer::IdleUpdate()
 		StateChange(PlayerState::Dodge);
 		return;
 	}
+
 
 
 
@@ -1742,11 +1962,81 @@ void CPlayer::AttackStart()
 
 }
 
+void CPlayer::HurtFlyLoopStart()
+{
+	m_MoveDir = Vector2{g_EnemyAttackDir * 800.f};
+
+	if (g_EnemyAttackDir.x > 0)
+	{
+		m_CurDir = PlayerDir::Left;
+	}
+	else if (g_EnemyAttackDir.x < 0)
+	{
+		m_CurDir = PlayerDir::Right;
+	}
+	m_AnimationName = "spr_hurtfly_begin_";
+	ChangeAnimation(m_AnimationName + m_ChangeDirText);
+	
+	SetPos(m_Pos + Vector2{ 0.f, -3.f });
+
+}
+
+void CPlayer::HurtGroundStart()
+{
+	m_AnimationName = "spr_hurtground_";
+	ChangeAnimation(m_AnimationName + m_ChangeDirText);
+	SetSpeed(0.f);
+
+}
+
+void CPlayer::DeadStart()
+{
+}
+
+
 void CPlayer::FallStart()
 {
 	m_AnimationName = "spr_fall_";
 	ChangeAnimation(m_AnimationName + m_ChangeDirText);
 }
+
+void CPlayer::HurtFlyLoopUpdate()
+{
+	if (true == m_Animation->CheckCurrentAnimation("spr_hurtfly_begin_left") &&
+		true == m_Animation->IsEndAnimation())
+	{
+		m_AnimationName = "spr_hurtfly_loop_left";
+		ChangeAnimation(m_AnimationName);
+	}
+
+	else if (true == m_Animation->CheckCurrentAnimation("spr_hurtfly_begin_right") &&
+		true == m_Animation->IsEndAnimation())
+	{
+		m_AnimationName = "spr_hurtfly_loop_right";
+		ChangeAnimation(m_AnimationName);
+	}
+
+	// 공중에 뜬 상태일경우 중력영향을 받는다.
+	// 중력 가속도에 따른 낙하 속도.
+	{
+		// 내포지션에서 원하는 위치의 픽셀의 색상을 구할 수 있다.
+		int Color = m_MapColTexture->GetImagePixel(m_Pos + Vector2{ 0.f,1.f });
+		m_Gravity += m_GravityAccel * DELTA_TIME;
+		if (RGB(0, 0, 0) == Color || RGB(255, 0, 0) == Color)	// 땅에 닿을 경우 
+		{
+			m_Gravity = 10.0f;
+			m_MoveDir.Normalize();
+
+
+			StateChange(PlayerState::HurtGround);
+			return;
+		}
+		Move(Vector2{ 0.f, 1.f } *m_Gravity * DELTA_TIME);
+	}
+
+	MapCollisionCheckMoveAirDie();
+}
+
 
 void CPlayer::DodgeStart()
 {
@@ -1780,6 +2070,19 @@ void CPlayer::PlaySongStart()
 	m_AnimationName = "spr_player_playsong";
 	ChangeAnimation(m_AnimationName);
 
+}
+
+void CPlayer::HurtGroundUpdate()
+{
+	if (true == m_Animation->IsEndAnimation())
+	{
+		StateChange(PlayerState::Dead);
+		return;
+	}
+}
+
+void CPlayer::DeadUpdate()
+{
 }
 
 void CPlayer::MapCollisionCheckMoveGround()

@@ -12,6 +12,7 @@ protected:
 	class CColliderBox* m_ViewCollider = nullptr;
 	class CColliderCircle* m_AttackRangeCollider = nullptr;
 	class CColliderBox* m_AttackCollider = nullptr;
+	class CEffect_Enemy_Follow* m_Effect_EnemyFollow = nullptr;
 
 protected:
 	CCharacter();

@@ -20,6 +20,7 @@ enum class ECollision_Channel
 {
 	Default,
 	Player,
+	PlayerHitBox,
 	Monster,
 	PlayerAttack,
 	MonsterAttack,

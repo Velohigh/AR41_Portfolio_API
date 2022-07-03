@@ -13,6 +13,11 @@ CCharacter::CCharacter(const CCharacter& Obj) :
 
 CCharacter::~CCharacter()
 {
+	if (m_Effect_EnemyFollow)
+	{
+		//delete m_Effect_EnemyFollow; // 중복삭제,
+		m_Effect_EnemyFollow = nullptr;
+	}
 }
 
 bool CCharacter::Init()
