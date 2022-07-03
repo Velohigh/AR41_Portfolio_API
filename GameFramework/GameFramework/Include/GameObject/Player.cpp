@@ -1222,10 +1222,11 @@ void CPlayer::HitBoxCollisionBegin(CCollider* Src, CCollider* Dest)
 	//m_Scene->FindWidget<CCharacterHUD>("CharacterHUD")->SetHP(m_HP / (float)m_HPMax);
 	//m_HPBar->GetWidget<CProgressBar>()->SetValue(m_HP / (float)m_HPMax);
 
-	// 이미 사망상태가 아닐때만
+	// 이미 사망상태가 아니고, 구르기판정이 아닐때 히트판정
 	if (m_CurState != PlayerState::Dead &&
 		m_CurState != PlayerState::HurtFlyLoop &&
-		m_CurState != PlayerState::HurtGround)
+		m_CurState != PlayerState::HurtGround &&
+		m_CurState != PlayerState::Dodge)
 	{
 		StateChange(PlayerState::HurtFlyLoop);
 		return;
