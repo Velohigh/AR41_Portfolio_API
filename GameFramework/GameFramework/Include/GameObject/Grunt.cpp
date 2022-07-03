@@ -1,6 +1,7 @@
 
 #include "Grunt.h"
 #include "../Collision/ColliderBox.h"
+#include "../Collision/ColliderCircle.h"
 #include <random>
 #include "../Scene/Scene.h"
 #include "../Scene/SceneResource.h"
@@ -8,6 +9,7 @@
 #include "Effect_BloodAnimation.h"
 #include "Effect_BloodAnimation2.h"
 #include "Effect_Hit_Lazer.h"
+#include "Effect_Enemy_Follow.h"
 #include "../GameManager.h"
 #include "../Collision/CollisionManager.h"
 #include "../Resource/Texture/Texture.h"
@@ -44,6 +46,19 @@ bool CGrunt::Init()
 	Box->SetOffset(0.f, -35.f);
 	Box->SetCollisionProfile("Monster");
 
+	// 충돌체 시야 추가
+	m_ViewCollider = AddCollider<CColliderBox>("View");
+	m_ViewCollider->SetExtent(500.f, 70.f);
+	m_ViewCollider->SetCollisionProfile("MonsterAttack");
+
+	// 충돌체 어택 범위 추가
+	m_AttackRangeCollider = AddCollider<CColliderCircle>("AttackRange");
+	m_AttackRangeCollider->SetRadius(80.f);
+	m_AttackRangeCollider->SetOffset(0.f, -35.f);
+	m_AttackRangeCollider->SetCollisionProfile("MonsterAttack");
+
+
+
 	Box->SetCollisionBeginFunction<CGrunt>(this, &CGrunt::CollisionBegin);
 	Box->SetCollisionEndFunction<CGrunt>(this, &CGrunt::CollisionEnd);
 
@@ -61,6 +76,12 @@ bool CGrunt::Init()
 
 	AddAnimation("spr_grunt_walk_left", true, 0.7f);
 	AddAnimation("spr_grunt_walk_right", true, 0.7f);
+
+	AddAnimation("spr_grunt_run_left", true, 0.7f);
+	AddAnimation("spr_grunt_run_right", true, 0.7f);
+
+	AddAnimation("spr_grunt_attack_left", true, 0.56f);
+	AddAnimation("spr_grunt_attack_right", true, 0.56f);
 
 	AddAnimation("spr_grunt_turn_left", true, 0.48f);
 	AddAnimation("spr_grunt_turn_right", true, 0.48f);
@@ -82,6 +103,11 @@ void CGrunt::Update(float DeltaTime)
 
 	DirAnimationCheck();
 	ObjStateUpdate();
+
+	if (m_CurDir == ObjDir::Right)
+		m_ViewCollider->SetOffset(250.f, -35.f);
+	else if (m_CurDir == ObjDir::Left)
+		m_ViewCollider->SetOffset(-250.f, -35.f);
 
 
 }
@@ -141,6 +167,17 @@ void CGrunt::TurnStart()
 
 void CGrunt::RunStart()
 {
+	m_AnimationName = "spr_grunt_run_";
+	ChangeAnimation(m_AnimationName + m_ChangeDirText);
+	SetSpeed(320.f);
+
+	// Enemy_Follow 이펙트
+	CEffect_Enemy_Follow* EnemyFollowEffect = m_Scene->CreateObject<CEffect_Enemy_Follow>("Enemy_Follow");
+	EnemyFollowEffect->SetPos(m_Pos + Vector2{ 0,-80 });
+	EnemyFollowEffect->SetOwner(this);
+
+	
+
 }
 
 void CGrunt::AttackStart()
@@ -263,6 +300,10 @@ void CGrunt::HurtFlyStart()
 
 }
 
+void CGrunt::DeadStart()
+{
+}
+
 void CGrunt::IdleUpdate()
 {
 	// 정찰 행동
@@ -279,6 +320,13 @@ void CGrunt::IdleUpdate()
 	if (true == FindCollider("Body")->CheckCollisionList(PlayerAttack))
 	{
 		StateChange(ObjState::HurtFly);
+		return;
+	}
+
+	CCollider* PlayerBody = m_Scene->GetPlayer()->FindCollider("Body");
+	if (true == FindCollider("View")->CheckCollisionList(PlayerBody))
+	{
+		StateChange(ObjState::Run);
 		return;
 	}
 }
@@ -352,6 +400,32 @@ void CGrunt::RunUpdate()
 		StateChange(ObjState::HurtFly);
 		return;
 	}
+
+	// 플레이어를 쫓아가도록 좌우 방향 조정
+	if (m_Scene->GetPlayer()->GetPos().x >= m_Pos.x)
+		SetDir(ObjDir::Right);
+	else if (m_Scene->GetPlayer()->GetPos().x < m_Pos.x)
+		SetDir(ObjDir::Left);
+
+
+	//// 플레이어가 아래있을 경우 y위치 이동
+	//if (m_Scene->GetPlayer()->GetPos().y > m_Pos.y)
+	//	SetPos(Vector2{ m_Pos.x, m_Pos.y + 1.5f });
+
+	// 좌우 이동
+	if (m_CurDir == ObjDir::Right)
+	{
+		m_MoveDir = Vector2{ 1.f, 0.f };
+	}
+
+	else if (m_CurDir == ObjDir::Left)
+	{
+		m_MoveDir = Vector2{ -1.f, 0.f };
+	}
+
+
+	MapCollisionCheckMoveGround();
+
 }
 
 void CGrunt::AttackUpdate()
@@ -369,11 +443,13 @@ void CGrunt::HurtGroundUpdate()
 {
 	// 피분출이 끝나면 BloodAnimation SetActive(false) 할것
 
-	// 쓰러지는 모션이 끝나면, 충돌체 삭제
+	// 쓰러지는 모션이 끝나면, 사망 상태로
 	if (true == m_Animation->IsEndAnimation())
 	{
 		//FindCollider("Box")->SetActive(false);
 		//SetEnable(false);
+		StateChange(ObjState::Dead);
+		return;
 	}
 
 	m_MoveDir += -(m_MoveDir * DELTA_TIME * 3.4f);
@@ -409,4 +485,8 @@ void CGrunt::HurtFlyUpdate()
 
 	MapCollisionCheckMoveAirDie();
 
+}
+
+void CGrunt::DeadUpdate()
+{
 }

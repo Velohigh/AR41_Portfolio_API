@@ -39,3 +39,7 @@ float CCharacter::InflictDamage(float Damage)
 {
 	return CGameObject::InflictDamage(Damage);
 }
+
+void CCharacter::CheckViewAngle()
+{
+}

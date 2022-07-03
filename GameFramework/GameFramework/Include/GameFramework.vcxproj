@@ -170,6 +170,7 @@
     <ClCompile Include="GameObject\Effect_BloodAnimation2.cpp" />
     <ClCompile Include="GameObject\Effect_BloodRemain.cpp" />
     <ClCompile Include="GameObject\Effect_DustCloud.cpp" />
+    <ClCompile Include="GameObject\Effect_Enemy_Follow.cpp" />
     <ClCompile Include="GameObject\Effect_Hit_Lazer.cpp" />
     <ClCompile Include="GameObject\Effect_JumpCloud.cpp" />
     <ClCompile Include="GameObject\Effect_LandCloud.cpp" />
@@ -242,6 +243,7 @@
     <ClInclude Include="GameObject\Effect_BloodAnimation2.h" />
     <ClInclude Include="GameObject\Effect_BloodRemain.h" />
     <ClInclude Include="GameObject\Effect_DustCloud.h" />
+    <ClInclude Include="GameObject\Effect_Enemy_Follow.h" />
     <ClInclude Include="GameObject\Effect_Hit_Lazer.h" />
     <ClInclude Include="GameObject\Effect_JumpCloud.h" />
     <ClInclude Include="GameObject\Effect_LandCloud.h" />

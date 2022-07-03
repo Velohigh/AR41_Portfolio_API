@@ -8,7 +8,10 @@ class CCharacter :
 {
 	friend class CScene;
 
-
+protected:
+	class CColliderBox* m_ViewCollider = nullptr;
+	class CColliderCircle* m_AttackRangeCollider = nullptr;
+	class CColliderBox* m_AttackCollider = nullptr;
 
 protected:
 	CCharacter();
@@ -22,5 +25,9 @@ public:
 	virtual void PostUpdate(float DeltaTime);
 	virtual void Render(HDC hDC, float DeltaTime);
 	virtual float InflictDamage(float Damage);
+
+public:
+	void CheckViewAngle();
+
 };
 

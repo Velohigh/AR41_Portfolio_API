@@ -20,6 +20,7 @@ enum class ObjState
 	Attack,
 	HurtGround,
 	HurtFly,
+	Dead,
 	END
 };
 
@@ -304,6 +305,7 @@ protected:
 	virtual void AttackStart() {};
 	virtual void HurtGroundStart() {};
 	virtual void HurtFlyStart() {};
+	virtual void DeadStart() {};
 
 
 	virtual void IdleUpdate() {};
@@ -313,6 +315,7 @@ protected:
 	virtual void AttackUpdate() {};
 	virtual void HurtGroundUpdate() {};
 	virtual void HurtFlyUpdate() {};
+	virtual void DeadUpdate() {};
 
 
 	virtual void MapCollisionCheckMoveGround();

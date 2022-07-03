@@ -388,6 +388,10 @@ void CGameObject::StateChange(ObjState State)
 		case ObjState::HurtFly:
 			HurtFlyStart();
 			break;
+		case ObjState::Dead:
+			DeadStart();
+			break;
+
 		}
 		m_CurState = State;
 	}
@@ -418,6 +422,10 @@ void CGameObject::ObjStateUpdate()
 	case ObjState::HurtFly:
 		HurtFlyUpdate();
 		break;
+	case ObjState::Dead:
+		DeadUpdate();
+		break;
+
 	}
 }
 

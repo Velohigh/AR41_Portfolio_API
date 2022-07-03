@@ -33,6 +33,7 @@ private:
 	virtual void AttackStart() override;
 	virtual void HurtGroundStart() override;
 	virtual void HurtFlyStart() override;
+	virtual void DeadStart() override;
 
 
 	virtual void IdleUpdate() override;
@@ -42,6 +43,7 @@ private:
 	virtual void AttackUpdate() override;
 	virtual void HurtGroundUpdate() override;
 	virtual void HurtFlyUpdate() override;
+	virtual void DeadUpdate() override;
 
 
 };
