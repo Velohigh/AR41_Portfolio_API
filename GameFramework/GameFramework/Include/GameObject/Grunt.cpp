@@ -50,7 +50,7 @@ bool CGrunt::Init()
 
 	// 충돌체 시야 추가
 	m_ViewCollider = AddCollider<CColliderBox>("View");
-	m_ViewCollider->SetExtent(500.f, 70.f);
+	m_ViewCollider->SetExtent(500.f, 200.f);
 	m_ViewCollider->SetCollisionProfile("Monster");
 
 	// 충돌체 어택 범위 추가
@@ -150,6 +150,13 @@ void CGrunt::IdleStart()
 	m_AnimationName = "spr_grunt_idle_";
 	ChangeAnimation(m_AnimationName + m_ChangeDirText);
 	SetSpeed(0.f);
+
+	// 공격 판정 삭제
+	if (m_AttackCollider != nullptr)
+	{
+		m_AttackCollider->SetActive(false);
+		m_AttackCollider = nullptr;
+	}
 }
 
 void CGrunt::WalkStart()
@@ -294,10 +301,15 @@ void CGrunt::HurtFlyStart()
 		NewBloodAnimation->SetOwner(this);
 	}
 
-	CEffect_Hit_Lazer* NewHitLazer = m_Scene->CreateObject<CEffect_Hit_Lazer>("HitLazer");
-	NewHitLazer->SetTexture("HitLazer", TEXT("effect_hit_lazer.bmp"));
-	NewHitLazer->SetColorKey(255, 0, 255);
-	NewHitLazer->SetOwner(this);
+	//// 히트 레이저 이펙트
+	//CEffect_Hit_Lazer* NewHitLazer = m_Scene->CreateObject<CEffect_Hit_Lazer>("HitLazer");
+	//NewHitLazer->SetTexture("HitLazer", TEXT("effect_hit_lazer.bmp"));
+	//NewHitLazer->SetColorKey(255, 0, 255);
+	//NewHitLazer->SetOwner(this);
+	//NewHitLazer->SetAngle(90.f);
+
+	// 히트시 화면 흔들림
+	m_Scene->SetCameraShakeOn(true);
 
 
 	SetPos(m_Pos + Vector2{ 0,-2 });
@@ -534,7 +546,8 @@ void CGrunt::HurtFlyUpdate()
 		m_Gravity += m_GravityAccel * DELTA_TIME;
 		if (m_MoveDir.y > 0.f)	// 떨어질때만
 		{
-			if (RGB(0, 0, 0) == RColor || RGB(255, 0, 0) == RColor)	// 땅에 닿을 경우 
+			if (RGB(0, 0, 0) == RColor || RGB(255, 0, 0) == RColor ||
+				m_Move.y == 0.f)	// 땅에 닿거나 y이동이 0일경우
 			{
 				StateChange(ObjState::HurtGround);
 				return;

@@ -17,6 +17,7 @@ private:
 	CSharedPtr<CGameObject>	m_Target;	// 카메라가 따라다닐 타겟
 	Vector2	m_TargetOffset;				// 타겟으로부터 얼마나 떨어져 있을지
 	Vector2	m_TargetPivot;				// 타겟이 화면에서 스크롤링 될때의 비율
+	bool	m_CameraShakeOn = false;
 
 public:
 	Vector2 GetPos()	const

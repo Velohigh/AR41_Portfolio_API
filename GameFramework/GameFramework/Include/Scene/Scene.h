@@ -23,6 +23,10 @@ protected:
 	CSharedPtr<class CGameObject>	m_Player;
 	CSharedPtr<class CTileMap>		m_TileMap;
 	bool		m_BgmOn = false;
+	bool		m_CameraShakeOn = false;
+	float		m_CameraShakeTime = 0.f;
+	Vector2		m_CameraShakeValue = {};
+	Vector2		m_StartOffset = {};
 
 	std::vector<CSharedPtr<CWidgetWindow>>	m_vecWidgetWindow;
 
@@ -61,6 +65,11 @@ public:
 	void SetBgmOn(bool Bgm)
 	{
 		m_BgmOn = Bgm;
+	}
+
+	void SetCameraShakeOn(bool Effect)
+	{
+		m_CameraShakeOn = Effect;
 	}
 
 public:
@@ -142,5 +151,8 @@ private:
 	static bool SortY(const CSharedPtr<class CGameObject>& Src, const CSharedPtr<class CGameObject>& Dest);
 	static bool SortYWidgetComponent(const CSharedPtr<class CWidgetComponent>& Src, const CSharedPtr<class CWidgetComponent>& Dest);
 	static bool SortWidget(const CSharedPtr<CWidgetWindow>& Src, const CSharedPtr<CWidgetWindow>& Dest);
+
+private:
+	void CameraShakeEffect();
 };
 

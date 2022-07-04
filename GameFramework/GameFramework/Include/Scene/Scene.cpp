@@ -5,6 +5,8 @@
 #include "Camera.h"
 #include "SceneCollision.h"
 #include "../GameObject/TileMap.h"
+#include "../GameManager.h"
+#include <random>
 
 CScene::CScene()
 {
@@ -103,6 +105,8 @@ void CScene::Update(float DeltaTime)
 	}
 
 	m_Camera->Update(DeltaTime);
+	CameraShakeEffect();
+
 }
 
 void CScene::PostUpdate(float DeltaTime)
@@ -187,6 +191,7 @@ void CScene::PostUpdate(float DeltaTime)
 	m_Collision->CollisionMouse(DeltaTime);
 
 	m_Collision->Collision(DeltaTime);
+
 }
 
 void CScene::Render(HDC hDC, float DeltaTime)
@@ -312,4 +317,37 @@ bool CScene::SortYWidgetComponent(
 bool CScene::SortWidget(const CSharedPtr<CWidgetWindow>& Src, const CSharedPtr<CWidgetWindow>& Dest)
 {
 	return Src->GetZOrder() < Dest->GetZOrder();
+}
+
+void CScene::CameraShakeEffect()
+{
+	if (m_CameraShakeOn)
+	{
+		m_StartOffset = GetCamera()->GetTargetOffset();
+		m_CameraShakeTime = 0.f;
+		m_CameraShakeOn = false;
+		GetCamera()->m_CameraShakeOn = true;
+	}
+
+	if (m_CameraShakeTime < 0.2f)
+	{
+		// 시드값을 얻기 위한 random_device 생성.
+		std::random_device rd;
+		// random_device 를 통해 난수 생성 엔진을 초기화 한다.
+		std::mt19937 gen(rd());
+		// 0 부터 99 까지 균등하게 나타나는 난수열을 생성하기 위해 균등 분포 정의.
+		std::uniform_int_distribution<int> IntRange(-30, 30);
+		int Value = IntRange(gen);
+
+		m_CameraShakeValue = Vector2{ (float)Value,(float)Value };
+		m_CameraShakeTime += DELTA_TIME;
+		GetCamera()->SetPos(GetCamera()->GetPos() + m_CameraShakeValue);
+	}
+
+	// 다시 처음 화면으로, 화면 흔들림 해제
+	else if (m_CameraShakeTime >= 0.2f)
+	{
+		GetCamera()->SetTargetOffset(m_StartOffset);
+		GetCamera()->m_CameraShakeOn = false;
+	}
 }

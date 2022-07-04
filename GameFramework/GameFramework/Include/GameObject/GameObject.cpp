@@ -594,8 +594,6 @@ void CGameObject::MapCollisionCheckMoveAirDie()
 		int TopRightColor = m_MapColTexture->GetImagePixel(CheckPosTopRight);
 		int TopLeftColor = m_MapColTexture->GetImagePixel(CheckPosTopLeft);
 
-
-
 		if (RGB(0, 0, 0) != Color &&
 			RGB(0, 0, 0) != TopRightColor &&
 			RGB(0, 0, 0) != TopLeftColor)

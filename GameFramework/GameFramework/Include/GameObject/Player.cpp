@@ -835,7 +835,7 @@ void CPlayer::CreateAnimationSequence()
 
 		CResourceManager::GetInst()->SetColorKey("spr_hurtground_left", 255, 255, 255);
 
-		AddAnimation("spr_hurtground_left", false, 0.7f);
+		AddAnimation("spr_hurtground_left", false, 0.55f);
 	}
 
 	// spr_hurtground_right
@@ -865,7 +865,7 @@ void CPlayer::CreateAnimationSequence()
 
 		CResourceManager::GetInst()->SetColorKey("spr_hurtground_right", 255, 255, 255);
 
-		AddAnimation("spr_hurtground_right", false, 0.7f);
+		AddAnimation("spr_hurtground_right", false, 0.55f);
 	}
 
 
@@ -1944,7 +1944,7 @@ void CPlayer::AttackStart()
 	// 공중에서 최초 한번의 공격일때만 y축 전진성을 부여한다.
 	if (m_AttackCount <= 0)
 	{
-		m_MoveDir = AttackDir * 480.f;
+		m_MoveDir = AttackDir * 540.f;
 		++m_AttackCount;
 	}
 	else if (m_AttackCount >= 1)
@@ -1952,11 +1952,11 @@ void CPlayer::AttackStart()
 		// 플레이어는 2회 공격이후 y축 이동 제한, 공중 무한 날기 방지용
 		if (AttackDir.y < 0)
 		{
-			m_MoveDir = Vector2{ AttackDir.x, 0 } *480.f;
+			m_MoveDir = Vector2{ AttackDir.x, 0 } * 540.f;
 		}
 		else
 		{
-			m_MoveDir = Vector2{ AttackDir.x, AttackDir.y } *480.f;
+			m_MoveDir = Vector2{ AttackDir.x, AttackDir.y } * 540.f;
 		}
 	}
 	m_Gravity = 10.f;	// 공격 후 중력 초기화
@@ -1979,6 +1979,14 @@ void CPlayer::HurtFlyLoopStart()
 	ChangeAnimation(m_AnimationName + m_ChangeDirText);
 	
 	SetPos(m_Pos + Vector2{ 0.f, -3.f });
+
+	// 공격 판정이 남아있으면 사망시 삭제
+	if (m_PlayerAttackCollision != nullptr)
+	{
+		m_PlayerAttackCollision->SetActive(false);
+		m_PlayerAttackCollision = nullptr;
+	}
+	
 
 }
 
