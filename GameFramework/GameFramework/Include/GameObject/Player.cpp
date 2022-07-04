@@ -19,6 +19,7 @@
 #include "Effect_LandCloud.h"
 #include "Effect_Slash.h"
 #include <random>
+#include "../Scene/Stage_1.h"
 
 Vector2 g_AttackDir = Vector2{ 0.f , 0.f };
 Vector2 g_EnemyAttackDir = Vector2{ 0.f, 0.f };
@@ -85,6 +86,10 @@ bool CPlayer::Init()
 	m_Scene->GetSceneResource()->LoadSound("Effect", "sound_playercasette_play", false, "sound_playercasette_play.wav");
 	m_Scene->GetSceneResource()->LoadSound("Sound_RunStart", "sound_player_prerun", false, "sound_player_prerun.wav");
 	m_Scene->GetSceneResource()->SetVolume("Sound_RunStart", 35);
+	m_Scene->GetSceneResource()->LoadSound("Sound_Slomo_In", "slow_in", false, "slow_in.mp3");
+	m_Scene->GetSceneResource()->SetVolume("Sound_Slomo_In", 100);
+
+	m_Scene->GetSceneResource()->LoadSound("Effect", "slow_out", false, "slow_out.mp3");
 
 
 	// 방향
@@ -106,10 +111,12 @@ bool CPlayer::Init()
 	HitBox->SetCollisionEndFunction<CPlayer>(this, &CPlayer::HitBoxCollisionEnd);
 
 
-	//// 키 입력 함수 포인터
-	//CInput::GetInst()->AddBindFunction<CPlayer>("MoveUp", 
-	//	Input_Type::Push, this, &CPlayer::MoveUp);
+	// 키 입력 함수 포인터
+	CInput::GetInst()->AddBindFunction<CPlayer>("Q", 
+		Input_Type::Push, this, &CPlayer::SlowModeKeyPush);
 
+	CInput::GetInst()->AddBindFunction<CPlayer>("Q",
+		Input_Type::Up, this, &CPlayer::SlowModeKeyUp);
 
 	//m_HP = 100;
 	//m_HPMax = 100;
@@ -164,6 +171,16 @@ void CPlayer::Update(float DeltaTime)
 	// if( 시간이 100초 지나면 스타트 씬으로)
 
 	m_Scene->FindWidgetWindow<CCharacterHUD>("CharacterHUD")->SetBatteryBar( m_Battery / 11.f);
+
+	if (m_Battery < 11)
+	{
+		m_BatteryRechargeTime += DELTA_TIME;
+		if (m_BatteryRechargeTime >= 5.f)
+		{
+			m_BatteryRechargeTime -= 5.f;
+			m_Battery += 1;
+		}
+	}
 
 
 }
@@ -1195,6 +1212,41 @@ void CPlayer::CarsettePlaySound()
 	m_Scene->GetSceneResource()->SoundPlay("sound_playercasette_play");
 }
 
+void CPlayer::SlowModeKeyPush()
+{
+
+	if (m_Battery >= 1)
+	{
+		m_BatteryRechargeTime = 0.f;
+		static_cast<CStage_1*>(m_Scene)->SetSlowMap();
+		CGameManager::GetInst()->SetTimeScale(0.2f);
+		m_BatteryPushTime += DELTA_TIME;
+
+		if (!m_SlowModeSound)
+		{
+			m_Scene->GetSceneResource()->SoundPlay("slow_in");
+			m_SlowModeSound = true;
+		}
+
+		if (m_BatteryPushTime >= 0.4f)
+		{
+			m_BatteryPushTime -= 0.4f;
+			m_Battery -= 1;
+		}
+	}
+}
+
+void CPlayer::SlowModeKeyUp()
+{
+	m_BatteryPushTime = 0.f;
+	static_cast<CStage_1*>(m_Scene)->SetNormalMap();
+	CGameManager::GetInst()->SetTimeScale(1.f);
+	m_Scene->GetSceneResource()->SoundPlay("slow_out");
+	m_SlowModeSound = false;
+
+
+}
+
 void CPlayer::AttackEnd()
 {
 }
@@ -1844,8 +1896,6 @@ void CPlayer::RunStart()
 		NewEffect->AddAnimation("spr_dustcloud", false, 0.36f);
 
 	}
-
-
 
 	// 런 스타트 사운드
 	m_Scene->GetSceneResource()->SoundPlay("sound_player_prerun");

@@ -112,6 +112,16 @@ void CStage_1::Update(float DeltaTime)
 
 }
 
+void CStage_1::SetSlowMap()
+{
+	Back->SetTexture("room_factory_2_slow", TEXT("room_factory_2_slow.bmp"), "MapPath");
+}
+
+void CStage_1::SetNormalMap()
+{
+	Back->SetTexture("room_factory_2", TEXT("room_factory_2.bmp"), "MapPath");
+}
+
 void CStage_1::CreateAnimationSequence()
 {
 	// ## Grunt Animation ##

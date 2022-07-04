@@ -54,6 +54,9 @@ private:
 	int		m_AttackCount = 0;
 	float		m_GameTime = 0.f;
 	int			m_Battery = 11;
+	float		m_BatteryRechargeTime = 0.f;
+	float		m_BatteryPushTime = 0.f;
+	bool		m_SlowModeSound = false;
 	CCollider* m_PlayerAttackCollision = nullptr;
 
 
@@ -87,6 +90,8 @@ private:
 	void MoveLeft();
 	void Fire();
 	void JumpKey();
+	void SlowModeKeyPush();
+	void SlowModeKeyUp();
 
 	// Notify
 	void RunningSound();

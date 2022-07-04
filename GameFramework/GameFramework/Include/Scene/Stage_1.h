@@ -19,6 +19,10 @@ public:
 	virtual bool Init();
 	virtual void Update(float DeltaTime);
 
+public:
+	void SetSlowMap();
+	void SetNormalMap();
+
 private:
 	void CreateAnimationSequence();
 
