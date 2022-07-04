@@ -83,6 +83,8 @@ bool CPlayer::Init()
 	m_Scene->GetSceneResource()->LoadSound("Effect", "sound_playerheadphones", false, "sound_playerheadphones.wav");
 	m_Scene->GetSceneResource()->LoadSound("Effect", "sound_playercasette_rewind", false, "sound_playercasette_rewind.wav");
 	m_Scene->GetSceneResource()->LoadSound("Effect", "sound_playercasette_play", false, "sound_playercasette_play.wav");
+	m_Scene->GetSceneResource()->LoadSound("Sound_RunStart", "sound_player_prerun", false, "sound_player_prerun.wav");
+	m_Scene->GetSceneResource()->SetVolume("Sound_RunStart", 35);
 
 
 	// 방향
@@ -1826,6 +1828,27 @@ void CPlayer::RunStart()
 	m_AnimationName = "spr_run_";
 	ChangeAnimation(m_AnimationName + m_ChangeDirText);
 	SetSpeed(450.f);
+
+	// 런 스타트 구름 이펙트
+	for (int i = 0; i < 5; ++i)
+	{
+		CEffect_DustCloud* NewEffect = m_Scene->CreateObject<CEffect_DustCloud>("DustCloud");
+		NewEffect->SetPivot(0.5f, 0.5f);
+		NewEffect->SetPos(m_Pos);
+
+		if (m_CurDir == PlayerDir::Right)
+			NewEffect->SetDir(ObjDir::Left);
+		else if (m_CurDir == PlayerDir::Left)
+			NewEffect->SetDir(ObjDir::Right);
+
+		NewEffect->AddAnimation("spr_dustcloud", false, 0.36f);
+
+	}
+
+
+
+	// 런 스타트 사운드
+	m_Scene->GetSceneResource()->SoundPlay("sound_player_prerun");
 
 
 }

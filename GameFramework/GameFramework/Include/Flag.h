@@ -9,6 +9,7 @@ enum class ETexture_Type
 enum class ERender_Layer
 {
 	Back,
+	LateBack,
 	Tile,
 	Default,
 	Effect,

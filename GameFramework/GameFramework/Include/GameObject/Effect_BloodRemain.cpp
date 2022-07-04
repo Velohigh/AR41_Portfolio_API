@@ -37,6 +37,8 @@ bool CEffect_BloodRemain::Init()
 
 	SetRenderScale(1);
 	
+	m_RenderLayer = ERender_Layer::LateBack;
+
 	return true;
 }
 

@@ -55,6 +55,7 @@ bool CSoundManager::Init()
 	CreateSoundChannel("Sound_Slash");
 	CreateSoundChannel("Sound_Roll");
 	CreateSoundChannel("Sound_Roll_Real");
+	CreateSoundChannel("Sound_RunStart");
 	CreateSoundChannel("UI");
 
 	return true;

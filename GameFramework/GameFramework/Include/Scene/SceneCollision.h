@@ -22,6 +22,12 @@ public:
 	void CollisionMouse(float DeltaTime);
 	void Collision(float DeltaTime);
 
+public:
+	std::vector<class CCollider*> GetvecCollider() const
+	{
+		return m_vecCollider;
+	}
+
 private:
 	static bool SortY(class CCollider* Src, class CCollider* Dest);
 	static bool SortWidget(class CWidgetWindow* Src, class CWidgetWindow* Dest);

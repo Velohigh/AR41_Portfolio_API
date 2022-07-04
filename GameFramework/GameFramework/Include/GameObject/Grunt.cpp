@@ -14,6 +14,7 @@
 #include "../Collision/CollisionManager.h"
 #include "../Resource/Texture/Texture.h"
 #include "Player.h"
+#include "../Scene/SceneCollision.h"
 
 extern Vector2 g_AttackDir;
 extern Vector2 g_EnemyAttackDir;
@@ -61,8 +62,8 @@ bool CGrunt::Init()
 
 
 
-	Box->SetCollisionBeginFunction<CGrunt>(this, &CGrunt::CollisionBegin);
-	Box->SetCollisionEndFunction<CGrunt>(this, &CGrunt::CollisionEnd);
+	m_ViewCollider->SetCollisionBeginFunction<CGrunt>(this, &CGrunt::CollisionBegin);
+	m_ViewCollider->SetCollisionEndFunction<CGrunt>(this, &CGrunt::CollisionEnd);
 
 	m_AnimationName = "spr_grunt_idle_";
 	m_CurState = ObjState::Idle;
@@ -393,7 +394,6 @@ void CGrunt::WalkUpdate()
 		StateChange(ObjState::Run);
 		return;
 	}
-
 
 	MapCollisionCheckMoveGround();
 
