@@ -11,6 +11,7 @@ enum class ERender_Layer
 	Back,
 	LateBack,
 	Tile,
+	PreDefault,
 	Default,
 	Effect,
 	UI,

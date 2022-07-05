@@ -74,13 +74,13 @@ bool CStage_1::Init()
 		NewGrunt->SetDir(ObjDir::Right);
 		NewGrunt->SetMapTexture("room_factory_2_ColMap", TEXT("room_factory_2_ColMap.bmp"), "MapPath");
 
-		NewGrunt = CreateObject<CGrunt>("Grunt");
-		NewGrunt->SetPos({ 530, 671 });
-		NewGrunt->SetMapTexture("room_factory_2_ColMap", TEXT("room_factory_2_ColMap.bmp"), "MapPath");
+		//NewGrunt = CreateObject<CGrunt>("Grunt");
+		//NewGrunt->SetPos({ 530, 671 });
+		//NewGrunt->SetMapTexture("room_factory_2_ColMap", TEXT("room_factory_2_ColMap.bmp"), "MapPath");
 
-		NewGrunt = CreateObject<CGrunt>("Grunt");
-		NewGrunt->SetPos({ 338, 671 });
-		NewGrunt->SetMapTexture("room_factory_2_ColMap", TEXT("room_factory_2_ColMap.bmp"), "MapPath");
+		//NewGrunt = CreateObject<CGrunt>("Grunt");
+		//NewGrunt->SetPos({ 338, 671 });
+		//NewGrunt->SetMapTexture("room_factory_2_ColMap", TEXT("room_factory_2_ColMap.bmp"), "MapPath");
 
 
 		// 갱스터
@@ -88,6 +88,14 @@ bool CStage_1::Init()
 		NewGangster->SetPos({ 545, 383 });
 		NewGangster->SetDir(ObjDir::Left);
 		NewGangster->SetState(ObjState::Idle);
+		NewGangster->SetMapTexture("room_factory_2_ColMap", TEXT("room_factory_2_ColMap.bmp"), "MapPath");
+
+		NewGangster = CreateObject<CGangster>("Gangster");
+		NewGangster->SetPos({ 530, 671 });
+		NewGangster->SetMapTexture("room_factory_2_ColMap", TEXT("room_factory_2_ColMap.bmp"), "MapPath");
+
+		NewGangster = CreateObject<CGangster>("Gangster");
+		NewGangster->SetPos({ 338, 671 });
 		NewGangster->SetMapTexture("room_factory_2_ColMap", TEXT("room_factory_2_ColMap.bmp"), "MapPath");
 
 
@@ -462,6 +470,7 @@ void CStage_1::CreateAnimationSequence()
 	}
 
 
+	// #### Gangster Animation ####
 	// Gangster Idle_Left
 	{
 		std::vector<std::wstring>	vecFileName;
@@ -517,6 +526,63 @@ void CStage_1::CreateAnimationSequence()
 
 		CResourceManager::GetInst()->SetColorKey("spr_gangster_idle_right", 255, 255, 255);
 	}
+
+	// Gangster spr_gangsteraim_left
+	{
+		std::vector<std::wstring>	vecFileName;
+
+		for (int i = 0; i <= 1; ++i)
+		{
+			TCHAR	FileName[MAX_PATH] = {};
+			// %d에 i의 값이 대입되어 문자열이 만들어지게 된다.
+			wsprintf(FileName, TEXT("Enemy/spr_gangsteraim_left/%d.bmp"), i);
+			vecFileName.push_back(FileName);
+		}
+
+		CResourceManager::GetInst()->CreateAnimationSequence("spr_gangsteraim_left",
+			"spr_gangsteraim_left", vecFileName, TEXTURE_PATH);
+
+		for (int i = 0; i <= 1; ++i)
+		{
+			CTexture* Texture = CResourceManager::GetInst()->FindTexture("spr_gangsteraim_left");
+			int NewWidth = Texture->GetWidth(i);
+			int NewHeight = Texture->GetHeight(i);
+
+			CResourceManager::GetInst()->AddAnimationFrame("spr_gangsteraim_left", 0.f, 0.f,
+				(float)NewWidth, (float)NewHeight);
+		}
+
+		CResourceManager::GetInst()->SetColorKey("spr_gangsteraim_left", 255, 255, 255);
+	}
+
+	// Gangster spr_gangsteraim_right
+	{
+		std::vector<std::wstring>	vecFileName;
+
+		for (int i = 0; i <= 1; ++i)
+		{
+			TCHAR	FileName[MAX_PATH] = {};
+			// %d에 i의 값이 대입되어 문자열이 만들어지게 된다.
+			wsprintf(FileName, TEXT("Enemy/spr_gangsteraim_right/%d.bmp"), i);
+			vecFileName.push_back(FileName);
+		}
+
+		CResourceManager::GetInst()->CreateAnimationSequence("spr_gangsteraim_right",
+			"spr_gangsteraim_right", vecFileName, TEXTURE_PATH);
+
+		for (int i = 0; i <= 1; ++i)
+		{
+			CTexture* Texture = CResourceManager::GetInst()->FindTexture("spr_gangsteraim_right");
+			int NewWidth = Texture->GetWidth(i);
+			int NewHeight = Texture->GetHeight(i);
+
+			CResourceManager::GetInst()->AddAnimationFrame("spr_gangsteraim_right", 0.f, 0.f,
+				(float)NewWidth, (float)NewHeight);
+		}
+
+		CResourceManager::GetInst()->SetColorKey("spr_gangsteraim_right", 255, 255, 255);
+	}
+
 
 
 	// Gangster HurtFly_Left
@@ -631,6 +697,181 @@ void CStage_1::CreateAnimationSequence()
 
 		CResourceManager::GetInst()->SetColorKey("spr_gangsterhurtground_right", 255, 255, 255);
 	}
+
+
+	// Gangster spr_gangsterrun_left
+	{
+		std::vector<std::wstring>	vecFileName;
+
+		for (int i = 0; i <= 9; ++i)
+		{
+			TCHAR	FileName[MAX_PATH] = {};
+			// %d에 i의 값이 대입되어 문자열이 만들어지게 된다.
+			wsprintf(FileName, TEXT("Enemy/spr_gangsterrun_left/%d.bmp"), i);
+			vecFileName.push_back(FileName);
+		}
+
+		CResourceManager::GetInst()->CreateAnimationSequence("spr_gangsterrun_left",
+			"spr_gangsterrun_left", vecFileName, TEXTURE_PATH);
+
+		for (int i = 0; i <= 9; ++i)
+		{
+			CTexture* Texture = CResourceManager::GetInst()->FindTexture("spr_gangsterrun_left");
+			int NewWidth = Texture->GetWidth(i);
+			int NewHeight = Texture->GetHeight(i);
+
+			CResourceManager::GetInst()->AddAnimationFrame("spr_gangsterrun_left", 0.f, 0.f,
+				(float)NewWidth, (float)NewHeight);
+		}
+
+		CResourceManager::GetInst()->SetColorKey("spr_gangsterrun_left", 255, 255, 255);
+	}
+
+	// Gangster spr_gangsterrun_right
+	{
+		std::vector<std::wstring>	vecFileName;
+
+		for (int i = 0; i <= 9; ++i)
+		{
+			TCHAR	FileName[MAX_PATH] = {};
+			// %d에 i의 값이 대입되어 문자열이 만들어지게 된다.
+			wsprintf(FileName, TEXT("Enemy/spr_gangsterrun_right/%d.bmp"), i);
+			vecFileName.push_back(FileName);
+		}
+
+		CResourceManager::GetInst()->CreateAnimationSequence("spr_gangsterrun_right",
+			"spr_gangsterrun_right", vecFileName, TEXTURE_PATH);
+
+		for (int i = 0; i <= 9; ++i)
+		{
+			CTexture* Texture = CResourceManager::GetInst()->FindTexture("spr_gangsterrun_right");
+			int NewWidth = Texture->GetWidth(i);
+			int NewHeight = Texture->GetHeight(i);
+
+			CResourceManager::GetInst()->AddAnimationFrame("spr_gangsterrun_right", 0.f, 0.f,
+				(float)NewWidth, (float)NewHeight);
+		}
+
+		CResourceManager::GetInst()->SetColorKey("spr_gangsterrun_right", 255, 255, 255);
+	}
+
+
+	// Gangster spr_gangsterturn_left
+	{
+		std::vector<std::wstring>	vecFileName;
+
+		for (int i = 0; i <= 5; ++i)
+		{
+			TCHAR	FileName[MAX_PATH] = {};
+			// %d에 i의 값이 대입되어 문자열이 만들어지게 된다.
+			wsprintf(FileName, TEXT("Enemy/spr_gangsterturn_left/%d.bmp"), i);
+			vecFileName.push_back(FileName);
+		}
+
+		CResourceManager::GetInst()->CreateAnimationSequence("spr_gangsterturn_left",
+			"spr_gangsterturn_left", vecFileName, TEXTURE_PATH);
+
+		for (int i = 0; i <= 5; ++i)
+		{
+			CTexture* Texture = CResourceManager::GetInst()->FindTexture("spr_gangsterturn_left");
+			int NewWidth = Texture->GetWidth(i);
+			int NewHeight = Texture->GetHeight(i);
+
+			CResourceManager::GetInst()->AddAnimationFrame("spr_gangsterturn_left", 0.f, 0.f,
+				(float)NewWidth, (float)NewHeight);
+		}
+
+		CResourceManager::GetInst()->SetColorKey("spr_gangsterturn_left", 255, 255, 255);
+	}
+
+	// Gangster spr_gangsterturn_right
+	{
+		std::vector<std::wstring>	vecFileName;
+
+		for (int i = 0; i <= 5; ++i)
+		{
+			TCHAR	FileName[MAX_PATH] = {};
+			// %d에 i의 값이 대입되어 문자열이 만들어지게 된다.
+			wsprintf(FileName, TEXT("Enemy/spr_gangsterturn_right/%d.bmp"), i);
+			vecFileName.push_back(FileName);
+		}
+
+		CResourceManager::GetInst()->CreateAnimationSequence("spr_gangsterturn_right",
+			"spr_gangsterturn_right", vecFileName, TEXTURE_PATH);
+
+		for (int i = 0; i <= 5; ++i)
+		{
+			CTexture* Texture = CResourceManager::GetInst()->FindTexture("spr_gangsterturn_right");
+			int NewWidth = Texture->GetWidth(i);
+			int NewHeight = Texture->GetHeight(i);
+
+			CResourceManager::GetInst()->AddAnimationFrame("spr_gangsterturn_right", 0.f, 0.f,
+				(float)NewWidth, (float)NewHeight);
+		}
+
+		CResourceManager::GetInst()->SetColorKey("spr_gangsterturn_right", 255, 255, 255);
+	}
+
+
+	// Gangster spr_gangsterwalk_left
+	{
+		std::vector<std::wstring>	vecFileName;
+
+		for (int i = 0; i <= 7; ++i)
+		{
+			TCHAR	FileName[MAX_PATH] = {};
+			// %d에 i의 값이 대입되어 문자열이 만들어지게 된다.
+			wsprintf(FileName, TEXT("Enemy/spr_gangsterwalk_left/%d.bmp"), i);
+			vecFileName.push_back(FileName);
+		}
+
+		CResourceManager::GetInst()->CreateAnimationSequence("spr_gangsterwalk_left",
+			"spr_gangsterwalk_left", vecFileName, TEXTURE_PATH);
+
+		for (int i = 0; i <= 7; ++i)
+		{
+			CTexture* Texture = CResourceManager::GetInst()->FindTexture("spr_gangsterwalk_left");
+			int NewWidth = Texture->GetWidth(i);
+			int NewHeight = Texture->GetHeight(i);
+
+			CResourceManager::GetInst()->AddAnimationFrame("spr_gangsterwalk_left", 0.f, 0.f,
+				(float)NewWidth, (float)NewHeight);
+		}
+
+		CResourceManager::GetInst()->SetColorKey("spr_gangsterwalk_left", 255, 255, 255);
+	}
+
+	// Gangster spr_gangsterwalk_right
+	{
+		std::vector<std::wstring>	vecFileName;
+
+		for (int i = 0; i <= 7; ++i)
+		{
+			TCHAR	FileName[MAX_PATH] = {};
+			// %d에 i의 값이 대입되어 문자열이 만들어지게 된다.
+			wsprintf(FileName, TEXT("Enemy/spr_gangsterwalk_right/%d.bmp"), i);
+			vecFileName.push_back(FileName);
+		}
+
+		CResourceManager::GetInst()->CreateAnimationSequence("spr_gangsterwalk_right",
+			"spr_gangsterwalk_right", vecFileName, TEXTURE_PATH);
+
+		for (int i = 0; i <= 7; ++i)
+		{
+			CTexture* Texture = CResourceManager::GetInst()->FindTexture("spr_gangsterwalk_right");
+			int NewWidth = Texture->GetWidth(i);
+			int NewHeight = Texture->GetHeight(i);
+
+			CResourceManager::GetInst()->AddAnimationFrame("spr_gangsterwalk_right", 0.f, 0.f,
+				(float)NewWidth, (float)NewHeight);
+		}
+
+		CResourceManager::GetInst()->SetColorKey("spr_gangsterwalk_right", 255, 255, 255);
+	}
+
+
+
+
 
 
 

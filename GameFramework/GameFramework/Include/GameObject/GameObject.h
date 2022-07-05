@@ -226,6 +226,12 @@ public:
 		m_Angle = Angle;
 	}
 
+	void SetRenderLayer(ERender_Layer RenderLayer)
+	{
+		m_RenderLayer = RenderLayer;
+	}
+
+
 
 public:
 	void SetTexture(const std::string& Name);

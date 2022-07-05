@@ -70,9 +70,6 @@ bool CGrunt::Init()
 	m_CurDir = ObjDir::Right;
 	m_ChangeDirText = "right";
 
-	// 충돌맵 세팅
-	SetMapTexture("room_factory_2_ColMap", TEXT("room_factory_2_ColMap.bmp"), "MapPath");
-
 	// 애니메이션
 	AddAnimation("spr_grunt_idle_left", true, 0.88f);
 	AddAnimation("spr_grunt_idle_right", true, 0.88f);
@@ -367,8 +364,8 @@ void CGrunt::WalkUpdate()
 	}
 
 
-	CCollider* PlayerAttack = m_Scene->GetPlayer()->FindCollider("PlayerAttack");
 	// 플레이어 공격에 맞으면 사망
+	CCollider* PlayerAttack = m_Scene->GetPlayer()->FindCollider("PlayerAttack");
 	if (true == FindCollider("Body")->CheckCollisionList(PlayerAttack))
 	{
 		StateChange(ObjState::HurtFly);
@@ -380,12 +377,10 @@ void CGrunt::WalkUpdate()
 	{
 		m_MoveDir = Vector2{ 1.f, 0.f };
 	}
-
 	else if (m_CurDir == ObjDir::Left)
 	{
 		m_MoveDir = Vector2{ -1.f, 0.f };
 	}
-
 
 	// 플레이어 발견시 Run 상태로 쫓아온다.
 	CCollider* PlayerBody = m_Scene->GetPlayer()->FindCollider("Body");

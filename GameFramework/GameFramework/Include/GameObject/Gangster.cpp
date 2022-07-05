@@ -10,6 +10,9 @@
 #include "../GameManager.h"
 #include "../Collision/CollisionManager.h"
 #include "../Resource/Texture/Texture.h"
+#include "Effect_Enemy_Follow.h"
+#include "Player.h"
+#include "GangsterLeftArm.h"
 
 extern Vector2 g_AttackDir;
 
@@ -43,6 +46,12 @@ bool CGangster::Init()
 	Box->SetOffset(0.f, -35.f);
 	Box->SetCollisionProfile("Monster");
 
+	// 충돌체 시야 추가
+	m_ViewCollider = AddCollider<CColliderBox>("View");
+	m_ViewCollider->SetExtent(600.f, 200.f);
+	m_ViewCollider->SetCollisionProfile("Monster");
+
+
 	Box->SetCollisionBeginFunction<CGangster>(this, &CGangster::CollisionBegin);
 	Box->SetCollisionEndFunction<CGangster>(this, &CGangster::CollisionEnd);
 
@@ -55,18 +64,23 @@ bool CGangster::Init()
 	AddAnimation("spr_gangster_idle_left", true, 0.96f);
 	AddAnimation("spr_gangster_idle_right", true, 0.96f);
 
-	AddAnimation("spr_gangsterhurtground_left", true, 0.98f);
-	AddAnimation("spr_gangsterhurtground_right", true, 0.98f);
+	AddAnimation("spr_gangsteraim_left", true, 0.8f);
+	AddAnimation("spr_gangsteraim_right", true, 0.8f);
+
+	AddAnimation("spr_gangsterhurtground_left", false, 0.98f);
+	AddAnimation("spr_gangsterhurtground_right", false, 0.98f);
 
 	AddAnimation("spr_gangsterhurtfly_left", false, 0.4f);
 	AddAnimation("spr_gangsterhurtfly_right", false, 0.4f);
 
-	//AddAnimation("spr_grunt_hurtground_left", false, 0.96f);
-	//AddAnimation("spr_grunt_hurtground_right", false, 0.96f);
+	AddAnimation("spr_gangsterrun_left", true, 0.7f);
+	AddAnimation("spr_gangsterrun_right", true, 0.7f);
 
-	//AddAnimation("spr_grunt_hurtfly_left", false, 0.8f);
-	//AddAnimation("spr_grunt_hurtfly_right", false, 0.8f);
+	AddAnimation("spr_gangsterturn_left", false, 0.42f);
+	AddAnimation("spr_gangsterturn_right", false, 0.42f);
 
+	AddAnimation("spr_gangsterwalk_left", true, 0.56f);
+	AddAnimation("spr_gangsterwalk_right", true, 0.56f);
 
 
 	return true;
@@ -79,6 +93,19 @@ void CGangster::Update(float DeltaTime)
 	DirAnimationCheck();
 	ObjStateUpdate();
 
+	if (m_CurDir == ObjDir::Right)
+		m_ViewCollider->SetOffset(300.f, -35.f);
+	else if (m_CurDir == ObjDir::Left)
+		m_ViewCollider->SetOffset(-300.f, -35.f);
+
+	if (m_CurState != ObjState::Attack)
+	{
+		if (m_LeftArm)
+		{
+			m_LeftArm->SetActive(false);
+			m_LeftArm = nullptr;
+		}
+	}
 
 }
 
@@ -121,26 +148,57 @@ void CGangster::IdleStart()
 
 void CGangster::WalkStart()
 {
-	//m_StateTime[static_cast<int>(ObjState::Walk)] = 0.f;
-	//m_AnimationName = "spr_grunt_walk_";
-	//ChangeAnimation(m_AnimationName + m_ChangeDirText);
-	//SetSpeed(80.f);
+	m_StateTime[static_cast<int>(ObjState::Walk)] = 0.f;
+	m_AnimationName = "spr_gangsterwalk_";
+	ChangeAnimation(m_AnimationName + m_ChangeDirText);
+	SetSpeed(80.f);
 }
 
 void CGangster::TurnStart()
 {
-	//m_StateTime[static_cast<int>(ObjState::Turn)] = 0.f;
-	//m_AnimationName = "spr_grunt_turn_";
-	//ChangeAnimation(m_AnimationName + m_ChangeDirText);
-	//SetSpeed(0.f);
+	m_StateTime[static_cast<int>(ObjState::Turn)] = 0.f;
+	m_AnimationName = "spr_gangsterturn_";
+	ChangeAnimation(m_AnimationName + m_ChangeDirText);
+	SetSpeed(0.f);
 }
 
 void CGangster::RunStart()
 {
+	m_AnimationName = "spr_gangsterrun_";
+	ChangeAnimation(m_AnimationName + m_ChangeDirText);
+	SetSpeed(320.f);
+
+	// Enemy_Follow 이펙트
+	if (!m_Effect_EnemyFollow)
+	{
+		CEffect_Enemy_Follow* EnemyFollowEffect = m_Scene->CreateObject<CEffect_Enemy_Follow>("Enemy_Follow");
+		EnemyFollowEffect->SetPos(m_Pos + Vector2{ 0,-80 });
+		EnemyFollowEffect->SetOwner(this);
+		m_Effect_EnemyFollow = EnemyFollowEffect;
+	}
+
 }
 
 void CGangster::AttackStart()
 {
+	m_AnimationName = "spr_gangsteraim_";
+	ChangeAnimation(m_AnimationName + m_ChangeDirText);
+	SetSpeed(0.f);
+
+	// 팔 이펙트 _ 나중에 회전 넣을수 있으면 넣자.
+	m_LeftArm = m_Scene->CreateObject<CGangsterLeftArm>("LeftArm");
+	m_LeftArm->SetPos(m_Pos);
+	m_LeftArm->SetPivot(0.5f, 0.5f);
+	if (m_CurDir == ObjDir::Left)
+		m_LeftArm->SetTexture("GangsterLeftArm", TEXT("Gangster_leftarm_left.bmp"));
+	else if (m_CurDir == ObjDir::Right)
+		m_LeftArm->SetTexture("GangsterRightArm", TEXT("Gangster_leftarm_right.bmp"));
+	m_LeftArm->SetColorKey(0, 0, 0);
+	m_LeftArm->SetRenderLayer(ERender_Layer::PreDefault);
+	m_LeftArm->SetOwner(this);
+
+
+
 }
 
 void CGangster::HurtGroundStart()
@@ -168,7 +226,7 @@ void CGangster::HurtGroundStart()
 	}
 
 	m_StateTime[static_cast<int>(ObjState::HurtGround)] = 0.f;
-	m_AnimationName = "spr_grunt_hurtground_";
+	m_AnimationName = "spr_gangsterhurtground_";
 	ChangeAnimation(m_AnimationName + m_ChangeDirText);
 
 }
@@ -243,9 +301,20 @@ void CGangster::HurtFlyStart()
 		NewBloodAnimation->SetOwner(this);
 	}
 
+	//// 히트 레이저 이펙트
+	//CEffect_Hit_Lazer* NewHitLazer = m_Scene->CreateObject<CEffect_Hit_Lazer>("HitLazer");
+	//NewHitLazer->SetTexture("HitLazer", TEXT("effect_hit_lazer.bmp"));
+	//NewHitLazer->SetColorKey(255, 0, 255);
+	//NewHitLazer->SetOwner(this);
+	//NewHitLazer->SetAngle(90.f);
+
+	// 히트시 화면 흔들림
+	m_Scene->SetCameraShakeOn(true);
+
+
 	SetPos(m_Pos + Vector2{ 0,-2 });
 	m_StateTime[static_cast<int>(ObjState::HurtGround)] = 0.f;
-	m_AnimationName = "spr_grunt_hurtfly_";
+	m_AnimationName = "spr_gangsterhurtfly_";
 	ChangeAnimation(m_AnimationName + m_ChangeDirText);
 	SetSpeed(0.f);
 
@@ -253,24 +322,38 @@ void CGangster::HurtFlyStart()
 
 }
 
+void CGangster::DeadStart()
+{
+}
+
 void CGangster::IdleUpdate()
 {
-	//// 정찰 행동
-	//m_StateTime[static_cast<int>(ObjState::Idle)] += DELTA_TIME;
-	//if (m_StateTime[static_cast<int>(ObjState::Idle)] >= 2 && m_bPatrol == true)
-	//{
-	//	StateChange(ObjState::Turn);
-	//	return;
-	//}
+	// 정찰 행동
+	m_StateTime[static_cast<int>(ObjState::Idle)] += DELTA_TIME;
+	if (m_StateTime[static_cast<int>(ObjState::Idle)] >= 2 && m_bPatrol == true)
+	{
+		StateChange(ObjState::Turn);
+		return;
+	}
 
 
-	//CCollider* PlayerAttack = m_Scene->GetPlayer()->FindCollider("PlayerAttack");
-	//// 플레이어 공격에 맞으면 사망
-	//if (true == FindCollider("Body")->CheckCollisionList(PlayerAttack))
-	//{
-	//	StateChange(ObjState::HurtFly);
-	//	return;
-	//}
+	// 플레이어 공격에 맞으면 사망
+	CCollider* PlayerAttack = m_Scene->GetPlayer()->FindCollider("PlayerAttack");
+	if (true == FindCollider("Body")->CheckCollisionList(PlayerAttack))
+	{
+		StateChange(ObjState::HurtFly);
+		return;
+	}
+
+	// 플레이어 발견시 Run 상태로 쫓아온다.
+	CCollider* PlayerBody = m_Scene->GetPlayer()->FindCollider("Body");
+	if (true == FindCollider("View")->CheckCollisionList(PlayerBody) &&
+		PlayerState::Dead != static_cast<CPlayer*>(m_Scene->GetPlayer())->CPlayer::GetState())
+	{
+		StateChange(ObjState::Run);
+		return;
+	}
+
 }
 
 void CGangster::WalkUpdate()
@@ -284,8 +367,8 @@ void CGangster::WalkUpdate()
 	}
 
 
-	CCollider* PlayerAttack = m_Scene->GetPlayer()->FindCollider("PlayerAttack");
 	// 플레이어 공격에 맞으면 사망
+	CCollider* PlayerAttack = m_Scene->GetPlayer()->FindCollider("PlayerAttack");
 	if (true == FindCollider("Body")->CheckCollisionList(PlayerAttack))
 	{
 		StateChange(ObjState::HurtFly);
@@ -297,10 +380,17 @@ void CGangster::WalkUpdate()
 	{
 		m_MoveDir = Vector2{ 1.f, 0.f };
 	}
-
 	else if (m_CurDir == ObjDir::Left)
 	{
 		m_MoveDir = Vector2{ -1.f, 0.f };
+	}
+
+	// 플레이어 발견시 Run 상태로 쫓아온다.
+	CCollider* PlayerBody = m_Scene->GetPlayer()->FindCollider("Body");
+	if (true == FindCollider("View")->CheckCollisionList(PlayerBody))
+	{
+		StateChange(ObjState::Run);
+		return;
 	}
 
 	MapCollisionCheckMoveGround();
@@ -335,34 +425,85 @@ void CGangster::TurnUpdate()
 
 void CGangster::RunUpdate()
 {
-	CCollider* PlayerAttack = m_Scene->GetPlayer()->FindCollider("PlayerAttack");
 	// 플레이어 공격에 맞으면 사망
+	CCollider* PlayerAttack = m_Scene->GetPlayer()->FindCollider("PlayerAttack");
 	if (true == FindCollider("Body")->CheckCollisionList(PlayerAttack))
 	{
 		StateChange(ObjState::HurtFly);
 		return;
 	}
+
+	// 플레이어를 쫓아가도록 좌우 방향 조정
+	if (m_Scene->GetPlayer()->GetPos().x >= m_Pos.x)
+		SetDir(ObjDir::Right);
+	else if (m_Scene->GetPlayer()->GetPos().x < m_Pos.x)
+		SetDir(ObjDir::Left);
+
+	// 플레이어가 일정범위에 들어오면 공격
+	CCollider* PlayerBody = m_Scene->GetPlayer()->FindCollider("Body");
+	if (true == FindCollider("View")->CheckCollisionList(PlayerBody))
+	{
+		StateChange(ObjState::Attack);
+		return;
+	}
+
+
+	// 좌우 이동
+	if (m_CurDir == ObjDir::Right)
+	{
+		m_MoveDir = Vector2{ 1.f, 0.f };
+	}
+
+	else if (m_CurDir == ObjDir::Left)
+	{
+		m_MoveDir = Vector2{ -1.f, 0.f };
+	}
+
+
+	MapCollisionCheckMoveGround();
+
+
+
 }
 
 void CGangster::AttackUpdate()
 {
-	CCollider* PlayerAttack = m_Scene->GetPlayer()->FindCollider("PlayerAttack");
+	// 플레이어 사망상태면 Idle 상태로
+	if (PlayerState::Dead == static_cast<CPlayer*>(m_Scene->GetPlayer())->CPlayer::GetState())
+	{
+		StateChange(ObjState::Idle);
+		return;
+	}
+
+
 	// 플레이어 공격에 맞으면 사망
+	CCollider* PlayerAttack = m_Scene->GetPlayer()->FindCollider("PlayerAttack");
 	if (true == FindCollider("Body")->CheckCollisionList(PlayerAttack))
 	{
 		StateChange(ObjState::HurtFly);
 		return;
 	}
+
+	// 공격 모션이 끝나면 다시 Run 상태로
+	if (true == m_Animation->IsEndAnimation())
+	{
+		StateChange(ObjState::Run);
+		return;
+	}
+
 }
 
 void CGangster::HurtGroundUpdate()
 {
 	// 피분출이 끝나면 BloodAnimation SetActive(false) 할것
 
-	// 쓰러지는 모션이 끝나면, 충돌체 삭제
+	// 쓰러지는 모션이 끝나면, 사망 상태로
 	if (true == m_Animation->IsEndAnimation())
 	{
 		//FindCollider("Box")->SetActive(false);
+		//SetEnable(false);
+		StateChange(ObjState::Dead);
+		return;
 	}
 
 	m_MoveDir += -(m_MoveDir * DELTA_TIME * 3.4f);
@@ -387,7 +528,8 @@ void CGangster::HurtFlyUpdate()
 		m_Gravity += m_GravityAccel * DELTA_TIME;
 		if (m_MoveDir.y > 0.f)	// 떨어질때만
 		{
-			if (RGB(0, 0, 0) == RColor || RGB(255, 0, 0) == RColor)	// 땅에 닿을 경우 
+			if (RGB(0, 0, 0) == RColor || RGB(255, 0, 0) == RColor ||
+				m_Move.y == 0.f)	// 땅에 닿거나 y이동이 0일경우
 			{
 				StateChange(ObjState::HurtGround);
 				return;
@@ -398,4 +540,8 @@ void CGangster::HurtFlyUpdate()
 
 	MapCollisionCheckMoveAirDie();
 
+}
+
+void CGangster::DeadUpdate()
+{
 }

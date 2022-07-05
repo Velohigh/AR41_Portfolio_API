@@ -177,6 +177,7 @@
     <ClCompile Include="GameObject\Effect_Slash.cpp" />
     <ClCompile Include="GameObject\GameObject.cpp" />
     <ClCompile Include="GameObject\Gangster.cpp" />
+    <ClCompile Include="GameObject\GangsterLeftArm.cpp" />
     <ClCompile Include="GameObject\Grunt.cpp" />
     <ClCompile Include="GameObject\Monster.cpp" />
     <ClCompile Include="GameObject\Player.cpp" />
@@ -250,6 +251,7 @@
     <ClInclude Include="GameObject\Effect_Slash.h" />
     <ClInclude Include="GameObject\GameObject.h" />
     <ClInclude Include="GameObject\Gangster.h" />
+    <ClInclude Include="GameObject\GangsterLeftArm.h" />
     <ClInclude Include="GameObject\Grunt.h" />
     <ClInclude Include="GameObject\Monster.h" />
     <ClInclude Include="GameObject\Player.h" />

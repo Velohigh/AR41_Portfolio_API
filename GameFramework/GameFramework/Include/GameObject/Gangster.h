@@ -12,6 +12,11 @@ protected:
 	CGangster(const CGangster& Obj);
 	virtual ~CGangster();
 
+private:
+	CSharedPtr<class CEffect>	m_LeftArm;
+	CSharedPtr<class CEffect>	m_RightArm;
+
+
 public:
 	virtual bool Init();
 	virtual void Update(float DeltaTime);
@@ -33,6 +38,7 @@ private:
 	virtual void AttackStart() override;
 	virtual void HurtGroundStart() override;
 	virtual void HurtFlyStart() override;
+	virtual void DeadStart() override;
 
 
 	virtual void IdleUpdate() override;
@@ -42,6 +48,7 @@ private:
 	virtual void AttackUpdate() override;
 	virtual void HurtGroundUpdate() override;
 	virtual void HurtFlyUpdate() override;
+	virtual void DeadUpdate() override;
 
 
 };
