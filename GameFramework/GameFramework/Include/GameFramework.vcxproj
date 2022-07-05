@@ -176,6 +176,7 @@
     <ClCompile Include="GameObject\Effect_JumpCloud.cpp" />
     <ClCompile Include="GameObject\Effect_LandCloud.cpp" />
     <ClCompile Include="GameObject\Effect_Slash.cpp" />
+    <ClCompile Include="GameObject\Effect_SniperBullet.cpp" />
     <ClCompile Include="GameObject\GameObject.cpp" />
     <ClCompile Include="GameObject\Gangster.cpp" />
     <ClCompile Include="GameObject\Grunt.cpp" />
@@ -250,6 +251,7 @@
     <ClInclude Include="GameObject\Effect_JumpCloud.h" />
     <ClInclude Include="GameObject\Effect_LandCloud.h" />
     <ClInclude Include="GameObject\Effect_Slash.h" />
+    <ClInclude Include="GameObject\Effect_SniperBullet.h" />
     <ClInclude Include="GameObject\GameObject.h" />
     <ClInclude Include="GameObject\Gangster.h" />
     <ClInclude Include="GameObject\Grunt.h" />

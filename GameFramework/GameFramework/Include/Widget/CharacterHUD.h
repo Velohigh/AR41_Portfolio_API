@@ -13,6 +13,8 @@ protected:
     CSharedPtr<class CImageWidget>  m_HudFrame;
     CSharedPtr<class CProgressBar>  m_BatteryBar;
     CSharedPtr<class CProgressBar>  m_TimeBar;
+    CSharedPtr<class CImageWidget>  m_katana;
+
 
     CSharedPtr<class CText>     m_FPSText;
 

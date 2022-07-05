@@ -1387,18 +1387,24 @@ void CPlayer::IdleToRunUpdate()
 	}
 
 	// 아래쪽에 지형이 없다면 Fall상태로
-	int color = m_MapColTexture->GetImagePixel(m_Pos + Vector2{ 0,10 });
-	int Rcolor = m_MapColTexture->GetImagePixel(m_Pos + Vector2{ 0,1 });
-	if (color != RGB(0, 0, 0) && m_CurState != PlayerState::Jump &&
-		Rcolor != RGB(255, 0, 0) &&
-		Rcolor != RGB(0, 0, 0))
+	int color[5] = {};
+	for (int i = 1; i <= 5; ++i)
+	{
+	color[i-1] = m_MapColTexture->GetImagePixel(m_Pos + Vector2{0.f,(float)i});
+	}
+	if (color[0] != RGB(0, 0, 0) && color[0] != RGB(255,0, 0) &&
+		color[1] != RGB(0, 0, 0) &&
+		color[2] != RGB(0, 0, 0) &&
+		color[3] != RGB(0, 0, 0) &&
+		color[4] != RGB(0, 0, 0) &&
+		m_CurState != PlayerState::Jump)
 	{
 		StateChange(PlayerState::Fall);
 		return;
 	}
 
 	// 충돌맵 빨간색이면 아래로 이동 가능
-	if (Rcolor == RGB(255, 0, 0) &&
+	if (color[0] == RGB(255, 0, 0) &&
 		true == CInput::GetInst()->IsDown('S'))
 	{
 		SetPos(m_Pos + Vector2{ 0, 2 });
@@ -1441,18 +1447,24 @@ void CPlayer::RunUpdate()
 	}
 
 	// 아래쪽에 지형이 없다면 Fall상태로
-	int color = m_MapColTexture->GetImagePixel(m_Pos + Vector2{ 0,10 });
-	int Rcolor = m_MapColTexture->GetImagePixel(m_Pos + Vector2{ 0,1 });
-	if (color != RGB(0, 0, 0) && m_CurState != PlayerState::Jump &&
-		Rcolor != RGB(255, 0, 0) &&
-		Rcolor != RGB(0, 0, 0))
+	int color[5] = {};
+	for (int i = 1; i <= 5; ++i)
+	{
+		color[i - 1] = m_MapColTexture->GetImagePixel(m_Pos + Vector2{ 0.f,(float)i });
+	}
+	if (color[0] != RGB(0, 0, 0) && color[0] != RGB(255, 0, 0) &&
+		color[1] != RGB(0, 0, 0) &&
+		color[2] != RGB(0, 0, 0) &&
+		color[3] != RGB(0, 0, 0) &&
+		color[4] != RGB(0, 0, 0) &&
+		m_CurState != PlayerState::Jump)
 	{
 		StateChange(PlayerState::Fall);
 		return;
 	}
 
 	// 충돌맵 빨간색이면 아래로 이동 가능
-	if (Rcolor == RGB(255, 0, 0) &&
+	if (color[0] == RGB(255, 0, 0) &&
 		true == CInput::GetInst()->IsDown('S'))
 	{
 		SetPos(m_Pos + Vector2{ 0, 2 });
@@ -1506,11 +1518,17 @@ void CPlayer::RunToIdleUpdate()
 	}
 
 	// 아래쪽에 지형이 없다면 Fall상태로
-	int color = m_MapColTexture->GetImagePixel(m_Pos + Vector2{ 0,10 });
-	int Rcolor = m_MapColTexture->GetImagePixel(m_Pos + Vector2{ 0,1 });
-	if (color != RGB(0, 0, 0) && m_CurState != PlayerState::Jump &&
-		Rcolor != RGB(255, 0, 0) &&
-		Rcolor != RGB(0, 0, 0))
+	int color[5] = {};
+	for (int i = 1; i <= 5; ++i)
+	{
+		color[i - 1] = m_MapColTexture->GetImagePixel(m_Pos + Vector2{ 0.f,(float)i });
+	}
+	if (color[0] != RGB(0, 0, 0) && color[0] != RGB(255, 0, 0) &&
+		color[1] != RGB(0, 0, 0) &&
+		color[2] != RGB(0, 0, 0) &&
+		color[3] != RGB(0, 0, 0) &&
+		color[4] != RGB(0, 0, 0) &&
+		m_CurState != PlayerState::Jump)
 	{
 		StateChange(PlayerState::Fall);
 		return;
@@ -1518,7 +1536,7 @@ void CPlayer::RunToIdleUpdate()
 
 
 	// 충돌맵 빨간색이면 아래로 이동 가능
-	if (Rcolor == RGB(255, 0, 0) &&
+	if (color[0] == RGB(255, 0, 0) &&
 		true == CInput::GetInst()->IsDown('S'))
 	{
 		SetPos(m_Pos + Vector2{ 0, 2 });
@@ -1691,15 +1709,28 @@ void CPlayer::LandingUpdate()
 		return;
 	}
 
-	//// 아래쪽에 지형이 없다면 Fall상태로
-	int color = m_MapColTexture->GetImagePixel(m_Pos + Vector2{ 0.f,10.f });
-	int Rcolor = m_MapColTexture->GetImagePixel(m_Pos + Vector2{ 0.f,1.f });
-	if (color != RGB(0, 0, 0) && m_CurState != PlayerState::Jump &&
-		Rcolor != RGB(255, 0, 0) &&
-		Rcolor != RGB(0, 0, 0))
+	// 아래쪽에 지형이 없다면 Fall상태로
+	int color[5] = {};
+	for (int i = 1; i <= 5; ++i)
+	{
+		color[i - 1] = m_MapColTexture->GetImagePixel(m_Pos + Vector2{ 0.f,(float)i });
+	}
+	if (color[0] != RGB(0, 0, 0) && color[0] != RGB(255, 0, 0) &&
+		color[1] != RGB(0, 0, 0) &&
+		color[2] != RGB(0, 0, 0) &&
+		color[3] != RGB(0, 0, 0) &&
+		color[4] != RGB(0, 0, 0) &&
+		m_CurState != PlayerState::Jump)
 	{
 		StateChange(PlayerState::Fall);
 		return;
+	}
+
+	// 충돌맵 빨간색이면 아래로 이동 가능
+	if (color[0] == RGB(255, 0, 0) &&
+		true == CInput::GetInst()->IsDown('S'))
+	{
+		SetPos(m_Pos + Vector2{ 0, 2 });
 	}
 
 	// 회피키를 누르면 Dodge 상태로
@@ -1717,12 +1748,6 @@ void CPlayer::LandingUpdate()
 	}
 
 
-	// 충돌맵 빨간색이면 아래로 이동 가능
-	if (Rcolor == RGB(255, 0, 0) &&
-		true == CInput::GetInst()->IsDown('S'))
-	{
-		SetPos(m_Pos + Vector2{ 0, 2 });
-	}
 
 	// 점프키를 누르면 Jump 상태로
 	if (true == CInput::GetInst()->IsDown(VK_SPACE))		// @@@ 점프 추가.
@@ -1926,7 +1951,7 @@ void CPlayer::JumpStart()
 	// 점프 사운드
 	m_Scene->GetSceneResource()->SoundPlay("sound_player_jump");
 
-	SetPos(m_Pos + Vector2{ 0, -3 });
+	SetPos(m_Pos + Vector2{ 0, -4 });
 	m_AnimationName = "spr_jump_";
 	ChangeAnimation(m_AnimationName + m_ChangeDirText);
 	m_MoveDir *= m_MoveSpeed;

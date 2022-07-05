@@ -319,6 +319,15 @@ void CGrunt::HurtFlyStart()
 	//NewHitLazer->SetOwner(this);
 	//NewHitLazer->SetAngle(90.f);
 
+	// SlashHit 이펙트
+	CEffect* NewSlashHitEffect = m_Scene->CreateObject<CEffect>("SlashHit");
+	NewSlashHitEffect->SetPos(m_Pos + Vector2{ 0, -35 });
+	NewSlashHitEffect->SetDir(ObjDir::Left);
+	NewSlashHitEffect->SetPivot(0.5f, 0.5f);
+	NewSlashHitEffect->AddAnimation("effect_slash_hit", false, 0.1f);
+	NewSlashHitEffect->SetOwner(this);
+
+
 	// 히트시 화면 흔들림
 	m_Scene->SetCameraShakeOn(true);
 

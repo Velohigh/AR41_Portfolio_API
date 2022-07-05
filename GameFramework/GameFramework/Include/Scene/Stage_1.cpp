@@ -39,6 +39,7 @@ bool CStage_1::Init()
 	GetSceneResource()->LoadSound("Effect", "swing", false, "swing.wav");
 	GetSceneResource()->LoadSound("Effect", "punch", false, "punch.wav");
 	GetSceneResource()->LoadSound("Effect", "death_bullet", false, "death_bullet.wav");
+	GetSceneResource()->LoadSound("Effect", "reflect", false, "reflect.wav");
 
 
 	GetCamera()->SetResolution(1280.f, 720.f);
@@ -65,46 +66,48 @@ bool CStage_1::Init()
 	GetCamera()->SetTarget(Player);
 
 
-	{
-	// 그런트
-		CGrunt* NewGrunt = CreateObject<CGrunt>("Grunt");
-		NewGrunt->SetPos({ 1054.f, 383.f });
-		NewGrunt->SetDir(ObjDir::Right);
-		NewGrunt->SetState(ObjState::Walk);
-		NewGrunt->SetPatrol(true);
-		NewGrunt->SetMapTexture("room_factory_2_ColMap", TEXT("room_factory_2_ColMap.bmp"), "MapPath");
+	//{
+	//// 그런트
+	//	CGrunt* NewGrunt = CreateObject<CGrunt>("Grunt");
+	//	NewGrunt->SetPos({ 1054.f, 383.f });
+	//	NewGrunt->SetDir(ObjDir::Right);
+	//	NewGrunt->SetState(ObjState::Walk);
+	//	NewGrunt->SetPatrol(true);
+	//	NewGrunt->SetMapTexture("room_factory_2_ColMap", TEXT("room_factory_2_ColMap.bmp"), "MapPath");
 
-		NewGrunt = CreateObject<CGrunt>("Grunt");
-		NewGrunt->SetPos({ 338, 383 });
-		NewGrunt->SetDir(ObjDir::Right);
-		NewGrunt->SetMapTexture("room_factory_2_ColMap", TEXT("room_factory_2_ColMap.bmp"), "MapPath");
+	//	NewGrunt = CreateObject<CGrunt>("Grunt");
+	//	NewGrunt->SetPos({ 338, 383 });
+	//	NewGrunt->SetDir(ObjDir::Right);
+	//	NewGrunt->SetMapTexture("room_factory_2_ColMap", TEXT("room_factory_2_ColMap.bmp"), "MapPath");
 
-		//NewGrunt = CreateObject<CGrunt>("Grunt");
-		//NewGrunt->SetPos({ 530, 671 });
-		//NewGrunt->SetMapTexture("room_factory_2_ColMap", TEXT("room_factory_2_ColMap.bmp"), "MapPath");
+	//	NewGrunt = CreateObject<CGrunt>("Grunt");
+	//	NewGrunt->SetPos({ 530, 671 });
+	//	NewGrunt->SetMapTexture("room_factory_2_ColMap", TEXT("room_factory_2_ColMap.bmp"), "MapPath");
 
-		//NewGrunt = CreateObject<CGrunt>("Grunt");
-		//NewGrunt->SetPos({ 338, 671 });
-		//NewGrunt->SetMapTexture("room_factory_2_ColMap", TEXT("room_factory_2_ColMap.bmp"), "MapPath");
-
-
-		// 갱스터
-		CGangster* NewGangster = CreateObject<CGangster>("Gangster");
-		NewGangster->SetPos({ 545, 383 });
-		NewGangster->SetDir(ObjDir::Left);
-		NewGangster->SetState(ObjState::Idle);
-		NewGangster->SetMapTexture("room_factory_2_ColMap", TEXT("room_factory_2_ColMap.bmp"), "MapPath");
-
-		NewGangster = CreateObject<CGangster>("Gangster");
-		NewGangster->SetPos({ 530, 671 });
-		NewGangster->SetMapTexture("room_factory_2_ColMap", TEXT("room_factory_2_ColMap.bmp"), "MapPath");
-
-		NewGangster = CreateObject<CGangster>("Gangster");
-		NewGangster->SetPos({ 338, 671 });
-		NewGangster->SetMapTexture("room_factory_2_ColMap", TEXT("room_factory_2_ColMap.bmp"), "MapPath");
+	//	//NewGrunt = CreateObject<CGrunt>("Grunt");
+	//	//NewGrunt->SetPos({ 338, 671 });
+	//	//NewGrunt->SetMapTexture("room_factory_2_ColMap", TEXT("room_factory_2_ColMap.bmp"), "MapPath");
 
 
-	}
+	//	// 갱스터
+	//	CGangster* NewGangster = CreateObject<CGangster>("Gangster");
+	//	NewGangster->SetPos({ 545, 383 });
+	//	NewGangster->SetDir(ObjDir::Left);
+	//	NewGangster->SetState(ObjState::Idle);
+	//	NewGangster->SetMapTexture("room_factory_2_ColMap", TEXT("room_factory_2_ColMap.bmp"), "MapPath");
+
+	//	NewGangster = CreateObject<CGangster>("Gangster");
+	//	NewGangster->SetPos({ 1600, 383 });
+	//	NewGangster->SetDir(ObjDir::Left);
+	//	NewGangster->SetState(ObjState::Idle);
+	//	NewGangster->SetMapTexture("room_factory_2_ColMap", TEXT("room_factory_2_ColMap.bmp"), "MapPath");
+
+	//	//NewGangster = CreateObject<CGangster>("Gangster");
+	//	//NewGangster->SetPos({ 338, 671 });
+	//	//NewGangster->SetMapTexture("room_factory_2_ColMap", TEXT("room_factory_2_ColMap.bmp"), "MapPath");
+
+
+	//}
 
 
 	CreateWidgetWindow<CCharacterHUD>("CharacterHUD");
@@ -936,6 +939,18 @@ void CStage_1::CreateAnimationSequence()
 	GetSceneResource()->SetColorKey("effect_bloodanimation2_right", 255, 0, 255);
 
 
+	// effect_slash_hit 한장짜리 이미지 방식
+	GetSceneResource()->CreateAnimationSequence("effect_slash_hit",
+		"effect_slash_hit", TEXT("Effect/effect_slash_hit.bmp"), TEXTURE_PATH);
+
+	for (int i = 0; i < 4; ++i)
+	{
+		GetSceneResource()->AddAnimationFrame("effect_slash_hit", 78.f * i, 0.f,
+			78.f, 78.f);
+	}
+	GetSceneResource()->SetColorKey("effect_slash_hit", 255, 0, 255);
+
+
 
 	// Effect spr_gunspark_left
 	{
@@ -991,6 +1006,35 @@ void CStage_1::CreateAnimationSequence()
 		}
 
 		CResourceManager::GetInst()->SetColorKey("spr_gunspark_right", 255, 255, 255);
+	}
+
+
+	// Effect spr_sniperbullet
+	{
+		std::vector<std::wstring>	vecFileName;
+
+		for (int i = 0; i <= 4; ++i)
+		{
+			TCHAR	FileName[MAX_PATH] = {};
+			// %d에 i의 값이 대입되어 문자열이 만들어지게 된다.
+			wsprintf(FileName, TEXT("Effect/spr_sniperbullet/%d.bmp"), i);
+			vecFileName.push_back(FileName);
+		}
+
+		CResourceManager::GetInst()->CreateAnimationSequence("spr_sniperbullet",
+			"spr_sniperbullet", vecFileName, TEXTURE_PATH);
+
+		for (int i = 0; i <= 4; ++i)
+		{
+			CTexture* Texture = CResourceManager::GetInst()->FindTexture("spr_sniperbullet");
+			int NewWidth = Texture->GetWidth(i);
+			int NewHeight = Texture->GetHeight(i);
+
+			CResourceManager::GetInst()->AddAnimationFrame("spr_sniperbullet", 0.f, 0.f,
+				(float)NewWidth, (float)NewHeight);
+		}
+
+		CResourceManager::GetInst()->SetColorKey("spr_sniperbullet", 255, 255, 255);
 	}
 
 

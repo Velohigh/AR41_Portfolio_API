@@ -526,7 +526,7 @@ void CGangster::AttackUpdate()
 			NewBullet->SetMoveDir(ToPlayerVector);
 		}
 		NewBullet->FindCollider("Body")->SetCollisionProfile("MonsterBullet");
-
+		NewBullet->SetMapTexture(m_MapColTexture);
 	}
 
 

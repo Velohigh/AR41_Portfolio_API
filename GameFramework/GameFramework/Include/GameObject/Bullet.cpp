@@ -9,6 +9,7 @@
 #include "../GameManager.h"
 #include "Player.h"
 #include "../Resource/Texture/Texture.h"
+#include "Effect_SniperBullet.h"
 
 CBullet::CBullet()	:
 	m_Damage(0.f)
@@ -30,7 +31,7 @@ bool CBullet::Init()
 {
 	CGameObject::Init();
 
-	m_MoveSpeed = 1000.f;
+	m_MoveSpeed = 1100.f;
 
 	SetSize(48.f, 48.f);
 	SetPivot(0.5f, 0.5f);
@@ -71,6 +72,13 @@ void CBullet::PostUpdate(float DeltaTime)
 {
 	CGameObject::PostUpdate(DeltaTime);
 
+	// 벽에 부딪히면 총알 삭제
+	int Color = m_MapColTexture->GetImagePixel(m_Pos);
+	if (Color == RGB(0, 0, 0))
+		SetActive(false);
+
+
+	// 이미지 회전에 사용할 변수들
 	float fCenterX = m_Texture->GetWidth() / 2.f;
 	float fCenterY = m_Texture->GetHeight() / 2.f;
 	float fDis = sqrtf(fCenterX * fCenterX + fCenterY * fCenterY);
@@ -119,14 +127,34 @@ void CBullet::CollisionBegin(CCollider* Src, CCollider* Dest)
 	{
 		m_MoveDir *= -1.f;
 		FindCollider("Body")->SetCollisionProfile("PlayerAttack");
+
+		CEffect_SniperBullet* NewEffect = m_Scene->CreateObject<CEffect_SniperBullet>("SniperBullet");
+		NewEffect->SetPos(m_Pos);
+		NewEffect->AddAnimation("spr_sniperbullet", false, 0.15f);
+		NewEffect->SetPivot(0.5f, 0.5f);
+
+		CEffect* SlashhitEffect = m_Scene->CreateObject<CEffect>("SlashHit");
+		SlashhitEffect->SetPos(Src->GetHitPoint());
+		SlashhitEffect->AddAnimation("effect_slash_hit", false, 0.1f);
+		SlashhitEffect->SetPivot(0.5f, 0.5f);
+
+		m_Scene->GetSceneResource()->SoundPlay("reflect");
+
 	}
 
-	else if (Dest->GetOwner()->GetState() != ObjState::Dead)
+	else if (Dest->GetOwner()->GetState() != ObjState::Dead && 
+		Dest->GetOwner() != m_Scene->GetPlayer())
 	{
 		Dest->GetOwner()->SetEnemyAttackDir(m_MoveDir * m_MoveSpeed + Vector2{ 0.f, -400.f });
 		Dest->GetOwner()->SetState(ObjState::HurtFly);
 		SetActive(false);
 		m_Scene->GetSceneResource()->SoundPause("death_bullet");
+
+		CEffect* SlashhitEffect = m_Scene->CreateObject<CEffect>("SlashHit");
+		SlashhitEffect->SetPos(Src->GetHitPoint());
+		SlashhitEffect->AddAnimation("effect_slash_hit", false, 0.1f);
+		SlashhitEffect->SetPivot(0.5f, 0.5f);
+
 	}
 
 }

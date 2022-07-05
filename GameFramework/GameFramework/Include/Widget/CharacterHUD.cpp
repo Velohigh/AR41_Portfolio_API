@@ -63,7 +63,11 @@ bool CCharacterHUD::Init()
 	m_TimeBar->SetBarDir(EProgressBar_Dir::LeftToRight);
 	m_TimeBar->SetColorKey(EProgressBar_Texture_Type::Bar, 255, 0, 255);
 
-
+	m_katana = CreateWidget<CImageWidget>("Katana_Icon");
+	m_katana->SetTexture("Katana_Icon", TEXT("spr_katanaicons.bmp"));
+	m_katana->SetColorKey(255, 255, 255);
+	m_katana->SetSize(40.f, 40.f);
+	m_katana->SetPos(1148, 3);
 
 	//m_FPSText = CreateWidget<CText>("Text");
 

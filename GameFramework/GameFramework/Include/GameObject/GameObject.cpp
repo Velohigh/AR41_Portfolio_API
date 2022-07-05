@@ -183,7 +183,7 @@ void CGameObject::SetMapTexture(CTexture* Texture)
 {
 	m_MapColTexture = Texture;
 
-	SetSize((float)m_MapColTexture->GetWidth(), (float)m_MapColTexture->GetHeight());
+	//SetSize((float)m_MapColTexture->GetWidth(), (float)m_MapColTexture->GetHeight());
 }
 
 void CGameObject::SetMapTexture(const std::string& Name, const TCHAR* FileName,
