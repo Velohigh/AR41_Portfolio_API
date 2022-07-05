@@ -47,7 +47,7 @@ bool CGrunt::Init()
 	CColliderBox* Box = AddCollider<CColliderBox>("Body");
 	Box->SetExtent(36.f, 70.f);
 	Box->SetOffset(0.f, -35.f);
-	Box->SetCollisionProfile("Monster");
+	Box->SetCollisionProfile("MonsterHitBox");
 
 	// 충돌체 시야 추가
 	m_ViewCollider = AddCollider<CColliderBox>("View");
@@ -102,8 +102,14 @@ void CGrunt::Update(float DeltaTime)
 {
 	CGameObject::Update(DeltaTime);
 
-	DirAnimationCheck();
-	ObjStateUpdate();
+	if (static_cast<CPlayer*>(m_Scene->GetPlayer())->GetState() == PlayerState::Dead &&
+		m_CurState != ObjState::Dead)
+		StateChange(ObjState::Idle);
+	else
+	{
+		DirAnimationCheck();
+		ObjStateUpdate();
+	}
 
 	if (m_CurDir == ObjDir::Right)
 		m_ViewCollider->SetOffset(250.f, -35.f);
@@ -270,9 +276,12 @@ void CGrunt::HurtFlyStart()
 		m_CurDir = ObjDir::Right;
 	}
 
-	// 맞은자리에 핏자국 생성
-	CEffect_BloodRemain* BloodRemainEffect = m_Scene->CreateObject<CEffect_BloodRemain>("BloodRemain");
-	BloodRemainEffect->SetPos(m_Pos + Vector2{ 0,-35 });
+	if (m_EnemyAttackDir == Vector2{ 0.f, 0.f })
+	{
+		// 맞은자리에 핏자국 생성
+		CEffect_BloodRemain* BloodRemainEffect = m_Scene->CreateObject<CEffect_BloodRemain>("BloodRemain");
+		BloodRemainEffect->SetPos(m_Pos + Vector2{ 0,-35 });
+	}
 
 	//// 피분출 애니메이션
 	//NewBloodAnimation = CreateRenderer();
@@ -282,21 +291,25 @@ void CGrunt::HurtFlyStart()
 	//NewBloodAnimation->CreateAnimation("effect_bloodanimation2_right.bmp", "BloodAnimation2_right", 0, 9, 0.06, true);
 	//NewBloodAnimation->CreateAnimation("effect_bloodanimation2_left.bmp", "BloodAnimation2_left", 0, 9, 0.06, true);
 
-	if (g_AttackDir.x >= 0.f)
+	if (m_EnemyAttackDir == Vector2{ 0.f, 0.f })
 	{
-		CEffect_BloodAnimation* NewBloodAnimation = m_Scene->CreateObject<CEffect_BloodAnimation>("BloodAnimation");
-		NewBloodAnimation->SetPos(m_Pos);
-		NewBloodAnimation->SetDir(ObjDir::Right);
-		NewBloodAnimation->ChangeAnimation("effect_bloodanimation_right");
-		NewBloodAnimation->SetOwner(this);
-	}
-	else if (g_AttackDir.x < 0.f)
-	{
-		CEffect_BloodAnimation* NewBloodAnimation = m_Scene->CreateObject<CEffect_BloodAnimation>("BloodAnimation");
-		NewBloodAnimation->SetPos(m_Pos);
-		NewBloodAnimation->SetDir(ObjDir::Left);
-		NewBloodAnimation->ChangeAnimation("effect_bloodanimation_left");
-		NewBloodAnimation->SetOwner(this);
+
+		if (g_AttackDir.x >= 0.f)
+		{
+			CEffect_BloodAnimation* NewBloodAnimation = m_Scene->CreateObject<CEffect_BloodAnimation>("BloodAnimation");
+			NewBloodAnimation->SetPos(m_Pos);
+			NewBloodAnimation->SetDir(ObjDir::Right);
+			NewBloodAnimation->ChangeAnimation("effect_bloodanimation_right");
+			NewBloodAnimation->SetOwner(this);
+		}
+		else if (g_AttackDir.x < 0.f)
+		{
+			CEffect_BloodAnimation* NewBloodAnimation = m_Scene->CreateObject<CEffect_BloodAnimation>("BloodAnimation");
+			NewBloodAnimation->SetPos(m_Pos);
+			NewBloodAnimation->SetDir(ObjDir::Left);
+			NewBloodAnimation->ChangeAnimation("effect_bloodanimation_left");
+			NewBloodAnimation->SetOwner(this);
+		}
 	}
 
 	//// 히트 레이저 이펙트
@@ -570,12 +583,12 @@ void CGrunt::CreateAttackCollision()
 	if (m_CurDir == ObjDir::Right)
 	{
 		Box->SetOffset(Vector2{ 0.f, -35.f } + Vector2{ 1.f, 0.f } *50.f);
-		g_EnemyAttackDir = Vector2{ 1.f , -0.5f };
+		static_cast<CPlayer*>(m_Scene->GetPlayer())->SetEnemyAttackDir(Vector2{ 1.f , -0.5f } * 800);
 	}
 	else if (m_CurDir == ObjDir::Left)
 	{
 		Box->SetOffset(Vector2{ 0.f, -35.f } + Vector2{ -1.f, 0.f } *50.f);
-		g_EnemyAttackDir = Vector2{ -1.f ,-0.5f };
+		static_cast<CPlayer*>(m_Scene->GetPlayer())->SetEnemyAttackDir(Vector2{ -1.f , -0.5f } *800);
 	}
 	Box->SetCollisionProfile("MonsterAttack");
 	m_AttackCollider = Box;

@@ -13,7 +13,6 @@ protected:
 	virtual ~CBullet();
 
 private:
-	float	m_Angle;
 	float	m_Distance;
 	float	m_Damage;
 

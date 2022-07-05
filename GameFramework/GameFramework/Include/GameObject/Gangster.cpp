@@ -14,6 +14,7 @@
 #include "Effect_Enemy_Follow.h"
 #include "Player.h"
 #include "GangsterLeftArm.h"
+#include "Bullet.h"
 
 extern Vector2 g_AttackDir;
 
@@ -45,11 +46,11 @@ bool CGangster::Init()
 	CColliderBox* Box = AddCollider<CColliderBox>("Body");
 	Box->SetExtent(36.f, 70.f);
 	Box->SetOffset(0.f, -35.f);
-	Box->SetCollisionProfile("Monster");
+	Box->SetCollisionProfile("MonsterHitBox");
 
 	// 충돌체 시야 추가
 	m_ViewCollider = AddCollider<CColliderBox>("View");
-	m_ViewCollider->SetExtent(580.f, 180.f);
+	m_ViewCollider->SetExtent(600.f, 180.f);
 	m_ViewCollider->SetCollisionProfile("Monster");
 
 
@@ -65,8 +66,8 @@ bool CGangster::Init()
 	AddAnimation("spr_gangster_idle_left", true, 0.96f);
 	AddAnimation("spr_gangster_idle_right", true, 0.96f);
 
-	AddAnimation("spr_gangsteraim_left", true, 0.6f);
-	AddAnimation("spr_gangsteraim_right", true, 0.6f);
+	AddAnimation("spr_gangsteraim_left", true, 0.8f);
+	AddAnimation("spr_gangsteraim_right", true, 0.8f);
 
 	AddAnimation("spr_gangsterhurtground_left", false, 0.98f);
 	AddAnimation("spr_gangsterhurtground_right", false, 0.98f);
@@ -91,8 +92,14 @@ void CGangster::Update(float DeltaTime)
 {
 	CGameObject::Update(DeltaTime);
 
-	DirAnimationCheck();
-	ObjStateUpdate();
+	if (static_cast<CPlayer*>(m_Scene->GetPlayer())->GetState() == PlayerState::Dead &&
+		m_CurState != ObjState::Dead)
+		StateChange(ObjState::Idle);
+	else
+	{
+		DirAnimationCheck();
+		ObjStateUpdate();
+	}
 
 	if (m_CurDir == ObjDir::Right)
 		m_ViewCollider->SetOffset(300.f, -35.f);
@@ -252,9 +259,12 @@ void CGangster::HurtFlyStart()
 		m_CurDir = ObjDir::Right;
 	}
 
-	// 맞은자리에 핏자국 생성
-	CEffect_BloodRemain* BloodRemainEffect = m_Scene->CreateObject<CEffect_BloodRemain>("BloodRemain");
-	BloodRemainEffect->SetPos(m_Pos + Vector2{ 0,-35 });
+	if (m_EnemyAttackDir == Vector2{ 0.f, 0.f })
+	{
+		// 맞은자리에 핏자국 생성
+		CEffect_BloodRemain* BloodRemainEffect = m_Scene->CreateObject<CEffect_BloodRemain>("BloodRemain");
+		BloodRemainEffect->SetPos(m_Pos + Vector2{ 0,-35 });
+	}
 
 	//// 피분출 애니메이션
 	//NewBloodAnimation = CreateRenderer();
@@ -264,21 +274,25 @@ void CGangster::HurtFlyStart()
 	//NewBloodAnimation->CreateAnimation("effect_bloodanimation2_right.bmp", "BloodAnimation2_right", 0, 9, 0.06, true);
 	//NewBloodAnimation->CreateAnimation("effect_bloodanimation2_left.bmp", "BloodAnimation2_left", 0, 9, 0.06, true);
 
-	if (g_AttackDir.x >= 0.f)
+
+	if (m_EnemyAttackDir == Vector2{ 0.f, 0.f })
 	{
-		CEffect_BloodAnimation* NewBloodAnimation = m_Scene->CreateObject<CEffect_BloodAnimation>("BloodAnimation");
-		NewBloodAnimation->SetPos(m_Pos);
-		NewBloodAnimation->SetDir(ObjDir::Right);
-		NewBloodAnimation->ChangeAnimation("effect_bloodanimation_right");
-		NewBloodAnimation->SetOwner(this);
-	}
-	else if (g_AttackDir.x < 0.f)
-	{
-		CEffect_BloodAnimation* NewBloodAnimation = m_Scene->CreateObject<CEffect_BloodAnimation>("BloodAnimation");
-		NewBloodAnimation->SetPos(m_Pos);
-		NewBloodAnimation->SetDir(ObjDir::Left);
-		NewBloodAnimation->ChangeAnimation("effect_bloodanimation_left");
-		NewBloodAnimation->SetOwner(this);
+		if (g_AttackDir.x >= 0.f)
+		{
+			CEffect_BloodAnimation* NewBloodAnimation = m_Scene->CreateObject<CEffect_BloodAnimation>("BloodAnimation");
+			NewBloodAnimation->SetPos(m_Pos);
+			NewBloodAnimation->SetDir(ObjDir::Right);
+			NewBloodAnimation->ChangeAnimation("effect_bloodanimation_right");
+			NewBloodAnimation->SetOwner(this);
+		}
+		else if (g_AttackDir.x < 0.f)
+		{
+			CEffect_BloodAnimation* NewBloodAnimation = m_Scene->CreateObject<CEffect_BloodAnimation>("BloodAnimation");
+			NewBloodAnimation->SetPos(m_Pos);
+			NewBloodAnimation->SetDir(ObjDir::Left);
+			NewBloodAnimation->ChangeAnimation("effect_bloodanimation_left");
+			NewBloodAnimation->SetOwner(this);
+		}
 	}
 
 	//// 히트 레이저 이펙트
@@ -413,7 +427,7 @@ void CGangster::RunUpdate()
 		return;
 	}
 
-	// 플레이어를 쫓아가도록 좌우 방향 조정
+	// 플레이어를 바라보도록 좌우 방향 조정
 	if (m_Scene->GetPlayer()->GetPos().x >= m_Pos.x)
 		SetDir(ObjDir::Right);
 	else if (m_Scene->GetPlayer()->GetPos().x < m_Pos.x)
@@ -448,6 +462,13 @@ void CGangster::RunUpdate()
 
 void CGangster::AttackUpdate()
 {
+	// 플레이어를 바라보도록 좌우 방향 조정
+	if (m_Scene->GetPlayer()->GetPos().x >= m_Pos.x)
+		SetDir(ObjDir::Right);
+	else if (m_Scene->GetPlayer()->GetPos().x < m_Pos.x)
+		SetDir(ObjDir::Left);
+
+
 	// 플레이어 사망상태면 Idle 상태로
 	if (PlayerState::Dead == static_cast<CPlayer*>(m_Scene->GetPlayer())->CPlayer::GetState())
 	{
@@ -465,9 +486,9 @@ void CGangster::AttackUpdate()
 	}
 
 	m_StateTime[(int)ObjState::Attack] += DELTA_TIME;
-	if (m_StateTime[(int)ObjState::Attack] >= 0.4f)
+	if (m_StateTime[(int)ObjState::Attack] >= 0.7f)
 	{
-		// 어택 이펙트
+		// 총알 발사 이펙트
 		CEffect_GunSpark* NewEffect = m_Scene->CreateObject<CEffect_GunSpark>("GunSpark");
 		m_Scene->GetSceneResource()->SoundPlay("fire");
 		if (m_CurDir == ObjDir::Right)
@@ -483,7 +504,28 @@ void CGangster::AttackUpdate()
 		}
 		NewEffect->SetPivot(0.5f, 0.5f);
 
-		m_StateTime[(int)ObjState::Attack] -= 0.4f;
+		m_StateTime[(int)ObjState::Attack] -= 0.7f;
+
+		// 총알 생성
+		CBullet* NewBullet = m_Scene->CreateObject<CBullet>("Bullet");
+		if (m_CurDir == ObjDir::Right)
+		{
+			NewBullet->SetPos(m_Pos + Vector2{ 40.f, -44.f });
+
+			Vector2 ToPlayerVector = (m_Scene->GetPlayer()->GetPos()) - m_Pos;
+			ToPlayerVector.Normalize();
+			NewBullet->SetMoveDir(ToPlayerVector);
+		}
+
+		else if (m_CurDir == ObjDir::Left)
+		{
+			NewBullet->SetPos(m_Pos + Vector2{ -40.f, -44.f });
+
+			Vector2 ToPlayerVector = (m_Scene->GetPlayer()->GetPos()) - m_Pos;
+			ToPlayerVector.Normalize();
+			NewBullet->SetMoveDir(ToPlayerVector);
+		}
+		NewBullet->FindCollider("Body")->SetCollisionProfile("MonsterBullet");
 
 	}
 

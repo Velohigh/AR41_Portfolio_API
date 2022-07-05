@@ -38,6 +38,7 @@ bool CStage_1::Init()
 	GetSceneResource()->LoadSound("Effect", "fire", false, "fire.wav");
 	GetSceneResource()->LoadSound("Effect", "swing", false, "swing.wav");
 	GetSceneResource()->LoadSound("Effect", "punch", false, "punch.wav");
+	GetSceneResource()->LoadSound("Effect", "death_bullet", false, "death_bullet.wav");
 
 
 	GetCamera()->SetResolution(1280.f, 720.f);

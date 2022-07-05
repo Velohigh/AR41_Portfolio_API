@@ -965,7 +965,7 @@ void CGameObject::Render(HDC hDC, float DeltaTime)
 
 	else
 	{
-		if (m_Texture)
+		if (m_bRotate)
 		{
 			Vector2	RenderLT;
 
@@ -985,33 +985,63 @@ void CGameObject::Render(HDC hDC, float DeltaTime)
 			else if (CullPos.y + m_Size.y < CameraPos.y)
 				return;
 
-			if (m_Texture->GetEnableColorKey())
+
+			GdiTransparentBlt(hDC, (int)RenderLT.x, (int)RenderLT.y,
+				(int)m_Size.x, (int)m_Size.y, m_PlgTexture->GetDC(),
+				0, 0, 48, 48, RGB(255,255,255));
+		}
+		
+		else
+		{
+			if (m_Texture)
 			{
-				if (m_Texture->GetTextureType() == ETexture_Type::Sprite)
+				Vector2	RenderLT;
+
+				RenderLT = Pos - m_Pivot * m_Size * m_RenderScale;
+
+				Vector2	CullPos = m_Pos - m_Pivot * m_Size;
+
+				if (CullPos.x > CameraPos.x + Resolution.x)
+					return;
+
+				else if (CullPos.x + m_Size.x < CameraPos.x)
+					return;
+
+				else if (CullPos.y > CameraPos.y + Resolution.y)
+					return;
+
+				else if (CullPos.y + m_Size.y < CameraPos.y)
+					return;
+
+				if (m_Texture->GetEnableColorKey())
 				{
-					TransparentBlt(hDC, (int)RenderLT.x, (int)RenderLT.y,
-						(int)m_Size.x * m_RenderScale, (int)m_Size.y* m_RenderScale, m_Texture->GetDC(),
-						0, 0, (int)m_Size.x, (int)m_Size.y, m_Texture->GetColorKey());
+					if (m_Texture->GetTextureType() == ETexture_Type::Sprite)
+					{
+						TransparentBlt(hDC, (int)RenderLT.x, (int)RenderLT.y,
+							(int)m_Size.x * m_RenderScale, (int)m_Size.y * m_RenderScale, m_Texture->GetDC(),
+							0, 0, (int)m_Size.x, (int)m_Size.y, m_Texture->GetColorKey());
+					}
+
+					else
+					{
+					}
 				}
 
 				else
 				{
+					if (m_Texture->GetTextureType() == ETexture_Type::Sprite)
+					{
+						BitBlt(hDC, (int)RenderLT.x, (int)RenderLT.y,
+							(int)m_Size.x, (int)m_Size.y, m_Texture->GetDC(),
+							0, 0, SRCCOPY);
+					}
+
+					else
+					{
+					}
 				}
 			}
 
-			else
-			{
-				if (m_Texture->GetTextureType() == ETexture_Type::Sprite)
-				{
-					BitBlt(hDC, (int)RenderLT.x, (int)RenderLT.y,
-						(int)m_Size.x, (int)m_Size.y, m_Texture->GetDC(),
-						0, 0, SRCCOPY);
-				}
-
-				else
-				{
-				}
-			}
 		}
 	}
 

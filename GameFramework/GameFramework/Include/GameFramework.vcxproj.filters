@@ -157,6 +157,9 @@
     <Filter Include="02. GameObject\01. Character\01. Enemy\00. Effect\Effect_GunSpark">
       <UniqueIdentifier>{83f05db8-0e9a-4fdf-b41a-b78448810caf}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GameObject\01. Character\01. Enemy\00. Effect\Effect_EnemyBullet">
+      <UniqueIdentifier>{b2d40aa9-0655-44af-bb79-ffeedd304b03}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">

@@ -58,12 +58,19 @@ private:
 	float		m_BatteryPushTime = 0.f;
 	bool		m_SlowModeSound = false;
 	CCollider* m_PlayerAttackCollision = nullptr;
+	Vector2		m_EnemyAttackDir = {};
 
 
 public:
 	PlayerState GetState() const
 	{
 		return m_CurState;
+	}
+
+public:
+	void SetEnemyAttackDir(Vector2 Value)
+	{
+		m_EnemyAttackDir = Value;
 	}
 
 public:

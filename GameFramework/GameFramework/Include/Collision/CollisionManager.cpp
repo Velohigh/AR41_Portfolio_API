@@ -25,21 +25,28 @@ bool CCollisionManager::Init()
 	CreateProfile("Default", ECollision_Channel::Default, true);
 	CreateProfile("Player", ECollision_Channel::Player, true, ECollision_Interaction::Ignore);
 	CreateProfile("PlayerHitBox", ECollision_Channel::PlayerHitBox, true, ECollision_Interaction::Ignore);
+	CreateProfile("PlayerBullet", ECollision_Channel::PlayerBullet, true, ECollision_Interaction::Ignore);
 	CreateProfile("Monster", ECollision_Channel::Monster, true, ECollision_Interaction::Ignore);
+	CreateProfile("MonsterHitBox", ECollision_Channel::MonsterHitBox, true, ECollision_Interaction::Ignore);
 	CreateProfile("PlayerAttack", ECollision_Channel::PlayerAttack, true, ECollision_Interaction::Ignore);
 	CreateProfile("MonsterAttack", ECollision_Channel::MonsterAttack, true, ECollision_Interaction::Ignore);
+	CreateProfile("MonsterBullet", ECollision_Channel::MonsterBullet, true, ECollision_Interaction::Ignore);
 	CreateProfile("Mouse", ECollision_Channel::Mouse, true, ECollision_Interaction::Collision);
 
 	SetCollisionInteraction("Player", ECollision_Channel::Default, ECollision_Interaction::Collision);
 	SetCollisionInteraction("Player", ECollision_Channel::MonsterAttack, ECollision_Interaction::Collision);
+	SetCollisionInteraction("Player", ECollision_Channel::MonsterBullet, ECollision_Interaction::Collision);
 	SetCollisionInteraction("Player", ECollision_Channel::Monster, ECollision_Interaction::Collision);
 	SetCollisionInteraction("Player", ECollision_Channel::Mouse, ECollision_Interaction::Collision);
 
 	SetCollisionInteraction("PlayerHitBox", ECollision_Channel::Default, ECollision_Interaction::Ignore);
 	SetCollisionInteraction("PlayerHitBox", ECollision_Channel::MonsterAttack, ECollision_Interaction::Collision);
+	SetCollisionInteraction("PlayerHitBox", ECollision_Channel::MonsterBullet, ECollision_Interaction::Collision);
 	SetCollisionInteraction("PlayerHitBox", ECollision_Channel::Monster, ECollision_Interaction::Ignore);
 	SetCollisionInteraction("PlayerHitBox", ECollision_Channel::Mouse, ECollision_Interaction::Ignore);
 
+	SetCollisionInteraction("MonsterHitBox", ECollision_Channel::Default, ECollision_Interaction::Collision);
+	SetCollisionInteraction("MonsterHitBox", ECollision_Channel::PlayerAttack, ECollision_Interaction::Collision);
 
 	SetCollisionInteraction("Monster", ECollision_Channel::Default, ECollision_Interaction::Collision);
 	SetCollisionInteraction("Monster", ECollision_Channel::PlayerAttack, ECollision_Interaction::Collision);
@@ -47,11 +54,21 @@ bool CCollisionManager::Init()
 	SetCollisionInteraction("Monster", ECollision_Channel::Mouse, ECollision_Interaction::Collision);
 
 	SetCollisionInteraction("PlayerAttack", ECollision_Channel::Default, ECollision_Interaction::Collision);
-	SetCollisionInteraction("PlayerAttack", ECollision_Channel::Monster, ECollision_Interaction::Collision);
+	SetCollisionInteraction("PlayerAttack", ECollision_Channel::MonsterHitBox, ECollision_Interaction::Collision);
+	SetCollisionInteraction("PlayerAttack", ECollision_Channel::MonsterBullet, ECollision_Interaction::Collision);
 
 	SetCollisionInteraction("MonsterAttack", ECollision_Channel::Default, ECollision_Interaction::Collision);
 	SetCollisionInteraction("MonsterAttack", ECollision_Channel::Player, ECollision_Interaction::Collision);
 	SetCollisionInteraction("MonsterAttack", ECollision_Channel::PlayerHitBox, ECollision_Interaction::Collision);
+
+	SetCollisionInteraction("MonsterBullet", ECollision_Channel::Default, ECollision_Interaction::Collision);
+	SetCollisionInteraction("MonsterBullet", ECollision_Channel::Player, ECollision_Interaction::Collision);
+	SetCollisionInteraction("MonsterBullet", ECollision_Channel::PlayerHitBox, ECollision_Interaction::Collision);
+	SetCollisionInteraction("MonsterBullet", ECollision_Channel::PlayerAttack, ECollision_Interaction::Collision);
+
+	SetCollisionInteraction("PlayerBullet", ECollision_Channel::Default, ECollision_Interaction::Collision);
+	SetCollisionInteraction("PlayerBullet", ECollision_Channel::MonsterHitBox, ECollision_Interaction::Collision);
+
 
 	return true;
 }

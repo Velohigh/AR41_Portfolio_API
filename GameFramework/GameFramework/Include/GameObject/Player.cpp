@@ -2042,13 +2042,13 @@ void CPlayer::AttackStart()
 
 void CPlayer::HurtFlyLoopStart()
 {
-	m_MoveDir = Vector2{g_EnemyAttackDir * 800.f};
+	m_MoveDir = Vector2{m_EnemyAttackDir};
 
-	if (g_EnemyAttackDir.x > 0)
+	if (m_EnemyAttackDir.x > 0)
 	{
 		m_CurDir = PlayerDir::Left;
 	}
-	else if (g_EnemyAttackDir.x < 0)
+	else if (m_EnemyAttackDir.x < 0)
 	{
 		m_CurDir = PlayerDir::Right;
 	}

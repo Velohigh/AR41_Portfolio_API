@@ -260,7 +260,7 @@ struct Vector2
 
 		Angle = acosf(Angle) / PI * 180.f;
 
-		if (v.y < y)
+		if (v.y > y)
 			Angle = 360.f - Angle;
 
 		return Angle;

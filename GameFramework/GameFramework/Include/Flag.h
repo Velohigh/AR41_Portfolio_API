@@ -23,9 +23,12 @@ enum class ECollision_Channel
 	Default,
 	Player,
 	PlayerHitBox,
+	PlayerBullet,
 	Monster,
+	MonsterHitBox,
 	PlayerAttack,
 	MonsterAttack,
+	MonsterBullet,
 	Mouse,
 	Max
 };
