@@ -154,8 +154,8 @@
     <Filter Include="02. GameObject\01. Character\01. Enemy\00. Effect\Effect_Enemy_Follow">
       <UniqueIdentifier>{acbf40a0-9020-4b8c-8dde-724946b09210}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02. GameObject\01. Character\01. Enemy\02. Gangster\LeftArm">
-      <UniqueIdentifier>{22d57c35-dbdf-42a4-9772-9d1005e9ceca}</UniqueIdentifier>
+    <Filter Include="02. GameObject\01. Character\01. Enemy\00. Effect\Effect_GunSpark">
+      <UniqueIdentifier>{83f05db8-0e9a-4fdf-b41a-b78448810caf}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -345,8 +345,8 @@
     <ClCompile Include="GameObject\Effect_Enemy_Follow.cpp">
       <Filter>02. GameObject\01. Character\01. Enemy\00. Effect\Effect_Enemy_Follow</Filter>
     </ClCompile>
-    <ClCompile Include="GameObject\GangsterLeftArm.cpp">
-      <Filter>02. GameObject\01. Character\01. Enemy\02. Gangster\LeftArm</Filter>
+    <ClCompile Include="GameObject\Effect_GunSpark.cpp">
+      <Filter>02. GameObject\01. Character\01. Enemy\00. Effect\Effect_GunSpark</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -572,8 +572,8 @@
     <ClInclude Include="GameObject\Effect_Enemy_Follow.h">
       <Filter>02. GameObject\01. Character\01. Enemy\00. Effect\Effect_Enemy_Follow</Filter>
     </ClInclude>
-    <ClInclude Include="GameObject\GangsterLeftArm.h">
-      <Filter>02. GameObject\01. Character\01. Enemy\02. Gangster\LeftArm</Filter>
+    <ClInclude Include="GameObject\Effect_GunSpark.h">
+      <Filter>02. GameObject\01. Character\01. Enemy\00. Effect\Effect_GunSpark</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -35,6 +35,10 @@ bool CStage_1::Init()
 	GetSceneResource()->LoadSound("Effect", "sound_enemy_bloodsplat3", false, "sound_enemy_bloodsplat3.wav");
 	GetSceneResource()->LoadSound("Effect", "sound_enemy_bloodsplat4", false, "sound_enemy_bloodsplat4.wav");
 	GetSceneResource()->SetVolume(100);
+	GetSceneResource()->LoadSound("Effect", "fire", false, "fire.wav");
+	GetSceneResource()->LoadSound("Effect", "swing", false, "swing.wav");
+	GetSceneResource()->LoadSound("Effect", "punch", false, "punch.wav");
+
 
 	GetCamera()->SetResolution(1280.f, 720.f);
 	GetCamera()->SetWorldResolution(1800.f, 784.f);
@@ -929,6 +933,64 @@ void CStage_1::CreateAnimationSequence()
 			80.f, 79.f);
 	}
 	GetSceneResource()->SetColorKey("effect_bloodanimation2_right", 255, 0, 255);
+
+
+
+	// Effect spr_gunspark_left
+	{
+		std::vector<std::wstring>	vecFileName;
+
+		for (int i = 0; i <= 5; ++i)
+		{
+			TCHAR	FileName[MAX_PATH] = {};
+			// %d에 i의 값이 대입되어 문자열이 만들어지게 된다.
+			wsprintf(FileName, TEXT("Effect/spr_gunspark_left/%d.bmp"), i);
+			vecFileName.push_back(FileName);
+		}
+
+		CResourceManager::GetInst()->CreateAnimationSequence("spr_gunspark_left",
+			"spr_gunspark_left", vecFileName, TEXTURE_PATH);
+
+		for (int i = 0; i <= 5; ++i)
+		{
+			CTexture* Texture = CResourceManager::GetInst()->FindTexture("spr_gunspark_left");
+			int NewWidth = Texture->GetWidth(i);
+			int NewHeight = Texture->GetHeight(i);
+
+			CResourceManager::GetInst()->AddAnimationFrame("spr_gunspark_left", 0.f, 0.f,
+				(float)NewWidth, (float)NewHeight);
+		}
+
+		CResourceManager::GetInst()->SetColorKey("spr_gunspark_left", 255, 255, 255);
+	}
+
+	// Effect spr_gunspark_right
+	{
+		std::vector<std::wstring>	vecFileName;
+
+		for (int i = 0; i <= 5; ++i)
+		{
+			TCHAR	FileName[MAX_PATH] = {};
+			// %d에 i의 값이 대입되어 문자열이 만들어지게 된다.
+			wsprintf(FileName, TEXT("Effect/spr_gunspark_right/%d.bmp"), i);
+			vecFileName.push_back(FileName);
+		}
+
+		CResourceManager::GetInst()->CreateAnimationSequence("spr_gunspark_right",
+			"spr_gunspark_right", vecFileName, TEXTURE_PATH);
+
+		for (int i = 0; i <= 5; ++i)
+		{
+			CTexture* Texture = CResourceManager::GetInst()->FindTexture("spr_gunspark_right");
+			int NewWidth = Texture->GetWidth(i);
+			int NewHeight = Texture->GetHeight(i);
+
+			CResourceManager::GetInst()->AddAnimationFrame("spr_gunspark_right", 0.f, 0.f,
+				(float)NewWidth, (float)NewHeight);
+		}
+
+		CResourceManager::GetInst()->SetColorKey("spr_gunspark_right", 255, 255, 255);
+	}
 
 
 

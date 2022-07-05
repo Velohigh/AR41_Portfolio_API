@@ -51,7 +51,7 @@ bool CGrunt::Init()
 
 	// 충돌체 시야 추가
 	m_ViewCollider = AddCollider<CColliderBox>("View");
-	m_ViewCollider->SetExtent(500.f, 200.f);
+	m_ViewCollider->SetExtent(520.f, 180.f);
 	m_ViewCollider->SetCollisionProfile("Monster");
 
 	// 충돌체 어택 범위 추가
@@ -579,5 +579,7 @@ void CGrunt::CreateAttackCollision()
 	}
 	Box->SetCollisionProfile("MonsterAttack");
 	m_AttackCollider = Box;
+
+	m_Scene->GetSceneResource()->SoundPlay("punch");
 
 }

@@ -175,9 +175,9 @@ void CPlayer::Update(float DeltaTime)
 	if (m_Battery < 11)
 	{
 		m_BatteryRechargeTime += DELTA_TIME;
-		if (m_BatteryRechargeTime >= 5.f)
+		if (m_BatteryRechargeTime >= 1.f)
 		{
-			m_BatteryRechargeTime -= 5.f;
+			m_BatteryRechargeTime -= 1.f;
 			m_Battery += 1;
 		}
 	}
@@ -1214,6 +1214,8 @@ void CPlayer::CarsettePlaySound()
 
 void CPlayer::SlowModeKeyPush()
 {
+	if (m_Battery <= 0)
+		SlowModeKeyUp();
 
 	if (m_Battery >= 1)
 	{
@@ -1228,9 +1230,9 @@ void CPlayer::SlowModeKeyPush()
 			m_SlowModeSound = true;
 		}
 
-		if (m_BatteryPushTime >= 0.4f)
+		if (m_BatteryPushTime >= 0.1f)
 		{
-			m_BatteryPushTime -= 0.4f;
+			m_BatteryPushTime -= 0.1f;
 			m_Battery -= 1;
 		}
 	}
@@ -1238,12 +1240,14 @@ void CPlayer::SlowModeKeyPush()
 
 void CPlayer::SlowModeKeyUp()
 {
-	m_BatteryPushTime = 0.f;
-	static_cast<CStage_1*>(m_Scene)->SetNormalMap();
-	CGameManager::GetInst()->SetTimeScale(1.f);
-	m_Scene->GetSceneResource()->SoundPlay("slow_out");
-	m_SlowModeSound = false;
-
+	if (m_BatteryPushTime != 0.f)
+	{
+		m_BatteryPushTime = 0.f;
+		static_cast<CStage_1*>(m_Scene)->SetNormalMap();
+		CGameManager::GetInst()->SetTimeScale(1.f);
+		m_Scene->GetSceneResource()->SoundPlay("slow_out");
+		m_SlowModeSound = false;
+	}
 
 }
 

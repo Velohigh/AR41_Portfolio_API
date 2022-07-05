@@ -7,6 +7,7 @@
 #include "Effect_BloodRemain.h"
 #include "Effect_BloodAnimation.h"
 #include "Effect_BloodAnimation2.h"
+#include "Effect_GunSpark.h"
 #include "../GameManager.h"
 #include "../Collision/CollisionManager.h"
 #include "../Resource/Texture/Texture.h"
@@ -48,7 +49,7 @@ bool CGangster::Init()
 
 	// 충돌체 시야 추가
 	m_ViewCollider = AddCollider<CColliderBox>("View");
-	m_ViewCollider->SetExtent(600.f, 200.f);
+	m_ViewCollider->SetExtent(580.f, 180.f);
 	m_ViewCollider->SetCollisionProfile("Monster");
 
 
@@ -64,8 +65,8 @@ bool CGangster::Init()
 	AddAnimation("spr_gangster_idle_left", true, 0.96f);
 	AddAnimation("spr_gangster_idle_right", true, 0.96f);
 
-	AddAnimation("spr_gangsteraim_left", true, 0.8f);
-	AddAnimation("spr_gangsteraim_right", true, 0.8f);
+	AddAnimation("spr_gangsteraim_left", true, 0.6f);
+	AddAnimation("spr_gangsteraim_right", true, 0.6f);
 
 	AddAnimation("spr_gangsterhurtground_left", false, 0.98f);
 	AddAnimation("spr_gangsterhurtground_right", false, 0.98f);
@@ -97,15 +98,6 @@ void CGangster::Update(float DeltaTime)
 		m_ViewCollider->SetOffset(300.f, -35.f);
 	else if (m_CurDir == ObjDir::Left)
 		m_ViewCollider->SetOffset(-300.f, -35.f);
-
-	if (m_CurState != ObjState::Attack)
-	{
-		if (m_LeftArm)
-		{
-			m_LeftArm->SetActive(false);
-			m_LeftArm = nullptr;
-		}
-	}
 
 }
 
@@ -181,23 +173,11 @@ void CGangster::RunStart()
 
 void CGangster::AttackStart()
 {
+	m_StateTime[(int)ObjState::Attack] = 0.f;
+
 	m_AnimationName = "spr_gangsteraim_";
 	ChangeAnimation(m_AnimationName + m_ChangeDirText);
 	SetSpeed(0.f);
-
-	// 팔 이펙트 _ 나중에 회전 넣을수 있으면 넣자.
-	m_LeftArm = m_Scene->CreateObject<CGangsterLeftArm>("LeftArm");
-	m_LeftArm->SetPos(m_Pos);
-	m_LeftArm->SetPivot(0.5f, 0.5f);
-	if (m_CurDir == ObjDir::Left)
-		m_LeftArm->SetTexture("GangsterLeftArm", TEXT("Gangster_leftarm_left.bmp"));
-	else if (m_CurDir == ObjDir::Right)
-		m_LeftArm->SetTexture("GangsterRightArm", TEXT("Gangster_leftarm_right.bmp"));
-	m_LeftArm->SetColorKey(0, 0, 0);
-	m_LeftArm->SetRenderLayer(ERender_Layer::PreDefault);
-	m_LeftArm->SetOwner(this);
-
-
 
 }
 
@@ -483,6 +463,30 @@ void CGangster::AttackUpdate()
 		StateChange(ObjState::HurtFly);
 		return;
 	}
+
+	m_StateTime[(int)ObjState::Attack] += DELTA_TIME;
+	if (m_StateTime[(int)ObjState::Attack] >= 0.4f)
+	{
+		// 어택 이펙트
+		CEffect_GunSpark* NewEffect = m_Scene->CreateObject<CEffect_GunSpark>("GunSpark");
+		m_Scene->GetSceneResource()->SoundPlay("fire");
+		if (m_CurDir == ObjDir::Right)
+		{
+			NewEffect->SetPos(m_Pos + Vector2{ 80.f, -44.f });
+			NewEffect->AddAnimation("spr_gunspark_right", true, 0.15f);
+		}
+
+		else if (m_CurDir == ObjDir::Left)
+		{
+			NewEffect->SetPos(m_Pos + Vector2{ -80.f, -44.f });
+			NewEffect->AddAnimation("spr_gunspark_left", true, 0.15f);
+		}
+		NewEffect->SetPivot(0.5f, 0.5f);
+
+		m_StateTime[(int)ObjState::Attack] -= 0.4f;
+
+	}
+
 
 	// 공격 모션이 끝나면 다시 Run 상태로
 	if (true == m_Animation->IsEndAnimation())
