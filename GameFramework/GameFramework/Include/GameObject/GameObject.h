@@ -70,10 +70,13 @@ protected:
 	ObjDir		m_PreDir = ObjDir::End;		// 이전에 보고있던 방향
 	std::string m_AnimationName;			// 재생할 애니메이션
 	std::string m_ChangeDirText;			// 좌우 애니메이션 재생을 결정할 텍스트
-	bool		m_bPatrol = false;		// 해당 유닛의 정찰 행동 유무
+	bool		m_bPatrol = false;		// 해당 유닛의 순찰 행동 유무
+	float		m_PatrolTime = 4.f;		// 순찰 행동 시간
 	float		m_StateTime[static_cast<int>(ObjState::END)];	// 해당 상태가 되고 지난 시간
 	Vector2		m_EnemyAttackDir = {};
+	CCollider*	m_LastView = nullptr;	// 현재보고있는 상대 저장
 
+	// ## 이미지 회전 변수
 protected:
 	bool		m_bRotate = false;
 	POINT		m_ptPos[3] = {};
@@ -226,6 +229,12 @@ public:
 	{
 		m_bPatrol = _b;
 	}
+
+	inline void SetPatrolTime(float Time)
+	{
+		m_PatrolTime = Time;
+	}
+
 
 	inline ObjDir GetDir()
 	{

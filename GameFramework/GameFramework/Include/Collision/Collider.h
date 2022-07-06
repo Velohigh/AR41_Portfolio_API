@@ -91,6 +91,11 @@ public:
         return m_Profile;
     }
 
+    auto GetCollisionList() const
+    {
+        return m_CollisionList;
+    }
+
 public:
     void SetCollisionProfile(const std::string& Name);
     void AddCollisionList(CCollider* Collider);

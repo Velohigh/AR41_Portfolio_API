@@ -157,12 +157,6 @@
     <Filter Include="02. GameObject\01. Character\01. Enemy\00. Effect\Effect_GunSpark">
       <UniqueIdentifier>{83f05db8-0e9a-4fdf-b41a-b78448810caf}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02. GameObject\01. Character\00. Player\00. Effect\Effect_SniperBullet">
-      <UniqueIdentifier>{0360d30b-eac6-4993-a96b-12dd41391d12}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. GameObject\01. Character\01. Enemy\00. Effect\Effect_BulletReflect %28SniperBullet%29">
-      <UniqueIdentifier>{3addbf39-5ade-4e50-a84d-c635f79b6edb}</UniqueIdentifier>
-    </Filter>
     <Filter Include="03. Scene\05. Stage_Scene\00. Stage_1">
       <UniqueIdentifier>{dc8853b0-259d-4edd-8c30-5a435d5945b3}</UniqueIdentifier>
     </Filter>
@@ -356,9 +350,6 @@
     </ClCompile>
     <ClCompile Include="GameObject\Effect_GunSpark.cpp">
       <Filter>02. GameObject\01. Character\01. Enemy\00. Effect\Effect_GunSpark</Filter>
-    </ClCompile>
-    <ClCompile Include="GameObject\Effect_SniperBullet.cpp">
-      <Filter>02. GameObject\01. Character\00. Player\00. Effect\Effect_SniperBullet</Filter>
     </ClCompile>
     <ClCompile Include="Scene\Stage_1.cpp">
       <Filter>03. Scene\05. Stage_Scene\00. Stage_1</Filter>
@@ -589,9 +580,6 @@
     </ClInclude>
     <ClInclude Include="GameObject\Effect_GunSpark.h">
       <Filter>02. GameObject\01. Character\01. Enemy\00. Effect\Effect_GunSpark</Filter>
-    </ClInclude>
-    <ClInclude Include="GameObject\Effect_SniperBullet.h">
-      <Filter>02. GameObject\01. Character\00. Player\00. Effect\Effect_SniperBullet</Filter>
     </ClInclude>
     <ClInclude Include="Scene\Stage_1.h">
       <Filter>03. Scene\05. Stage_Scene\00. Stage_1</Filter>

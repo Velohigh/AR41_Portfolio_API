@@ -129,9 +129,9 @@ void CBullet::CollisionBegin(CCollider* Src, CCollider* Dest)
 		m_MoveDir *= -1.f;
 		FindCollider("Body")->SetCollisionProfile("PlayerAttack");
 
-		CEffect_SniperBullet* NewEffect = m_Scene->CreateObject<CEffect_SniperBullet>("SniperBullet");
+		CEffect* NewEffect = m_Scene->CreateObject<CEffect>("spr_reflect");
 		NewEffect->SetPos(m_Pos);
-		NewEffect->AddAnimation("spr_sniperbullet", false, 0.15f);
+		NewEffect->AddAnimation("effect_reflect", false, 0.15f);
 		NewEffect->SetPivot(0.5f, 0.5f);
 
 		CEffect* SlashhitEffect = m_Scene->CreateObject<CEffect>("SlashHit");

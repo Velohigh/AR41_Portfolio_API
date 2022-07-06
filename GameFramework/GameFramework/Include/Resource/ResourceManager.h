@@ -5,6 +5,8 @@
 
 class CResourceManager
 {
+	friend class CStage_2;
+
 private:
 	class CTextureManager* m_TextureManager;
 	class CAnimationManager* m_AnimationManager;

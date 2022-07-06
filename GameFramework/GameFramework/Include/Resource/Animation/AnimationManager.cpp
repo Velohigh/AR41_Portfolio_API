@@ -80,3 +80,4 @@ void CAnimationManager::ReleaseAnimation(const std::string& Name)
 	if (iter->second->GetRefCount() == 1)
 		m_mapSequence.erase(iter);
 }
+

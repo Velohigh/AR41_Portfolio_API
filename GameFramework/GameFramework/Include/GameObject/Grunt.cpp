@@ -51,7 +51,7 @@ bool CGrunt::Init()
 
 	// 충돌체 시야 추가
 	m_ViewCollider = AddCollider<CColliderBox>("View");
-	m_ViewCollider->SetExtent(520.f, 180.f);
+	m_ViewCollider->SetExtent(520.f, 160.f);
 	m_ViewCollider->SetCollisionProfile("MonsterView");
 
 	// 충돌체 어택 범위 추가
@@ -147,16 +147,28 @@ void CGrunt::ViewCollisionBegin(CCollider* Src, CCollider* Dest)
 			m_CurState != ObjState::Dead &&
 			m_CurState != ObjState::Run)
 		{
+			if (m_LastView == nullptr)
+			{
+				m_LastView = Dest;
+			}
+
+
 			if (Dest->GetOwner()->GetState() == ObjState::Dead || 
 				Dest->GetOwner()->GetState() == ObjState::HurtFly ||
 				Dest->GetOwner()->GetState() == ObjState::HurtGround)
 				StateChange(ObjState::Run);
 		}
 	}
+
 }
 
 void CGrunt::ViewCollisionEnd(CCollider* Src, CCollider* Dest)
 {
+	if (m_LastView != nullptr)
+	{
+		m_LastView = nullptr;
+	}
+
 }
 
 
@@ -390,13 +402,21 @@ void CGrunt::IdleUpdate()
 		StateChange(ObjState::Run);
 		return;
 	}
+
+	// 시야에 동료가 Run상태이면 플레이어를 쫓아온다..
+	if (true == FindCollider("View")->CheckCollisionList(m_LastView) &&
+		m_LastView->GetOwner()->GetState() == ObjState::Run)
+	{
+		StateChange(ObjState::Run);
+		return;
+	}
 }
 
 void CGrunt::WalkUpdate()
 {
 	m_StateTime[static_cast<int>(ObjState::Walk)] += DELTA_TIME;
 
-	if (m_StateTime[static_cast<int>(ObjState::Walk)] >= 5)
+	if (m_StateTime[static_cast<int>(ObjState::Walk)] >= m_PatrolTime)
 	{
 		StateChange(ObjState::Idle);
 		return;
@@ -428,6 +448,15 @@ void CGrunt::WalkUpdate()
 		StateChange(ObjState::Run);
 		return;
 	}
+
+	// 시야에 동료가 Run상태이면 플레이어를 쫓아온다..
+	if (true == FindCollider("View")->CheckCollisionList(m_LastView) &&
+		m_LastView->GetOwner()->GetState() == ObjState::Run)
+	{
+		StateChange(ObjState::Run);
+		return;
+	}
+
 
 	MapCollisionCheckMoveGround();
 

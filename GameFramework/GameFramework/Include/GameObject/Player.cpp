@@ -196,6 +196,12 @@ void CPlayer::Render(HDC hDC, float DeltaTime)
 
 	Vector2	Pos = m_Pos - m_Scene->GetCamera()->GetPos();
 
+	TCHAR StateBuff[64] = L"";
+	TCHAR PosBuff[64] = L"";
+
+	swprintf_s(PosBuff, L"X : %d, Y : %d", (int)m_Pos.x, (int)m_Pos.y);
+	TextOut(hDC, (int)Pos.x, (int)Pos.y - 100, PosBuff, lstrlen(PosBuff));
+
 }
 
 float CPlayer::InflictDamage(float Damage)
@@ -452,7 +458,7 @@ void CPlayer::SlowModeKeyPush()
 	if (m_Battery >= 1)
 	{
 		m_BatteryRechargeTime = 0.f;
-		static_cast<CStage_1*>(m_Scene)->SetSlowMap();
+		m_Scene->SetSlowMap();
 		CGameManager::GetInst()->SetTimeScale(0.2f);
 		m_BatteryPushTime += DELTA_TIME;
 
@@ -475,7 +481,7 @@ void CPlayer::SlowModeKeyUp()
 	if (m_BatteryPushTime != 0.f)
 	{
 		m_BatteryPushTime = 0.f;
-		static_cast<CStage_1*>(m_Scene)->SetNormalMap();
+		m_Scene->SetNormalMap();
 		CGameManager::GetInst()->SetTimeScale(1.f);
 		m_Scene->GetSceneResource()->SoundPlay("slow_out");
 		m_SlowModeSound = false;

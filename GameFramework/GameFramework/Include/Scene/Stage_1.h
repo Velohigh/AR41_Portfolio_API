@@ -25,9 +25,10 @@ public:
 
 private:
 	void CreateAnimationSequencePlayer();
-	void CreateAnimationSequence();
+	void CreateAnimationSequenceGrunt();
 	void CreateAnimationSequenceGangster();
-	void CreateAnimationSequenceEffect();
+	void CreateAnimationSequenceEffect_Frame();
+	void CreateAnimationSequenceEffect_Sprite();
 
 private:
 };

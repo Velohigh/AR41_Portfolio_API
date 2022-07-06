@@ -87,6 +87,9 @@ public:
 		m_KillCount += Value;
 	}
 
+	virtual void SetSlowMap() {};
+	virtual void SetNormalMap() {};
+
 public:
 	virtual bool Init();
 	virtual void Update(float DeltaTime);

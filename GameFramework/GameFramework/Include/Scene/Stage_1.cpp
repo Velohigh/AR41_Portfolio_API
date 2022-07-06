@@ -31,9 +31,10 @@ bool CStage_1::Init()
 	CScene::Init();
 
 	CreateAnimationSequencePlayer();
-	CreateAnimationSequence();
+	CreateAnimationSequenceGrunt();
 	CreateAnimationSequenceGangster();
-	CreateAnimationSequenceEffect();
+	CreateAnimationSequenceEffect_Frame();
+	CreateAnimationSequenceEffect_Sprite();
 
 	GetSceneResource()->LoadSound("BGM", "song_youwillneverknow", true, "song_youwillneverknow.ogg");
 	GetSceneResource()->LoadSound("Effect", "sound_enemy_bloodsplat1", false, "sound_enemy_bloodsplat1.wav");
@@ -139,8 +140,9 @@ void CStage_1::Update(float DeltaTime)
 	if (color == RGB(0, 0, 255) &&
 		m_KillCount >= 5)
 	{
-		CSceneManager::GetInst()->CreateScene<CStage_2>();
 		m_KillCount = 0;
+		CInput::GetInst()->ClearCallback();
+		CSceneManager::GetInst()->CreateScene<CStage_2>();
 	}
 }
 
@@ -890,7 +892,7 @@ void CStage_1::CreateAnimationSequencePlayer()
 
 }
 
-void CStage_1::CreateAnimationSequence()
+void CStage_1::CreateAnimationSequenceGrunt()
 {
 	// ## Grunt Animation ##
 	// Grunt Idle_Left
@@ -1634,10 +1636,14 @@ void CStage_1::CreateAnimationSequenceGangster()
 
 }
 
-void CStage_1::CreateAnimationSequenceEffect()
+void CStage_1::CreateAnimationSequenceEffect_Frame()
+{
+}
+
+void CStage_1::CreateAnimationSequenceEffect_Sprite()
 {
 	// ## EFFECT
-// BloodAnimation_Left 한장짜리 이미지 방식
+	// BloodAnimation_Left 한장짜리 이미지 방식
 	GetSceneResource()->CreateAnimationSequence("effect_bloodanimation_left",
 		"effect_bloodanimation_left", TEXT("Effect/effect_bloodanimation_left.bmp"), TEXTURE_PATH);
 
@@ -1666,7 +1672,6 @@ void CStage_1::CreateAnimationSequenceEffect()
 	// BloodAnimation2_Left 한장짜리 이미지 방식
 	GetSceneResource()->CreateAnimationSequence("effect_bloodanimation2_left",
 		"effect_bloodanimation2_left", TEXT("Effect/effect_bloodanimation2_left.bmp"), TEXTURE_PATH);
-
 	for (int i = 0; i < 9; ++i)
 	{
 		GetSceneResource()->AddAnimationFrame("effect_bloodanimation2_left", 80.f * i, 0.f,
@@ -1678,7 +1683,6 @@ void CStage_1::CreateAnimationSequenceEffect()
 	// BloodAnimation2_Right 한장짜리 이미지 방식
 	GetSceneResource()->CreateAnimationSequence("effect_bloodanimation2_right",
 		"effect_bloodanimation2_right", TEXT("Effect/effect_bloodanimation2_right.bmp"), TEXTURE_PATH);
-
 	for (int i = 0; i < 9; ++i)
 	{
 		GetSceneResource()->AddAnimationFrame("effect_bloodanimation2_right", 80.f * i, 0.f,
@@ -1690,7 +1694,6 @@ void CStage_1::CreateAnimationSequenceEffect()
 	// effect_slash_hit 한장짜리 이미지 방식
 	GetSceneResource()->CreateAnimationSequence("effect_slash_hit",
 		"effect_slash_hit", TEXT("Effect/effect_slash_hit.bmp"), TEXTURE_PATH);
-
 	for (int i = 0; i < 4; ++i)
 	{
 		GetSceneResource()->AddAnimationFrame("effect_slash_hit", 78.f * i, 0.f,
@@ -1699,91 +1702,38 @@ void CStage_1::CreateAnimationSequenceEffect()
 	GetSceneResource()->SetColorKey("effect_slash_hit", 255, 0, 255);
 
 
-
-	// Effect spr_gunspark_left
+	// effect_reflect 한장짜리 이미지 방식
+	GetSceneResource()->CreateAnimationSequence("effect_reflect",
+		"effect_reflect", TEXT("Effect/effect_reflect.bmp"), TEXTURE_PATH);
+	for (int i = 0; i < 6; ++i)
 	{
-		std::vector<std::wstring>	vecFileName;
-
-		for (int i = 0; i <= 5; ++i)
-		{
-			TCHAR	FileName[MAX_PATH] = {};
-			// %d에 i의 값이 대입되어 문자열이 만들어지게 된다.
-			wsprintf(FileName, TEXT("Effect/spr_gunspark_left/%d.bmp"), i);
-			vecFileName.push_back(FileName);
-		}
-
-		CResourceManager::GetInst()->CreateAnimationSequence("spr_gunspark_left",
-			"spr_gunspark_left", vecFileName, TEXTURE_PATH);
-
-		for (int i = 0; i <= 5; ++i)
-		{
-			CTexture* Texture = CResourceManager::GetInst()->FindTexture("spr_gunspark_left");
-			int NewWidth = Texture->GetWidth(i);
-			int NewHeight = Texture->GetHeight(i);
-
-			CResourceManager::GetInst()->AddAnimationFrame("spr_gunspark_left", 0.f, 0.f,
-				(float)NewWidth, (float)NewHeight);
-		}
-
-		CResourceManager::GetInst()->SetColorKey("spr_gunspark_left", 255, 255, 255);
+		GetSceneResource()->AddAnimationFrame("effect_reflect", 147.f * i, 0.f,
+			147.f, 140.f);
 	}
+	GetSceneResource()->SetColorKey("effect_reflect", 255, 0, 255);
 
-	// Effect spr_gunspark_right
+
+	// effect_gunspark_left 한장짜리 이미지 방식
+	GetSceneResource()->CreateAnimationSequence("effect_gunspark_left",
+		"effect_gunspark_left", TEXT("Effect/effect_gunspark_left.bmp"), TEXTURE_PATH);
+	for (int i = 0; i < 4; ++i)
 	{
-		std::vector<std::wstring>	vecFileName;
-
-		for (int i = 0; i <= 5; ++i)
-		{
-			TCHAR	FileName[MAX_PATH] = {};
-			// %d에 i의 값이 대입되어 문자열이 만들어지게 된다.
-			wsprintf(FileName, TEXT("Effect/spr_gunspark_right/%d.bmp"), i);
-			vecFileName.push_back(FileName);
-		}
-
-		CResourceManager::GetInst()->CreateAnimationSequence("spr_gunspark_right",
-			"spr_gunspark_right", vecFileName, TEXTURE_PATH);
-
-		for (int i = 0; i <= 5; ++i)
-		{
-			CTexture* Texture = CResourceManager::GetInst()->FindTexture("spr_gunspark_right");
-			int NewWidth = Texture->GetWidth(i);
-			int NewHeight = Texture->GetHeight(i);
-
-			CResourceManager::GetInst()->AddAnimationFrame("spr_gunspark_right", 0.f, 0.f,
-				(float)NewWidth, (float)NewHeight);
-		}
-
-		CResourceManager::GetInst()->SetColorKey("spr_gunspark_right", 255, 255, 255);
+		GetSceneResource()->AddAnimationFrame("effect_gunspark_left", 98.f * i, 0.f,
+			98.f, 78.f);
 	}
+	GetSceneResource()->SetColorKey("effect_gunspark_left", 255, 0, 255);
 
 
-	// Effect spr_sniperbullet
+	// effect_gunspark_left 한장짜리 이미지 방식
+	GetSceneResource()->CreateAnimationSequence("effect_gunspark_right",
+		"effect_gunspark_right", TEXT("Effect/effect_gunspark_right.bmp"), TEXTURE_PATH);
+	for (int i = 0; i < 4; ++i)
 	{
-		std::vector<std::wstring>	vecFileName;
-
-		for (int i = 0; i <= 4; ++i)
-		{
-			TCHAR	FileName[MAX_PATH] = {};
-			// %d에 i의 값이 대입되어 문자열이 만들어지게 된다.
-			wsprintf(FileName, TEXT("Effect/spr_sniperbullet/%d.bmp"), i);
-			vecFileName.push_back(FileName);
-		}
-
-		CResourceManager::GetInst()->CreateAnimationSequence("spr_sniperbullet",
-			"spr_sniperbullet", vecFileName, TEXTURE_PATH);
-
-		for (int i = 0; i <= 4; ++i)
-		{
-			CTexture* Texture = CResourceManager::GetInst()->FindTexture("spr_sniperbullet");
-			int NewWidth = Texture->GetWidth(i);
-			int NewHeight = Texture->GetHeight(i);
-
-			CResourceManager::GetInst()->AddAnimationFrame("spr_sniperbullet", 0.f, 0.f,
-				(float)NewWidth, (float)NewHeight);
-		}
-
-		CResourceManager::GetInst()->SetColorKey("spr_sniperbullet", 255, 255, 255);
+		GetSceneResource()->AddAnimationFrame("effect_gunspark_right", 98.f * i, 0.f,
+			98.f, 78.f);
 	}
+	GetSceneResource()->SetColorKey("effect_gunspark_right", 255, 0, 255);
+
 
 }
 
