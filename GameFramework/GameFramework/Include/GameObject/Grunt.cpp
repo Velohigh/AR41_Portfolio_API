@@ -52,7 +52,7 @@ bool CGrunt::Init()
 	// 충돌체 시야 추가
 	m_ViewCollider = AddCollider<CColliderBox>("View");
 	m_ViewCollider->SetExtent(520.f, 180.f);
-	m_ViewCollider->SetCollisionProfile("Monster");
+	m_ViewCollider->SetCollisionProfile("MonsterView");
 
 	// 충돌체 어택 범위 추가
 	m_AttackRangeCollider = AddCollider<CColliderCircle>("AttackRange");
@@ -62,8 +62,8 @@ bool CGrunt::Init()
 
 
 
-	m_ViewCollider->SetCollisionBeginFunction<CGrunt>(this, &CGrunt::CollisionBegin);
-	m_ViewCollider->SetCollisionEndFunction<CGrunt>(this, &CGrunt::CollisionEnd);
+	m_ViewCollider->SetCollisionBeginFunction<CGrunt>(this, &CGrunt::ViewCollisionBegin);
+	m_ViewCollider->SetCollisionEndFunction<CGrunt>(this, &CGrunt::ViewCollisionEnd);
 
 	m_AnimationName = "spr_grunt_idle_";
 	m_CurState = ObjState::Idle;
@@ -103,7 +103,9 @@ void CGrunt::Update(float DeltaTime)
 	CGameObject::Update(DeltaTime);
 
 	if (static_cast<CPlayer*>(m_Scene->GetPlayer())->GetState() == PlayerState::Dead &&
-		m_CurState != ObjState::Dead)
+		m_CurState != ObjState::Dead &&
+		m_CurState != ObjState::HurtFly &&
+		m_CurState != ObjState::HurtGround)
 		StateChange(ObjState::Idle);
 	else
 	{
@@ -136,11 +138,24 @@ float CGrunt::InflictDamage(float Damage)
 	return 0.0f;
 }
 
-void CGrunt::CollisionBegin(CCollider* Src, CCollider* Dest)
+void CGrunt::ViewCollisionBegin(CCollider* Src, CCollider* Dest)
 {
+	if (Dest->GetOwner() != m_Scene->GetPlayer())
+	{
+		if (m_CurState != ObjState::HurtFly &&
+			m_CurState != ObjState::HurtGround &&
+			m_CurState != ObjState::Dead &&
+			m_CurState != ObjState::Run)
+		{
+			if (Dest->GetOwner()->GetState() == ObjState::Dead || 
+				Dest->GetOwner()->GetState() == ObjState::HurtFly ||
+				Dest->GetOwner()->GetState() == ObjState::HurtGround)
+				StateChange(ObjState::Run);
+		}
+	}
 }
 
-void CGrunt::CollisionEnd(CCollider* Src, CCollider* Dest)
+void CGrunt::ViewCollisionEnd(CCollider* Src, CCollider* Dest)
 {
 }
 
@@ -181,9 +196,11 @@ void CGrunt::TurnStart()
 
 void CGrunt::RunStart()
 {
-	m_AnimationName = "spr_grunt_run_";
+	m_StateTime[(int)ObjState::Run] = 0.f;
+
+	m_AnimationName = "spr_grunt_idle_";
 	ChangeAnimation(m_AnimationName + m_ChangeDirText);
-	SetSpeed(320.f);
+	SetSpeed(0.f);
 
 	// Enemy_Follow 이펙트
 	if (!m_Effect_EnemyFollow)
@@ -193,7 +210,6 @@ void CGrunt::RunStart()
 		EnemyFollowEffect->SetOwner(this);
 		m_Effect_EnemyFollow = EnemyFollowEffect;
 	}
-	
 
 }
 
@@ -344,6 +360,7 @@ void CGrunt::HurtFlyStart()
 
 void CGrunt::DeadStart()
 {
+	m_Scene->AddKillCount(1);
 }
 
 void CGrunt::IdleUpdate()
@@ -444,44 +461,52 @@ void CGrunt::TurnUpdate()
 
 void CGrunt::RunUpdate()
 {
+	m_StateTime[(int)ObjState::Run] += DELTA_TIME;
+
+	if (m_StateTime[(int)ObjState::Run] >= 0.22f)
+	{
+		m_AnimationName = "spr_grunt_run_";
+		ChangeAnimation(m_AnimationName + m_ChangeDirText);
+		SetSpeed(360.f);
+
+
+		// 플레이어를 쫓아가도록 좌우 방향 조정
+		if (m_Scene->GetPlayer()->GetPos().x >= m_Pos.x)
+			SetDir(ObjDir::Right);
+		else if (m_Scene->GetPlayer()->GetPos().x < m_Pos.x)
+			SetDir(ObjDir::Left);
+
+		// 플레이어가 일정범위에 들어오면 공격
+		CCollider* PlayerBody = m_Scene->GetPlayer()->FindCollider("Body");
+		if (true == FindCollider("AttackRange")->CheckCollisionList(PlayerBody))
+		{
+			StateChange(ObjState::Attack);
+			return;
+		}
+
+		//// 플레이어가 아래있을 경우 y위치 이동
+		//if (m_Scene->GetPlayer()->GetPos().y > m_Pos.y)
+		//	SetPos(Vector2{ m_Pos.x, m_Pos.y + 1.5f });
+
+		// 좌우 이동
+		if (m_CurDir == ObjDir::Right)
+		{
+			m_MoveDir = Vector2{ 1.f, 0.f };
+		}
+
+		else if (m_CurDir == ObjDir::Left)
+		{
+			m_MoveDir = Vector2{ -1.f, 0.f };
+		}
+
+	}
+
 	// 플레이어 공격에 맞으면 사망
 	CCollider* PlayerAttack = m_Scene->GetPlayer()->FindCollider("PlayerAttack");
 	if (true == FindCollider("Body")->CheckCollisionList(PlayerAttack))
 	{
 		StateChange(ObjState::HurtFly);
 		return;
-	}
-
-	// 플레이어를 쫓아가도록 좌우 방향 조정
-	if (m_Scene->GetPlayer()->GetPos().x >= m_Pos.x)
-		SetDir(ObjDir::Right);
-	else if (m_Scene->GetPlayer()->GetPos().x < m_Pos.x)
-		SetDir(ObjDir::Left);
-
-	// 플레이어가 일정범위에 들어오면 공격
-	CCollider* PlayerBody = m_Scene->GetPlayer()->FindCollider("Body");
-	if (true == FindCollider("AttackRange")->CheckCollisionList(PlayerBody))
-	{
-		StateChange(ObjState::Attack);
-		return;
-	}
-
-
-
-
-	//// 플레이어가 아래있을 경우 y위치 이동
-	//if (m_Scene->GetPlayer()->GetPos().y > m_Pos.y)
-	//	SetPos(Vector2{ m_Pos.x, m_Pos.y + 1.5f });
-
-	// 좌우 이동
-	if (m_CurDir == ObjDir::Right)
-	{
-		m_MoveDir = Vector2{ 1.f, 0.f };
-	}
-
-	else if (m_CurDir == ObjDir::Left)
-	{
-		m_MoveDir = Vector2{ -1.f, 0.f };
 	}
 
 

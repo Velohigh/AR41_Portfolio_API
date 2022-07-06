@@ -51,11 +51,11 @@ bool CGangster::Init()
 	// 충돌체 시야 추가
 	m_ViewCollider = AddCollider<CColliderBox>("View");
 	m_ViewCollider->SetExtent(600.f, 180.f);
-	m_ViewCollider->SetCollisionProfile("Monster");
+	m_ViewCollider->SetCollisionProfile("MonsterView");
 
 
-	Box->SetCollisionBeginFunction<CGangster>(this, &CGangster::CollisionBegin);
-	Box->SetCollisionEndFunction<CGangster>(this, &CGangster::CollisionEnd);
+	Box->SetCollisionBeginFunction<CGangster>(this, &CGangster::ViewCollisionBegin);
+	Box->SetCollisionEndFunction<CGangster>(this, &CGangster::ViewCollisionEnd);
 
 	m_AnimationName = "spr_gangster_idle_";
 	m_CurState = ObjState::Idle;
@@ -93,7 +93,9 @@ void CGangster::Update(float DeltaTime)
 	CGameObject::Update(DeltaTime);
 
 	if (static_cast<CPlayer*>(m_Scene->GetPlayer())->GetState() == PlayerState::Dead &&
-		m_CurState != ObjState::Dead)
+		m_CurState != ObjState::Dead &&
+		m_CurState != ObjState::HurtFly &&
+		m_CurState != ObjState::HurtGround)
 		StateChange(ObjState::Idle);
 	else
 	{
@@ -125,11 +127,25 @@ float CGangster::InflictDamage(float Damage)
 	return 0.0f;
 }
 
-void CGangster::CollisionBegin(CCollider* Src, CCollider* Dest)
+void CGangster::ViewCollisionBegin(CCollider* Src, CCollider* Dest)
 {
+	// 동료가 공격 받는걸 보면 플레이어를 쫓아온다.
+	if (Dest->GetOwner() != m_Scene->GetPlayer())
+	{
+		if (m_CurState != ObjState::HurtFly &&
+			m_CurState != ObjState::HurtGround &&
+			m_CurState != ObjState::Dead &&
+			m_CurState != ObjState::Run)
+		{
+			if (Dest->GetOwner()->GetState() == ObjState::Dead ||
+				Dest->GetOwner()->GetState() == ObjState::HurtFly ||
+				Dest->GetOwner()->GetState() == ObjState::HurtGround)
+				StateChange(ObjState::Run);
+		}
+	}
 }
 
-void CGangster::CollisionEnd(CCollider* Src, CCollider* Dest)
+void CGangster::ViewCollisionEnd(CCollider* Src, CCollider* Dest)
 {
 }
 
@@ -163,9 +179,11 @@ void CGangster::TurnStart()
 
 void CGangster::RunStart()
 {
-	m_AnimationName = "spr_gangsterrun_";
+	m_StateTime[(int)ObjState::Run] = 0.f;
+
+	m_AnimationName = "spr_gangster_idle_";
 	ChangeAnimation(m_AnimationName + m_ChangeDirText);
-	SetSpeed(320.f);
+	SetSpeed(0.f);
 
 	// Enemy_Follow 이펙트
 	if (!m_Effect_EnemyFollow)
@@ -318,6 +336,7 @@ void CGangster::HurtFlyStart()
 
 void CGangster::DeadStart()
 {
+	m_Scene->AddKillCount(1);
 }
 
 void CGangster::IdleUpdate()
@@ -419,6 +438,43 @@ void CGangster::TurnUpdate()
 
 void CGangster::RunUpdate()
 {
+
+	m_StateTime[(int)ObjState::Run] += DELTA_TIME;
+
+	if (m_StateTime[(int)ObjState::Run] >= 0.22f)
+	{
+		m_AnimationName = "spr_gangsterrun_";
+		ChangeAnimation(m_AnimationName + m_ChangeDirText);
+		SetSpeed(320.f);
+
+		// 플레이어를 바라보도록 좌우 방향 조정
+		if (m_Scene->GetPlayer()->GetPos().x >= m_Pos.x)
+			SetDir(ObjDir::Right);
+		else if (m_Scene->GetPlayer()->GetPos().x < m_Pos.x)
+			SetDir(ObjDir::Left);
+
+		// 플레이어가 일정범위에 들어오면 공격
+		CCollider* PlayerBody = m_Scene->GetPlayer()->FindCollider("Body");
+		if (true == FindCollider("View")->CheckCollisionList(PlayerBody))
+		{
+			StateChange(ObjState::Attack);
+			return;
+		}
+
+
+		// 좌우 이동
+		if (m_CurDir == ObjDir::Right)
+		{
+			m_MoveDir = Vector2{ 1.f, 0.f };
+		}
+
+		else if (m_CurDir == ObjDir::Left)
+		{
+			m_MoveDir = Vector2{ -1.f, 0.f };
+		}
+
+	}
+
 	// 플레이어 공격에 맞으면 사망
 	CCollider* PlayerAttack = m_Scene->GetPlayer()->FindCollider("PlayerAttack");
 	if (true == FindCollider("Body")->CheckCollisionList(PlayerAttack))
@@ -427,37 +483,8 @@ void CGangster::RunUpdate()
 		return;
 	}
 
-	// 플레이어를 바라보도록 좌우 방향 조정
-	if (m_Scene->GetPlayer()->GetPos().x >= m_Pos.x)
-		SetDir(ObjDir::Right);
-	else if (m_Scene->GetPlayer()->GetPos().x < m_Pos.x)
-		SetDir(ObjDir::Left);
-
-	// 플레이어가 일정범위에 들어오면 공격
-	CCollider* PlayerBody = m_Scene->GetPlayer()->FindCollider("Body");
-	if (true == FindCollider("View")->CheckCollisionList(PlayerBody))
-	{
-		StateChange(ObjState::Attack);
-		return;
-	}
-
-
-	// 좌우 이동
-	if (m_CurDir == ObjDir::Right)
-	{
-		m_MoveDir = Vector2{ 1.f, 0.f };
-	}
-
-	else if (m_CurDir == ObjDir::Left)
-	{
-		m_MoveDir = Vector2{ -1.f, 0.f };
-	}
-
 
 	MapCollisionCheckMoveGround();
-
-
-
 }
 
 void CGangster::AttackUpdate()
@@ -486,7 +513,7 @@ void CGangster::AttackUpdate()
 	}
 
 	m_StateTime[(int)ObjState::Attack] += DELTA_TIME;
-	if (m_StateTime[(int)ObjState::Attack] >= 0.7f)
+	if (m_StateTime[(int)ObjState::Attack] >= 0.6f)
 	{
 		// 총알 발사 이펙트
 		CEffect_GunSpark* NewEffect = m_Scene->CreateObject<CEffect_GunSpark>("GunSpark");

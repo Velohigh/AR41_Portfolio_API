@@ -116,6 +116,16 @@ public:
 		return m_CurState;
 	}
 
+	CTexture* GetColMapTexture() const
+	{
+		return m_MapColTexture;
+	}
+
+	const Vector2& GetEnemyAttackDir() const
+	{
+		return m_EnemyAttackDir;
+	}
+
 public:
 	void SetSideWallCheck(bool Check)
 	{

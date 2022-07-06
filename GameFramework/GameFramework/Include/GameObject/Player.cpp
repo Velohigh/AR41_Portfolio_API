@@ -205,805 +205,37 @@ float CPlayer::InflictDamage(float Damage)
 
 void CPlayer::CreateAnimationSequence()
 {
-	// Idle_Left
-	{
-		std::vector<std::wstring>	vecFileName;
-
-		for (int i = 0; i <= 10; ++i)
-		{
-			TCHAR	FileName[MAX_PATH] = {};
-			// %d에 i의 값이 대입되어 문자열이 만들어지게 된다.
-			wsprintf(FileName, TEXT("Player/spr_idle_left/%d.bmp"), i);
-			vecFileName.push_back(FileName);
-		}
-
-		CResourceManager::GetInst()->CreateAnimationSequence("spr_idle_left",
-			"spr_idle_left", vecFileName, TEXTURE_PATH);
-
-		for (int i = 0; i <= 10; ++i)
-		{
-			CResourceManager::GetInst()->AddAnimationFrame("spr_idle_left", 0.f, 0.f,
-				36.f, 35.f);
-		}
-
-		CResourceManager::GetInst()->SetColorKey("spr_idle_left", 255, 255, 255);
-
-		AddAnimation("spr_idle_left", true, 1.1f);
-	}
-
-	// Idle_Right
-	{
-		std::vector<std::wstring>	vecFileName;
-
-		for (int i = 0; i <= 10; ++i)
-		{
-			TCHAR	FileName[MAX_PATH] = {};
-			// %d에 i의 값이 대입되어 문자열이 만들어지게 된다.
-			wsprintf(FileName, TEXT("Player/spr_idle_right/%d.bmp"), i);
-			vecFileName.push_back(FileName);
-		}
-
-		CResourceManager::GetInst()->CreateAnimationSequence("spr_idle_right",
-			"spr_idle_right", vecFileName, TEXTURE_PATH);
-
-		for (int i = 0; i <= 10; ++i)
-		{
-			CResourceManager::GetInst()->AddAnimationFrame("spr_idle_right", 0.f, 0.f,
-				36.f, 35.f);
-		}
-
-		CResourceManager::GetInst()->SetColorKey("spr_idle_right", 255, 255, 255);
-
-		AddAnimation("spr_idle_right", true, 1.1f);
-	}
-
-	// Idle_to_Run_Left
-	{
-		std::vector<std::wstring>	vecFileName;
-
-		for (int i = 0; i <= 3; ++i)
-		{
-			TCHAR	FileName[MAX_PATH] = {};
-			// %d에 i의 값이 대입되어 문자열이 만들어지게 된다.
-			wsprintf(FileName, TEXT("Player/spr_idle_to_run_left/%d.bmp"), i);
-			vecFileName.push_back(FileName);
-		}
-
-		CResourceManager::GetInst()->CreateAnimationSequence("spr_idle_to_run_left",
-			"spr_idle_to_run_left", vecFileName, TEXTURE_PATH);
-
-		for (int i = 0; i <= 3; ++i)
-		{
-			CResourceManager::GetInst()->AddAnimationFrame("spr_idle_to_run_left", 0.f, 0.f,
-				44.f, 32.f);
-		}
-
-		CResourceManager::GetInst()->SetColorKey("spr_idle_to_run_left", 255, 255, 255);
-
-		AddAnimation("spr_idle_to_run_left", true, 0.16f);
-	}
-
-	// Idle_to_Run_Right
-	{
-		std::vector<std::wstring>	vecFileName;
-
-		for (int i = 0; i <= 3; ++i)
-		{
-			TCHAR	FileName[MAX_PATH] = {};
-			// %d에 i의 값이 대입되어 문자열이 만들어지게 된다.
-			wsprintf(FileName, TEXT("Player/spr_idle_to_run_right/%d.bmp"), i);
-			vecFileName.push_back(FileName);
-		}
-
-		CResourceManager::GetInst()->CreateAnimationSequence("spr_idle_to_run_right",
-			"spr_idle_to_run_right", vecFileName, TEXTURE_PATH);
-
-		for (int i = 0; i <= 3; ++i)
-		{
-			CResourceManager::GetInst()->AddAnimationFrame("spr_idle_to_run_right", 0.f, 0.f,
-				44.f, 32.f);
-		}
-
-		CResourceManager::GetInst()->SetColorKey("spr_idle_to_run_right", 255, 255, 255);
-
-		AddAnimation("spr_idle_to_run_right", true, 0.16f);
-	}
-
-	// Run_Left
-	{
-		std::vector<std::wstring>	vecFileName;
-
-		for (int i = 0; i <= 9; ++i)
-		{
-			TCHAR	FileName[MAX_PATH] = {};
-			// %d에 i의 값이 대입되어 문자열이 만들어지게 된다.
-			wsprintf(FileName, TEXT("Player/spr_run_left/%d.bmp"), i);
-			vecFileName.push_back(FileName);
-		}
-
-		CResourceManager::GetInst()->CreateAnimationSequence("spr_run_left",
-			"spr_run_left", vecFileName, TEXTURE_PATH);
-
-		for (int i = 0; i <= 9; ++i)
-		{
-			CResourceManager::GetInst()->AddAnimationFrame("spr_run_left", 0.f, 0.f,
-				44.f, 32.f);
-		}
-
-		CResourceManager::GetInst()->SetColorKey("spr_run_left", 255, 255, 255);
-
-		AddAnimation("spr_run_left", true, 0.7f);
-	}
-
-	// Run_Right
-	{
-		std::vector<std::wstring>	vecFileName;
-
-		for (int i = 0; i <= 9; ++i)
-		{
-			TCHAR	FileName[MAX_PATH] = {};
-			// %d에 i의 값이 대입되어 문자열이 만들어지게 된다.
-			wsprintf(FileName, TEXT("Player/spr_run_right/%d.bmp"), i);
-			vecFileName.push_back(FileName);
-		}
-
-		CResourceManager::GetInst()->CreateAnimationSequence("spr_run_right",
-			"spr_run_right", vecFileName, TEXTURE_PATH);
-
-		for (int i = 0; i <= 9; ++i)
-		{
-			CResourceManager::GetInst()->AddAnimationFrame("spr_run_right", 0.f, 0.f,
-				44.f, 32.f);
-		}
-
-		CResourceManager::GetInst()->SetColorKey("spr_run_right", 255, 255, 255);
-
-		AddAnimation("spr_run_right", true, 0.7f);
-	}
-
-	// Run_To_Idle_Left
-	{
-		std::vector<std::wstring>	vecFileName;
-
-		for (int i = 0; i <= 4; ++i)
-		{
-			TCHAR	FileName[MAX_PATH] = {};
-			// %d에 i의 값이 대입되어 문자열이 만들어지게 된다.
-			wsprintf(FileName, TEXT("Player/spr_run_to_idle_left/%d.bmp"), i);
-			vecFileName.push_back(FileName);
-		}
-
-		CResourceManager::GetInst()->CreateAnimationSequence("spr_run_to_idle_left",
-			"spr_run_to_idle_left", vecFileName, TEXTURE_PATH);
-
-		for (int i = 0; i <= 4; ++i)
-		{
-			CResourceManager::GetInst()->AddAnimationFrame("spr_run_to_idle_left", 0.f, 0.f,
-				52.f, 36.f);
-		}
-
-		CResourceManager::GetInst()->SetColorKey("spr_run_to_idle_left", 255, 255, 255);
-
-		AddAnimation("spr_run_to_idle_left", true, 0.35f);
-	}
-
-	// Run_To_Idle_Right
-	{
-		std::vector<std::wstring>	vecFileName;
-
-		for (int i = 0; i <= 4; ++i)
-		{
-			TCHAR	FileName[MAX_PATH] = {};
-			// %d에 i의 값이 대입되어 문자열이 만들어지게 된다.
-			wsprintf(FileName, TEXT("Player/spr_run_to_idle_right/%d.bmp"), i);
-			vecFileName.push_back(FileName);
-		}
-
-		CResourceManager::GetInst()->CreateAnimationSequence("spr_run_to_idle_right",
-			"spr_run_to_idle_right", vecFileName, TEXTURE_PATH);
-
-		for (int i = 0; i <= 4; ++i)
-		{
-			CResourceManager::GetInst()->AddAnimationFrame("spr_run_to_idle_right", 0.f, 0.f,
-				52.f, 36.f);
-		}
-
-		CResourceManager::GetInst()->SetColorKey("spr_run_to_idle_right", 255, 255, 255);
-
-		AddAnimation("spr_run_to_idle_right", true, 0.35f);
-	}
-
-	// spr_jump_left
-	{
-		std::vector<std::wstring>	vecFileName;
-
-		for (int i = 0; i <= 3; ++i)
-		{
-			TCHAR	FileName[MAX_PATH] = {};
-			// %d에 i의 값이 대입되어 문자열이 만들어지게 된다.
-			wsprintf(FileName, TEXT("Player/spr_jump_left/%d.bmp"), i);
-			vecFileName.push_back(FileName);
-		}
-
-		CResourceManager::GetInst()->CreateAnimationSequence("spr_jump_left",
-			"spr_jump_left", vecFileName, TEXTURE_PATH);
-
-		for (int i = 0; i <= 3; ++i)
-		{
-			CResourceManager::GetInst()->AddAnimationFrame("spr_jump_left", 0.f, 0.f,
-				32.f, 42.f);
-		}
-
-		CResourceManager::GetInst()->SetColorKey("spr_jump_left", 255, 255, 255);
-
-		AddAnimation("spr_jump_left", true, 0.28f);
-	}
-
-	// spr_jump_right
-	{
-		std::vector<std::wstring>	vecFileName;
-
-		for (int i = 0; i <= 3; ++i)
-		{
-			TCHAR	FileName[MAX_PATH] = {};
-			// %d에 i의 값이 대입되어 문자열이 만들어지게 된다.
-			wsprintf(FileName, TEXT("Player/spr_jump_right/%d.bmp"), i);
-			vecFileName.push_back(FileName);
-		}
-
-		CResourceManager::GetInst()->CreateAnimationSequence("spr_jump_right",
-			"spr_jump_right", vecFileName, TEXTURE_PATH);
-
-		for (int i = 0; i <= 3; ++i)
-		{
-			CResourceManager::GetInst()->AddAnimationFrame("spr_jump_right", 0.f, 0.f,
-				32.f, 42.f);
-		}
-
-		CResourceManager::GetInst()->SetColorKey("spr_jump_right", 255, 255, 255);
-
-		AddAnimation("spr_jump_right", true, 0.28f);
-	}
-
-	// spr_fall_left
-	{
-		std::vector<std::wstring>	vecFileName;
-
-		for (int i = 0; i <= 3; ++i)
-		{
-			TCHAR	FileName[MAX_PATH] = {};
-			// %d에 i의 값이 대입되어 문자열이 만들어지게 된다.
-			wsprintf(FileName, TEXT("Player/spr_fall_left/%d.bmp"), i);
-			vecFileName.push_back(FileName);
-		}
-
-		CResourceManager::GetInst()->CreateAnimationSequence("spr_fall_left",
-			"spr_fall_left", vecFileName, TEXTURE_PATH);
-
-		for (int i = 0; i <= 3; ++i)
-		{
-			CResourceManager::GetInst()->AddAnimationFrame("spr_fall_left", 0.f, 0.f,
-				42.f, 48.f);
-		}
-
-		CResourceManager::GetInst()->SetColorKey("spr_fall_left", 255, 255, 255);
-
-		AddAnimation("spr_fall_left", true, 0.28f);
-	}
-
-	// spr_fall_right
-	{
-		std::vector<std::wstring>	vecFileName;
-
-		for (int i = 0; i <= 3; ++i)
-		{
-			TCHAR	FileName[MAX_PATH] = {};
-			// %d에 i의 값이 대입되어 문자열이 만들어지게 된다.
-			wsprintf(FileName, TEXT("Player/spr_fall_right/%d.bmp"), i);
-			vecFileName.push_back(FileName);
-		}
-
-		CResourceManager::GetInst()->CreateAnimationSequence("spr_fall_right",
-			"spr_fall_right", vecFileName, TEXTURE_PATH);
-
-		for (int i = 0; i <= 3; ++i)
-		{
-			CResourceManager::GetInst()->AddAnimationFrame("spr_fall_right", 0.f, 0.f,
-				42.f, 48.f);
-		}
-
-		CResourceManager::GetInst()->SetColorKey("spr_fall_right", 255, 255, 255);
-
-		AddAnimation("spr_fall_right", true, 0.28f);
-	}
-
-	// spr_attack_left
-	{
-		std::vector<std::wstring>	vecFileName;
-
-		for (int i = 0; i <= 6; ++i)
-		{
-			TCHAR	FileName[MAX_PATH] = {};
-			// %d에 i의 값이 대입되어 문자열이 만들어지게 된다.
-			wsprintf(FileName, TEXT("Player/spr_attack_left/%d.bmp"), i);
-			vecFileName.push_back(FileName);
-		}
-
-		CResourceManager::GetInst()->CreateAnimationSequence("spr_attack_left",
-			"spr_attack_left", vecFileName, TEXTURE_PATH);
-
-		for (int i = 0; i <= 6; ++i)
-		{
-			CResourceManager::GetInst()->AddAnimationFrame("spr_attack_left", 0.f, 0.f,
-				62.f, 42.f);
-		}
-
-		CResourceManager::GetInst()->SetColorKey("spr_attack_left", 255, 255, 255);
-
-		AddAnimation("spr_attack_left", true, 0.196f);
-	}
-
-	// spr_attack_right
-	{
-		std::vector<std::wstring>	vecFileName;
-
-		for (int i = 0; i <= 6; ++i)
-		{
-			TCHAR	FileName[MAX_PATH] = {};
-			// %d에 i의 값이 대입되어 문자열이 만들어지게 된다.
-			wsprintf(FileName, TEXT("Player/spr_attack_right/%d.bmp"), i);
-			vecFileName.push_back(FileName);
-		}
-
-		CResourceManager::GetInst()->CreateAnimationSequence("spr_attack_right",
-			"spr_attack_right", vecFileName, TEXTURE_PATH);
-
-		for (int i = 0; i <= 6; ++i)
-		{
-			CResourceManager::GetInst()->AddAnimationFrame("spr_attack_right", 0.f, 0.f,
-				62.f, 42.f);
-		}
-
-		CResourceManager::GetInst()->SetColorKey("spr_attack_right", 255, 255, 255);
-
-		AddAnimation("spr_attack_right", true, 0.196f);
-	}
-
-	// spr_landing_left
-	{
-		std::vector<std::wstring>	vecFileName;
-
-		for (int i = 0; i <= 4; ++i)
-		{
-			TCHAR	FileName[MAX_PATH] = {};
-			// %d에 i의 값이 대입되어 문자열이 만들어지게 된다.
-			wsprintf(FileName, TEXT("Player/spr_landing_left/%d.bmp"), i);
-			vecFileName.push_back(FileName);
-		}
-
-		CResourceManager::GetInst()->CreateAnimationSequence("spr_landing_left",
-			"spr_landing_left", vecFileName, TEXTURE_PATH);
-
-		for (int i = 0; i <= 4; ++i)
-		{
-			CResourceManager::GetInst()->AddAnimationFrame("spr_landing_left", 0.f, 0.f,
-				52.f, 36.f);
-		}
-
-		CResourceManager::GetInst()->SetColorKey("spr_landing_left", 255, 255, 255);
-
-		AddAnimation("spr_landing_left", true, 0.3f);
-	}
-
-	// spr_landing_right
-	{
-		std::vector<std::wstring>	vecFileName;
-
-		for (int i = 0; i <= 4; ++i)
-		{
-			TCHAR	FileName[MAX_PATH] = {};
-			// %d에 i의 값이 대입되어 문자열이 만들어지게 된다.
-			wsprintf(FileName, TEXT("Player/spr_landing_right/%d.bmp"), i);
-			vecFileName.push_back(FileName);
-		}
-
-		CResourceManager::GetInst()->CreateAnimationSequence("spr_landing_right",
-			"spr_landing_right", vecFileName, TEXTURE_PATH);
-
-		for (int i = 0; i <= 4; ++i)
-		{
-			CResourceManager::GetInst()->AddAnimationFrame("spr_landing_right", 0.f, 0.f,
-				52.f, 36.f);
-		}
-
-		CResourceManager::GetInst()->SetColorKey("spr_landing_right", 255, 255, 255);
-
-		AddAnimation("spr_landing_right", true, 0.3f);
-	}
-
-	// spr_roll_left
-	{
-		std::vector<std::wstring>	vecFileName;
-
-		for (int i = 0; i <= 6; ++i)
-		{
-			TCHAR	FileName[MAX_PATH] = {};
-			// %d에 i의 값이 대입되어 문자열이 만들어지게 된다.
-			wsprintf(FileName, TEXT("Player/spr_roll_left/%d.bmp"), i);
-			vecFileName.push_back(FileName);
-		}
-
-		CResourceManager::GetInst()->CreateAnimationSequence("spr_roll_left",
-			"spr_roll_left", vecFileName, TEXTURE_PATH);
-
-		for (int i = 0; i <= 6; ++i)
-		{
-			CResourceManager::GetInst()->AddAnimationFrame("spr_roll_left", 0.f, 0.f,
-				48.f, 33.f);
-		}
-
-		CResourceManager::GetInst()->SetColorKey("spr_roll_left", 255, 255, 255);
-
-		AddAnimation("spr_roll_left", true, 0.315f);
-	}
-
-	// spr_roll_right
-	{
-		std::vector<std::wstring>	vecFileName;
-
-		for (int i = 0; i <= 6; ++i)
-		{
-			TCHAR	FileName[MAX_PATH] = {};
-			// %d에 i의 값이 대입되어 문자열이 만들어지게 된다.
-			wsprintf(FileName, TEXT("Player/spr_roll_right/%d.bmp"), i);
-			vecFileName.push_back(FileName);
-		}
-
-		CResourceManager::GetInst()->CreateAnimationSequence("spr_roll_right",
-			"spr_roll_right", vecFileName, TEXTURE_PATH);
-
-		for (int i = 0; i <= 6; ++i)
-		{
-			CResourceManager::GetInst()->AddAnimationFrame("spr_roll_right", 0.f, 0.f,
-				48.f, 33.f);
-		}
-
-		CResourceManager::GetInst()->SetColorKey("spr_roll_right", 255, 255, 255);
-
-		AddAnimation("spr_roll_right", true, 0.315f);
-	}
-
-	// spr_player_playsong
-	{
-		std::vector<std::wstring>	vecFileName;
-
-		for (int i = 0; i <= 30; ++i)
-		{
-			TCHAR	FileName[MAX_PATH] = {};
-			// %d에 i의 값이 대입되어 문자열이 만들어지게 된다.
-			wsprintf(FileName, TEXT("Player/spr_player_playsong/%d.bmp"), i);
-			vecFileName.push_back(FileName);
-		}
-
-		CResourceManager::GetInst()->CreateAnimationSequence("spr_player_playsong",
-			"spr_player_playsong", vecFileName, TEXTURE_PATH);
-
-		for (int i = 0; i <= 30; ++i)
-		{
-			CTexture* Texture = CResourceManager::GetInst()->FindTexture("spr_player_playsong");
-			int NewWidth = Texture->GetWidth(i);
-			int NewHeight = Texture->GetHeight(i);
-
-			CResourceManager::GetInst()->AddAnimationFrame("spr_player_playsong", 0.f, 0.f,
-				(float)NewWidth, (float)NewHeight);
-		}
-
-		CResourceManager::GetInst()->SetColorKey("spr_player_playsong", 255, 255, 255);
-
-		AddAnimation("spr_player_playsong", true, 3.5f);
-	}
-
-
-	// spr_hurtfly_begin_left
-	{
-		std::vector<std::wstring>	vecFileName;
-
-		for (int i = 0; i <= 1; ++i)
-		{
-			TCHAR	FileName[MAX_PATH] = {};
-			// %d에 i의 값이 대입되어 문자열이 만들어지게 된다.
-			wsprintf(FileName, TEXT("Player/spr_hurtfly_begin_left/%d.bmp"), i);
-			vecFileName.push_back(FileName);
-		}
-
-		CResourceManager::GetInst()->CreateAnimationSequence("spr_hurtfly_begin_left",
-			"spr_hurtfly_begin_left", vecFileName, TEXTURE_PATH);
-
-		for (int i = 0; i <= 1; ++i)
-		{
-			CTexture* Texture = CResourceManager::GetInst()->FindTexture("spr_hurtfly_begin_left");
-			int NewWidth = Texture->GetWidth(i);
-			int NewHeight = Texture->GetHeight(i);
-
-			CResourceManager::GetInst()->AddAnimationFrame("spr_hurtfly_begin_left", 0.f, 0.f,
-				(float)NewWidth, (float)NewHeight);
-		}
-
-		CResourceManager::GetInst()->SetColorKey("spr_hurtfly_begin_left", 255, 255, 255);
-
-		AddAnimation("spr_hurtfly_begin_left", true, 0.14f);
-	}
-
-	// spr_hurtfly_begin_right
-	{
-		std::vector<std::wstring>	vecFileName;
-
-		for (int i = 0; i <= 1; ++i)
-		{
-			TCHAR	FileName[MAX_PATH] = {};
-			// %d에 i의 값이 대입되어 문자열이 만들어지게 된다.
-			wsprintf(FileName, TEXT("Player/spr_hurtfly_begin_right/%d.bmp"), i);
-			vecFileName.push_back(FileName);
-		}
-
-		CResourceManager::GetInst()->CreateAnimationSequence("spr_hurtfly_begin_right",
-			"spr_hurtfly_begin_right", vecFileName, TEXTURE_PATH);
-
-		for (int i = 0; i <= 1; ++i)
-		{
-			CTexture* Texture = CResourceManager::GetInst()->FindTexture("spr_hurtfly_begin_right");
-			int NewWidth = Texture->GetWidth(i);
-			int NewHeight = Texture->GetHeight(i);
-
-			CResourceManager::GetInst()->AddAnimationFrame("spr_hurtfly_begin_right", 0.f, 0.f,
-				(float)NewWidth, (float)NewHeight);
-		}
-
-		CResourceManager::GetInst()->SetColorKey("spr_hurtfly_begin_right", 255, 255, 255);
-
-		AddAnimation("spr_hurtfly_begin_right", true, 0.28f);
-	}
-
-
-	// spr_hurtfly_loop_left
-	{
-		std::vector<std::wstring>	vecFileName;
-
-		for (int i = 0; i <= 3; ++i)
-		{
-			TCHAR	FileName[MAX_PATH] = {};
-			// %d에 i의 값이 대입되어 문자열이 만들어지게 된다.
-			wsprintf(FileName, TEXT("Player/spr_hurtfly_loop_left/%d.bmp"), i);
-			vecFileName.push_back(FileName);
-		}
-
-		CResourceManager::GetInst()->CreateAnimationSequence("spr_hurtfly_loop_left",
-			"spr_hurtfly_loop_left", vecFileName, TEXTURE_PATH);
-
-		for (int i = 0; i <= 3; ++i)
-		{
-			CTexture* Texture = CResourceManager::GetInst()->FindTexture("spr_hurtfly_loop_left");
-			int NewWidth = Texture->GetWidth(i);
-			int NewHeight = Texture->GetHeight(i);
-
-			CResourceManager::GetInst()->AddAnimationFrame("spr_hurtfly_loop_left", 0.f, 0.f,
-				(float)NewWidth, (float)NewHeight);
-		}
-
-		CResourceManager::GetInst()->SetColorKey("spr_hurtfly_loop_left", 255, 255, 255);
-
-		AddAnimation("spr_hurtfly_loop_left", true, 0.28f);
-	}
-
-
-	// spr_hurtfly_loop_right
-	{
-		std::vector<std::wstring>	vecFileName;
-
-		for (int i = 0; i <= 3; ++i)
-		{
-			TCHAR	FileName[MAX_PATH] = {};
-			// %d에 i의 값이 대입되어 문자열이 만들어지게 된다.
-			wsprintf(FileName, TEXT("Player/spr_hurtfly_loop_right/%d.bmp"), i);
-			vecFileName.push_back(FileName);
-		}
-
-		CResourceManager::GetInst()->CreateAnimationSequence("spr_hurtfly_loop_right",
-			"spr_hurtfly_loop_right", vecFileName, TEXTURE_PATH);
-
-		for (int i = 0; i <= 3; ++i)
-		{
-			CTexture* Texture = CResourceManager::GetInst()->FindTexture("spr_hurtfly_loop_right");
-			int NewWidth = Texture->GetWidth(i);
-			int NewHeight = Texture->GetHeight(i);
-
-			CResourceManager::GetInst()->AddAnimationFrame("spr_hurtfly_loop_right", 0.f, 0.f,
-				(float)NewWidth, (float)NewHeight);
-		}
-
-		CResourceManager::GetInst()->SetColorKey("spr_hurtfly_loop_right", 255, 255, 255);
-
-		AddAnimation("spr_hurtfly_loop_right", true, 0.28f);
-	}
-
-
-	// spr_hurtground_left
-	{
-		std::vector<std::wstring>	vecFileName;
-
-		for (int i = 0; i <= 5; ++i)
-		{
-			TCHAR	FileName[MAX_PATH] = {};
-			// %d에 i의 값이 대입되어 문자열이 만들어지게 된다.
-			wsprintf(FileName, TEXT("Player/spr_hurtground_left/%d.bmp"), i);
-			vecFileName.push_back(FileName);
-		}
-
-		CResourceManager::GetInst()->CreateAnimationSequence("spr_hurtground_left",
-			"spr_hurtground_left", vecFileName, TEXTURE_PATH);
-
-		for (int i = 0; i <= 5; ++i)
-		{
-			CTexture* Texture = CResourceManager::GetInst()->FindTexture("spr_hurtground_left");
-			int NewWidth = Texture->GetWidth(i);
-			int NewHeight = Texture->GetHeight(i);
-
-			CResourceManager::GetInst()->AddAnimationFrame("spr_hurtground_left", 0.f, 0.f,
-				(float)NewWidth, (float)NewHeight);
-		}
-
-		CResourceManager::GetInst()->SetColorKey("spr_hurtground_left", 255, 255, 255);
-
-		AddAnimation("spr_hurtground_left", false, 0.55f);
-	}
-
-	// spr_hurtground_right
-	{
-		std::vector<std::wstring>	vecFileName;
-
-		for (int i = 0; i <= 5; ++i)
-		{
-			TCHAR	FileName[MAX_PATH] = {};
-			// %d에 i의 값이 대입되어 문자열이 만들어지게 된다.
-			wsprintf(FileName, TEXT("Player/spr_hurtground_right/%d.bmp"), i);
-			vecFileName.push_back(FileName);
-		}
-
-		CResourceManager::GetInst()->CreateAnimationSequence("spr_hurtground_right",
-			"spr_hurtground_right", vecFileName, TEXTURE_PATH);
-
-		for (int i = 0; i <= 5; ++i)
-		{
-			CTexture* Texture = CResourceManager::GetInst()->FindTexture("spr_hurtground_right");
-			int NewWidth = Texture->GetWidth(i);
-			int NewHeight = Texture->GetHeight(i);
-
-			CResourceManager::GetInst()->AddAnimationFrame("spr_hurtground_right", 0.f, 0.f,
-				(float)NewWidth, (float)NewHeight);
-		}
-
-		CResourceManager::GetInst()->SetColorKey("spr_hurtground_right", 255, 255, 255);
-
-		AddAnimation("spr_hurtground_right", false, 0.55f);
-	}
-
-
-
-
-
-
-	// #################### EFFECT ####################
-	// Dust_Cloud Animation
-	{
-		std::vector<std::wstring>	vecFileName;
-
-		for (int i = 0; i <= 6; ++i)
-		{
-			TCHAR	FileName[MAX_PATH] = {};
-			// %d에 i의 값이 대입되어 문자열이 만들어지게 된다.
-			wsprintf(FileName, TEXT("Effect/spr_dustcloud/%d.bmp"), i);
-			vecFileName.push_back(FileName);
-		}
-
-		CResourceManager::GetInst()->CreateAnimationSequence("spr_dustcloud",
-			"spr_dustcloud", vecFileName, TEXTURE_PATH);
-
-		for (int i = 0; i <= 6; ++i)
-		{
-			CResourceManager::GetInst()->AddAnimationFrame("spr_dustcloud", 0.f, 0.f,
-				19.f, 19.f);
-		}
-
-		CResourceManager::GetInst()->SetColorKey("spr_dustcloud", 255, 255, 255);
-
-		AddAnimation("spr_dustcloud", true, 0.42f);
-	}
-
-	// Jump_Cloud
-	{
-		std::vector<std::wstring>	vecFileName;
-
-		for (int i = 0; i <= 3; ++i)
-		{
-			TCHAR	FileName[MAX_PATH] = {};
-			// %d에 i의 값이 대입되어 문자열이 만들어지게 된다.
-			wsprintf(FileName, TEXT("Effect/spr_jumpcloud/%d.bmp"), i);
-			vecFileName.push_back(FileName);
-		}
-
-		CResourceManager::GetInst()->CreateAnimationSequence("spr_jumpcloud",
-			"spr_jumpcloud", vecFileName, TEXTURE_PATH);
-
-		for (int i = 0; i <= 3; ++i)
-		{
-			CResourceManager::GetInst()->AddAnimationFrame("spr_jumpcloud", 0.f, 0.f,
-				32.f, 51.f);
-		}
-
-		CResourceManager::GetInst()->SetColorKey("spr_jumpcloud", 255, 255, 255);
-
-		AddAnimation("spr_jumpcloud", true, 0.24f);
-	}
-
-
-	// Land_Cloud
-	{
-		std::vector<std::wstring>	vecFileName;
-
-		for (int i = 0; i <= 6; ++i)
-		{
-			TCHAR	FileName[MAX_PATH] = {};
-			// %d에 i의 값이 대입되어 문자열이 만들어지게 된다.
-			wsprintf(FileName, TEXT("Effect/spr_landcloud/%d.bmp"), i);
-			vecFileName.push_back(FileName);
-		}
-
-		CResourceManager::GetInst()->CreateAnimationSequence("spr_landcloud",
-			"spr_landcloud", vecFileName, TEXTURE_PATH);
-
-		for (int i = 0; i <= 6; ++i)
-		{
-			CResourceManager::GetInst()->AddAnimationFrame("spr_landcloud", 0.f, 0.f,
-				50.f, 14.f);
-		}
-
-		CResourceManager::GetInst()->SetColorKey("spr_landcloud", 255, 0, 255);
-
-		AddAnimation("spr_landcloud", true, 0.42f);
-	}
-
-	// Slash
-	{
-		std::vector<std::wstring>	vecFileName;
-
-		for (int i = 0; i <= 4; ++i)
-		{
-			TCHAR	FileName[MAX_PATH] = {};
-			// %d에 i의 값이 대입되어 문자열이 만들어지게 된다.
-			wsprintf(FileName, TEXT("Effect/spr_slash/%d.bmp"), i);
-			vecFileName.push_back(FileName);
-		}
-
-		CResourceManager::GetInst()->CreateAnimationSequence("spr_slash",
-			"spr_slash", vecFileName, TEXTURE_PATH);
-
-		for (int i = 0; i <= 4; ++i)
-		{
-			CResourceManager::GetInst()->AddAnimationFrame("spr_slash", 0.f, 0.f,
-				106.f, 32.f);
-		}
-
-		CResourceManager::GetInst()->SetColorKey("spr_slash", 255, 255, 255);
-
-		AddAnimation("spr_slash", true, 0.196f);
-	}
-
-
-
-
-
-
-
+	AddAnimation("spr_idle_left", true, 1.1f);
+	AddAnimation("spr_idle_right", true, 1.1f);
+	AddAnimation("spr_idle_to_run_left", true, 0.16f);
+	AddAnimation("spr_idle_to_run_right", true, 0.16f);
+	AddAnimation("spr_run_left", true, 0.7f);
+	AddAnimation("spr_run_right", true, 0.7f);
+	AddAnimation("spr_run_to_idle_left", true, 0.35f);
+	AddAnimation("spr_run_to_idle_right", true, 0.35f);
+	AddAnimation("spr_jump_left", true, 0.28f);
+	AddAnimation("spr_jump_right", true, 0.28f);
+	AddAnimation("spr_fall_left", true, 0.28f);
+	AddAnimation("spr_fall_right", true, 0.28f);
+	AddAnimation("spr_attack_left", true, 0.196f);
+	AddAnimation("spr_attack_right", true, 0.196f);
+	AddAnimation("spr_landing_left", true, 0.3f);
+	AddAnimation("spr_landing_right", true, 0.3f);
+	AddAnimation("spr_roll_left", true, 0.315f);
+	AddAnimation("spr_roll_right", true, 0.315f);
+	AddAnimation("spr_player_playsong", true, 3.5f);
+	AddAnimation("spr_hurtfly_begin_left", true, 0.14f);
+	AddAnimation("spr_hurtfly_begin_right", true, 0.28f);
+	AddAnimation("spr_hurtfly_loop_left", true, 0.28f);
+	AddAnimation("spr_hurtfly_loop_right", true, 0.28f);
+	AddAnimation("spr_hurtground_left", false, 0.55f);
+	AddAnimation("spr_hurtground_right", false, 0.55f);
+
+	// ## Effect
+	AddAnimation("spr_dustcloud", true, 0.42f);
+	AddAnimation("spr_jumpcloud", true, 0.24f);
+	AddAnimation("spr_landcloud", true, 0.42f);
+	AddAnimation("spr_slash", true, 0.196f);
 }
 
 void CPlayer::DirAnimationCheck()
@@ -1273,19 +505,14 @@ void CPlayer::Attack()
 
 void CPlayer::HitBoxCollisionBegin(CCollider* Src, CCollider* Dest)
 {
-	//m_Scene->GetSceneResource()->SoundPlay("Gabung");
 
-	//m_HP -= 10;
-
-	//m_Scene->FindWidget<CCharacterHUD>("CharacterHUD")->SetHP(m_HP / (float)m_HPMax);
-	//m_HPBar->GetWidget<CProgressBar>()->SetValue(m_HP / (float)m_HPMax);
-
-	// 이미 사망상태가 아니고, 구르기판정이 아닐때 히트판정
+	// 사망상태가 아니고, 구르기판정이 아닐때 히트판정
 	if (m_CurState != PlayerState::Dead &&
 		m_CurState != PlayerState::HurtFlyLoop &&
 		m_CurState != PlayerState::HurtGround &&
 		m_CurState != PlayerState::Dodge)
 	{
+		m_EnemyAttackDir = Dest->GetOwner()->GetEnemyAttackDir();
 		StateChange(PlayerState::HurtFlyLoop);
 		return;
 	}
@@ -1785,6 +1012,7 @@ void CPlayer::FallUpdate()
 	}
 
 
+
 	// 공격
 	if (true == CInput::GetInst()->IsDown(VK_LBUTTON))
 	{
@@ -1854,6 +1082,23 @@ void CPlayer::DodgeUpdate()
 		return;
 	}
 
+
+	// 아래쪽에 지형이 없다면 Fall상태로
+	int color[5] = {};
+	for (int i = 1; i <= 5; ++i)
+	{
+		color[i - 1] = m_MapColTexture->GetImagePixel(m_Pos + Vector2{ 0.f,(float)i });
+	}
+	if (color[0] != RGB(0, 0, 0) && color[0] != RGB(255, 0, 0) &&
+		color[1] != RGB(0, 0, 0) &&
+		color[2] != RGB(0, 0, 0) &&
+		color[3] != RGB(0, 0, 0) &&
+		color[4] != RGB(0, 0, 0) &&
+		m_CurState != PlayerState::Jump)
+	{
+		StateChange(PlayerState::Fall);
+		return;
+	}
 
 
 	// 점프키를 누르면 Jump 상태로
@@ -2067,7 +1312,7 @@ void CPlayer::AttackStart()
 
 void CPlayer::HurtFlyLoopStart()
 {
-	m_MoveDir = Vector2{m_EnemyAttackDir};
+	m_MoveDir = m_EnemyAttackDir;
 
 	if (m_EnemyAttackDir.x > 0)
 	{
@@ -2237,7 +1482,7 @@ void CPlayer::MapCollisionCheckMoveGround()
 		// 항상 땅에 붙어있기
 		if (RGB(0, 0, 0) != ForDownColor && RGB(255, 0, 0) != ForDownColor)
 		{
-			SetPos(Vector2{ m_Pos.x, m_Pos.y + 1.5f });
+			SetPos(Vector2{ m_Pos.x, m_Pos.y + 2.f });
 		}
 
 		// 계단 올라가기

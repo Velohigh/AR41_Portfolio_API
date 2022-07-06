@@ -163,6 +163,12 @@
     <Filter Include="02. GameObject\01. Character\01. Enemy\00. Effect\Effect_BulletReflect %28SniperBullet%29">
       <UniqueIdentifier>{3addbf39-5ade-4e50-a84d-c635f79b6edb}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03. Scene\05. Stage_Scene\00. Stage_1">
+      <UniqueIdentifier>{dc8853b0-259d-4edd-8c30-5a435d5945b3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Scene\05. Stage_Scene\01. Stage_2">
+      <UniqueIdentifier>{24c86ffc-a3c5-4d15-b74b-fae8fbc52ab5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -300,9 +306,6 @@
     <ClCompile Include="Scene\TitleScene.cpp">
       <Filter>03. Scene\04. Title_Scene</Filter>
     </ClCompile>
-    <ClCompile Include="Scene\Stage_1.cpp">
-      <Filter>03. Scene\05. Stage_Scene</Filter>
-    </ClCompile>
     <ClCompile Include="Scene\EditDlg.cpp">
       <Filter>03. Scene\99. Edit_Scene</Filter>
     </ClCompile>
@@ -356,6 +359,12 @@
     </ClCompile>
     <ClCompile Include="GameObject\Effect_SniperBullet.cpp">
       <Filter>02. GameObject\01. Character\00. Player\00. Effect\Effect_SniperBullet</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene\Stage_1.cpp">
+      <Filter>03. Scene\05. Stage_Scene\00. Stage_1</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene\Stage_2.cpp">
+      <Filter>03. Scene\05. Stage_Scene\01. Stage_2</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -530,9 +539,6 @@
     <ClInclude Include="Scene\TitleScene.h">
       <Filter>03. Scene\04. Title_Scene</Filter>
     </ClInclude>
-    <ClInclude Include="Scene\Stage_1.h">
-      <Filter>03. Scene\05. Stage_Scene</Filter>
-    </ClInclude>
     <ClInclude Include="Scene\EditDlg.h">
       <Filter>03. Scene\99. Edit_Scene</Filter>
     </ClInclude>
@@ -586,6 +592,12 @@
     </ClInclude>
     <ClInclude Include="GameObject\Effect_SniperBullet.h">
       <Filter>02. GameObject\01. Character\00. Player\00. Effect\Effect_SniperBullet</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\Stage_1.h">
+      <Filter>03. Scene\05. Stage_Scene\00. Stage_1</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\Stage_2.h">
+      <Filter>03. Scene\05. Stage_Scene\01. Stage_2</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

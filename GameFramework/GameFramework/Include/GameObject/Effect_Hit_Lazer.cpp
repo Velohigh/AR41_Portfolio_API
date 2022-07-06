@@ -75,46 +75,46 @@ void CEffect_Hit_Lazer::PostUpdate(float DeltaTime)
 
 void CEffect_Hit_Lazer::Render(HDC hDC, float DeltaTime)
 {
-	//CEffect::Render(hDC, DeltaTime);
+	////CEffect::Render(hDC, DeltaTime);
 
-	HDC hPlgDC = m_PlgTexture->GetDC();
+	//HDC hPlgDC = m_PlgTexture->GetDC();
 
-	Vector2	Pos;
-	Vector2	CameraPos;
-	Vector2	Resolution;
+	//Vector2	Pos;
+	//Vector2	CameraPos;
+	//Vector2	Resolution;
 
-	if (m_Scene)
-	{
-		CameraPos = m_Scene->GetCamera()->GetPos();
-		Resolution = m_Scene->GetCamera()->GetResolution();
-		Pos = m_Pos - m_Scene->GetCamera()->GetPos();
-	}
+	//if (m_Scene)
+	//{
+	//	CameraPos = m_Scene->GetCamera()->GetPos();
+	//	Resolution = m_Scene->GetCamera()->GetResolution();
+	//	Pos = m_Pos - m_Scene->GetCamera()->GetPos();
+	//}
 
-	else
-	{
-		CScene* Scene = CSceneManager::GetInst()->GetScene();
-		Pos = m_Pos - Scene->GetCamera()->GetPos();
-		CameraPos = Scene->GetCamera()->GetPos();
-		Resolution = Scene->GetCamera()->GetResolution();
-	}
+	//else
+	//{
+	//	CScene* Scene = CSceneManager::GetInst()->GetScene();
+	//	Pos = m_Pos - Scene->GetCamera()->GetPos();
+	//	CameraPos = Scene->GetCamera()->GetPos();
+	//	Resolution = Scene->GetCamera()->GetResolution();
+	//}
 
-	PlgBlt(hPlgDC,
-		m_ptPos,
-		m_Texture->GetDC(),
-		0, 0,
-		900, 4,
-		NULL, NULL, NULL);
+	//PlgBlt(hPlgDC,
+	//	m_ptPos,
+	//	m_Texture->GetDC(),
+	//	0, 0,
+	//	900, 4,
+	//	NULL, NULL, NULL);
 
-	GdiTransparentBlt(hDC,
-		Pos.x - (m_Size.x / 2.f),
-		Pos.y - (m_Size.y / 2.f),
-		m_Size.x, m_Size.y,
-		hPlgDC,
-		0, 0,
-		300, 300,
-		RGB(255, 0, 255));
+	//GdiTransparentBlt(hDC,
+	//	Pos.x - (m_Size.x / 2.f),
+	//	Pos.y - (m_Size.y / 2.f),
+	//	m_Size.x, m_Size.y,
+	//	hPlgDC,
+	//	0, 0,
+	//	300, 300,
+	//	RGB(255, 0, 255));
 
 
-	m_PrevPos = m_Pos;
+	//m_PrevPos = m_Pos;
 
 }

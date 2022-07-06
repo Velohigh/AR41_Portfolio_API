@@ -20,8 +20,8 @@ public:
     virtual float InflictDamage(float Damage);
 
 private:
-    void CollisionBegin(CCollider* Src, CCollider* Dest);
-    void CollisionEnd(CCollider* Src, CCollider* Dest);
+    void ViewCollisionBegin(CCollider* Src, CCollider* Dest);
+    void ViewCollisionEnd(CCollider* Src, CCollider* Dest);
 
 private:
 	///////////////////////////////

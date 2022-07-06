@@ -2,14 +2,14 @@
 
 #include "Scene.h"
 
-class CStage_1 :
+class CStage_2 :
     public CScene
 {
 	friend class CSceneManager;
 
 protected:
-	CStage_1();
-	virtual ~CStage_1();
+	CStage_2();
+	virtual ~CStage_2();
 
 private:
 	class CBackObj* Back;
@@ -30,5 +30,6 @@ private:
 	void CreateAnimationSequenceEffect();
 
 private:
+
 };
 

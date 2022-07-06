@@ -26,6 +26,7 @@ enum class ECollision_Channel
 	PlayerBullet,
 	Monster,
 	MonsterHitBox,
+	MonsterView,
 	PlayerAttack,
 	MonsterAttack,
 	MonsterBullet,

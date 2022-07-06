@@ -1,11 +1,9 @@
 
-#include "Stage_1.h"
 #include "Stage_2.h"
 #include "../GameObject/Player.h"
 #include "../GameObject/Monster.h"
 #include "../GameObject/BackObj.h"
 #include "SceneResource.h"
-#include "SceneManager.h"
 #include "Camera.h"
 #include "../Input.h"
 #include "../Widget/CharacterHUD.h"
@@ -17,25 +15,25 @@
 #include "../Resource/Texture/Texture.h"
 #include "../GameObject/Effect.h"
 
-CStage_1::CStage_1()	:
+CStage_2::CStage_2() :
 	Back(nullptr)
 {
 }
 
-CStage_1::~CStage_1()
+CStage_2::~CStage_2()
 {
 }
 
-bool CStage_1::Init()
+bool CStage_2::Init()
 {
 	CScene::Init();
 
-	CreateAnimationSequencePlayer();
-	CreateAnimationSequence();
-	CreateAnimationSequenceGangster();
-	CreateAnimationSequenceEffect();
+	//CreateAnimationSequencePlayer();
+	//CreateAnimationSequence();
+	//CreateAnimationSequenceGangster();
+	//CreateAnimationSequenceEffect();
 
-	GetSceneResource()->LoadSound("BGM", "song_youwillneverknow", true, "song_youwillneverknow.ogg");
+	GetSceneResource()->LoadSound("BGM", "bgm_bunker", true, "bgm_bunker.mp3");
 	GetSceneResource()->LoadSound("Effect", "sound_enemy_bloodsplat1", false, "sound_enemy_bloodsplat1.wav");
 	GetSceneResource()->LoadSound("Effect", "sound_enemy_bloodsplat2", false, "sound_enemy_bloodsplat2.wav");
 	GetSceneResource()->LoadSound("Effect", "sound_enemy_bloodsplat3", false, "sound_enemy_bloodsplat3.wav");
@@ -49,11 +47,11 @@ bool CStage_1::Init()
 
 
 	GetCamera()->SetResolution(1280.f, 720.f);
-	GetCamera()->SetWorldResolution(1800.f, 784.f);
+	GetCamera()->SetWorldResolution(2176.f, 3500.f);
 	GetCamera()->SetTargetPivot(0.5f, 0.5f);
 
 	Back = CreateObject<CBackObj>("BackObj");
-	Back->SetTexture("room_factory_2", TEXT("room_factory_2.bmp"), "MapPath");
+	Back->SetTexture("stage2_bg_render", TEXT("stage2_bg_render.bmp"), "MapPath");
 
 	auto iter = m_ObjList[(int)ERender_Layer::Default].begin();
 	auto iterEnd = m_ObjList[(int)ERender_Layer::Default].end();
@@ -65,52 +63,53 @@ bool CStage_1::Init()
 
 	// ÇÃ·¹ÀÌ¾î
 	CPlayer* Player = CreateObject<CPlayer>("Player");
-	Player->SetPos({ 230.f, 671.f });
-	Player->StateChange(PlayerState::PlaySong);
+	Player->SetPos({ 375.f, 300.f });
+	Player->StateChange(PlayerState::Idle);
+	Player->SetMapTexture("stage2_bg_collision", TEXT("stage2_bg_collision.bmp"), "MapPath");
 
 	SetPlayer(Player);
 	GetCamera()->SetTarget(Player);
 
 
 	{
-	// ±×·±Æ®
-		CGrunt* NewGrunt = CreateObject<CGrunt>("Grunt");	// 2Ãþ Á¤Âû
-		NewGrunt->SetPos({ 1054.f, 383.f });
-		NewGrunt->SetDir(ObjDir::Right);
-		NewGrunt->SetState(ObjState::Walk);
-		NewGrunt->SetPatrol(true);
-		NewGrunt->SetMapTexture("room_factory_2_ColMap", TEXT("room_factory_2_ColMap.bmp"), "MapPath");
+		//// ±×·±Æ®
+		//CGrunt* NewGrunt = CreateObject<CGrunt>("Grunt");	// 2Ãþ Á¤Âû
+		//NewGrunt->SetPos({ 1054.f, 383.f });
+		//NewGrunt->SetDir(ObjDir::Right);
+		//NewGrunt->SetState(ObjState::Walk);
+		//NewGrunt->SetPatrol(true);
+		//NewGrunt->SetMapTexture("room_factory_2_ColMap", TEXT("room_factory_2_ColMap.bmp"), "MapPath");
 
-		NewGrunt = CreateObject<CGrunt>("Grunt");	// 2Ãþ ¹æ¾È
-		NewGrunt->SetPos({ 338, 383 });
-		NewGrunt->SetDir(ObjDir::Right);
-		NewGrunt->SetMapTexture("room_factory_2_ColMap", TEXT("room_factory_2_ColMap.bmp"), "MapPath");
+		//NewGrunt = CreateObject<CGrunt>("Grunt");	// 2Ãþ ¹æ¾È
+		//NewGrunt->SetPos({ 338, 383 });
+		//NewGrunt->SetDir(ObjDir::Right);
+		//NewGrunt->SetMapTexture("room_factory_2_ColMap", TEXT("room_factory_2_ColMap.bmp"), "MapPath");
 
-		NewGrunt = CreateObject<CGrunt>("Grunt");	// 1Ãþ
-		NewGrunt->SetPos({ 530, 671 });
-		NewGrunt->SetMapTexture("room_factory_2_ColMap", TEXT("room_factory_2_ColMap.bmp"), "MapPath");
+		//NewGrunt = CreateObject<CGrunt>("Grunt");	// 1Ãþ
+		//NewGrunt->SetPos({ 530, 671 });
+		//NewGrunt->SetMapTexture("room_factory_2_ColMap", TEXT("room_factory_2_ColMap.bmp"), "MapPath");
 
-		NewGrunt = CreateObject<CGrunt>("Grunt");
-		NewGrunt->SetPos({ 338, 671 });
-		NewGrunt->SetMapTexture("room_factory_2_ColMap", TEXT("room_factory_2_ColMap.bmp"), "MapPath");
+		////NewGrunt = CreateObject<CGrunt>("Grunt");
+		////NewGrunt->SetPos({ 338, 671 });
+		////NewGrunt->SetMapTexture("room_factory_2_ColMap", TEXT("room_factory_2_ColMap.bmp"), "MapPath");
 
 
-		// °»½ºÅÍ
-		CGangster* NewGangster = CreateObject<CGangster>("Gangster");	// 2Ãþ ¹æ¾È
-		NewGangster->SetPos({ 545, 383 });
-		NewGangster->SetDir(ObjDir::Left);
-		NewGangster->SetState(ObjState::Idle);
-		NewGangster->SetMapTexture("room_factory_2_ColMap", TEXT("room_factory_2_ColMap.bmp"), "MapPath");
-
-		NewGangster = CreateObject<CGangster>("Gangster");	// 2Ãþ ¿ìÃø³¡
-		NewGangster->SetPos({ 1600, 383 });
-		NewGangster->SetDir(ObjDir::Left);
-		NewGangster->SetState(ObjState::Idle);
-		NewGangster->SetMapTexture("room_factory_2_ColMap", TEXT("room_factory_2_ColMap.bmp"), "MapPath");
-
-		//NewGangster = CreateObject<CGangster>("Gangster");
-		//NewGangster->SetPos({ 338, 671 });
+		//// °»½ºÅÍ
+		//CGangster* NewGangster = CreateObject<CGangster>("Gangster");	// 2Ãþ ¹æ¾È
+		//NewGangster->SetPos({ 545, 383 });
+		//NewGangster->SetDir(ObjDir::Left);
+		//NewGangster->SetState(ObjState::Idle);
 		//NewGangster->SetMapTexture("room_factory_2_ColMap", TEXT("room_factory_2_ColMap.bmp"), "MapPath");
+
+		//NewGangster = CreateObject<CGangster>("Gangster");	// 2Ãþ ¿ìÃø³¡
+		//NewGangster->SetPos({ 1600, 383 });
+		//NewGangster->SetDir(ObjDir::Left);
+		//NewGangster->SetState(ObjState::Idle);
+		//NewGangster->SetMapTexture("room_factory_2_ColMap", TEXT("room_factory_2_ColMap.bmp"), "MapPath");
+
+		////NewGangster = CreateObject<CGangster>("Gangster");
+		////NewGangster->SetPos({ 338, 671 });
+		////NewGangster->SetMapTexture("room_factory_2_ColMap", TEXT("room_factory_2_ColMap.bmp"), "MapPath");
 
 
 	}
@@ -121,7 +120,7 @@ bool CStage_1::Init()
 	return true;
 }
 
-void CStage_1::Update(float DeltaTime)
+void CStage_2::Update(float DeltaTime)
 {
 	CScene::Update(DeltaTime);
 
@@ -129,30 +128,22 @@ void CStage_1::Update(float DeltaTime)
 	{
 		m_BgmOn = !m_BgmOn;
 
-		GetSceneResource()->SoundPlay("song_youwillneverknow");
+		GetSceneResource()->SoundPlay("bgm_bunker");
 	}
 
-	Vector2 PlayerPos = GetPlayer()->GetPos();
-	int color = GetPlayer()->GetColMapTexture()->GetImagePixel(PlayerPos);
-	if (color == RGB(0, 0, 255) &&
-		m_KillCount >= 6)
-	{
-		CSceneManager::GetInst()->CreateScene<CStage_2>();
-		m_KillCount = 0;
-	}
 }
 
-void CStage_1::SetSlowMap()
+void CStage_2::SetSlowMap()
 {
-	Back->SetTexture("room_factory_2_slow", TEXT("room_factory_2_slow.bmp"), "MapPath");
+	Back->SetTexture("stage2_bg_render_slow", TEXT("stage2_bg_render_slow.bmp"), "MapPath");
 }
 
-void CStage_1::SetNormalMap()
+void CStage_2::SetNormalMap()
 {
-	Back->SetTexture("room_factory_2", TEXT("room_factory_2.bmp"), "MapPath");
+	Back->SetTexture("stage2_bg_render", TEXT("stage2_bg_render.bmp"), "MapPath");
 }
 
-void CStage_1::CreateAnimationSequencePlayer()
+void CStage_2::CreateAnimationSequencePlayer()
 {
 	// Idle_Left
 	{
@@ -888,7 +879,7 @@ void CStage_1::CreateAnimationSequencePlayer()
 
 }
 
-void CStage_1::CreateAnimationSequence()
+void CStage_2::CreateAnimationSequence()
 {
 	// ## Grunt Animation ##
 	// Grunt Idle_Left
@@ -1229,7 +1220,7 @@ void CStage_1::CreateAnimationSequence()
 
 }
 
-void CStage_1::CreateAnimationSequenceGangster()
+void CStage_2::CreateAnimationSequenceGangster()
 {
 	// #### Gangster Animation ####
 // Gangster Idle_Left
@@ -1632,7 +1623,7 @@ void CStage_1::CreateAnimationSequenceGangster()
 
 }
 
-void CStage_1::CreateAnimationSequenceEffect()
+void CStage_2::CreateAnimationSequenceEffect()
 {
 	// ## EFFECT
 // BloodAnimation_Left ÇÑÀåÂ¥¸® ÀÌ¹ÌÁö ¹æ½Ä
@@ -1784,4 +1775,3 @@ void CStage_1::CreateAnimationSequenceEffect()
 	}
 
 }
-

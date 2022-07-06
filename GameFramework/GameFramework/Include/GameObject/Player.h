@@ -32,6 +32,7 @@ class CPlayer :
 {
 	friend class CScene;
 	friend class CStage_1;
+	friend class CStage_2;
 
 protected:
 	CPlayer();
@@ -42,14 +43,14 @@ private:
 
 	//CSharedPtr<class CWidgetComponent>	m_HPBar;
 	//CSharedPtr<class CWidgetComponent>	m_NameBar;
-	PlayerDir	m_CurDir;								// 현재 바라보고 있는 방향
+	PlayerDir	m_CurDir = PlayerDir::Right;								// 현재 바라보고 있는 방향
 	std::string	m_AnimationName;
 	std::string m_ChangeDirText;
-	PlayerState	m_CurState;
-	float		m_StateTime[static_cast<int>(PlayerState::END)];	// 해당 상태가 되고 지난 시간
+	PlayerState	m_CurState = PlayerState::END;
+	float		m_StateTime[static_cast<int>(PlayerState::END)] = {};	// 해당 상태가 되고 지난 시간
 	float	m_Gravity = 10.f;		// 플레이어 중력
-	float	m_JumpPower = 300.f;
-	float	m_LongJumpPower = 2000.f;
+	float	m_JumpPower = 330.f;
+	float	m_LongJumpPower = 2050.f;
 	bool	m_IsLongJump = false;
 	int		m_AttackCount = 0;
 	float		m_GameTime = 0.f;

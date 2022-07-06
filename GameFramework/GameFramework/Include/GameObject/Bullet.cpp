@@ -53,7 +53,6 @@ bool CBullet::Init()
 
 	m_bRotate = true;
 
-
 	return true;
 }
 
@@ -62,6 +61,7 @@ void CBullet::Update(float DeltaTime)
 	CGameObject::Update(DeltaTime);
 
 	Move(m_MoveDir * DELTA_TIME * m_MoveSpeed);
+	m_EnemyAttackDir = m_MoveDir * m_MoveSpeed + Vector2{ 0.f, -400.f };
 
 	Vector2 NewVector = {};
 	m_Angle = NewVector.Angle(m_MoveDir);
@@ -113,11 +113,12 @@ void CBullet::Render(HDC hDC, float DeltaTime)
 void CBullet::CollisionBegin(CCollider* Src, CCollider* Dest)
 {
 	
-	if (Dest == m_Scene->GetPlayer()->FindCollider("Body"))
+	if (Dest == m_Scene->GetPlayer()->FindCollider("HitBox"))
 	{
 		if (static_cast<CPlayer*>(m_Scene->GetPlayer())->GetState() != PlayerState::Dodge)
 			SetActive(false);
 
+		// 플레이어 CollisionBegin 이 먼저 실행되서 의미가 없지만 일단 남겨둠.
 		static_cast<CPlayer*>(Dest->GetOwner())->SetEnemyAttackDir(m_MoveDir * m_MoveSpeed + Vector2{ 0.f, -400.f });
 
 	}
@@ -142,7 +143,10 @@ void CBullet::CollisionBegin(CCollider* Src, CCollider* Dest)
 
 	}
 
+	// 플레이어 총알에 적이 맞을경우
 	else if (Dest->GetOwner()->GetState() != ObjState::Dead && 
+		Dest->GetOwner()->GetState() != ObjState::HurtFly &&
+		Dest->GetOwner()->GetState() != ObjState::HurtGround &&
 		Dest->GetOwner() != m_Scene->GetPlayer())
 	{
 		Dest->GetOwner()->SetEnemyAttackDir(m_MoveDir * m_MoveSpeed + Vector2{ 0.f, -400.f });

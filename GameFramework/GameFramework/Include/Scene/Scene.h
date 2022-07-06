@@ -27,7 +27,7 @@ protected:
 	float		m_CameraShakeTime = 0.f;
 	Vector2		m_CameraShakeValue = {};
 	Vector2		m_StartOffset = {};
-
+	int			m_KillCount = 0;
 	std::vector<CSharedPtr<CWidgetWindow>>	m_vecWidgetWindow;
 
 public:
@@ -56,6 +56,11 @@ public:
 		return m_TileMap;
 	}
 
+	int GetKillCount() const
+	{
+		return m_KillCount;
+	}
+
 	void SetTileMap(class CTileMap* TileMap);
 	void SetPlayer(class CGameObject* Player);
 	void AddWidgetComponent(CWidgetComponent* Widget)
@@ -70,6 +75,16 @@ public:
 	void SetCameraShakeOn(bool Effect)
 	{
 		m_CameraShakeOn = Effect;
+	}
+
+	void SetKillCount(int Value)
+	{
+		m_KillCount = Value;
+	}
+
+	void AddKillCount(int Value)
+	{
+		m_KillCount += Value;
 	}
 
 public:

@@ -12,7 +12,7 @@ class CEffect_Hit_Lazer :
 	virtual ~CEffect_Hit_Lazer();
 
 private:
-	float	m_Time;
+	float	m_Time = 0.f;
 
 public:
 	virtual bool Init();
