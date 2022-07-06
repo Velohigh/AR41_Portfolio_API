@@ -90,9 +90,9 @@ bool CStage_1::Init()
 		NewGrunt->SetPos({ 530, 671 });
 		NewGrunt->SetMapTexture("room_factory_2_ColMap", TEXT("room_factory_2_ColMap.bmp"), "MapPath");
 
-		NewGrunt = CreateObject<CGrunt>("Grunt");
-		NewGrunt->SetPos({ 338, 671 });
-		NewGrunt->SetMapTexture("room_factory_2_ColMap", TEXT("room_factory_2_ColMap.bmp"), "MapPath");
+		//NewGrunt = CreateObject<CGrunt>("Grunt");	// 1Ãþ
+		//NewGrunt->SetPos({ 338, 671 });
+		//NewGrunt->SetMapTexture("room_factory_2_ColMap", TEXT("room_factory_2_ColMap.bmp"), "MapPath");
 
 
 		// °»½ºÅÍ
@@ -108,10 +108,12 @@ bool CStage_1::Init()
 		NewGangster->SetState(ObjState::Idle);
 		NewGangster->SetMapTexture("room_factory_2_ColMap", TEXT("room_factory_2_ColMap.bmp"), "MapPath");
 
-		//NewGangster = CreateObject<CGangster>("Gangster");
-		//NewGangster->SetPos({ 338, 671 });
+		//NewGangster = CreateObject<CGangster>("Gangster");	// 2Ãþ Á¤Âû
+		//NewGangster->SetPos({ 1510, 383 });
+		//NewGangster->SetDir(ObjDir::Left);
+		//NewGangster->SetState(ObjState::Walk);
+		//NewGangster->SetPatrol(true);
 		//NewGangster->SetMapTexture("room_factory_2_ColMap", TEXT("room_factory_2_ColMap.bmp"), "MapPath");
-
 
 	}
 
@@ -135,7 +137,7 @@ void CStage_1::Update(float DeltaTime)
 	Vector2 PlayerPos = GetPlayer()->GetPos();
 	int color = GetPlayer()->GetColMapTexture()->GetImagePixel(PlayerPos);
 	if (color == RGB(0, 0, 255) &&
-		m_KillCount >= 6)
+		m_KillCount >= 5)
 	{
 		CSceneManager::GetInst()->CreateScene<CStage_2>();
 		m_KillCount = 0;

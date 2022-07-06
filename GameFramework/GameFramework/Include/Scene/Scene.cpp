@@ -329,7 +329,7 @@ void CScene::CameraShakeEffect()
 		GetCamera()->m_CameraShakeOn = true;
 	}
 
-	if (m_CameraShakeTime < 0.2f)
+	if (m_CameraShakeTime < 0.15f)
 	{
 		// 시드값을 얻기 위한 random_device 생성.
 		std::random_device rd;
@@ -342,10 +342,20 @@ void CScene::CameraShakeEffect()
 		m_CameraShakeValue = Vector2{ (float)Value,(float)Value };
 		m_CameraShakeTime += DELTA_TIME;
 		GetCamera()->SetPos(GetCamera()->GetPos() + m_CameraShakeValue);
+
+		if (m_CameraShakeTime < 0.085f &&
+			m_CameraShakeTime >= 0.07f)
+		{
+			CGameManager::GetInst()->SetTimeScale(0.1f);
+		}
+		else
+		{
+			CGameManager::GetInst()->SetTimeScale(1.f);
+		}
 	}
 
 	// 다시 처음 화면으로, 화면 흔들림 해제
-	else if (m_CameraShakeTime >= 0.2f)
+	else if (m_CameraShakeTime >= 0.15f)
 	{
 		GetCamera()->SetTargetOffset(m_StartOffset);
 		GetCamera()->m_CameraShakeOn = false;
