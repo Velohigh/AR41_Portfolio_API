@@ -1090,8 +1090,8 @@ void CPlayer::DodgeUpdate()
 
 
 	// 아래쪽에 지형이 없다면 Fall상태로
-	int color[5] = {};
-	for (int i = 1; i <= 5; ++i)
+	int color[10] = {};
+	for (int i = 1; i <= 10; ++i)
 	{
 		color[i - 1] = m_MapColTexture->GetImagePixel(m_Pos + Vector2{ 0.f,(float)i });
 	}
@@ -1100,6 +1100,11 @@ void CPlayer::DodgeUpdate()
 		color[2] != RGB(0, 0, 0) &&
 		color[3] != RGB(0, 0, 0) &&
 		color[4] != RGB(0, 0, 0) &&
+		color[5] != RGB(0, 0, 0) &&
+		color[6] != RGB(0, 0, 0) &&
+		color[7] != RGB(0, 0, 0) &&
+		color[8] != RGB(0, 0, 0) &&
+		color[9] != RGB(0, 0, 0) &&
 		m_CurState != PlayerState::Jump)
 	{
 		StateChange(PlayerState::Fall);

@@ -136,6 +136,11 @@ public:
 		return m_MyAttackDir;
 	}
 
+	const Vector2& GetMoveDir() const
+	{
+		return m_MoveDir;
+	}
+
 
 public:
 	void SetSideWallCheck(bool Check)

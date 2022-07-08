@@ -89,12 +89,8 @@ bool CStage_1::Init()
 		NewGrunt->SetDir(ObjDir::Right);
 		NewGrunt->SetMapTexture("room_factory_2_ColMap", TEXT("room_factory_2_ColMap.bmp"), "MapPath");
 
-		NewGrunt = CreateObject<CGrunt>("Grunt");	// 1類
-		NewGrunt->SetPos({ 530, 671 });
-		NewGrunt->SetMapTexture("room_factory_2_ColMap", TEXT("room_factory_2_ColMap.bmp"), "MapPath");
-
 		//NewGrunt = CreateObject<CGrunt>("Grunt");	// 1類
-		//NewGrunt->SetPos({ 338, 671 });
+		//NewGrunt->SetPos({ 530, 671 });
 		//NewGrunt->SetMapTexture("room_factory_2_ColMap", TEXT("room_factory_2_ColMap.bmp"), "MapPath");
 
 
@@ -111,12 +107,18 @@ bool CStage_1::Init()
 		NewGangster->SetState(ObjState::Idle);
 		NewGangster->SetMapTexture("room_factory_2_ColMap", TEXT("room_factory_2_ColMap.bmp"), "MapPath");
 
-		//NewGangster = CreateObject<CGangster>("Gangster");	// 2類 薑雞
-		//NewGangster->SetPos({ 1510, 383 });
-		//NewGangster->SetDir(ObjDir::Left);
-		//NewGangster->SetState(ObjState::Walk);
-		//NewGangster->SetPatrol(true);
+
+		//NewGangster = CreateObject<CGangster>("Gangster");	// 2類 謝難部
+		//NewGangster->SetPos({ 44, 383 });
+		//NewGangster->SetDir(ObjDir::Right);
+		//NewGangster->SetState(ObjState::Idle);
 		//NewGangster->SetMapTexture("room_factory_2_ColMap", TEXT("room_factory_2_ColMap.bmp"), "MapPath");
+
+
+		// イЩ
+		CPomp* NewPomp = CreateObject<CPomp>("Pomp");	// 1類
+		NewPomp->SetPos({ 530, 671 });
+		NewPomp->SetMapTexture("room_factory_2_ColMap", TEXT("room_factory_2_ColMap.bmp"), "MapPath");
 
 	}
 

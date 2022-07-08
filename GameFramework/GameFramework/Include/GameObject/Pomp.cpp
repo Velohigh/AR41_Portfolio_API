@@ -56,7 +56,7 @@ bool CPomp::Init()
 
 	// 충돌체 어택 범위 추가
 	m_AttackRangeCollider = AddCollider<CColliderCircle>("AttackRange");
-	m_AttackRangeCollider->SetRadius(70.f);
+	m_AttackRangeCollider->SetRadius(80.f);
 	m_AttackRangeCollider->SetOffset(0.f, -35.f);
 	m_AttackRangeCollider->SetCollisionProfile("Monster");
 
@@ -71,8 +71,8 @@ bool CPomp::Init()
 	m_ChangeDirText = "right";
 
 	// 애니메이션
-	AddAnimation("spr_pomp_idle_left", true, 0.56f);
-	AddAnimation("spr_pomp_idle_right", true, 0.56f);
+	AddAnimation("spr_pomp_idle_left", true, 0.88f);
+	AddAnimation("spr_pomp_idle_right", true, 0.88f);
 
 	AddAnimation("spr_pomp_walk_left", true, 0.7f);
 	AddAnimation("spr_pomp_walk_right", true, 0.7f);
@@ -378,6 +378,23 @@ void CPomp::KnockDownStart()
 	m_AnimationName = "spr_pomp_knockdown_";
 	ChangeAnimation(m_AnimationName + m_ChangeDirText);
 
+	Vector2 EffectPos = ((m_Pos + Vector2{ 0.f, -35.f }) + (m_Scene->GetPlayer()->GetPos() + Vector2{ 0.f, -35.f })) / 2.f;
+	CEffect* NewEffect = m_Scene->CreateObject<CEffect>("spr_reflect");
+	NewEffect->SetPos(EffectPos);
+	NewEffect->AddAnimation("effect_reflect", false, 0.15f);
+	NewEffect->SetPivot(0.5f, 0.5f);
+
+	m_MoveDir = g_AttackDir;
+
+	SetSpeed(400.f);
+
+	if (m_Scene->GetPlayer())
+	{
+		Vector2 PlayerMoveDir = m_Scene->GetPlayer()->GetMoveDir();
+		m_Scene->GetPlayer()->SetMoveDir((PlayerMoveDir * -1.f) + Vector2{ 0.f, -300.f });
+	}
+
+
 }
 
 void CPomp::DeadStart()
@@ -563,7 +580,7 @@ void CPomp::AttackUpdate()
 	}
 
 
-	// 플레이어 공격에 맞으면 사망
+	// 플레이어 공격에 맞으면 넉다운 상태로
 	CCollider* PlayerAttack = m_Scene->GetPlayer()->FindCollider("PlayerAttack");
 	if (true == FindCollider("Body")->CheckCollisionList(PlayerAttack))
 	{
@@ -573,7 +590,7 @@ void CPomp::AttackUpdate()
 			m_AttackCollider = nullptr;
 		}
 
-		StateChange(ObjState::HurtFly);
+		StateChange(ObjState::KnockDown);
 		return;
 	}
 
@@ -643,6 +660,50 @@ void CPomp::HurtFlyUpdate()
 
 void CPomp::KnockDownUpdate()
 {
+	m_StateTime[(int)ObjState::KnockDown] += DELTA_TIME;
+	// 넉다운 애니메이션이 끝나면 다시 플레이어 추적
+	if (true == m_Animation->IsEndAnimation())
+	{
+		StateChange(ObjState::Run);
+		return;
+	}
+
+	if (m_StateTime[(int)ObjState::KnockDown] >= 0.2f)
+	{
+		// 플레이어 공격에 맞으면 Hurtfly
+		CCollider* PlayerAttack = m_Scene->GetPlayer()->FindCollider("PlayerAttack");
+		if (true == FindCollider("Body")->CheckCollisionList(PlayerAttack))
+		{
+			if (m_AttackCollider != nullptr)
+			{
+				m_AttackCollider->SetActive(false);
+				m_AttackCollider = nullptr;
+			}
+
+			StateChange(ObjState::HurtFly);
+			return;
+		}
+	}
+
+	//if (m_CurDir == ObjDir::Right)
+	//{
+	//	m_MoveDir = Vector2{ -1.f , 0.f };
+	//}
+	//else if (m_CurDir == ObjDir::Left)
+	//{
+	//	m_MoveDir = Vector2{ 1.f , 0.f };
+	//}
+
+	m_MoveSpeed -= (m_MoveSpeed) * DELTA_TIME;
+
+	if (8 == m_Animation->GetCurrentFrame())
+	{
+		SetSpeed(0.f);
+	}
+
+	//MapCollisionCheckMoveGroundDie();
+	MapCollisionCheckMoveGround();
+
 }
 
 void CPomp::DeadUpdate()
@@ -655,16 +716,16 @@ void CPomp::CreateAttackCollision()
 {
 	// 공격 판정 충돌체 추가
 	CColliderBox* Box = AddCollider<CColliderBox>("PompAttack");
-	Box->SetExtent(50.f, 50.f);
+	Box->SetExtent(60.f, 50.f);
 
 	if (m_CurDir == ObjDir::Right)
 	{
-		Box->SetOffset(Vector2{ 0.f, -35.f } + Vector2{ 1.f, 0.f } *50.f);
+		Box->SetOffset(Vector2{ 0.f, -35.f } + Vector2{ 1.f, 0.f } * 50.f);
 		static_cast<CPlayer*>(m_Scene->GetPlayer())->SetEnemyAttackDir(Vector2{ 1.f , -0.5f } *800);
 	}
 	else if (m_CurDir == ObjDir::Left)
 	{
-		Box->SetOffset(Vector2{ 0.f, -35.f } + Vector2{ -1.f, 0.f } *50.f);
+		Box->SetOffset(Vector2{ 0.f, -35.f } + Vector2{ -1.f, 0.f } * 50.f);
 		static_cast<CPlayer*>(m_Scene->GetPlayer())->SetEnemyAttackDir(Vector2{ -1.f , -0.5f } *800);
 	}
 	Box->SetCollisionProfile("MonsterAttack");
