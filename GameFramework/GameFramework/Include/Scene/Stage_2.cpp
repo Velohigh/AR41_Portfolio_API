@@ -46,7 +46,11 @@ bool CStage_2::Init()
 	GetSceneResource()->LoadSound("Effect", "swing", false, "swing.wav");
 	GetSceneResource()->LoadSound("Effect", "punch", false, "punch.wav");
 	GetSceneResource()->LoadSound("Effect", "death_bullet", false, "death_bullet.wav");
+	GetSceneResource()->LoadSound("Effect", "death_sword1", false, "death_sword1.wav");
+	GetSceneResource()->LoadSound("Effect", "death_sword2", false, "death_sword2.wav");
+	GetSceneResource()->LoadSound("Effect", "swordcrash", false, "swordcrash.wav");
 	GetSceneResource()->LoadSound("Effect", "reflect", false, "reflect.wav");
+
 
 
 	GetCamera()->SetResolution(1280.f, 720.f);
@@ -354,23 +358,6 @@ void CStage_2::CreateAnimationSequencePlayer()
 			"spr_hurtground_right", nullptr, TEXTURE_PATH);
 
 
-	// #################### EFFECT ####################
-	// Dust_Cloud Animation
-		CResourceManager::GetInst()->CreateAnimationSequence("spr_dustcloud",
-			"spr_dustcloud", nullptr, TEXTURE_PATH);
-
-	// Jump_Cloud
-		CResourceManager::GetInst()->CreateAnimationSequence("spr_jumpcloud",
-			"spr_jumpcloud", nullptr, TEXTURE_PATH);
-
-
-	// Land_Cloud
-		CResourceManager::GetInst()->CreateAnimationSequence("spr_landcloud",
-			"spr_landcloud", nullptr, TEXTURE_PATH);
-
-	// Slash
-		CResourceManager::GetInst()->CreateAnimationSequence("spr_slash",
-			"spr_slash", nullptr, TEXTURE_PATH);
 
 }
 
@@ -583,6 +570,24 @@ void CStage_2::CreateAnimationSequencePomp()
 
 void CStage_2::CreateAnimationSequenceEffect_Frame()
 {
+	// #################### EFFECT ####################
+	// Dust_Cloud Animation
+	CResourceManager::GetInst()->CreateAnimationSequence("spr_dustcloud",
+		"spr_dustcloud", nullptr, TEXTURE_PATH);
+
+	// Jump_Cloud
+	CResourceManager::GetInst()->CreateAnimationSequence("spr_jumpcloud",
+		"spr_jumpcloud", nullptr, TEXTURE_PATH);
+
+
+	// Land_Cloud
+	CResourceManager::GetInst()->CreateAnimationSequence("spr_landcloud",
+		"spr_landcloud", nullptr, TEXTURE_PATH);
+
+	// Slash
+	CResourceManager::GetInst()->CreateAnimationSequence("spr_slash",
+		"spr_slash", nullptr, TEXTURE_PATH);
+
 }
 
 void CStage_2::CreateAnimationSequenceEffect_Sprite()

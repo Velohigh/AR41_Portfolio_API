@@ -48,6 +48,9 @@ bool CStage_1::Init()
 	GetSceneResource()->LoadSound("Effect", "swing", false, "swing.wav");
 	GetSceneResource()->LoadSound("Effect", "punch", false, "punch.wav");
 	GetSceneResource()->LoadSound("Effect", "death_bullet", false, "death_bullet.wav");
+	GetSceneResource()->LoadSound("Effect", "death_sword1", false, "death_sword1.wav");
+	GetSceneResource()->LoadSound("Effect", "death_sword2", false, "death_sword2.wav");
+	GetSceneResource()->LoadSound("Effect", "swordcrash", false, "swordcrash.wav");
 	GetSceneResource()->LoadSound("Effect", "reflect", false, "reflect.wav");
 
 
@@ -795,104 +798,6 @@ void CStage_1::CreateAnimationSequencePlayer()
 		CResourceManager::GetInst()->SetColorKey("spr_hurtground_right", 255, 255, 255);
 	}
 
-	// #################### EFFECT ####################
-	// Dust_Cloud Animation
-	{
-		std::vector<std::wstring>	vecFileName;
-
-		for (int i = 0; i <= 6; ++i)
-		{
-			TCHAR	FileName[MAX_PATH] = {};
-			// %d에 i의 값이 대입되어 문자열이 만들어지게 된다.
-			wsprintf(FileName, TEXT("Effect/spr_dustcloud/%d.bmp"), i);
-			vecFileName.push_back(FileName);
-		}
-
-		CResourceManager::GetInst()->CreateAnimationSequence("spr_dustcloud",
-			"spr_dustcloud", vecFileName, TEXTURE_PATH);
-
-		for (int i = 0; i <= 6; ++i)
-		{
-			CResourceManager::GetInst()->AddAnimationFrame("spr_dustcloud", 0.f, 0.f,
-				19.f, 19.f);
-		}
-
-		CResourceManager::GetInst()->SetColorKey("spr_dustcloud", 255, 255, 255);
-
-	}
-
-	// Jump_Cloud
-	{
-		std::vector<std::wstring>	vecFileName;
-
-		for (int i = 0; i <= 3; ++i)
-		{
-			TCHAR	FileName[MAX_PATH] = {};
-			// %d에 i의 값이 대입되어 문자열이 만들어지게 된다.
-			wsprintf(FileName, TEXT("Effect/spr_jumpcloud/%d.bmp"), i);
-			vecFileName.push_back(FileName);
-		}
-
-		CResourceManager::GetInst()->CreateAnimationSequence("spr_jumpcloud",
-			"spr_jumpcloud", vecFileName, TEXTURE_PATH);
-
-		for (int i = 0; i <= 3; ++i)
-		{
-			CResourceManager::GetInst()->AddAnimationFrame("spr_jumpcloud", 0.f, 0.f,
-				32.f, 51.f);
-		}
-
-		CResourceManager::GetInst()->SetColorKey("spr_jumpcloud", 255, 255, 255);
-	}
-
-
-	// Land_Cloud
-	{
-		std::vector<std::wstring>	vecFileName;
-
-		for (int i = 0; i <= 6; ++i)
-		{
-			TCHAR	FileName[MAX_PATH] = {};
-			// %d에 i의 값이 대입되어 문자열이 만들어지게 된다.
-			wsprintf(FileName, TEXT("Effect/spr_landcloud/%d.bmp"), i);
-			vecFileName.push_back(FileName);
-		}
-
-		CResourceManager::GetInst()->CreateAnimationSequence("spr_landcloud",
-			"spr_landcloud", vecFileName, TEXTURE_PATH);
-
-		for (int i = 0; i <= 6; ++i)
-		{
-			CResourceManager::GetInst()->AddAnimationFrame("spr_landcloud", 0.f, 0.f,
-				50.f, 14.f);
-		}
-
-		CResourceManager::GetInst()->SetColorKey("spr_landcloud", 255, 0, 255);
-	}
-
-	// Slash
-	{
-		std::vector<std::wstring>	vecFileName;
-
-		for (int i = 0; i <= 4; ++i)
-		{
-			TCHAR	FileName[MAX_PATH] = {};
-			// %d에 i의 값이 대입되어 문자열이 만들어지게 된다.
-			wsprintf(FileName, TEXT("Effect/spr_slash/%d.bmp"), i);
-			vecFileName.push_back(FileName);
-		}
-
-		CResourceManager::GetInst()->CreateAnimationSequence("spr_slash",
-			"spr_slash", vecFileName, TEXTURE_PATH);
-
-		for (int i = 0; i <= 4; ++i)
-		{
-			CResourceManager::GetInst()->AddAnimationFrame("spr_slash", 0.f, 0.f,
-				106.f, 32.f);
-		}
-
-		CResourceManager::GetInst()->SetColorKey("spr_slash", 255, 255, 255);
-	}
 
 }
 
@@ -2117,6 +2022,107 @@ void CStage_1::CreateAnimationSequencePomp()
 
 void CStage_1::CreateAnimationSequenceEffect_Frame()
 {
+
+	// #################### EFFECT ####################
+// Dust_Cloud Animation
+	{
+		std::vector<std::wstring>	vecFileName;
+
+		for (int i = 0; i <= 6; ++i)
+		{
+			TCHAR	FileName[MAX_PATH] = {};
+			// %d에 i의 값이 대입되어 문자열이 만들어지게 된다.
+			wsprintf(FileName, TEXT("Effect/spr_dustcloud/%d.bmp"), i);
+			vecFileName.push_back(FileName);
+		}
+
+		CResourceManager::GetInst()->CreateAnimationSequence("spr_dustcloud",
+			"spr_dustcloud", vecFileName, TEXTURE_PATH);
+
+		for (int i = 0; i <= 6; ++i)
+		{
+			CResourceManager::GetInst()->AddAnimationFrame("spr_dustcloud", 0.f, 0.f,
+				19.f, 19.f);
+		}
+
+		CResourceManager::GetInst()->SetColorKey("spr_dustcloud", 255, 255, 255);
+
+	}
+
+	// Jump_Cloud
+	{
+		std::vector<std::wstring>	vecFileName;
+
+		for (int i = 0; i <= 3; ++i)
+		{
+			TCHAR	FileName[MAX_PATH] = {};
+			// %d에 i의 값이 대입되어 문자열이 만들어지게 된다.
+			wsprintf(FileName, TEXT("Effect/spr_jumpcloud/%d.bmp"), i);
+			vecFileName.push_back(FileName);
+		}
+
+		CResourceManager::GetInst()->CreateAnimationSequence("spr_jumpcloud",
+			"spr_jumpcloud", vecFileName, TEXTURE_PATH);
+
+		for (int i = 0; i <= 3; ++i)
+		{
+			CResourceManager::GetInst()->AddAnimationFrame("spr_jumpcloud", 0.f, 0.f,
+				32.f, 51.f);
+		}
+
+		CResourceManager::GetInst()->SetColorKey("spr_jumpcloud", 255, 255, 255);
+	}
+
+
+	// Land_Cloud
+	{
+		std::vector<std::wstring>	vecFileName;
+
+		for (int i = 0; i <= 6; ++i)
+		{
+			TCHAR	FileName[MAX_PATH] = {};
+			// %d에 i의 값이 대입되어 문자열이 만들어지게 된다.
+			wsprintf(FileName, TEXT("Effect/spr_landcloud/%d.bmp"), i);
+			vecFileName.push_back(FileName);
+		}
+
+		CResourceManager::GetInst()->CreateAnimationSequence("spr_landcloud",
+			"spr_landcloud", vecFileName, TEXTURE_PATH);
+
+		for (int i = 0; i <= 6; ++i)
+		{
+			CResourceManager::GetInst()->AddAnimationFrame("spr_landcloud", 0.f, 0.f,
+				50.f, 14.f);
+		}
+
+		CResourceManager::GetInst()->SetColorKey("spr_landcloud", 255, 0, 255);
+	}
+
+	// Slash
+	{
+		std::vector<std::wstring>	vecFileName;
+
+		for (int i = 0; i <= 4; ++i)
+		{
+			TCHAR	FileName[MAX_PATH] = {};
+			// %d에 i의 값이 대입되어 문자열이 만들어지게 된다.
+			wsprintf(FileName, TEXT("Effect/spr_slash/%d.bmp"), i);
+			vecFileName.push_back(FileName);
+		}
+
+		CResourceManager::GetInst()->CreateAnimationSequence("spr_slash",
+			"spr_slash", vecFileName, TEXTURE_PATH);
+
+		for (int i = 0; i <= 4; ++i)
+		{
+			CResourceManager::GetInst()->AddAnimationFrame("spr_slash", 0.f, 0.f,
+				106.f, 32.f);
+		}
+
+		CResourceManager::GetInst()->SetColorKey("spr_slash", 255, 255, 255);
+	}
+
+
 }
 
 void CStage_1::CreateAnimationSequenceEffect_Sprite()

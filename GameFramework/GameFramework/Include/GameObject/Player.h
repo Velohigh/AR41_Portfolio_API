@@ -23,6 +23,8 @@ enum class PlayerState
 	PlaySong,
 	HurtFlyLoop,
 	HurtGround,
+	WallGrab,
+	Flip,
 	Dead,
 	END
 };
@@ -129,6 +131,8 @@ private:
 	void PlaySongUpdate();
 	void HurtFlyLoopUpdate();
 	void HurtGroundUpdate();
+	void WallGrabUpdate();
+	void FlipUpdate();
 	void DeadUpdate();
 
 
@@ -144,6 +148,8 @@ private:
 	void PlaySongStart();
 	void HurtFlyLoopStart();
 	void HurtGroundStart();
+	void WallGrabStart();
+	void FlipStart();
 	void DeadStart();
 
 

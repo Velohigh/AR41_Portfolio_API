@@ -320,6 +320,8 @@ void CGrunt::HurtFlyStart()
 	// 총알에 맞은 경우와 칼에 맞은 경우 BloodRemain 이펙트를 생성할지 말지 결정한다.
 	if (m_EnemyAttackDir == Vector2{ 0.f, 0.f })
 	{
+		// 칼에 죽는 효과음
+		m_Scene->GetSceneResource()->SoundPlay("death_sword1");
 
 		if (g_AttackDir.x >= 0.f)
 		{
@@ -337,6 +339,11 @@ void CGrunt::HurtFlyStart()
 			NewBloodAnimation->ChangeAnimation("effect_bloodanimation_left");
 			NewBloodAnimation->SetOwner(this);
 		}
+	}
+	else
+	{
+		// 총알에 죽는 효과음
+		m_Scene->GetSceneResource()->SoundPause("death_bullet");
 	}
 
 	//// 히트 레이저 이펙트

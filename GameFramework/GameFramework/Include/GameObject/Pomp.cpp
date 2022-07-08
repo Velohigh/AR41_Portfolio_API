@@ -80,8 +80,8 @@ bool CPomp::Init()
 	AddAnimation("spr_pomp_run_left", true, 0.7f);
 	AddAnimation("spr_pomp_run_right", true, 0.7f);
 
-	AddAnimation("spr_pomp_attack_left", true, 0.42f);
-	AddAnimation("spr_pomp_attack_right", true, 0.42f);
+	AddAnimation("spr_pomp_attack_left", true, 0.46f);
+	AddAnimation("spr_pomp_attack_right", true, 0.46f);
 
 	AddAnimation("spr_pomp_turn_left", true, 0.48f);
 	AddAnimation("spr_pomp_turn_right", true, 0.48f);
@@ -96,8 +96,8 @@ bool CPomp::Init()
 	AddAnimation("spr_pomp_knockdown_right", false, 1.54f);
 
 
-	AddNotify<CPomp>("spr_pomp_attack_left", 4, this, &CPomp::CreateAttackCollision);
-	AddNotify<CPomp>("spr_pomp_attack_right", 4, this, &CPomp::CreateAttackCollision);
+	AddNotify<CPomp>("spr_pomp_attack_left", 5, this, &CPomp::CreateAttackCollision);
+	AddNotify<CPomp>("spr_pomp_attack_right", 5, this, &CPomp::CreateAttackCollision);
 
 	return true;
 }
@@ -323,6 +323,8 @@ void CPomp::HurtFlyStart()
 
 	if (m_EnemyAttackDir == Vector2{ 0.f, 0.f })
 	{
+		// Ä®·Î Á×Àº È¿°úÀ½
+		m_Scene->GetSceneResource()->SoundPlay("death_sword1");
 
 		if (g_AttackDir.x >= 0.f)
 		{
@@ -340,6 +342,11 @@ void CPomp::HurtFlyStart()
 			NewBloodAnimation->ChangeAnimation("effect_bloodanimation_left");
 			NewBloodAnimation->SetOwner(this);
 		}
+	}
+	else
+	{
+		// ÃÑ¾Ë¿¡ Á×Àº È¿°úÀ½
+		m_Scene->GetSceneResource()->SoundPause("death_bullet");
 	}
 
 	//// È÷Æ® ·¹ÀÌÀú ÀÌÆåÆ®
@@ -384,6 +391,8 @@ void CPomp::KnockDownStart()
 	NewEffect->AddAnimation("effect_reflect", false, 0.15f);
 	NewEffect->SetPivot(0.5f, 0.5f);
 
+	m_Scene->GetSceneResource()->SoundPlay("swordcrash");
+
 	m_MoveDir = g_AttackDir;
 
 	SetSpeed(400.f);
@@ -391,7 +400,7 @@ void CPomp::KnockDownStart()
 	if (m_Scene->GetPlayer())
 	{
 		Vector2 PlayerMoveDir = m_Scene->GetPlayer()->GetMoveDir();
-		m_Scene->GetPlayer()->SetMoveDir((PlayerMoveDir * -1.f) + Vector2{ 0.f, -300.f });
+		m_Scene->GetPlayer()->SetMoveDir((PlayerMoveDir * -1.f) + Vector2{ 0.f, -200.f });
 	}
 
 

@@ -309,6 +309,8 @@ void CGangster::HurtFlyStart()
 
 	if (m_EnemyAttackDir == Vector2{ 0.f, 0.f })
 	{
+		m_Scene->GetSceneResource()->SoundPlay("death_sword1");
+
 		if (g_AttackDir.x >= 0.f)
 		{
 			CEffect_BloodAnimation* NewBloodAnimation = m_Scene->CreateObject<CEffect_BloodAnimation>("BloodAnimation");
@@ -325,6 +327,11 @@ void CGangster::HurtFlyStart()
 			NewBloodAnimation->ChangeAnimation("effect_bloodanimation_left");
 			NewBloodAnimation->SetOwner(this);
 		}
+	}
+	else
+	{
+		// ÃÑ¾Ë¿¡ Á×´Â È¿°úÀ½
+		m_Scene->GetSceneResource()->SoundPause("death_bullet");
 	}
 
 	//// È÷Æ® ·¹ÀÌÀú ÀÌÆåÆ®
@@ -473,7 +480,7 @@ void CGangster::RunUpdate()
 
 	m_StateTime[(int)ObjState::Run] += DELTA_TIME;
 
-	if (m_StateTime[(int)ObjState::Run] >= 0.2f)
+	if (m_StateTime[(int)ObjState::Run] >= 0.19f)
 	{
 		m_AnimationName = "spr_gangsterrun_";
 		ChangeAnimation(m_AnimationName + m_ChangeDirText);
@@ -545,7 +552,7 @@ void CGangster::AttackUpdate()
 	}
 
 	m_StateTime[(int)ObjState::Attack] += DELTA_TIME;
-	if (m_StateTime[(int)ObjState::Attack] >= 0.55f)
+	if (m_StateTime[(int)ObjState::Attack] >= 0.5f)
 	{
 		// ÃÑ¾Ë ¹ß»ç ÀÌÆåÆ®
 		CEffect* NewEffect = m_Scene->CreateObject<CEffect>("GunSpark");

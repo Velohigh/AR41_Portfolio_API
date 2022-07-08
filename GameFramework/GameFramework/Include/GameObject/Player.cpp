@@ -325,10 +325,15 @@ void CPlayer::StateChange(PlayerState State)
 		case PlayerState::HurtGround:
 			HurtGroundStart();
 			break;
+		case PlayerState::WallGrab:
+			WallGrabStart();
+			break;
+		case PlayerState::Flip:
+			FlipStart();
+			break;
 		case PlayerState::Dead:
 			DeadStart();
 			break;
-
 		}
 	m_CurState = State;
 	}
@@ -373,6 +378,12 @@ void CPlayer::StateUpdate()
 		break;
 	case PlayerState::HurtGround:
 		HurtGroundUpdate();
+		break;
+	case PlayerState::WallGrab:
+		WallGrabUpdate();
+		break;
+	case PlayerState::Flip:
+		FlipUpdate();
 		break;
 	case PlayerState::Dead:
 		DeadUpdate();
@@ -1321,6 +1332,10 @@ void CPlayer::AttackStart()
 
 }
 
+void CPlayer::WallGrabUpdate()
+{
+}
+
 void CPlayer::HurtFlyLoopStart()
 {
 	m_MoveDir = m_EnemyAttackDir;
@@ -1369,6 +1384,10 @@ void CPlayer::FallStart()
 {
 	m_AnimationName = "spr_fall_";
 	ChangeAnimation(m_AnimationName + m_ChangeDirText);
+}
+
+void CPlayer::FlipUpdate()
+{
 }
 
 void CPlayer::HurtFlyLoopUpdate()
@@ -1563,6 +1582,14 @@ void CPlayer::MapCollisionCheckMoveAir()
 		}
 	}
 
+}
+
+void CPlayer::WallGrabStart()
+{
+}
+
+void CPlayer::FlipStart()
+{
 }
 
 
