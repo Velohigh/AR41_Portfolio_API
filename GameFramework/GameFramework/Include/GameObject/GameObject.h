@@ -20,6 +20,7 @@ enum class ObjState
 	Attack,
 	HurtGround,
 	HurtFly,
+	KnockDown,
 	Dead,
 	END
 };
@@ -73,7 +74,8 @@ protected:
 	bool		m_bPatrol = false;		// 해당 유닛의 순찰 행동 유무
 	float		m_PatrolTime = 4.f;		// 순찰 행동 시간
 	float		m_StateTime[static_cast<int>(ObjState::END)];	// 해당 상태가 되고 지난 시간
-	Vector2		m_EnemyAttackDir = {};
+	Vector2		m_EnemyAttackDir = {};	// 적의 공격 방향
+	Vector2		m_MyAttackDir = {};		// 나의 공격방향
 	CCollider*	m_LastView = nullptr;	// 현재보고있는 상대 저장
 
 	// ## 이미지 회전 변수
@@ -128,6 +130,12 @@ public:
 	{
 		return m_EnemyAttackDir;
 	}
+
+	const Vector2& GetMyAttackDir() const
+	{
+		return m_MyAttackDir;
+	}
+
 
 public:
 	void SetSideWallCheck(bool Check)
@@ -256,6 +264,12 @@ public:
 		m_EnemyAttackDir = Value;
 	}
 
+	void SetMyAttackDir(Vector2 Value)
+	{
+		m_MyAttackDir = Value;
+	}
+
+
 
 public:
 	void SetTexture(const std::string& Name);
@@ -335,6 +349,7 @@ protected:
 	virtual void AttackStart() {};
 	virtual void HurtGroundStart() {};
 	virtual void HurtFlyStart() {};
+	virtual void KnockDownStart() {};
 	virtual void DeadStart() {};
 
 
@@ -345,6 +360,7 @@ protected:
 	virtual void AttackUpdate() {};
 	virtual void HurtGroundUpdate() {};
 	virtual void HurtFlyUpdate() {};
+	virtual void KnockDownUpdate() {};
 	virtual void DeadUpdate() {};
 
 

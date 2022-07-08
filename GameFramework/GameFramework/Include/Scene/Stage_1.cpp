@@ -13,6 +13,7 @@
 #include "../Resource/ResourceManager.h"
 #include "../GameObject/Grunt.h"
 #include "../GameObject/Gangster.h"
+#include "../GameObject/Pomp.h"
 #include "../GameObject/Cursor.h"
 #include "../Resource/Texture/Texture.h"
 #include "../GameObject/Effect.h"
@@ -33,6 +34,7 @@ bool CStage_1::Init()
 	CreateAnimationSequencePlayer();
 	CreateAnimationSequenceGrunt();
 	CreateAnimationSequenceGangster();
+	CreateAnimationSequencePomp();
 	CreateAnimationSequenceEffect_Frame();
 	CreateAnimationSequenceEffect_Sprite();
 
@@ -1633,6 +1635,481 @@ void CStage_1::CreateAnimationSequenceGangster()
 
 		CResourceManager::GetInst()->SetColorKey("spr_gangsterwalk_right", 255, 255, 255);
 	}
+
+}
+
+void CStage_1::CreateAnimationSequencePomp()
+{
+	// spr_pomp_attack_left
+	{
+		std::vector<std::wstring>	vecFileName;
+
+		for (int i = 0; i <= 5; ++i)
+		{
+			TCHAR	FileName[MAX_PATH] = {};
+			// %d에 i의 값이 대입되어 문자열이 만들어지게 된다.
+			wsprintf(FileName, TEXT("Enemy/spr_pomp_attack_left/%d.bmp"), i);
+			vecFileName.push_back(FileName);
+		}
+
+		CResourceManager::GetInst()->CreateAnimationSequence("spr_pomp_attack_left",
+			"spr_pomp_attack_left", vecFileName, TEXTURE_PATH);
+
+		for (int i = 0; i <= 5; ++i)
+		{
+			CTexture* Texture = CResourceManager::GetInst()->FindTexture("spr_pomp_attack_left");
+			int NewWidth = Texture->GetWidth(i);
+			int NewHeight = Texture->GetHeight(i);
+
+			CResourceManager::GetInst()->AddAnimationFrame("spr_pomp_attack_left", 0.f, 0.f,
+				(float)NewWidth, (float)NewHeight);
+		}
+
+		CResourceManager::GetInst()->SetColorKey("spr_pomp_attack_left", 255, 255, 255);
+	}
+
+	// spr_pomp_attack_right
+	{
+		std::vector<std::wstring>	vecFileName;
+
+		for (int i = 0; i <= 5; ++i)
+		{
+			TCHAR	FileName[MAX_PATH] = {};
+			// %d에 i의 값이 대입되어 문자열이 만들어지게 된다.
+			wsprintf(FileName, TEXT("Enemy/spr_pomp_attack_right/%d.bmp"), i);
+			vecFileName.push_back(FileName);
+		}
+
+		CResourceManager::GetInst()->CreateAnimationSequence("spr_pomp_attack_right",
+			"spr_pomp_attack_right", vecFileName, TEXTURE_PATH);
+
+		for (int i = 0; i <= 5; ++i)
+		{
+			CTexture* Texture = CResourceManager::GetInst()->FindTexture("spr_pomp_attack_right");
+			int NewWidth = Texture->GetWidth(i);
+			int NewHeight = Texture->GetHeight(i);
+
+			CResourceManager::GetInst()->AddAnimationFrame("spr_pomp_attack_right", 0.f, 0.f,
+				(float)NewWidth, (float)NewHeight);
+		}
+
+		CResourceManager::GetInst()->SetColorKey("spr_pomp_attack_right", 255, 255, 255);
+	}
+
+
+	// spr_pomp_hurtfly_left
+	{
+		std::vector<std::wstring>	vecFileName;
+
+		for (int i = 0; i <= 1; ++i)
+		{
+			TCHAR	FileName[MAX_PATH] = {};
+			// %d에 i의 값이 대입되어 문자열이 만들어지게 된다.
+			wsprintf(FileName, TEXT("Enemy/spr_pomp_hurtfly_left/%d.bmp"), i);
+			vecFileName.push_back(FileName);
+		}
+
+		CResourceManager::GetInst()->CreateAnimationSequence("spr_pomp_hurtfly_left",
+			"spr_pomp_hurtfly_left", vecFileName, TEXTURE_PATH);
+
+		for (int i = 0; i <= 1; ++i)
+		{
+			CTexture* Texture = CResourceManager::GetInst()->FindTexture("spr_pomp_hurtfly_left");
+			int NewWidth = Texture->GetWidth(i);
+			int NewHeight = Texture->GetHeight(i);
+
+			CResourceManager::GetInst()->AddAnimationFrame("spr_pomp_hurtfly_left", 0.f, 0.f,
+				(float)NewWidth, (float)NewHeight);
+		}
+
+		CResourceManager::GetInst()->SetColorKey("spr_pomp_hurtfly_left", 255, 255, 255);
+	}
+
+
+	// spr_pomp_hurtfly_right
+	{
+		std::vector<std::wstring>	vecFileName;
+
+		for (int i = 0; i <= 1; ++i)
+		{
+			TCHAR	FileName[MAX_PATH] = {};
+			// %d에 i의 값이 대입되어 문자열이 만들어지게 된다.
+			wsprintf(FileName, TEXT("Enemy/spr_pomp_hurtfly_right/%d.bmp"), i);
+			vecFileName.push_back(FileName);
+		}
+
+		CResourceManager::GetInst()->CreateAnimationSequence("spr_pomp_hurtfly_right",
+			"spr_pomp_hurtfly_right", vecFileName, TEXTURE_PATH);
+
+		for (int i = 0; i <= 1; ++i)
+		{
+			CTexture* Texture = CResourceManager::GetInst()->FindTexture("spr_pomp_hurtfly_right");
+			int NewWidth = Texture->GetWidth(i);
+			int NewHeight = Texture->GetHeight(i);
+
+			CResourceManager::GetInst()->AddAnimationFrame("spr_pomp_hurtfly_right", 0.f, 0.f,
+				(float)NewWidth, (float)NewHeight);
+		}
+
+		CResourceManager::GetInst()->SetColorKey("spr_pomp_hurtfly_right", 255, 255, 255);
+	}
+
+	// spr_pomp_hurtground_left
+	{
+		std::vector<std::wstring>	vecFileName;
+
+		for (int i = 0; i <= 14; ++i)
+		{
+			TCHAR	FileName[MAX_PATH] = {};
+			// %d에 i의 값이 대입되어 문자열이 만들어지게 된다.
+			wsprintf(FileName, TEXT("Enemy/spr_pomp_hurtground_left/%d.bmp"), i);
+			vecFileName.push_back(FileName);
+		}
+
+		CResourceManager::GetInst()->CreateAnimationSequence("spr_pomp_hurtground_left",
+			"spr_pomp_hurtground_left", vecFileName, TEXTURE_PATH);
+
+		for (int i = 0; i <= 14; ++i)
+		{
+			CTexture* Texture = CResourceManager::GetInst()->FindTexture("spr_pomp_hurtground_left");
+			int NewWidth = Texture->GetWidth(i);
+			int NewHeight = Texture->GetHeight(i);
+
+			CResourceManager::GetInst()->AddAnimationFrame("spr_pomp_hurtground_left", 0.f, 0.f,
+				(float)NewWidth, (float)NewHeight);
+		}
+
+		CResourceManager::GetInst()->SetColorKey("spr_pomp_hurtground_left", 255, 255, 255);
+	}
+
+
+	// spr_pomp_hurtground_right
+	{
+		std::vector<std::wstring>	vecFileName;
+
+		for (int i = 0; i <= 14; ++i)
+		{
+			TCHAR	FileName[MAX_PATH] = {};
+			// %d에 i의 값이 대입되어 문자열이 만들어지게 된다.
+			wsprintf(FileName, TEXT("Enemy/spr_pomp_hurtground_right/%d.bmp"), i);
+			vecFileName.push_back(FileName);
+		}
+
+		CResourceManager::GetInst()->CreateAnimationSequence("spr_pomp_hurtground_right",
+			"spr_pomp_hurtground_right", vecFileName, TEXTURE_PATH);
+
+		for (int i = 0; i <= 14; ++i)
+		{
+			CTexture* Texture = CResourceManager::GetInst()->FindTexture("spr_pomp_hurtground_right");
+			int NewWidth = Texture->GetWidth(i);
+			int NewHeight = Texture->GetHeight(i);
+
+			CResourceManager::GetInst()->AddAnimationFrame("spr_pomp_hurtground_right", 0.f, 0.f,
+				(float)NewWidth, (float)NewHeight);
+		}
+
+		CResourceManager::GetInst()->SetColorKey("spr_pomp_hurtground_right", 255, 255, 255);
+	}
+
+
+	// spr_pomp_idle_left
+	{
+		std::vector<std::wstring>	vecFileName;
+
+		for (int i = 0; i <= 7; ++i)
+		{
+			TCHAR	FileName[MAX_PATH] = {};
+			// %d에 i의 값이 대입되어 문자열이 만들어지게 된다.
+			wsprintf(FileName, TEXT("Enemy/spr_pomp_idle_left/%d.bmp"), i);
+			vecFileName.push_back(FileName);
+		}
+
+		CResourceManager::GetInst()->CreateAnimationSequence("spr_pomp_idle_left",
+			"spr_pomp_idle_left", vecFileName, TEXTURE_PATH);
+
+		for (int i = 0; i <= 7; ++i)
+		{
+			CTexture* Texture = CResourceManager::GetInst()->FindTexture("spr_pomp_idle_left");
+			int NewWidth = Texture->GetWidth(i);
+			int NewHeight = Texture->GetHeight(i);
+
+			CResourceManager::GetInst()->AddAnimationFrame("spr_pomp_idle_left", 0.f, 0.f,
+				(float)NewWidth, (float)NewHeight);
+		}
+
+		CResourceManager::GetInst()->SetColorKey("spr_pomp_idle_left", 255, 255, 255);
+	}
+
+
+	// spr_pomp_idle_right
+	{
+		std::vector<std::wstring>	vecFileName;
+
+		for (int i = 0; i <= 7; ++i)
+		{
+			TCHAR	FileName[MAX_PATH] = {};
+			// %d에 i의 값이 대입되어 문자열이 만들어지게 된다.
+			wsprintf(FileName, TEXT("Enemy/spr_pomp_idle_right/%d.bmp"), i);
+			vecFileName.push_back(FileName);
+		}
+
+		CResourceManager::GetInst()->CreateAnimationSequence("spr_pomp_idle_right",
+			"spr_pomp_idle_right", vecFileName, TEXTURE_PATH);
+
+		for (int i = 0; i <= 7; ++i)
+		{
+			CTexture* Texture = CResourceManager::GetInst()->FindTexture("spr_pomp_idle_right");
+			int NewWidth = Texture->GetWidth(i);
+			int NewHeight = Texture->GetHeight(i);
+
+			CResourceManager::GetInst()->AddAnimationFrame("spr_pomp_idle_right", 0.f, 0.f,
+				(float)NewWidth, (float)NewHeight);
+		}
+
+		CResourceManager::GetInst()->SetColorKey("spr_pomp_idle_right", 255, 255, 255);
+	}
+
+
+	// spr_pomp_knockdown_left
+	{
+		std::vector<std::wstring>	vecFileName;
+
+		for (int i = 0; i <= 21; ++i)
+		{
+			TCHAR	FileName[MAX_PATH] = {};
+			// %d에 i의 값이 대입되어 문자열이 만들어지게 된다.
+			wsprintf(FileName, TEXT("Enemy/spr_pomp_knockdown_left/%d.bmp"), i);
+			vecFileName.push_back(FileName);
+		}
+
+		CResourceManager::GetInst()->CreateAnimationSequence("spr_pomp_knockdown_left",
+			"spr_pomp_knockdown_left", vecFileName, TEXTURE_PATH);
+
+		for (int i = 0; i <= 21; ++i)
+		{
+			CTexture* Texture = CResourceManager::GetInst()->FindTexture("spr_pomp_knockdown_left");
+			int NewWidth = Texture->GetWidth(i);
+			int NewHeight = Texture->GetHeight(i);
+
+			CResourceManager::GetInst()->AddAnimationFrame("spr_pomp_knockdown_left", 0.f, 0.f,
+				(float)NewWidth, (float)NewHeight);
+		}
+
+		CResourceManager::GetInst()->SetColorKey("spr_pomp_knockdown_left", 255, 255, 255);
+	}
+
+
+	// spr_pomp_knockdown_right
+	{
+		std::vector<std::wstring>	vecFileName;
+
+		for (int i = 0; i <= 21; ++i)
+		{
+			TCHAR	FileName[MAX_PATH] = {};
+			// %d에 i의 값이 대입되어 문자열이 만들어지게 된다.
+			wsprintf(FileName, TEXT("Enemy/spr_pomp_knockdown_right/%d.bmp"), i);
+			vecFileName.push_back(FileName);
+		}
+
+		CResourceManager::GetInst()->CreateAnimationSequence("spr_pomp_knockdown_right",
+			"spr_pomp_knockdown_right", vecFileName, TEXTURE_PATH);
+
+		for (int i = 0; i <= 21; ++i)
+		{
+			CTexture* Texture = CResourceManager::GetInst()->FindTexture("spr_pomp_knockdown_right");
+			int NewWidth = Texture->GetWidth(i);
+			int NewHeight = Texture->GetHeight(i);
+
+			CResourceManager::GetInst()->AddAnimationFrame("spr_pomp_knockdown_right", 0.f, 0.f,
+				(float)NewWidth, (float)NewHeight);
+		}
+
+		CResourceManager::GetInst()->SetColorKey("spr_pomp_knockdown_right", 255, 255, 255);
+	}
+
+
+	// spr_pomp_run_left
+	{
+		std::vector<std::wstring>	vecFileName;
+
+		for (int i = 0; i <= 8; ++i)
+		{
+			TCHAR	FileName[MAX_PATH] = {};
+			// %d에 i의 값이 대입되어 문자열이 만들어지게 된다.
+			wsprintf(FileName, TEXT("Enemy/spr_pomp_run_left/%d.bmp"), i);
+			vecFileName.push_back(FileName);
+		}
+
+		CResourceManager::GetInst()->CreateAnimationSequence("spr_pomp_run_left",
+			"spr_pomp_run_left", vecFileName, TEXTURE_PATH);
+
+		for (int i = 0; i <= 8; ++i)
+		{
+			CTexture* Texture = CResourceManager::GetInst()->FindTexture("spr_pomp_run_left");
+			int NewWidth = Texture->GetWidth(i);
+			int NewHeight = Texture->GetHeight(i);
+
+			CResourceManager::GetInst()->AddAnimationFrame("spr_pomp_run_left", 0.f, 0.f,
+				(float)NewWidth, (float)NewHeight);
+		}
+
+		CResourceManager::GetInst()->SetColorKey("spr_pomp_run_left", 255, 255, 255);
+	}
+
+	// spr_pomp_run_right
+	{
+		std::vector<std::wstring>	vecFileName;
+
+		for (int i = 0; i <= 8; ++i)
+		{
+			TCHAR	FileName[MAX_PATH] = {};
+			// %d에 i의 값이 대입되어 문자열이 만들어지게 된다.
+			wsprintf(FileName, TEXT("Enemy/spr_pomp_run_right/%d.bmp"), i);
+			vecFileName.push_back(FileName);
+		}
+
+		CResourceManager::GetInst()->CreateAnimationSequence("spr_pomp_run_right",
+			"spr_pomp_run_right", vecFileName, TEXTURE_PATH);
+
+		for (int i = 0; i <= 8; ++i)
+		{
+			CTexture* Texture = CResourceManager::GetInst()->FindTexture("spr_pomp_run_right");
+			int NewWidth = Texture->GetWidth(i);
+			int NewHeight = Texture->GetHeight(i);
+
+			CResourceManager::GetInst()->AddAnimationFrame("spr_pomp_run_right", 0.f, 0.f,
+				(float)NewWidth, (float)NewHeight);
+		}
+
+		CResourceManager::GetInst()->SetColorKey("spr_pomp_run_right", 255, 255, 255);
+	}
+
+
+	// spr_pomp_turn_left
+	{
+		std::vector<std::wstring>	vecFileName;
+
+		for (int i = 0; i <= 5; ++i)
+		{
+			TCHAR	FileName[MAX_PATH] = {};
+			// %d에 i의 값이 대입되어 문자열이 만들어지게 된다.
+			wsprintf(FileName, TEXT("Enemy/spr_pomp_turn_left/%d.bmp"), i);
+			vecFileName.push_back(FileName);
+		}
+
+		CResourceManager::GetInst()->CreateAnimationSequence("spr_pomp_turn_left",
+			"spr_pomp_turn_left", vecFileName, TEXTURE_PATH);
+
+		for (int i = 0; i <= 5; ++i)
+		{
+			CTexture* Texture = CResourceManager::GetInst()->FindTexture("spr_pomp_turn_left");
+			int NewWidth = Texture->GetWidth(i);
+			int NewHeight = Texture->GetHeight(i);
+
+			CResourceManager::GetInst()->AddAnimationFrame("spr_pomp_turn_left", 0.f, 0.f,
+				(float)NewWidth, (float)NewHeight);
+		}
+
+		CResourceManager::GetInst()->SetColorKey("spr_pomp_turn_left", 255, 255, 255);
+	}
+
+
+	// spr_pomp_turn_right
+	{
+		std::vector<std::wstring>	vecFileName;
+
+		for (int i = 0; i <= 5; ++i)
+		{
+			TCHAR	FileName[MAX_PATH] = {};
+			// %d에 i의 값이 대입되어 문자열이 만들어지게 된다.
+			wsprintf(FileName, TEXT("Enemy/spr_pomp_turn_right/%d.bmp"), i);
+			vecFileName.push_back(FileName);
+		}
+
+		CResourceManager::GetInst()->CreateAnimationSequence("spr_pomp_turn_right",
+			"spr_pomp_turn_right", vecFileName, TEXTURE_PATH);
+
+		for (int i = 0; i <= 5; ++i)
+		{
+			CTexture* Texture = CResourceManager::GetInst()->FindTexture("spr_pomp_turn_right");
+			int NewWidth = Texture->GetWidth(i);
+			int NewHeight = Texture->GetHeight(i);
+
+			CResourceManager::GetInst()->AddAnimationFrame("spr_pomp_turn_right", 0.f, 0.f,
+				(float)NewWidth, (float)NewHeight);
+		}
+
+		CResourceManager::GetInst()->SetColorKey("spr_pomp_turn_right", 255, 255, 255);
+	}
+
+
+	// spr_pomp_walk_left
+	{
+		std::vector<std::wstring>	vecFileName;
+
+		for (int i = 0; i <= 8; ++i)
+		{
+			TCHAR	FileName[MAX_PATH] = {};
+			// %d에 i의 값이 대입되어 문자열이 만들어지게 된다.
+			wsprintf(FileName, TEXT("Enemy/spr_pomp_walk_left/%d.bmp"), i);
+			vecFileName.push_back(FileName);
+		}
+
+		CResourceManager::GetInst()->CreateAnimationSequence("spr_pomp_walk_left",
+			"spr_pomp_walk_left", vecFileName, TEXTURE_PATH);
+
+		for (int i = 0; i <= 8; ++i)
+		{
+			CTexture* Texture = CResourceManager::GetInst()->FindTexture("spr_pomp_walk_left");
+			int NewWidth = Texture->GetWidth(i);
+			int NewHeight = Texture->GetHeight(i);
+
+			CResourceManager::GetInst()->AddAnimationFrame("spr_pomp_walk_left", 0.f, 0.f,
+				(float)NewWidth, (float)NewHeight);
+		}
+
+		CResourceManager::GetInst()->SetColorKey("spr_pomp_walk_left", 255, 255, 255);
+	}
+
+
+	// spr_pomp_walk_right
+	{
+		std::vector<std::wstring>	vecFileName;
+
+		for (int i = 0; i <= 8; ++i)
+		{
+			TCHAR	FileName[MAX_PATH] = {};
+			// %d에 i의 값이 대입되어 문자열이 만들어지게 된다.
+			wsprintf(FileName, TEXT("Enemy/spr_pomp_walk_right/%d.bmp"), i);
+			vecFileName.push_back(FileName);
+		}
+
+		CResourceManager::GetInst()->CreateAnimationSequence("spr_pomp_walk_right",
+			"spr_pomp_walk_right", vecFileName, TEXTURE_PATH);
+
+		for (int i = 0; i <= 8; ++i)
+		{
+			CTexture* Texture = CResourceManager::GetInst()->FindTexture("spr_pomp_walk_right");
+			int NewWidth = Texture->GetWidth(i);
+			int NewHeight = Texture->GetHeight(i);
+
+			CResourceManager::GetInst()->AddAnimationFrame("spr_pomp_walk_right", 0.f, 0.f,
+				(float)NewWidth, (float)NewHeight);
+		}
+
+		CResourceManager::GetInst()->SetColorKey("spr_pomp_walk_right", 255, 255, 255);
+	}
+
+
+
+
+
+
+
+
+
+
+
 
 }
 

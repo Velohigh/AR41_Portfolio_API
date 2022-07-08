@@ -388,6 +388,9 @@ void CGameObject::StateChange(ObjState State)
 		case ObjState::HurtFly:
 			HurtFlyStart();
 			break;
+		case ObjState::KnockDown:
+			KnockDownStart();
+			break;
 		case ObjState::Dead:
 			DeadStart();
 			break;
@@ -421,6 +424,9 @@ void CGameObject::ObjStateUpdate()
 		break;
 	case ObjState::HurtFly:
 		HurtFlyUpdate();
+		break;
+	case ObjState::KnockDown:
+		KnockDownUpdate();
 		break;
 	case ObjState::Dead:
 		DeadUpdate();

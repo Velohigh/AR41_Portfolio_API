@@ -518,7 +518,7 @@ void CPlayer::HitBoxCollisionBegin(CCollider* Src, CCollider* Dest)
 		m_CurState != PlayerState::HurtGround &&
 		m_CurState != PlayerState::Dodge)
 	{
-		m_EnemyAttackDir = Dest->GetOwner()->GetEnemyAttackDir();
+		m_EnemyAttackDir = Dest->GetOwner()->GetMyAttackDir();
 		StateChange(PlayerState::HurtFlyLoop);
 		return;
 	}
@@ -1339,6 +1339,10 @@ void CPlayer::HurtFlyLoopStart()
 		m_PlayerAttackCollision->SetActive(false);
 		m_PlayerAttackCollision = nullptr;
 	}
+
+	// 히트시 화면 흔들림
+	m_Scene->SetCameraShakeOn(true);
+
 	
 
 }

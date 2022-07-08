@@ -1,5 +1,5 @@
 
-#include "Grunt.h"
+#include "Pomp.h"
 #include "../Collision/ColliderBox.h"
 #include "../Collision/ColliderCircle.h"
 #include <random>
@@ -19,21 +19,21 @@
 extern Vector2 g_AttackDir;
 extern Vector2 g_EnemyAttackDir;
 
-CGrunt::CGrunt()
+CPomp::CPomp()
 {
-	SetTypeID<CGrunt>();
+	SetTypeID<CPomp>();
 }
 
-CGrunt::CGrunt(const CGrunt& Obj) :
+CPomp::CPomp(const CPomp& Obj) :
 	CCharacter(Obj)
 {
 }
 
-CGrunt::~CGrunt()
+CPomp::~CPomp()
 {
 }
 
-bool CGrunt::Init()
+bool CPomp::Init()
 {
 	CGameObject::Init();
 
@@ -62,43 +62,47 @@ bool CGrunt::Init()
 
 
 
-	m_ViewCollider->SetCollisionBeginFunction<CGrunt>(this, &CGrunt::ViewCollisionBegin);
-	m_ViewCollider->SetCollisionEndFunction<CGrunt>(this, &CGrunt::ViewCollisionEnd);
+	m_ViewCollider->SetCollisionBeginFunction<CPomp>(this, &CPomp::ViewCollisionBegin);
+	m_ViewCollider->SetCollisionEndFunction<CPomp>(this, &CPomp::ViewCollisionEnd);
 
-	m_AnimationName = "spr_grunt_idle_";
+	m_AnimationName = "spr_pomp_idle_";
 	m_CurState = ObjState::Idle;
 	m_CurDir = ObjDir::Right;
 	m_ChangeDirText = "right";
 
 	// 애니메이션
-	AddAnimation("spr_grunt_idle_left", true, 0.88f);
-	AddAnimation("spr_grunt_idle_right", true, 0.88f);
+	AddAnimation("spr_pomp_idle_left", true, 0.56f);
+	AddAnimation("spr_pomp_idle_right", true, 0.56f);
 
-	AddAnimation("spr_grunt_walk_left", true, 0.7f);
-	AddAnimation("spr_grunt_walk_right", true, 0.7f);
+	AddAnimation("spr_pomp_walk_left", true, 0.7f);
+	AddAnimation("spr_pomp_walk_right", true, 0.7f);
 
-	AddAnimation("spr_grunt_run_left", true, 0.7f);
-	AddAnimation("spr_grunt_run_right", true, 0.7f);
+	AddAnimation("spr_pomp_run_left", true, 0.7f);
+	AddAnimation("spr_pomp_run_right", true, 0.7f);
 
-	AddAnimation("spr_grunt_attack_left", true, 0.56f);
-	AddAnimation("spr_grunt_attack_right", true, 0.56f);
+	AddAnimation("spr_pomp_attack_left", true, 0.42f);
+	AddAnimation("spr_pomp_attack_right", true, 0.42f);
 
-	AddAnimation("spr_grunt_turn_left", true, 0.48f);
-	AddAnimation("spr_grunt_turn_right", true, 0.48f);
+	AddAnimation("spr_pomp_turn_left", true, 0.48f);
+	AddAnimation("spr_pomp_turn_right", true, 0.48f);
 
-	AddAnimation("spr_grunt_hurtground_left", false, 0.96f);
-	AddAnimation("spr_grunt_hurtground_right", false, 0.96f);
+	AddAnimation("spr_pomp_hurtground_left", false, 0.96f);
+	AddAnimation("spr_pomp_hurtground_right", false, 0.96f);
 
-	AddAnimation("spr_grunt_hurtfly_left", false, 0.8f);
-	AddAnimation("spr_grunt_hurtfly_right", false, 0.8f);
+	AddAnimation("spr_pomp_hurtfly_left", false, 0.8f);
+	AddAnimation("spr_pomp_hurtfly_right", false, 0.8f);
 
-	AddNotify<CGrunt>("spr_grunt_attack_left", 5, this, &CGrunt::CreateAttackCollision);
-	AddNotify<CGrunt>("spr_grunt_attack_right", 5, this, &CGrunt::CreateAttackCollision);
+	AddAnimation("spr_pomp_knockdown_left", false, 1.54f);
+	AddAnimation("spr_pomp_knockdown_right", false, 1.54f);
+
+
+	AddNotify<CPomp>("spr_pomp_attack_left", 4, this, &CPomp::CreateAttackCollision);
+	AddNotify<CPomp>("spr_pomp_attack_right", 4, this, &CPomp::CreateAttackCollision);
 
 	return true;
 }
 
-void CGrunt::Update(float DeltaTime)
+void CPomp::Update(float DeltaTime)
 {
 	CGameObject::Update(DeltaTime);
 
@@ -127,24 +131,24 @@ void CGrunt::Update(float DeltaTime)
 
 }
 
-void CGrunt::PostUpdate(float DeltaTime)
+void CPomp::PostUpdate(float DeltaTime)
 {
 	CCharacter::PostUpdate(DeltaTime);
 
 }
 
-void CGrunt::Render(HDC hDC, float DeltaTime)
+void CPomp::Render(HDC hDC, float DeltaTime)
 {
 	CCharacter::Render(hDC, DeltaTime);
 
 }
 
-float CGrunt::InflictDamage(float Damage)
+float CPomp::InflictDamage(float Damage)
 {
 	return 0.0f;
 }
 
-void CGrunt::ViewCollisionBegin(CCollider* Src, CCollider* Dest)
+void CPomp::ViewCollisionBegin(CCollider* Src, CCollider* Dest)
 {
 	if (Dest->GetOwner() != m_Scene->GetPlayer())
 	{
@@ -159,7 +163,7 @@ void CGrunt::ViewCollisionBegin(CCollider* Src, CCollider* Dest)
 			}
 
 
-			if (Dest->GetOwner()->GetState() == ObjState::Dead || 
+			if (Dest->GetOwner()->GetState() == ObjState::Dead ||
 				Dest->GetOwner()->GetState() == ObjState::HurtFly ||
 				Dest->GetOwner()->GetState() == ObjState::HurtGround)
 				StateChange(ObjState::Run);
@@ -168,7 +172,7 @@ void CGrunt::ViewCollisionBegin(CCollider* Src, CCollider* Dest)
 
 }
 
-void CGrunt::ViewCollisionEnd(CCollider* Src, CCollider* Dest)
+void CPomp::ViewCollisionEnd(CCollider* Src, CCollider* Dest)
 {
 	if (m_LastView != nullptr)
 	{
@@ -181,10 +185,10 @@ void CGrunt::ViewCollisionEnd(CCollider* Src, CCollider* Dest)
 
 //////////////////////////////	
 ////	FSM
-void CGrunt::IdleStart()
+void CPomp::IdleStart()
 {
 	m_StateTime[static_cast<int>(ObjState::Idle)] = 0.f;
-	m_AnimationName = "spr_grunt_idle_";
+	m_AnimationName = "spr_pomp_idle_";
 	ChangeAnimation(m_AnimationName + m_ChangeDirText);
 	SetSpeed(0.f);
 
@@ -196,27 +200,27 @@ void CGrunt::IdleStart()
 	}
 }
 
-void CGrunt::WalkStart()
+void CPomp::WalkStart()
 {
 	m_StateTime[static_cast<int>(ObjState::Walk)] = 0.f;
-	m_AnimationName = "spr_grunt_walk_";
+	m_AnimationName = "spr_pomp_walk_";
 	ChangeAnimation(m_AnimationName + m_ChangeDirText);
 	SetSpeed(80.f);
 }
 
-void CGrunt::TurnStart()
+void CPomp::TurnStart()
 {
 	m_StateTime[static_cast<int>(ObjState::Turn)] = 0.f;
-	m_AnimationName = "spr_grunt_turn_";
+	m_AnimationName = "spr_pomp_turn_";
 	ChangeAnimation(m_AnimationName + m_ChangeDirText);
 	SetSpeed(0.f);
 }
 
-void CGrunt::RunStart()
+void CPomp::RunStart()
 {
 	m_StateTime[(int)ObjState::Run] = 0.f;
 
-	m_AnimationName = "spr_grunt_idle_";
+	m_AnimationName = "spr_pomp_idle_";
 	ChangeAnimation(m_AnimationName + m_ChangeDirText);
 	SetSpeed(0.f);
 
@@ -231,15 +235,15 @@ void CGrunt::RunStart()
 
 }
 
-void CGrunt::AttackStart()
+void CPomp::AttackStart()
 {
-	m_AnimationName = "spr_grunt_attack_";
+	m_AnimationName = "spr_pomp_attack_";
 	ChangeAnimation(m_AnimationName + m_ChangeDirText);
 	SetSpeed(0.f);
 
 }
 
-void CGrunt::HurtGroundStart()
+void CPomp::HurtGroundStart()
 {
 
 	// 피분출 애니메이션
@@ -264,12 +268,12 @@ void CGrunt::HurtGroundStart()
 	}
 
 	m_StateTime[static_cast<int>(ObjState::HurtGround)] = 0.f;
-	m_AnimationName = "spr_grunt_hurtground_";
+	m_AnimationName = "spr_pomp_hurtground_";
 	ChangeAnimation(m_AnimationName + m_ChangeDirText);
 
 }
 
-void CGrunt::HurtFlyStart()
+void CPomp::HurtFlyStart()
 {
 	// Blood Splat 사운드 재생
 	{
@@ -317,7 +321,6 @@ void CGrunt::HurtFlyStart()
 		BloodRemainEffect->SetPos(m_Pos + Vector2{ 0,-35 });
 	}
 
-	// 총알에 맞은 경우와 칼에 맞은 경우 BloodRemain 이펙트를 생성할지 말지 결정한다.
 	if (m_EnemyAttackDir == Vector2{ 0.f, 0.f })
 	{
 
@@ -361,7 +364,7 @@ void CGrunt::HurtFlyStart()
 
 	SetPos(m_Pos + Vector2{ 0,-2 });
 	m_StateTime[static_cast<int>(ObjState::HurtGround)] = 0.f;
-	m_AnimationName = "spr_grunt_hurtfly_";
+	m_AnimationName = "spr_pomp_hurtfly_";
 	ChangeAnimation(m_AnimationName + m_ChangeDirText);
 	SetSpeed(0.f);
 
@@ -369,12 +372,20 @@ void CGrunt::HurtFlyStart()
 
 }
 
-void CGrunt::DeadStart()
+void CPomp::KnockDownStart()
+{
+	m_StateTime[static_cast<int>(ObjState::KnockDown)] = 0.f;
+	m_AnimationName = "spr_pomp_knockdown_";
+	ChangeAnimation(m_AnimationName + m_ChangeDirText);
+
+}
+
+void CPomp::DeadStart()
 {
 	m_Scene->AddKillCount(1);
 }
 
-void CGrunt::IdleUpdate()
+void CPomp::IdleUpdate()
 {
 	// 정찰 행동
 	m_StateTime[static_cast<int>(ObjState::Idle)] += DELTA_TIME;
@@ -393,7 +404,7 @@ void CGrunt::IdleUpdate()
 		return;
 	}
 
-	// 플레이어 발견시 Run 상태로 쫓아온다.
+	// 플레이어 발견시 Run 상태로 쫓아간다.
 	CCollider* PlayerBody = m_Scene->GetPlayer()->FindCollider("Body");
 	if (true == FindCollider("View")->CheckCollisionList(PlayerBody) &&
 		PlayerState::Dead != static_cast<CPlayer*>(m_Scene->GetPlayer())->CPlayer::GetState())
@@ -411,7 +422,7 @@ void CGrunt::IdleUpdate()
 	}
 }
 
-void CGrunt::WalkUpdate()
+void CPomp::WalkUpdate()
 {
 	m_StateTime[static_cast<int>(ObjState::Walk)] += DELTA_TIME;
 
@@ -461,7 +472,7 @@ void CGrunt::WalkUpdate()
 
 }
 
-void CGrunt::TurnUpdate()
+void CPomp::TurnUpdate()
 {
 	if (true == m_Animation->IsEndAnimation())
 	{
@@ -487,15 +498,15 @@ void CGrunt::TurnUpdate()
 }
 
 
-void CGrunt::RunUpdate()
+void CPomp::RunUpdate()
 {
 	m_StateTime[(int)ObjState::Run] += DELTA_TIME;
 
 	if (m_StateTime[(int)ObjState::Run] >= 0.22f)
 	{
-		m_AnimationName = "spr_grunt_run_";
+		m_AnimationName = "spr_pomp_run_";
 		ChangeAnimation(m_AnimationName + m_ChangeDirText);
-		SetSpeed(360.f);
+		SetSpeed(340.f);
 
 
 		// 플레이어를 쫓아가도록 좌우 방향 조정
@@ -542,7 +553,7 @@ void CGrunt::RunUpdate()
 
 }
 
-void CGrunt::AttackUpdate()
+void CPomp::AttackUpdate()
 {
 	// 플레이어 사망상태면 Idle 상태로
 	if (PlayerState::Dead == static_cast<CPlayer*>(m_Scene->GetPlayer())->CPlayer::GetState())
@@ -581,7 +592,7 @@ void CGrunt::AttackUpdate()
 
 }
 
-void CGrunt::HurtGroundUpdate()
+void CPomp::HurtGroundUpdate()
 {
 	// 피분출이 끝나면 BloodAnimation SetActive(false) 할것
 
@@ -605,7 +616,7 @@ void CGrunt::HurtGroundUpdate()
 
 }
 
-void CGrunt::HurtFlyUpdate()
+void CPomp::HurtFlyUpdate()
 {
 
 	// 공중에 뜬 상태일경우 중력영향을 받는다.
@@ -630,22 +641,26 @@ void CGrunt::HurtFlyUpdate()
 
 }
 
-void CGrunt::DeadUpdate()
+void CPomp::KnockDownUpdate()
+{
+}
+
+void CPomp::DeadUpdate()
 {
 }
 
 
-	// Notify
-void CGrunt::CreateAttackCollision()
+// Notify
+void CPomp::CreateAttackCollision()
 {
 	// 공격 판정 충돌체 추가
-	CColliderBox* Box = AddCollider<CColliderBox>("GruntAttack");
+	CColliderBox* Box = AddCollider<CColliderBox>("PompAttack");
 	Box->SetExtent(50.f, 50.f);
 
 	if (m_CurDir == ObjDir::Right)
 	{
 		Box->SetOffset(Vector2{ 0.f, -35.f } + Vector2{ 1.f, 0.f } *50.f);
-		static_cast<CPlayer*>(m_Scene->GetPlayer())->SetEnemyAttackDir(Vector2{ 1.f , -0.5f } * 800);
+		static_cast<CPlayer*>(m_Scene->GetPlayer())->SetEnemyAttackDir(Vector2{ 1.f , -0.5f } *800);
 	}
 	else if (m_CurDir == ObjDir::Left)
 	{
@@ -655,6 +670,6 @@ void CGrunt::CreateAttackCollision()
 	Box->SetCollisionProfile("MonsterAttack");
 	m_AttackCollider = Box;
 
-	m_Scene->GetSceneResource()->SoundPlay("punch");
+	m_Scene->GetSceneResource()->SoundPlay("swing");
 
 }

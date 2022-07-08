@@ -19,7 +19,7 @@ CBullet::CBullet()	:
 
 CBullet::CBullet(const CBullet& Obj) :
 	CGameObject(Obj),
-	m_Distance(Obj.m_Distance)
+	m_Damage(Obj.m_Damage)
 {
 }
 
@@ -61,7 +61,7 @@ void CBullet::Update(float DeltaTime)
 	CGameObject::Update(DeltaTime);
 
 	Move(m_MoveDir * DELTA_TIME * m_MoveSpeed);
-	m_EnemyAttackDir = m_MoveDir * m_MoveSpeed + Vector2{ 0.f, -400.f };
+	m_MyAttackDir = m_MoveDir * m_MoveSpeed + Vector2{ 0.f, -400.f };
 
 	Vector2 NewVector = {};
 	m_Angle = NewVector.Angle(m_MoveDir);

@@ -27,6 +27,7 @@ private:
 	void CreateAnimationSequencePlayer();
 	void CreateAnimationSequenceGrunt();
 	void CreateAnimationSequenceGangster();
+	void CreateAnimationSequencePomp();
 	void CreateAnimationSequenceEffect_Frame();
 	void CreateAnimationSequenceEffect_Sprite();
 

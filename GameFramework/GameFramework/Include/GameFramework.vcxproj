@@ -181,6 +181,7 @@
     <ClCompile Include="GameObject\Grunt.cpp" />
     <ClCompile Include="GameObject\Monster.cpp" />
     <ClCompile Include="GameObject\Player.cpp" />
+    <ClCompile Include="GameObject\Pomp.cpp" />
     <ClCompile Include="GameObject\Tile.cpp" />
     <ClCompile Include="GameObject\TileMap.cpp" />
     <ClCompile Include="Input.cpp" />
@@ -256,6 +257,7 @@
     <ClInclude Include="GameObject\Grunt.h" />
     <ClInclude Include="GameObject\Monster.h" />
     <ClInclude Include="GameObject\Player.h" />
+    <ClInclude Include="GameObject\Pomp.h" />
     <ClInclude Include="GameObject\Tile.h" />
     <ClInclude Include="GameObject\TileMap.h" />
     <ClInclude Include="Input.h" />

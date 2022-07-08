@@ -510,6 +510,77 @@ void CStage_2::CreateAnimationSequenceGangster()
 
 }
 
+void CStage_2::CreateAnimationSequencePomp()
+{
+	// spr_pomp_attack_left
+		CResourceManager::GetInst()->CreateAnimationSequence("spr_pomp_attack_left",
+			"spr_pomp_attack_left", nullptr, TEXTURE_PATH);
+
+	// spr_pomp_attack_right
+		CResourceManager::GetInst()->CreateAnimationSequence("spr_pomp_attack_right",
+			"spr_pomp_attack_right", nullptr, TEXTURE_PATH);
+
+	// spr_pomp_hurtfly_left
+		CResourceManager::GetInst()->CreateAnimationSequence("spr_pomp_hurtfly_left",
+			"spr_pomp_hurtfly_left", nullptr, TEXTURE_PATH);
+
+
+	// spr_pomp_hurtfly_right
+		CResourceManager::GetInst()->CreateAnimationSequence("spr_pomp_hurtfly_right",
+			"spr_pomp_hurtfly_right", nullptr, TEXTURE_PATH);
+
+
+	// spr_pomp_hurtground_left
+		CResourceManager::GetInst()->CreateAnimationSequence("spr_pomp_hurtground_left",
+			"spr_pomp_hurtground_left", nullptr, TEXTURE_PATH);
+
+	// spr_pomp_hurtground_right
+		CResourceManager::GetInst()->CreateAnimationSequence("spr_pomp_hurtground_right",
+			"spr_pomp_hurtground_right", nullptr, TEXTURE_PATH);
+
+	// spr_pomp_idle_left
+		CResourceManager::GetInst()->CreateAnimationSequence("spr_pomp_idle_left",
+			"spr_pomp_idle_left", nullptr, TEXTURE_PATH);
+
+	// spr_pomp_idle_right
+		CResourceManager::GetInst()->CreateAnimationSequence("spr_pomp_idle_right",
+			"spr_pomp_idle_right", nullptr, TEXTURE_PATH);
+
+	// spr_pomp_knockdown_left
+		CResourceManager::GetInst()->CreateAnimationSequence("spr_pomp_knockdown_left",
+			"spr_pomp_knockdown_left", nullptr, TEXTURE_PATH);
+
+	// spr_pomp_knockdown_right
+		CResourceManager::GetInst()->CreateAnimationSequence("spr_pomp_knockdown_right",
+			"spr_pomp_knockdown_right", nullptr, TEXTURE_PATH);
+
+	// spr_pomp_run_left
+		CResourceManager::GetInst()->CreateAnimationSequence("spr_pomp_run_left",
+			"spr_pomp_run_left", nullptr, TEXTURE_PATH);
+
+	// spr_pomp_run_right
+		CResourceManager::GetInst()->CreateAnimationSequence("spr_pomp_run_right",
+			"spr_pomp_run_right", nullptr, TEXTURE_PATH);
+
+	// spr_pomp_turn_left
+		CResourceManager::GetInst()->CreateAnimationSequence("spr_pomp_turn_left",
+			"spr_pomp_turn_left", nullptr, TEXTURE_PATH);
+
+	// spr_pomp_turn_right
+		CResourceManager::GetInst()->CreateAnimationSequence("spr_pomp_turn_right",
+			"spr_pomp_turn_right", nullptr, TEXTURE_PATH);
+
+	// spr_pomp_walk_left
+		CResourceManager::GetInst()->CreateAnimationSequence("spr_pomp_walk_left",
+			"spr_pomp_walk_left", nullptr, TEXTURE_PATH);
+
+	// spr_pomp_walk_right
+		CResourceManager::GetInst()->CreateAnimationSequence("spr_pomp_walk_right",
+			"spr_pomp_walk_right", nullptr, TEXTURE_PATH);
+
+
+}
+
 void CStage_2::CreateAnimationSequenceEffect_Frame()
 {
 }

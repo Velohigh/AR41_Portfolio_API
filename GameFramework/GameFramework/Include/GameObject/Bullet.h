@@ -13,18 +13,12 @@ protected:
 	virtual ~CBullet();
 
 private:
-	float	m_Distance;
 	float	m_Damage;
 
 public:
 	void SetDamage(float Damage)
 	{
 		m_Damage = Damage;
-	}
-
-	void SetDistance(float Dist)
-	{
-		m_Distance = Dist;
 	}
 
 	void SetAngle(float Angle)
