@@ -28,7 +28,7 @@ bool CEffect_DustCloud::Init()
 	m_MoveSpeed = static_cast<float>(IntRange(mt_));
 	std::uniform_real_distribution<float> FloatRange(0, 0.7f);
 	m_MoveDir = Vector2{ 0,FloatRange(mt_) };
-
+	RandomValueX = Vector2{ FloatRange(mt_) - 0.35f , 0 };
 	SetRenderScale(2);
 
 	return true;
@@ -45,6 +45,10 @@ void CEffect_DustCloud::Update(float DeltaTime)
 	else if (m_CurDir == ObjDir::Left)
 	{
 		MoveDir((Vector2{ -1.f, 0.f } - m_MoveDir));
+	}
+	else
+	{
+		MoveDir((Vector2{ RandomValueX.x, 0.f } - m_MoveDir));
 	}
 
 	//if (true == m_Animation->IsEndAnimation())

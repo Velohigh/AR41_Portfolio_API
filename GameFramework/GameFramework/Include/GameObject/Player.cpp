@@ -236,6 +236,11 @@ void CPlayer::CreateAnimationSequence()
 	AddAnimation("spr_hurtfly_loop_right", true, 0.28f);
 	AddAnimation("spr_hurtground_left", false, 0.55f);
 	AddAnimation("spr_hurtground_right", false, 0.55f);
+	AddAnimation("spr_wallgrab_left", false, 0.55f);
+	AddAnimation("spr_wallgrab_right", false, 0.55f);
+	AddAnimation("spr_player_flip_left", false, 0.66f);
+	AddAnimation("spr_player_flip_right", false, 0.66f);
+
 
 	// ## Effect
 	AddAnimation("spr_dustcloud", true, 0.42f);
@@ -259,7 +264,9 @@ void CPlayer::DirAnimationCheck()
 
 	if (m_CurState != PlayerState::Attack && m_CurState != PlayerState::Dodge &&
 		m_CurState != PlayerState::Dead && m_CurState != PlayerState::HurtFlyLoop &&
-		m_CurState != PlayerState::HurtGround)
+		m_CurState != PlayerState::HurtGround &&
+		m_CurState != PlayerState::WallGrab &&
+		m_CurState != PlayerState::Flip)
 	{
 
 		if (true == CInput::GetInst()->IsPress('D'))
@@ -897,8 +904,28 @@ void CPlayer::JumpUpdate()
 		}
 	}
 
-	// 검은 땅에 닿을 경우 
+	// 검은 땅에 닿지않고 벽에 부딪힐경우 Flip
 	int Color = m_MapColTexture->GetImagePixel(m_Pos + Vector2{ 0,1 });
+	int LCColor = m_MapColTexture->GetImagePixel(m_Pos + Vector2{ -18,-35 });
+	int RCColor = m_MapColTexture->GetImagePixel(m_Pos + Vector2{ 18,-35 });
+
+	if (Color != RGB(0, 0, 0) &&
+		LCColor == RGB(255, 0, 255) ||
+		RCColor == RGB(255, 0, 255))
+	{
+		m_Gravity = 10.0f;
+
+		//Effect_LandCloud* NewEffect = GetLevel()->CreateActor<Effect_LandCloud>((int)ORDER::UI);
+		//NewEffect->SetPosition(GetPosition());
+
+		StateChange(PlayerState::WallGrab);
+		return;
+	}
+
+
+
+	// 검은 땅에 닿을 경우 착지
+	Color = m_MapColTexture->GetImagePixel(m_Pos + Vector2{ 0,1 });
 	if (RGB(0, 0, 0) == Color)
 	{
 		m_Gravity = 10.0f;
@@ -1010,6 +1037,23 @@ void CPlayer::LandingUpdate()
 
 void CPlayer::FallUpdate()
 {
+	// 검은 땅에 닿지않고 벽에 부딪힐경우 Flip
+	int Color = m_MapColTexture->GetImagePixel(m_Pos + Vector2{ 0,1 });
+	int LCColor = m_MapColTexture->GetImagePixel(m_Pos + Vector2{ -18,-35 });
+	int RCColor = m_MapColTexture->GetImagePixel(m_Pos + Vector2{ 18,-35 });
+
+	if (Color != RGB(0, 0, 0) &&
+		LCColor == RGB(255, 0, 255) ||
+		RCColor == RGB(255, 0, 255))
+	{
+		m_Gravity = 10.0f;
+
+		StateChange(PlayerState::WallGrab);
+		return;
+	}
+
+
+	// 땅에 닿을경우 착지상태로
 	// 공중에 뜬 상태일경우 중력영향을 받는다.
 	// 중력 가속도에 따른 낙하 속도.
 	{
@@ -1150,6 +1194,179 @@ void CPlayer::PlaySongUpdate()
 		return;
 	}
 }
+
+
+void CPlayer::HurtFlyLoopUpdate()
+{
+	if (true == m_Animation->CheckCurrentAnimation("spr_hurtfly_begin_left") &&
+		true == m_Animation->IsEndAnimation())
+	{
+		m_AnimationName = "spr_hurtfly_loop_left";
+		ChangeAnimation(m_AnimationName);
+	}
+
+	else if (true == m_Animation->CheckCurrentAnimation("spr_hurtfly_begin_right") &&
+		true == m_Animation->IsEndAnimation())
+	{
+		m_AnimationName = "spr_hurtfly_loop_right";
+		ChangeAnimation(m_AnimationName);
+	}
+
+	// 공중에 뜬 상태일경우 중력영향을 받는다.
+	// 중력 가속도에 따른 낙하 속도.
+	{
+		// 내포지션에서 원하는 위치의 픽셀의 색상을 구할 수 있다.
+		int Color = m_MapColTexture->GetImagePixel(m_Pos + Vector2{ 0.f,1.f });
+		m_Gravity += m_GravityAccel * DELTA_TIME;
+		if (RGB(0, 0, 0) == Color || RGB(255, 0, 0) == Color)	// 땅에 닿을 경우 
+		{
+			m_Gravity = 10.0f;
+			m_MoveDir.Normalize();
+
+
+			StateChange(PlayerState::HurtGround);
+			return;
+		}
+		Move(Vector2{ 0.f, 1.f } *m_Gravity * DELTA_TIME);
+	}
+
+	MapCollisionCheckMoveAirDie();
+}
+
+void CPlayer::HurtGroundUpdate()
+{
+	if (true == m_Animation->IsEndAnimation())
+	{
+		StateChange(PlayerState::Dead);
+		return;
+	}
+}
+
+void CPlayer::WallGrabUpdate()
+{
+	// 점프키를 누르면 플립상태로
+	if (true == CInput::GetInst()->IsDown(VK_SPACE))
+	{
+		if (m_CurDir == PlayerDir::Left)
+			m_CurDir = PlayerDir::Right;
+		else if (m_CurDir == PlayerDir::Right)
+			m_CurDir = PlayerDir::Left;
+
+		StateChange(PlayerState::Flip);
+		return;
+	}
+
+	// 공격
+	if (true == CInput::GetInst()->IsDown(VK_LBUTTON))
+	{
+		StateChange(PlayerState::Attack);
+		return;
+	}
+
+
+	// 땅에 닿을경우 착지상태로
+	// 공중에 뜬 상태일경우 중력영향을 받는다.
+	// 중력 가속도에 따른 낙하 속도.
+	{
+		// 내포지션에서 원하는 위치의 픽셀의 색상을 구할 수 있다.
+		int Color = m_MapColTexture->GetImagePixel(m_Pos + Vector2{ 0.f,1.f });
+		m_Gravity += (m_GravityAccel / 3.f) * DELTA_TIME;
+		if (RGB(0, 0, 0) == Color || RGB(255, 0, 0) == Color)	// 땅에 닿을 경우 
+		{
+			m_Gravity = 10.0f;
+			m_MoveDir.Normalize();
+
+
+			StateChange(PlayerState::Landing);
+			return;
+		}
+		Move(Vector2{ 0.f, 1.f } *m_Gravity * DELTA_TIME);
+	}
+
+	// 월그랩 구름 이펙트 생성
+	m_StateTime[static_cast<int>(PlayerState::WallGrab)] += DELTA_TIME;
+	if (0.03f <= m_StateTime[static_cast<int>(PlayerState::WallGrab)] &&
+		m_Move.Length() >= 0.8f)
+	{
+		CEffect_DustCloud* NewEffect = m_Scene->CreateObject<CEffect_DustCloud>("DustCloud");
+		NewEffect->SetRenderLayer(ERender_Layer::Effect);
+		NewEffect->SetPivot(0.5f, 0.5f);
+		if(m_CurDir == PlayerDir::Right)
+			NewEffect->SetPos(m_Pos + Vector2{ 18, -65 });
+		else if(m_CurDir == PlayerDir::Left)
+			NewEffect->SetPos(m_Pos + Vector2{ -18, -65 });
+
+		m_StateTime[static_cast<int>(PlayerState::WallGrab)] = 0.f;
+
+		NewEffect->AddAnimation("spr_dustcloud", false, 0.36f);
+
+	}
+
+
+
+	MapCollisionCheckMoveAir();
+
+}
+
+void CPlayer::FlipUpdate()
+{
+	m_StateTime[(int)PlayerState::Flip] += DELTA_TIME;
+
+	// 공격
+	if (true == CInput::GetInst()->IsDown(VK_LBUTTON))
+	{
+		StateChange(PlayerState::Attack);
+		return;
+	}
+
+	// 검은 땅에 닿지않고 벽에 부딪힐경우 Flip
+	int Color = m_MapColTexture->GetImagePixel(m_Pos + Vector2{ 0,1 });
+	int LCColor = m_MapColTexture->GetImagePixel(m_Pos + Vector2{ -18,-35 });
+	int RCColor = m_MapColTexture->GetImagePixel(m_Pos + Vector2{ 18,-35 });
+
+	if (m_StateTime[(int)PlayerState::Flip] >= 0.1f)
+	{
+		if (Color != RGB(0, 0, 0) &&
+			LCColor == RGB(255, 0, 255) ||
+			RCColor == RGB(255, 0, 255))
+		{
+			m_Gravity = 10.0f;
+
+			StateChange(PlayerState::WallGrab);
+			return;
+		}
+	}
+
+
+
+	// 땅에 닿을경우 착지상태로
+	// 공중에 뜬 상태일경우 중력영향을 받는다.
+	// 중력 가속도에 따른 낙하 속도.
+	{
+		// 내포지션에서 원하는 위치의 픽셀의 색상을 구할 수 있다.
+		int Color = m_MapColTexture->GetImagePixel(m_Pos + Vector2{ 0.f,1.f });
+		m_Gravity += (m_GravityAccel / 3.f) * DELTA_TIME;
+		if (RGB(0, 0, 0) == Color || RGB(255, 0, 0) == Color)	// 땅에 닿을 경우 
+		{
+			m_Gravity = 10.0f;
+			m_MoveDir.Normalize();
+
+
+			StateChange(PlayerState::Landing);
+			return;
+		}
+		Move(Vector2{ 0.f, 1.f } *m_Gravity * DELTA_TIME);
+	}
+
+
+	MapCollisionCheckMoveAir();
+
+}
+
+void CPlayer::DeadUpdate()
+{
+}
+
 
 
 	//## Start
@@ -1332,9 +1549,6 @@ void CPlayer::AttackStart()
 
 }
 
-void CPlayer::WallGrabUpdate()
-{
-}
 
 void CPlayer::HurtFlyLoopStart()
 {
@@ -1375,6 +1589,56 @@ void CPlayer::HurtGroundStart()
 
 }
 
+void CPlayer::WallGrabStart()
+{
+	m_StateTime[static_cast<int>(PlayerState::WallGrab)] = 0.f;
+
+	m_AnimationName = "spr_wallgrab_";
+
+	if (m_Move.x < 0)
+	{
+		m_CurDir = PlayerDir::Left;
+		m_ChangeDirText = "left";
+	}
+	else if (m_Move.x > 0)
+	{
+		m_CurDir = PlayerDir::Right;
+		m_ChangeDirText = "right";
+	}
+
+	ChangeAnimation(m_AnimationName + m_ChangeDirText);
+
+	m_MoveDir /= 2.f;
+	m_AttackCount = 0;
+}
+
+void CPlayer::FlipStart()
+{
+	m_Gravity = 10.f;
+
+	m_StateTime[static_cast<int>(PlayerState::Flip)] = 0.f;
+	m_AnimationName = "spr_player_flip_";
+	if (m_CurDir == PlayerDir::Left)
+	{
+		SetPos(m_Pos + Vector2{ 2.f, 0.f });
+		m_ChangeDirText = "right";
+	}
+	else if (m_CurDir == PlayerDir::Right)
+	{
+		SetPos(m_Pos + Vector2{ -2.f, 0.f });
+		m_ChangeDirText = "left";
+	}
+
+	ChangeAnimation(m_AnimationName + m_ChangeDirText);
+
+	if (m_CurDir == PlayerDir::Right)
+		m_MoveDir = Vector2{ 1.f, -0.6f } * 700;
+	else if (m_CurDir == PlayerDir::Left)
+		m_MoveDir = Vector2{ -1.f, -0.6f } * 700;
+
+
+}
+
 void CPlayer::DeadStart()
 {
 }
@@ -1386,46 +1650,7 @@ void CPlayer::FallStart()
 	ChangeAnimation(m_AnimationName + m_ChangeDirText);
 }
 
-void CPlayer::FlipUpdate()
-{
-}
 
-void CPlayer::HurtFlyLoopUpdate()
-{
-	if (true == m_Animation->CheckCurrentAnimation("spr_hurtfly_begin_left") &&
-		true == m_Animation->IsEndAnimation())
-	{
-		m_AnimationName = "spr_hurtfly_loop_left";
-		ChangeAnimation(m_AnimationName);
-	}
-
-	else if (true == m_Animation->CheckCurrentAnimation("spr_hurtfly_begin_right") &&
-		true == m_Animation->IsEndAnimation())
-	{
-		m_AnimationName = "spr_hurtfly_loop_right";
-		ChangeAnimation(m_AnimationName);
-	}
-
-	// 공중에 뜬 상태일경우 중력영향을 받는다.
-	// 중력 가속도에 따른 낙하 속도.
-	{
-		// 내포지션에서 원하는 위치의 픽셀의 색상을 구할 수 있다.
-		int Color = m_MapColTexture->GetImagePixel(m_Pos + Vector2{ 0.f,1.f });
-		m_Gravity += m_GravityAccel * DELTA_TIME;
-		if (RGB(0, 0, 0) == Color || RGB(255, 0, 0) == Color)	// 땅에 닿을 경우 
-		{
-			m_Gravity = 10.0f;
-			m_MoveDir.Normalize();
-
-
-			StateChange(PlayerState::HurtGround);
-			return;
-		}
-		Move(Vector2{ 0.f, 1.f } *m_Gravity * DELTA_TIME);
-	}
-
-	MapCollisionCheckMoveAirDie();
-}
 
 
 void CPlayer::DodgeStart()
@@ -1462,27 +1687,14 @@ void CPlayer::PlaySongStart()
 
 }
 
-void CPlayer::HurtGroundUpdate()
-{
-	if (true == m_Animation->IsEndAnimation())
-	{
-		StateChange(PlayerState::Dead);
-		return;
-	}
-}
-
-void CPlayer::DeadUpdate()
-{
-}
-
 void CPlayer::MapCollisionCheckMoveGround()
 {
 	{
 		// 미래의 위치를 계산하여 그곳의 RGB값을 체크하고, 이동 가능한 곳이면 이동한다.
 		Vector2 NextPos = m_Pos + (Vector2{ 0,m_MoveDir.y } * DELTA_TIME * m_MoveSpeed);
 		Vector2 CheckPos = NextPos + Vector2{ 0,0 };	// 미래 위치의 발기준 색상
-		Vector2 CheckPosTopRight = NextPos + Vector2{ 18,-80 };	// 미래 위치의 머리기준 색상
-		Vector2 CheckPosTopLeft = NextPos + Vector2{ -18,-80 };	// 미래 위치의 머리기준 색상
+		Vector2 CheckPosTopRight = NextPos + Vector2{ 18,-70 };	// 미래 위치의 머리기준 색상
+		Vector2 CheckPosTopLeft = NextPos + Vector2{ -18,-70 };	// 미래 위치의 머리기준 색상
 
 		int Color = m_MapColTexture->GetImagePixel(CheckPos);
 		int TopRightColor = m_MapColTexture->GetImagePixel(CheckPosTopRight);
@@ -1502,8 +1714,8 @@ void CPlayer::MapCollisionCheckMoveGround()
 		// 미래의 위치를 계산하여 그곳의 RGB값을 체크하고, 이동 가능한 곳이면 이동한다.
 		Vector2 NextPos = m_Pos + (Vector2{ m_MoveDir.x,0 } * DELTA_TIME * m_MoveSpeed);
 		Vector2 CheckPos = NextPos + Vector2{ 0,0 };	// 미래 위치의 발기준 색상
-		Vector2 CheckPosTopRight = NextPos + Vector2{ 18,-80 };	// 미래 위치의 머리기준 색상
-		Vector2 CheckPosTopLeft = NextPos + Vector2{ -18,-80 };	// 미래 위치의 머리기준 색상
+		Vector2 CheckPosTopRight = NextPos + Vector2{ 18,-70 };	// 미래 위치의 머리기준 색상
+		Vector2 CheckPosTopLeft = NextPos + Vector2{ -18,-70 };	// 미래 위치의 머리기준 색상
 		Vector2 ForDownPos = m_Pos + Vector2{ 0,1.f };	// 발 아래 색상
 
 		int CurColor = m_MapColTexture->GetImagePixel(m_Pos);
@@ -1547,8 +1759,8 @@ void CPlayer::MapCollisionCheckMoveAir()
 		// 미래의 위치를 계산하여 그곳의 RGB값을 체크하고, 이동 가능한 곳이면 이동한다.
 		Vector2 NextPos = m_Pos + (Vector2{ 0,m_MoveDir.y } * DELTA_TIME);
 		Vector2 CheckPos = NextPos + Vector2{ 0,0 };	// 미래 위치의 발기준 색상
-		Vector2 CheckPosTopRight = NextPos + Vector2{ 18,-80 };	// 미래 위치의 머리기준 색상
-		Vector2 CheckPosTopLeft = NextPos + Vector2{ -18,-80 };	// 미래 위치의 머리기준 색상
+		Vector2 CheckPosTopRight = NextPos + Vector2{ 18,-70 };	// 미래 위치의 머리기준 색상
+		Vector2 CheckPosTopLeft = NextPos + Vector2{ -18,-70 };	// 미래 위치의 머리기준 색상
 
 		int Color = m_MapColTexture->GetImagePixel(CheckPos);
 		int TopRightColor = m_MapColTexture->GetImagePixel(CheckPosTopRight);
@@ -1567,8 +1779,8 @@ void CPlayer::MapCollisionCheckMoveAir()
 		// 미래의 위치를 계산하여 그곳의 RGB값을 체크하고, 이동 가능한 곳이면 이동한다.
 		Vector2 NextPos = m_Pos + (Vector2{ m_MoveDir.x,0.f } * DELTA_TIME);
 		Vector2 CheckPos = NextPos + Vector2{ 0.f, 0.f };	// 미래 위치의 발기준 색상
-		Vector2 CheckPosTopRight = NextPos + Vector2{ 18,-80 };	// 미래 위치의 머리기준 색상
-		Vector2 CheckPosTopLeft = NextPos + Vector2{ -18,-80 };	// 미래 위치의 머리기준 색상
+		Vector2 CheckPosTopRight = NextPos + Vector2{ 18,-70 };	// 미래 위치의 머리기준 색상
+		Vector2 CheckPosTopLeft = NextPos + Vector2{ -18,-70 };	// 미래 위치의 머리기준 색상
 
 		int Color = m_MapColTexture->GetImagePixel(CheckPos);
 		int TopRightColor = m_MapColTexture->GetImagePixel(CheckPosTopRight);
@@ -1582,14 +1794,6 @@ void CPlayer::MapCollisionCheckMoveAir()
 		}
 	}
 
-}
-
-void CPlayer::WallGrabStart()
-{
-}
-
-void CPlayer::FlipStart()
-{
 }
 
 

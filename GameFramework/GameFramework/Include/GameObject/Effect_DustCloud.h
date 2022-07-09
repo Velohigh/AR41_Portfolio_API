@@ -11,6 +11,9 @@ class CEffect_DustCloud :
 	CEffect_DustCloud(const CEffect_DustCloud& Obj);
     virtual ~CEffect_DustCloud();
 
+private:
+	Vector2 RandomValueX = {};
+
 public:
 	virtual bool Init();
 	virtual void Update(float DeltaTime);

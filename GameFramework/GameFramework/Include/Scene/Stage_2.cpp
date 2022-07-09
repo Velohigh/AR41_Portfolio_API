@@ -31,6 +31,7 @@ bool CStage_2::Init()
 	CScene::Init();
 
 	CreateAnimationSequencePlayer();
+	CreateAnimationSequencePlayer2();
 	CreateAnimationSequenceGrunt();
 	CreateAnimationSequenceGangster();
 	CreateAnimationSequenceEffect_Frame();
@@ -358,6 +359,26 @@ void CStage_2::CreateAnimationSequencePlayer()
 			"spr_hurtground_right", nullptr, TEXTURE_PATH);
 
 
+
+}
+
+void CStage_2::CreateAnimationSequencePlayer2()
+{
+	// spr_wallgrab_left
+		CResourceManager::GetInst()->CreateAnimationSequence("spr_wallgrab_left",
+			"spr_wallgrab_left", nullptr, TEXTURE_PATH);
+
+	// spr_wallgrab_right
+		CResourceManager::GetInst()->CreateAnimationSequence("spr_wallgrab_right",
+			"spr_wallgrab_right", nullptr, TEXTURE_PATH);
+
+	// spr_player_flip_left
+		CResourceManager::GetInst()->CreateAnimationSequence("spr_player_flip_left",
+			"spr_player_flip_left", nullptr, TEXTURE_PATH);
+
+	// spr_player_flip_right
+		CResourceManager::GetInst()->CreateAnimationSequence("spr_player_flip_right",
+			"spr_player_flip_right", nullptr, TEXTURE_PATH);
 
 }
 

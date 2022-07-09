@@ -25,6 +25,7 @@ public:
 
 private:
 	void CreateAnimationSequencePlayer();
+	void CreateAnimationSequencePlayer2();
 	void CreateAnimationSequenceGrunt();
 	void CreateAnimationSequenceGangster();
 	void CreateAnimationSequencePomp();

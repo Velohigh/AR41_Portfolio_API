@@ -32,6 +32,7 @@ bool CStage_1::Init()
 	CScene::Init();
 
 	CreateAnimationSequencePlayer();
+	CreateAnimationSequencePlayer2();
 	CreateAnimationSequenceGrunt();
 	CreateAnimationSequenceGangster();
 	CreateAnimationSequencePomp();
@@ -148,6 +149,12 @@ void CStage_1::Update(float DeltaTime)
 		m_KillCount >= 5)
 	{
 		m_KillCount = 0;
+		CInput::GetInst()->ClearCallback();
+		CSceneManager::GetInst()->CreateScene<CStage_2>();
+	}
+
+	if (true == CInput::GetInst()->IsDown('2'))
+	{
 		CInput::GetInst()->ClearCallback();
 		CSceneManager::GetInst()->CreateScene<CStage_2>();
 	}
@@ -798,6 +805,122 @@ void CStage_1::CreateAnimationSequencePlayer()
 		CResourceManager::GetInst()->SetColorKey("spr_hurtground_right", 255, 255, 255);
 	}
 
+
+}
+
+void CStage_1::CreateAnimationSequencePlayer2()
+{
+	// spr_wallgrab_left
+	{
+		std::vector<std::wstring>	vecFileName;
+
+		for (int i = 0; i <= 1; ++i)
+		{
+			TCHAR	FileName[MAX_PATH] = {};
+			// %d에 i의 값이 대입되어 문자열이 만들어지게 된다.
+			wsprintf(FileName, TEXT("Player/spr_wallgrab_left/%d.bmp"), i);
+			vecFileName.push_back(FileName);
+		}
+
+		CResourceManager::GetInst()->CreateAnimationSequence("spr_wallgrab_left",
+			"spr_wallgrab_left", vecFileName, TEXTURE_PATH);
+
+		for (int i = 0; i <= 1; ++i)
+		{
+			CTexture* Texture = CResourceManager::GetInst()->FindTexture("spr_wallgrab_left");
+			int NewWidth = Texture->GetWidth(i);
+			int NewHeight = Texture->GetHeight(i);
+
+			CResourceManager::GetInst()->AddAnimationFrame("spr_wallgrab_left", 0.f, 0.f,
+				(float)NewWidth, (float)NewHeight);
+		}
+
+		CResourceManager::GetInst()->SetColorKey("spr_wallgrab_left", 255, 255, 255);
+	}
+
+	// spr_wallgrab_right
+	{
+		std::vector<std::wstring>	vecFileName;
+
+		for (int i = 0; i <= 1; ++i)
+		{
+			TCHAR	FileName[MAX_PATH] = {};
+			// %d에 i의 값이 대입되어 문자열이 만들어지게 된다.
+			wsprintf(FileName, TEXT("Player/spr_wallgrab_right/%d.bmp"), i);
+			vecFileName.push_back(FileName);
+		}
+
+		CResourceManager::GetInst()->CreateAnimationSequence("spr_wallgrab_right",
+			"spr_wallgrab_right", vecFileName, TEXTURE_PATH);
+
+		for (int i = 0; i <= 1; ++i)
+		{
+			CTexture* Texture = CResourceManager::GetInst()->FindTexture("spr_wallgrab_right");
+			int NewWidth = Texture->GetWidth(i);
+			int NewHeight = Texture->GetHeight(i);
+
+			CResourceManager::GetInst()->AddAnimationFrame("spr_wallgrab_right", 0.f, 0.f,
+				(float)NewWidth, (float)NewHeight);
+		}
+
+		CResourceManager::GetInst()->SetColorKey("spr_wallgrab_right", 255, 255, 255);
+	}
+
+	// spr_player_flip_left
+	{
+		std::vector<std::wstring>	vecFileName;
+
+		for (int i = 0; i <= 10; ++i)
+		{
+			TCHAR	FileName[MAX_PATH] = {};
+			// %d에 i의 값이 대입되어 문자열이 만들어지게 된다.
+			wsprintf(FileName, TEXT("Player/spr_player_flip_left/%d.bmp"), i);
+			vecFileName.push_back(FileName);
+		}
+
+		CResourceManager::GetInst()->CreateAnimationSequence("spr_player_flip_left",
+			"spr_player_flip_left", vecFileName, TEXTURE_PATH);
+
+		for (int i = 0; i <= 10; ++i)
+		{
+			CTexture* Texture = CResourceManager::GetInst()->FindTexture("spr_player_flip_left");
+			int NewWidth = Texture->GetWidth(i);
+			int NewHeight = Texture->GetHeight(i);
+
+			CResourceManager::GetInst()->AddAnimationFrame("spr_player_flip_left", 0.f, 0.f,
+				(float)NewWidth, (float)NewHeight);
+		}
+
+		CResourceManager::GetInst()->SetColorKey("spr_player_flip_left", 255, 255, 255);
+	}
+
+	// spr_player_flip_right
+	{
+		std::vector<std::wstring>	vecFileName;
+
+		for (int i = 0; i <= 10; ++i)
+		{
+			TCHAR	FileName[MAX_PATH] = {};
+			// %d에 i의 값이 대입되어 문자열이 만들어지게 된다.
+			wsprintf(FileName, TEXT("Player/spr_player_flip_right/%d.bmp"), i);
+			vecFileName.push_back(FileName);
+		}
+
+		CResourceManager::GetInst()->CreateAnimationSequence("spr_player_flip_right",
+			"spr_player_flip_right", vecFileName, TEXTURE_PATH);
+
+		for (int i = 0; i <= 10; ++i)
+		{
+			CTexture* Texture = CResourceManager::GetInst()->FindTexture("spr_player_flip_right");
+			int NewWidth = Texture->GetWidth(i);
+			int NewHeight = Texture->GetHeight(i);
+
+			CResourceManager::GetInst()->AddAnimationFrame("spr_player_flip_right", 0.f, 0.f,
+				(float)NewWidth, (float)NewHeight);
+		}
+
+		CResourceManager::GetInst()->SetColorKey("spr_player_flip_right", 255, 255, 255);
+	}
 
 }
 
@@ -2006,17 +2129,6 @@ void CStage_1::CreateAnimationSequencePomp()
 
 		CResourceManager::GetInst()->SetColorKey("spr_pomp_walk_right", 255, 255, 255);
 	}
-
-
-
-
-
-
-
-
-
-
-
 
 }
 
