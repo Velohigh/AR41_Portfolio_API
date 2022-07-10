@@ -20,6 +20,7 @@
 #include "../GameObject/Effect.h"
 
 int g_playsong = 0;
+bool g_1BgmOn = false;
 
 CStage_1::CStage_1()	:
 	Back(nullptr)
@@ -69,6 +70,8 @@ bool CStage_1::Init()
 	GetSceneResource()->LoadSound("Effect", "reflect", false, "reflect.wav");
 	GetSceneResource()->LoadSound("Effect", "walljump", false, "walljump.wav");
 	GetSceneResource()->LoadSound("Effect", "grabwall", false, "grabwall.wav");
+	GetSceneResource()->LoadSound("Effect", "dead", false, "dead.wav");
+	GetSceneResource()->LoadSound("Effect", "go", false, "go.wav");
 
 
 	GetCamera()->SetResolution(1280.f, 720.f);
@@ -161,9 +164,11 @@ void CStage_1::Update(float DeltaTime)
 {
 	CScene::Update(DeltaTime);
 
-	if (m_BgmOn == true)
+	if (g_1BgmOn == false && 
+		m_BgmOn == true)
 	{
 		m_BgmOn = !m_BgmOn;
+		g_1BgmOn = true;
 
 		GetSceneResource()->SoundPlay("song_youwillneverknow");
 	}
@@ -196,8 +201,9 @@ void CStage_1::Update(float DeltaTime)
 	if (true == CInput::GetInst()->IsDown('R'))
 	{
 		SetCameraShakeOn(true);
-		GetSceneResource()->SoundStop("song_youwillneverknow");
+		// GetSceneResource()->SoundStop("song_youwillneverknow");
 
+		GetSceneResource()->SoundPlay("go");
 
 		CInput::GetInst()->ClearCallback();
 		CSceneManager::GetInst()->CreateScene<CStage_1>();

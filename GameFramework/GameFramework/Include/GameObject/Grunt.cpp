@@ -379,6 +379,10 @@ void CGrunt::HurtFlyStart()
 
 void CGrunt::DeadStart()
 {
+	if (m_AttackCollider)
+	{
+		m_AttackCollider->SetActive(false);
+	}
 	m_Scene->AddKillCount(1);
 }
 

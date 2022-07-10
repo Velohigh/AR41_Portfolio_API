@@ -21,6 +21,8 @@
 #include "../Resource/ResourceManager.h"
 #include "../Resource/Animation/AnimationManager.h"
 
+bool g_2BgmOn = false;
+
 CStage_2::CStage_2() :
 	Back(nullptr)
 {
@@ -57,7 +59,10 @@ bool CStage_2::Init()
 	GetSceneResource()->LoadSound("Effect", "reflect", false, "reflect.wav");
 	GetSceneResource()->LoadSound("Effect", "walljump", false, "walljump.wav");
 	GetSceneResource()->LoadSound("Effect", "grabwall", false, "grabwall.wav");
+	GetSceneResource()->LoadSound("Effect", "dead", false, "dead.wav");
+	GetSceneResource()->LoadSound("Effect", "go", false, "go.wav");
 
+	GetSceneResource()->SoundStop("song_youwillneverknow");
 
 
 	GetCamera()->SetResolution(1280.f, 720.f);
@@ -252,9 +257,11 @@ void CStage_2::Update(float DeltaTime)
 {
 	CScene::Update(DeltaTime);
 
-	if (m_BgmOn == true)
+	if (g_2BgmOn == false && 
+		m_BgmOn == true)
 	{
 		m_BgmOn = !m_BgmOn;
+		g_2BgmOn = true;
 
 		GetSceneResource()->SoundPlay("bgm_bunker");
 	}
@@ -279,8 +286,9 @@ void CStage_2::Update(float DeltaTime)
 	if (true == CInput::GetInst()->IsDown('R'))
 	{
 		SetCameraShakeOn(true);
-		GetSceneResource()->SoundStop("bgm_bunker");
+		//GetSceneResource()->SoundStop("bgm_bunker");
 
+		GetSceneResource()->SoundPlay("go");
 
 		CInput::GetInst()->ClearCallback();
 		CSceneManager::GetInst()->CreateScene<CStage_2>();

@@ -536,7 +536,7 @@ void CPomp::RunUpdate()
 		ChangeAnimation(m_AnimationName + m_ChangeDirText);
 		SetSpeed(340.f);
 
-
+		
 		// 플레이어를 쫓아가도록 좌우 방향 조정
 		if (m_Scene->GetPlayer()->GetPos().x >= m_Pos.x)
 			SetDir(ObjDir::Right);

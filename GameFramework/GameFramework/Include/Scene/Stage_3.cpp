@@ -20,6 +20,8 @@
 #include "../Resource/ResourceManager.h"
 #include "../Resource/Animation/AnimationManager.h"
 
+bool g_3BgmOn = false;
+
 CStage_3::CStage_3() :
 	Back(nullptr)
 {
@@ -56,7 +58,11 @@ bool CStage_3::Init()
 	GetSceneResource()->LoadSound("Effect", "reflect", false, "reflect.wav");
 	GetSceneResource()->LoadSound("Effect", "walljump", false, "walljump.wav");
 	GetSceneResource()->LoadSound("Effect", "grabwall", false, "grabwall.wav");
+	GetSceneResource()->LoadSound("Effect", "dead", false, "dead.wav");
+	GetSceneResource()->LoadSound("Effect", "go", false, "go.wav");
 
+	GetSceneResource()->SoundStop("song_youwillneverknow");
+	GetSceneResource()->SoundStop("bgm_bunker");
 
 
 	GetCamera()->SetResolution(1280.f, 720.f);
@@ -122,6 +128,16 @@ bool CStage_3::Init()
 		NewGrunt->SetState(ObjState::Idle);
 		NewGrunt->SetMapTexture("stage3_bg_collision", TEXT("stage3_bg_collision.bmp"), "MapPath");
 
+		NewGrunt = CreateObject<CGrunt>("Grunt");	// 謝 1類
+		NewGrunt->SetPos({ 3110, 771 });
+		NewGrunt->SetDir(ObjDir::Right);
+		NewGrunt->SetState(ObjState::Walk);
+		NewGrunt->SetPatrol(true);
+		NewGrunt->SetPatrolTime(3.f);
+		NewGrunt->SetMapTexture("stage3_bg_collision", TEXT("stage3_bg_collision.bmp"), "MapPath");
+
+
+
 
 		// 偵蝶攪
 		CGangster* NewGangster = CreateObject<CGangster>("Gangster");	// 謝 2類 辦難部
@@ -143,7 +159,7 @@ bool CStage_3::Init()
 		NewGangster->SetPatrol(true);
 		NewGangster->SetPatrolTime(3.f);
 		NewGangster->SetMapTexture("stage3_bg_collision", TEXT("stage3_bg_collision.bmp"), "MapPath");
-
+		
 		NewGangster = CreateObject<CGangster>("Gangster");	// 醞懈 薑雞
 		NewGangster->SetPos({ 3567, 515.f });
 		NewGangster->SetDir(ObjDir::Left);
@@ -164,7 +180,19 @@ bool CStage_3::Init()
 		NewGangster->SetState(ObjState::Idle);
 		NewGangster->SetMapTexture("stage3_bg_collision", TEXT("stage3_bg_collision.bmp"), "MapPath");
 
+		NewGangster = CreateObject<CGangster>("Gangster");	// 辦 1類 辦難 部
+		NewGangster->SetPos({ 4000, 771.f });
+		NewGangster->SetDir(ObjDir::Left);
+		NewGangster->SetState(ObjState::Idle);
+		NewGangster->SetMapTexture("stage3_bg_collision", TEXT("stage3_bg_collision.bmp"), "MapPath");
 
+		NewGangster = CreateObject<CGangster>("Gangster");	// 辦 1類
+		NewGangster->SetPos({ 3425, 771 });
+		NewGangster->SetDir(ObjDir::Left);
+		NewGangster->SetState(ObjState::Idle);
+		NewGangster->SetMapTexture("stage3_bg_collision", TEXT("stage3_bg_collision.bmp"), "MapPath");
+
+		
 		// イЩ
 		CPomp* NewPomp = CreateObject<CPomp>("Pomp");	// 謝 2類
 		NewPomp->SetPos({ 1420, 387.f });
@@ -188,7 +216,21 @@ bool CStage_3::Init()
 		NewPomp->SetPatrol(true);
 		NewPomp->SetMapTexture("stage3_bg_collision", TEXT("stage3_bg_collision.bmp"), "MapPath");
 
+		NewPomp = CreateObject<CPomp>("Pomp");	// 辦 1類 醞懈
+		NewPomp->SetPos({ 3645, 771.f });
+		NewPomp->SetDir(ObjDir::Right);
+		NewPomp->SetState(ObjState::Idle);
+		NewPomp->SetPatrol(false);
+		NewPomp->SetMapTexture("stage3_bg_collision", TEXT("stage3_bg_collision.bmp"), "MapPath");
 
+		NewPomp = CreateObject<CPomp>("Pomp");	// 辦 1類 醞懈
+		NewPomp->SetPos({ 3710, 771.f });
+		NewPomp->SetDir(ObjDir::Left);
+		NewPomp->SetState(ObjState::Idle);
+		NewPomp->SetPatrol(false);
+		NewPomp->SetMapTexture("stage3_bg_collision", TEXT("stage3_bg_collision.bmp"), "MapPath");
+
+		// 2848 546 檜漸お 
 	}
 
 
@@ -205,9 +247,11 @@ void CStage_3::Update(float DeltaTime)
 {
 	CScene::Update(DeltaTime);
 
-	if (m_BgmOn == true)
+	if (g_3BgmOn == false &&
+		m_BgmOn == true)
 	{
 		m_BgmOn = !m_BgmOn;
+		g_3BgmOn = true;
 
 		GetSceneResource()->SoundPlay("song_sneaky_driver");
 	}
@@ -221,8 +265,9 @@ void CStage_3::Update(float DeltaTime)
 	if (true == CInput::GetInst()->IsDown('R'))
 	{
 		SetCameraShakeOn(true);
-		GetSceneResource()->SoundStop("song_sneaky_driver");
+		//GetSceneResource()->SoundStop("song_sneaky_driver");
 
+		GetSceneResource()->SoundPlay("go");
 
 		CInput::GetInst()->ClearCallback();
 		CSceneManager::GetInst()->CreateScene<CStage_3>();

@@ -934,8 +934,8 @@ void CPlayer::JumpUpdate()
 
 	// °ËÀº ¶¥¿¡ ´êÁö¾Ê°í º®¿¡ ºÎµúÈú°æ¿ì wallgrab
 	int Color = m_MapColTexture->GetImagePixel(m_Pos + Vector2{ 0,1 });
-	int LCColor = m_MapColTexture->GetImagePixel(m_Pos + Vector2{ -19,-35 });
-	int RCColor = m_MapColTexture->GetImagePixel(m_Pos + Vector2{ 19,-35 });
+	int LCColor = m_MapColTexture->GetImagePixel(m_Pos + Vector2{ -20,-35 });
+	int RCColor = m_MapColTexture->GetImagePixel(m_Pos + Vector2{ 20,-35 });
 
 	if (Color != RGB(0, 0, 0))
 	{
@@ -1072,8 +1072,8 @@ void CPlayer::FallUpdate()
 {
 	// °ËÀº ¶¥¿¡ ´êÁö¾Ê°í º®¿¡ ºÎµúÈú°æ¿ì wallgrab
 	int Color = m_MapColTexture->GetImagePixel(m_Pos + Vector2{ 0,1 });
-	int LCColor = m_MapColTexture->GetImagePixel(m_Pos + Vector2{ -19,-35 });
-	int RCColor = m_MapColTexture->GetImagePixel(m_Pos + Vector2{ 19,-35 });
+	int LCColor = m_MapColTexture->GetImagePixel(m_Pos + Vector2{ -20,-35 });
+	int RCColor = m_MapColTexture->GetImagePixel(m_Pos + Vector2{ 20,-35 });
 
 	if (Color != RGB(0, 0, 0))
 	{
@@ -1352,8 +1352,8 @@ void CPlayer::WallGrabUpdate()
 
 	// ¶¥¿¡ ´êÁö¾Ê°í º®¿¡ ¾ÈºÎµúÈú°æ¿ì Fall
 	int Color = m_MapColTexture->GetImagePixel(m_Pos + Vector2{ 0,1 });
-	int LCColor = m_MapColTexture->GetImagePixel(m_Pos + Vector2{ -19,-35 });
-	int RCColor = m_MapColTexture->GetImagePixel(m_Pos + Vector2{ 19,-35 });
+	int LCColor = m_MapColTexture->GetImagePixel(m_Pos + Vector2{ -20,-35 });
+	int RCColor = m_MapColTexture->GetImagePixel(m_Pos + Vector2{ 20,-35 });
 
 	if (Color != RGB(0, 0, 0))
 	{
@@ -1386,8 +1386,8 @@ void CPlayer::FlipUpdate()
 
 	// °ËÀº ¶¥¿¡ ´êÁö¾Ê°í º®¿¡ ºÎµúÈú°æ¿ì Flip
 	int Color = m_MapColTexture->GetImagePixel(m_Pos + Vector2{ 0,1 });
-	int LCColor = m_MapColTexture->GetImagePixel(m_Pos + Vector2{ -19,-35 });
-	int RCColor = m_MapColTexture->GetImagePixel(m_Pos + Vector2{ 19,-35 });
+	int LCColor = m_MapColTexture->GetImagePixel(m_Pos + Vector2{ -20,-35 });
+	int RCColor = m_MapColTexture->GetImagePixel(m_Pos + Vector2{ 20,-35 });
 
 	if (m_StateTime[(int)PlayerState::Flip] >= 0.1f)
 	{
@@ -1646,7 +1646,8 @@ void CPlayer::HurtFlyLoopStart()
 	// È÷Æ®½Ã È­¸é Èçµé¸²
 	m_Scene->SetCameraShakeOn(true);
 
-	
+	// »ç¸Á ¼Ò¸®
+	m_Scene->GetSceneResource()->SoundPlay("dead");
 
 }
 
@@ -1694,12 +1695,12 @@ void CPlayer::FlipStart()
 	m_AnimationName = "spr_player_flip_";
 	if (m_CurDir == PlayerDir::Left)
 	{
-		SetPos(m_Pos + Vector2{ -2.f, 0.f });
+		SetPos(m_Pos + Vector2{ -3.f, 0.f });
 		m_ChangeDirText = "left";
 	}
 	else if (m_CurDir == PlayerDir::Right)
 	{
-		SetPos(m_Pos + Vector2{ 2.f, 0.f });
+		SetPos(m_Pos + Vector2{ 3.f, 0.f });
 		m_ChangeDirText = "right";
 	}
 
