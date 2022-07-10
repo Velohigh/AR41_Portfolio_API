@@ -161,7 +161,8 @@ void CGrunt::ViewCollisionBegin(CCollider* Src, CCollider* Dest)
 
 			if (Dest->GetOwner()->GetState() == ObjState::Dead || 
 				Dest->GetOwner()->GetState() == ObjState::HurtFly ||
-				Dest->GetOwner()->GetState() == ObjState::HurtGround)
+				Dest->GetOwner()->GetState() == ObjState::HurtGround ||
+				Dest->GetOwner()->GetState() == ObjState::KnockDown)
 				StateChange(ObjState::Run);
 		}
 	}

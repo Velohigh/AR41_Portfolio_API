@@ -5,6 +5,7 @@
 #include "../GameObject/BackObj.h"
 #include "SceneResource.h"
 #include "Camera.h"
+#include "../Resource/Texture/Texture.h"
 #include "../Input.h"
 #include "../Widget/StartWindow.h"
 #include "../Resource/ResourceManager.h"

@@ -1,9 +1,11 @@
 
 #include "Stage_2.h"
+#include "Stage_1.h"
 #include "../GameObject/Player.h"
 #include "../GameObject/Monster.h"
 #include "../GameObject/BackObj.h"
 #include "SceneResource.h"
+#include "SceneManager.h"
 #include "Camera.h"
 #include "../Input.h"
 #include "../Widget/CharacterHUD.h"
@@ -11,6 +13,7 @@
 #include "../Resource/ResourceManager.h"
 #include "../GameObject/Grunt.h"
 #include "../GameObject/Gangster.h"
+#include "../GameObject/Pomp.h"
 #include "../GameObject/Cursor.h"
 #include "../Resource/Texture/Texture.h"
 #include "../GameObject/Effect.h"
@@ -51,6 +54,8 @@ bool CStage_2::Init()
 	GetSceneResource()->LoadSound("Effect", "death_sword2", false, "death_sword2.wav");
 	GetSceneResource()->LoadSound("Effect", "swordcrash", false, "swordcrash.wav");
 	GetSceneResource()->LoadSound("Effect", "reflect", false, "reflect.wav");
+	GetSceneResource()->LoadSound("Effect", "walljump", false, "walljump.wav");
+	GetSceneResource()->LoadSound("Effect", "grabwall", false, "grabwall.wav");
 
 
 
@@ -80,17 +85,7 @@ bool CStage_2::Init()
 
 
 	{
-		// 斜楛お
-		CGrunt* NewGrunt = CreateObject<CGrunt>("Grunt");	// 10類
-		NewGrunt->SetPos({ 550.f, 415.f });
-		NewGrunt->SetDir(ObjDir::Right);
-		NewGrunt->SetState(ObjState::Walk);
-		NewGrunt->SetPatrol(true);
-		NewGrunt->SetPatrolTime(3.f);
-		NewGrunt->SetMapTexture("stage2_bg_collision", TEXT("stage2_bg_collision.bmp"), "MapPath");
-
-
-		NewGrunt = CreateObject<CGrunt>("Grunt");	// 8類 牖雞
+		CGrunt* NewGrunt = CreateObject<CGrunt>("Grunt");	// 8類 牖雞
 		NewGrunt->SetPos({ 642, 863.f });
 		NewGrunt->SetDir(ObjDir::Right);
 		NewGrunt->SetState(ObjState::Walk);
@@ -121,9 +116,8 @@ bool CStage_2::Init()
 		NewGrunt->SetPatrolTime(3.f);
 		NewGrunt->SetMapTexture("stage2_bg_collision", TEXT("stage2_bg_collision.bmp"), "MapPath");
 
-
-		NewGrunt = CreateObject<CGrunt>("Grunt");	// 2類 Idle
-		NewGrunt->SetPos({ 630, 2207 });
+		NewGrunt = CreateObject<CGrunt>("Grunt");	// 3類 部
+		NewGrunt->SetPos({ 1220, 1983 });
 		NewGrunt->SetDir(ObjDir::Left);
 		NewGrunt->SetState(ObjState::Idle);
 		NewGrunt->SetMapTexture("stage2_bg_collision", TEXT("stage2_bg_collision.bmp"), "MapPath");
@@ -136,12 +130,6 @@ bool CStage_2::Init()
 		NewGrunt->SetPatrolTime(5.f);
 		NewGrunt->SetMapTexture("stage2_bg_collision", TEXT("stage2_bg_collision.bmp"), "MapPath");
 
-
-		NewGrunt = CreateObject<CGrunt>("Grunt");	// 1類 Idle
-		NewGrunt->SetPos({ 1638, 2943 });
-		NewGrunt->SetDir(ObjDir::Right);
-		NewGrunt->SetState(ObjState::Idle);
-		NewGrunt->SetMapTexture("stage2_bg_collision", TEXT("stage2_bg_collision.bmp"), "MapPath");
 
 		NewGrunt = CreateObject<CGrunt>("Grunt");	// 1類 Idle
 		NewGrunt->SetPos({ 1741, 2943 });
@@ -196,11 +184,11 @@ bool CStage_2::Init()
 		NewGangster->SetMapTexture("stage2_bg_collision", TEXT("stage2_bg_collision.bmp"), "MapPath");
 
 
-		NewGangster = CreateObject<CGangster>("Gangster");	// 3類 部
-		NewGangster->SetPos({ 1220, 1983 });
-		NewGangster->SetDir(ObjDir::Left);
-		NewGangster->SetState(ObjState::Idle);
-		NewGangster->SetMapTexture("stage2_bg_collision", TEXT("stage2_bg_collision.bmp"), "MapPath");
+		//NewGangster = CreateObject<CGangster>("Gangster");	// 3類 部
+		//NewGangster->SetPos({ 1220, 1983 });
+		//NewGangster->SetDir(ObjDir::Left);
+		//NewGangster->SetState(ObjState::Idle);
+		//NewGangster->SetMapTexture("stage2_bg_collision", TEXT("stage2_bg_collision.bmp"), "MapPath");
 
 
 		NewGangster = CreateObject<CGangster>("Gangster");	// 2類 部
@@ -210,10 +198,40 @@ bool CStage_2::Init()
 		NewGangster->SetMapTexture("stage2_bg_collision", TEXT("stage2_bg_collision.bmp"), "MapPath");
 
 		NewGangster = CreateObject<CGangster>("Gangster");	// 1類 部
-		NewGangster->SetPos({ 2000, 2943 });
+		NewGangster->SetPos({ 1900, 2943 });
 		NewGangster->SetDir(ObjDir::Left);
 		NewGangster->SetState(ObjState::Idle);
 		NewGangster->SetMapTexture("stage2_bg_collision", TEXT("stage2_bg_collision.bmp"), "MapPath");
+
+
+		// イЩ
+		CPomp* NewPomp = CreateObject<CPomp>("Pomp");	// 10類
+		NewPomp->SetPos({ 550.f, 415.f });
+		NewPomp->SetDir(ObjDir::Right);
+		NewPomp->SetState(ObjState::Walk);
+		NewPomp->SetPatrol(true);
+		NewPomp->SetPatrolTime(3.f);
+		NewPomp->SetMapTexture("stage2_bg_collision", TEXT("stage2_bg_collision.bmp"), "MapPath");
+
+		NewPomp = CreateObject<CPomp>("Pomp");	// 3類
+		NewPomp->SetPos({ 1120, 1983 });
+		NewPomp->SetDir(ObjDir::Left);
+		NewPomp->SetState(ObjState::Idle);
+		NewPomp->SetMapTexture("stage2_bg_collision", TEXT("stage2_bg_collision.bmp"), "MapPath");
+
+
+		NewPomp = CreateObject<CPomp>("Pomp");	// 2類 Idle
+		NewPomp->SetPos({ 630, 2207 });
+		NewPomp->SetDir(ObjDir::Left);
+		NewPomp->SetState(ObjState::Idle);
+		NewPomp->SetMapTexture("stage2_bg_collision", TEXT("stage2_bg_collision.bmp"), "MapPath");
+
+
+		NewPomp = CreateObject<CPomp>("Pomp");	// 1類 Idle
+		NewPomp->SetPos({ 1638, 2943 });
+		NewPomp->SetDir(ObjDir::Left);
+		NewPomp->SetState(ObjState::Idle);
+		NewPomp->SetMapTexture("stage2_bg_collision", TEXT("stage2_bg_collision.bmp"), "MapPath");
 
 
 	}
@@ -222,6 +240,8 @@ bool CStage_2::Init()
 	CreateWidgetWindow<CCharacterHUD>("CharacterHUD");
 
 	m_BgmOn = true;
+
+	SetCameraShakeOn(true);
 
 	return true;
 }
@@ -236,6 +256,24 @@ void CStage_2::Update(float DeltaTime)
 
 		GetSceneResource()->SoundPlay("bgm_bunker");
 	}
+
+	//if (true == CInput::GetInst()->IsDown('1'))
+	//{
+	//	CInput::GetInst()->ClearCallback();
+	//	CSceneManager::GetInst()->CreateScene<CStage_1>();
+	//}
+
+	if (true == CInput::GetInst()->IsDown('R'))
+	{
+		SetCameraShakeOn(true);
+		GetSceneResource()->SoundStop("bgm_bunker");
+
+
+		CInput::GetInst()->ClearCallback();
+		CSceneManager::GetInst()->CreateScene<CStage_2>();
+	}
+
+
 
 }
 

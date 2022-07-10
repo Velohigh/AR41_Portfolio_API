@@ -165,7 +165,8 @@ void CPomp::ViewCollisionBegin(CCollider* Src, CCollider* Dest)
 
 			if (Dest->GetOwner()->GetState() == ObjState::Dead ||
 				Dest->GetOwner()->GetState() == ObjState::HurtFly ||
-				Dest->GetOwner()->GetState() == ObjState::HurtGround)
+				Dest->GetOwner()->GetState() == ObjState::HurtGround ||
+				Dest->GetOwner()->GetState() == ObjState::KnockDown)
 				StateChange(ObjState::Run);
 		}
 	}
@@ -393,7 +394,7 @@ void CPomp::KnockDownStart()
 
 	m_Scene->GetSceneResource()->SoundPlay("swordcrash");
 
-	m_MoveDir = g_AttackDir;
+	m_MoveDir = Vector2{ g_AttackDir.x, 0.f };
 
 	SetSpeed(400.f);
 
@@ -566,12 +567,51 @@ void CPomp::RunUpdate()
 
 	}
 
-	// 플레이어 공격에 맞으면 사망
+	// 플레이어 공격에 맞으면 넉다운 상태로
 	CCollider* PlayerAttack = m_Scene->GetPlayer()->FindCollider("PlayerAttack");
 	if (true == FindCollider("Body")->CheckCollisionList(PlayerAttack))
 	{
-		StateChange(ObjState::HurtFly);
-		return;
+		// 플레이어와 정면으로 공격이 부딪히면 넉백
+		if (m_CurDir == ObjDir::Left &&
+			g_AttackDir.x > 0.f)
+		{
+			if (m_AttackCollider != nullptr)
+			{
+				m_AttackCollider->SetActive(false);
+				m_AttackCollider = nullptr;
+			}
+
+			StateChange(ObjState::KnockDown);
+			return;
+		}
+
+		else if (m_CurDir == ObjDir::Right &&
+			g_AttackDir.x <= 0.f)
+		{
+			if (m_AttackCollider != nullptr)
+			{
+				m_AttackCollider->SetActive(false);
+				m_AttackCollider = nullptr;
+			}
+
+			StateChange(ObjState::KnockDown);
+			return;
+		}
+
+		// 플레이어가 자신의 후방에서 공격하면 사망
+		else
+		{
+			if (m_AttackCollider != nullptr)
+			{
+				m_AttackCollider->SetActive(false);
+				m_AttackCollider = nullptr;
+			}
+
+			StateChange(ObjState::HurtFly);
+			return;
+
+		}
+
 	}
 
 
@@ -593,14 +633,47 @@ void CPomp::AttackUpdate()
 	CCollider* PlayerAttack = m_Scene->GetPlayer()->FindCollider("PlayerAttack");
 	if (true == FindCollider("Body")->CheckCollisionList(PlayerAttack))
 	{
-		if (m_AttackCollider != nullptr)
+		// 플레이어와 정면으로 공격이 부딪히면 넉백
+		if (m_CurDir == ObjDir::Left &&
+			g_AttackDir.x > 0.f)
 		{
-			m_AttackCollider->SetActive(false);
-			m_AttackCollider = nullptr;
+			if (m_AttackCollider != nullptr)
+			{
+				m_AttackCollider->SetActive(false);
+				m_AttackCollider = nullptr;
+			}
+
+			StateChange(ObjState::KnockDown);
+			return;
 		}
 
-		StateChange(ObjState::KnockDown);
-		return;
+		else if (m_CurDir == ObjDir::Right &&
+			g_AttackDir.x <= 0.f)
+		{
+			if (m_AttackCollider != nullptr)
+			{
+				m_AttackCollider->SetActive(false);
+				m_AttackCollider = nullptr;
+			}
+
+			StateChange(ObjState::KnockDown);
+			return;
+		}
+
+		// 플레이어가 자신의 후방에서 공격하면 사망
+		else
+		{
+			if (m_AttackCollider != nullptr)
+			{
+				m_AttackCollider->SetActive(false);
+				m_AttackCollider = nullptr;
+			}
+
+			StateChange(ObjState::HurtFly);
+			return;
+
+		}
+
 	}
 
 	// 공격 모션이 끝나면 다시 Run 상태로

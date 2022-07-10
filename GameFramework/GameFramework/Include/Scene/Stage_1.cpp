@@ -18,6 +18,8 @@
 #include "../Resource/Texture/Texture.h"
 #include "../GameObject/Effect.h"
 
+int g_playsong = 0;
+
 CStage_1::CStage_1()	:
 	Back(nullptr)
 {
@@ -30,14 +32,16 @@ CStage_1::~CStage_1()
 bool CStage_1::Init()
 {
 	CScene::Init();
-
-	CreateAnimationSequencePlayer();
-	CreateAnimationSequencePlayer2();
-	CreateAnimationSequenceGrunt();
-	CreateAnimationSequenceGangster();
-	CreateAnimationSequencePomp();
-	CreateAnimationSequenceEffect_Frame();
-	CreateAnimationSequenceEffect_Sprite();
+	if (g_playsong == 0)
+	{
+		CreateAnimationSequencePlayer();
+		CreateAnimationSequencePlayer2();
+		CreateAnimationSequenceGrunt();
+		CreateAnimationSequenceGangster();
+		CreateAnimationSequencePomp();
+		CreateAnimationSequenceEffect_Frame();
+		CreateAnimationSequenceEffect_Sprite();
+	}
 
 	GetSceneResource()->LoadSound("BGM", "song_youwillneverknow", true, "song_youwillneverknow.ogg");
 	GetSceneResource()->LoadSound("Effect", "sound_enemy_bloodsplat1", false, "sound_enemy_bloodsplat1.wav");
@@ -53,6 +57,8 @@ bool CStage_1::Init()
 	GetSceneResource()->LoadSound("Effect", "death_sword2", false, "death_sword2.wav");
 	GetSceneResource()->LoadSound("Effect", "swordcrash", false, "swordcrash.wav");
 	GetSceneResource()->LoadSound("Effect", "reflect", false, "reflect.wav");
+	GetSceneResource()->LoadSound("Effect", "walljump", false, "walljump.wav");
+	GetSceneResource()->LoadSound("Effect", "grabwall", false, "grabwall.wav");
 
 
 	GetCamera()->SetResolution(1280.f, 720.f);
@@ -73,8 +79,17 @@ bool CStage_1::Init()
 	// 플레이어
 	CPlayer* Player = CreateObject<CPlayer>("Player");
 	Player->SetPos({ 230.f, 671.f });
-	Player->StateChange(PlayerState::PlaySong);
 
+	if (g_playsong == 0)
+	{
+		Player->StateChange(PlayerState::PlaySong);
+		g_playsong++;
+	}
+	else
+	{
+		Player->StateChange(PlayerState::Idle);
+		SetBgmOn(true);
+	}
 	SetPlayer(Player);
 	GetCamera()->SetTarget(Player);
 
@@ -158,6 +173,17 @@ void CStage_1::Update(float DeltaTime)
 		CInput::GetInst()->ClearCallback();
 		CSceneManager::GetInst()->CreateScene<CStage_2>();
 	}
+
+	if (true == CInput::GetInst()->IsDown('R'))
+	{
+		SetCameraShakeOn(true);
+		GetSceneResource()->SoundStop("song_youwillneverknow");
+
+
+		CInput::GetInst()->ClearCallback();
+		CSceneManager::GetInst()->CreateScene<CStage_1>();
+	}
+
 }
 
 void CStage_1::SetSlowMap()
