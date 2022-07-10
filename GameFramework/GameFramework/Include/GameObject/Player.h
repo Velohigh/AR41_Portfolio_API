@@ -29,12 +29,14 @@ enum class PlayerState
 	END
 };
 
+
 class CPlayer :
     public CCharacter
 {
 	friend class CScene;
 	friend class CStage_1;
 	friend class CStage_2;
+	friend class CStage_3;
 
 protected:
 	CPlayer();

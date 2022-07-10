@@ -1,6 +1,7 @@
 
 #include "Stage_1.h"
 #include "Stage_2.h"
+#include "Stage_3.h"
 #include "../GameObject/Player.h"
 #include "../GameObject/Monster.h"
 #include "../GameObject/BackObj.h"
@@ -34,11 +35,20 @@ bool CStage_1::Init()
 	CScene::Init();
 	if (g_playsong == 0)
 	{
+		CreateAnimationSequencePlayer_AddFrame();
+		CreateAnimationSequencePlayer2_AddFrame();
+		CreateAnimationSequenceGrunt_AddFrame();
+		CreateAnimationSequenceGangster_AddFrame();
+		CreateAnimationSequencePomp_AddFrame();
+		CreateAnimationSequenceEffect_Frame_AddFrame();
+		CreateAnimationSequenceEffect_Sprite_AddFrame();
+	}
+	else
+	{
 		CreateAnimationSequencePlayer();
 		CreateAnimationSequencePlayer2();
 		CreateAnimationSequenceGrunt();
 		CreateAnimationSequenceGangster();
-		CreateAnimationSequencePomp();
 		CreateAnimationSequenceEffect_Frame();
 		CreateAnimationSequenceEffect_Sprite();
 	}
@@ -168,11 +178,20 @@ void CStage_1::Update(float DeltaTime)
 		CSceneManager::GetInst()->CreateScene<CStage_2>();
 	}
 
+	// 스테이지 2 이동
 	if (true == CInput::GetInst()->IsDown('2'))
 	{
 		CInput::GetInst()->ClearCallback();
 		CSceneManager::GetInst()->CreateScene<CStage_2>();
 	}
+
+	// 스테이지 3 이동
+	if (true == CInput::GetInst()->IsDown('3'))
+	{
+		CInput::GetInst()->ClearCallback();
+		CSceneManager::GetInst()->CreateScene<CStage_3>();
+	}
+
 
 	if (true == CInput::GetInst()->IsDown('R'))
 	{
@@ -196,7 +215,7 @@ void CStage_1::SetNormalMap()
 	Back->SetTexture("room_factory_2", TEXT("room_factory_2.bmp"), "MapPath");
 }
 
-void CStage_1::CreateAnimationSequencePlayer()
+void CStage_1::CreateAnimationSequencePlayer_AddFrame()
 {
 	// Idle_Left
 	{
@@ -834,7 +853,7 @@ void CStage_1::CreateAnimationSequencePlayer()
 
 }
 
-void CStage_1::CreateAnimationSequencePlayer2()
+void CStage_1::CreateAnimationSequencePlayer2_AddFrame()
 {
 	// spr_wallgrab_left
 	{
@@ -950,7 +969,7 @@ void CStage_1::CreateAnimationSequencePlayer2()
 
 }
 
-void CStage_1::CreateAnimationSequenceGrunt()
+void CStage_1::CreateAnimationSequenceGrunt_AddFrame()
 {
 	// ## Grunt Animation ##
 	// Grunt Idle_Left
@@ -1291,7 +1310,7 @@ void CStage_1::CreateAnimationSequenceGrunt()
 
 }
 
-void CStage_1::CreateAnimationSequenceGangster()
+void CStage_1::CreateAnimationSequenceGangster_AddFrame()
 {
 	// #### Gangster Animation ####
 // Gangster Idle_Left
@@ -1694,7 +1713,7 @@ void CStage_1::CreateAnimationSequenceGangster()
 
 }
 
-void CStage_1::CreateAnimationSequencePomp()
+void CStage_1::CreateAnimationSequencePomp_AddFrame()
 {
 	// spr_pomp_attack_left
 	{
@@ -2158,7 +2177,7 @@ void CStage_1::CreateAnimationSequencePomp()
 
 }
 
-void CStage_1::CreateAnimationSequenceEffect_Frame()
+void CStage_1::CreateAnimationSequenceEffect_Frame_AddFrame()
 {
 
 	// #################### EFFECT ####################
@@ -2263,7 +2282,7 @@ void CStage_1::CreateAnimationSequenceEffect_Frame()
 
 }
 
-void CStage_1::CreateAnimationSequenceEffect_Sprite()
+void CStage_1::CreateAnimationSequenceEffect_Sprite_AddFrame()
 {
 	// ## EFFECT
 	// BloodAnimation_Left 한장짜리 이미지 방식
@@ -2359,4 +2378,422 @@ void CStage_1::CreateAnimationSequenceEffect_Sprite()
 
 
 }
+
+
+
+void CStage_1::CreateAnimationSequencePlayer()
+{
+	// Idle_Left
+	CResourceManager::GetInst()->CreateAnimationSequence("spr_idle_left",
+		"spr_idle_left", nullptr, TEXTURE_PATH);
+
+	// Idle_Right
+	CResourceManager::GetInst()->CreateAnimationSequence("spr_idle_right",
+		"spr_idle_right", nullptr, TEXTURE_PATH);
+
+	// Idle_to_Run_Left
+	CResourceManager::GetInst()->CreateAnimationSequence("spr_idle_to_run_left",
+		"spr_idle_to_run_left", nullptr, TEXTURE_PATH);
+
+
+	// Idle_to_Run_Right
+	CResourceManager::GetInst()->CreateAnimationSequence("spr_idle_to_run_right",
+		"spr_idle_to_run_right", nullptr, TEXTURE_PATH);
+
+
+	// Run_Left
+	CResourceManager::GetInst()->CreateAnimationSequence("spr_run_left",
+		"spr_run_left", nullptr, TEXTURE_PATH);
+
+	// Run_Right
+	CResourceManager::GetInst()->CreateAnimationSequence("spr_run_right",
+		"spr_run_right", nullptr, TEXTURE_PATH);
+
+	// Run_To_Idle_Left
+	CResourceManager::GetInst()->CreateAnimationSequence("spr_run_to_idle_left",
+		"spr_run_to_idle_left", nullptr, TEXTURE_PATH);
+
+	// Run_To_Idle_Right
+	CResourceManager::GetInst()->CreateAnimationSequence("spr_run_to_idle_right",
+		"spr_run_to_idle_right", nullptr, TEXTURE_PATH);
+
+	// spr_jump_left
+	CResourceManager::GetInst()->CreateAnimationSequence("spr_jump_left",
+		"spr_jump_left", nullptr, TEXTURE_PATH);
+
+	// spr_jump_right
+	CResourceManager::GetInst()->CreateAnimationSequence("spr_jump_right",
+		"spr_jump_right", nullptr, TEXTURE_PATH);
+
+
+	// spr_fall_left
+	CResourceManager::GetInst()->CreateAnimationSequence("spr_fall_left",
+		"spr_fall_left", nullptr, TEXTURE_PATH);
+
+	// spr_fall_right
+	CResourceManager::GetInst()->CreateAnimationSequence("spr_fall_right",
+		"spr_fall_right", nullptr, TEXTURE_PATH);
+
+	// spr_attack_left
+	CResourceManager::GetInst()->CreateAnimationSequence("spr_attack_left",
+		"spr_attack_left", nullptr, TEXTURE_PATH);
+
+	// spr_attack_right
+	CResourceManager::GetInst()->CreateAnimationSequence("spr_attack_right",
+		"spr_attack_right", nullptr, TEXTURE_PATH);
+
+	// spr_landing_left
+	CResourceManager::GetInst()->CreateAnimationSequence("spr_landing_left",
+		"spr_landing_left", nullptr, TEXTURE_PATH);
+
+	// spr_landing_right
+	CResourceManager::GetInst()->CreateAnimationSequence("spr_landing_right",
+		"spr_landing_right", nullptr, TEXTURE_PATH);
+
+	// spr_roll_left
+	CResourceManager::GetInst()->CreateAnimationSequence("spr_roll_left",
+		"spr_roll_left", nullptr, TEXTURE_PATH);
+
+	// spr_roll_right
+	CResourceManager::GetInst()->CreateAnimationSequence("spr_roll_right",
+		"spr_roll_right", nullptr, TEXTURE_PATH);
+
+
+	// spr_player_playsong
+	CResourceManager::GetInst()->CreateAnimationSequence("spr_player_playsong",
+		"spr_player_playsong", nullptr, TEXTURE_PATH);
+
+	// spr_hurtfly_begin_left
+	CResourceManager::GetInst()->CreateAnimationSequence("spr_hurtfly_begin_left",
+		"spr_hurtfly_begin_left", nullptr, TEXTURE_PATH);
+
+	// spr_hurtfly_begin_right
+	CResourceManager::GetInst()->CreateAnimationSequence("spr_hurtfly_begin_right",
+		"spr_hurtfly_begin_right", nullptr, TEXTURE_PATH);
+
+
+	// spr_hurtfly_loop_left
+	CResourceManager::GetInst()->CreateAnimationSequence("spr_hurtfly_loop_left",
+		"spr_hurtfly_loop_left", nullptr, TEXTURE_PATH);
+
+
+	// spr_hurtfly_loop_right
+	CResourceManager::GetInst()->CreateAnimationSequence("spr_hurtfly_loop_right",
+		"spr_hurtfly_loop_right", nullptr, TEXTURE_PATH);
+
+
+	// spr_hurtground_left
+	CResourceManager::GetInst()->CreateAnimationSequence("spr_hurtground_left",
+		"spr_hurtground_left", nullptr, TEXTURE_PATH);
+
+	// spr_hurtground_right
+	CResourceManager::GetInst()->CreateAnimationSequence("spr_hurtground_right",
+		"spr_hurtground_right", nullptr, TEXTURE_PATH);
+
+
+
+}
+
+void CStage_1::CreateAnimationSequencePlayer2()
+{
+	// spr_wallgrab_left
+	CResourceManager::GetInst()->CreateAnimationSequence("spr_wallgrab_left",
+		"spr_wallgrab_left", nullptr, TEXTURE_PATH);
+
+	// spr_wallgrab_right
+	CResourceManager::GetInst()->CreateAnimationSequence("spr_wallgrab_right",
+		"spr_wallgrab_right", nullptr, TEXTURE_PATH);
+
+	// spr_player_flip_left
+	CResourceManager::GetInst()->CreateAnimationSequence("spr_player_flip_left",
+		"spr_player_flip_left", nullptr, TEXTURE_PATH);
+
+	// spr_player_flip_right
+	CResourceManager::GetInst()->CreateAnimationSequence("spr_player_flip_right",
+		"spr_player_flip_right", nullptr, TEXTURE_PATH);
+
+}
+
+void CStage_1::CreateAnimationSequenceGrunt()
+{
+	// ## Grunt Animation ##
+	// Grunt Idle_Left
+	CResourceManager::GetInst()->CreateAnimationSequence("spr_grunt_idle_left",
+		"spr_grunt_idle_left", nullptr, TEXTURE_PATH);
+
+	// Grunt Idle_Right
+	CResourceManager::GetInst()->CreateAnimationSequence("spr_grunt_idle_right",
+		"spr_grunt_idle_right", nullptr, TEXTURE_PATH);
+
+
+	// Grunt Run_Left
+	CResourceManager::GetInst()->CreateAnimationSequence("spr_grunt_run_left",
+		"spr_grunt_run_left", nullptr, TEXTURE_PATH);
+
+	// Grunt Run_Right
+	CResourceManager::GetInst()->CreateAnimationSequence("spr_grunt_run_right",
+		"spr_grunt_run_right", nullptr, TEXTURE_PATH);
+
+
+	// Grunt Turn_Left
+	CResourceManager::GetInst()->CreateAnimationSequence("spr_grunt_turn_left",
+		"spr_grunt_turn_left", nullptr, TEXTURE_PATH);
+
+
+	// Grunt Turn_Right
+	CResourceManager::GetInst()->CreateAnimationSequence("spr_grunt_turn_right",
+		"spr_grunt_turn_right", nullptr, TEXTURE_PATH);
+
+
+	// Grunt Walk_Left
+	CResourceManager::GetInst()->CreateAnimationSequence("spr_grunt_walk_left",
+		"spr_grunt_walk_left", nullptr, TEXTURE_PATH);
+
+
+	// Grunt Walk_Right
+	CResourceManager::GetInst()->CreateAnimationSequence("spr_grunt_walk_right",
+		"spr_grunt_walk_right", nullptr, TEXTURE_PATH);
+
+	// Grunt Attack_Left
+	CResourceManager::GetInst()->CreateAnimationSequence("spr_grunt_attack_left",
+		"spr_grunt_attack_left", nullptr, TEXTURE_PATH);
+
+
+	// Grunt Attack_Right
+	CResourceManager::GetInst()->CreateAnimationSequence("spr_grunt_attack_right",
+		"spr_grunt_attack_right", nullptr, TEXTURE_PATH);
+
+
+	// Grunt HurtFly_Left
+	CResourceManager::GetInst()->CreateAnimationSequence("spr_grunt_hurtfly_left",
+		"spr_grunt_hurtfly_left", nullptr, TEXTURE_PATH);
+
+
+	// Grunt HurtFly_Right
+	CResourceManager::GetInst()->CreateAnimationSequence("spr_grunt_hurtfly_right",
+		"spr_grunt_hurtfly_right", nullptr, TEXTURE_PATH);
+
+
+	// Grunt HurtGround_Left
+	CResourceManager::GetInst()->CreateAnimationSequence("spr_grunt_hurtground_left",
+		"spr_grunt_hurtground_left", nullptr, TEXTURE_PATH);
+
+
+	// Grunt HurtGround_Right
+	CResourceManager::GetInst()->CreateAnimationSequence("spr_grunt_hurtground_right",
+		"spr_grunt_hurtground_right", nullptr, TEXTURE_PATH);
+
+}
+
+void CStage_1::CreateAnimationSequenceGangster()
+{
+	// #### Gangster Animation ####
+	// Gangster Idle_Left
+	CResourceManager::GetInst()->CreateAnimationSequence("spr_gangster_idle_left",
+		"spr_gangster_idle_left", nullptr, TEXTURE_PATH);
+
+	// Gangster Idle_Right
+	CResourceManager::GetInst()->CreateAnimationSequence("spr_gangster_idle_right",
+		"spr_gangster_idle_right", nullptr, TEXTURE_PATH);
+
+	// Gangster spr_gangsteraim_left
+	CResourceManager::GetInst()->CreateAnimationSequence("spr_gangsteraim_left",
+		"spr_gangsteraim_left", nullptr, TEXTURE_PATH);
+
+	// Gangster spr_gangsteraim_right
+	CResourceManager::GetInst()->CreateAnimationSequence("spr_gangsteraim_right",
+		"spr_gangsteraim_right", nullptr, TEXTURE_PATH);
+
+
+	// Gangster HurtFly_Left
+	CResourceManager::GetInst()->CreateAnimationSequence("spr_gangsterhurtfly_left",
+		"spr_gangsterhurtfly_left", nullptr, TEXTURE_PATH);
+
+	// Gangster HurtFly_Right
+	CResourceManager::GetInst()->CreateAnimationSequence("spr_gangsterhurtfly_right",
+		"spr_gangsterhurtfly_right", nullptr, TEXTURE_PATH);
+
+
+	// Gangster HurtGround_Left
+	CResourceManager::GetInst()->CreateAnimationSequence("spr_gangsterhurtground_left",
+		"spr_gangsterhurtground_left", nullptr, TEXTURE_PATH);
+
+	// Gangster HurtGround_Right
+	CResourceManager::GetInst()->CreateAnimationSequence("spr_gangsterhurtground_right",
+		"spr_gangsterhurtground_right", nullptr, TEXTURE_PATH);
+
+	// Gangster spr_gangsterrun_left
+	CResourceManager::GetInst()->CreateAnimationSequence("spr_gangsterrun_left",
+		"spr_gangsterrun_left", nullptr, TEXTURE_PATH);
+
+	// Gangster spr_gangsterrun_right
+	CResourceManager::GetInst()->CreateAnimationSequence("spr_gangsterrun_right",
+		"spr_gangsterrun_right", nullptr, TEXTURE_PATH);
+
+
+	// Gangster spr_gangsterturn_left
+	CResourceManager::GetInst()->CreateAnimationSequence("spr_gangsterturn_left",
+		"spr_gangsterturn_left", nullptr, TEXTURE_PATH);
+
+	// Gangster spr_gangsterturn_right
+	CResourceManager::GetInst()->CreateAnimationSequence("spr_gangsterturn_right",
+		"spr_gangsterturn_right", nullptr, TEXTURE_PATH);
+
+
+	// Gangster spr_gangsterwalk_left
+	CResourceManager::GetInst()->CreateAnimationSequence("spr_gangsterwalk_left",
+		"spr_gangsterwalk_left", nullptr, TEXTURE_PATH);
+
+	// Gangster spr_gangsterwalk_right
+	CResourceManager::GetInst()->CreateAnimationSequence("spr_gangsterwalk_right",
+		"spr_gangsterwalk_right", nullptr, TEXTURE_PATH);
+
+}
+
+void CStage_1::CreateAnimationSequencePomp()
+{
+	// spr_pomp_attack_left
+	CResourceManager::GetInst()->CreateAnimationSequence("spr_pomp_attack_left",
+		"spr_pomp_attack_left", nullptr, TEXTURE_PATH);
+
+	// spr_pomp_attack_right
+	CResourceManager::GetInst()->CreateAnimationSequence("spr_pomp_attack_right",
+		"spr_pomp_attack_right", nullptr, TEXTURE_PATH);
+
+	// spr_pomp_hurtfly_left
+	CResourceManager::GetInst()->CreateAnimationSequence("spr_pomp_hurtfly_left",
+		"spr_pomp_hurtfly_left", nullptr, TEXTURE_PATH);
+
+
+	// spr_pomp_hurtfly_right
+	CResourceManager::GetInst()->CreateAnimationSequence("spr_pomp_hurtfly_right",
+		"spr_pomp_hurtfly_right", nullptr, TEXTURE_PATH);
+
+
+	// spr_pomp_hurtground_left
+	CResourceManager::GetInst()->CreateAnimationSequence("spr_pomp_hurtground_left",
+		"spr_pomp_hurtground_left", nullptr, TEXTURE_PATH);
+
+	// spr_pomp_hurtground_right
+	CResourceManager::GetInst()->CreateAnimationSequence("spr_pomp_hurtground_right",
+		"spr_pomp_hurtground_right", nullptr, TEXTURE_PATH);
+
+	// spr_pomp_idle_left
+	CResourceManager::GetInst()->CreateAnimationSequence("spr_pomp_idle_left",
+		"spr_pomp_idle_left", nullptr, TEXTURE_PATH);
+
+	// spr_pomp_idle_right
+	CResourceManager::GetInst()->CreateAnimationSequence("spr_pomp_idle_right",
+		"spr_pomp_idle_right", nullptr, TEXTURE_PATH);
+
+	// spr_pomp_knockdown_left
+	CResourceManager::GetInst()->CreateAnimationSequence("spr_pomp_knockdown_left",
+		"spr_pomp_knockdown_left", nullptr, TEXTURE_PATH);
+
+	// spr_pomp_knockdown_right
+	CResourceManager::GetInst()->CreateAnimationSequence("spr_pomp_knockdown_right",
+		"spr_pomp_knockdown_right", nullptr, TEXTURE_PATH);
+
+	// spr_pomp_run_left
+	CResourceManager::GetInst()->CreateAnimationSequence("spr_pomp_run_left",
+		"spr_pomp_run_left", nullptr, TEXTURE_PATH);
+
+	// spr_pomp_run_right
+	CResourceManager::GetInst()->CreateAnimationSequence("spr_pomp_run_right",
+		"spr_pomp_run_right", nullptr, TEXTURE_PATH);
+
+	// spr_pomp_turn_left
+	CResourceManager::GetInst()->CreateAnimationSequence("spr_pomp_turn_left",
+		"spr_pomp_turn_left", nullptr, TEXTURE_PATH);
+
+	// spr_pomp_turn_right
+	CResourceManager::GetInst()->CreateAnimationSequence("spr_pomp_turn_right",
+		"spr_pomp_turn_right", nullptr, TEXTURE_PATH);
+
+	// spr_pomp_walk_left
+	CResourceManager::GetInst()->CreateAnimationSequence("spr_pomp_walk_left",
+		"spr_pomp_walk_left", nullptr, TEXTURE_PATH);
+
+	// spr_pomp_walk_right
+	CResourceManager::GetInst()->CreateAnimationSequence("spr_pomp_walk_right",
+		"spr_pomp_walk_right", nullptr, TEXTURE_PATH);
+
+
+}
+
+void CStage_1::CreateAnimationSequenceEffect_Frame()
+{
+	// #################### EFFECT ####################
+	// Dust_Cloud Animation
+	CResourceManager::GetInst()->CreateAnimationSequence("spr_dustcloud",
+		"spr_dustcloud", nullptr, TEXTURE_PATH);
+
+	// Jump_Cloud
+	CResourceManager::GetInst()->CreateAnimationSequence("spr_jumpcloud",
+		"spr_jumpcloud", nullptr, TEXTURE_PATH);
+
+
+	// Land_Cloud
+	CResourceManager::GetInst()->CreateAnimationSequence("spr_landcloud",
+		"spr_landcloud", nullptr, TEXTURE_PATH);
+
+	// Slash
+	CResourceManager::GetInst()->CreateAnimationSequence("spr_slash",
+		"spr_slash", nullptr, TEXTURE_PATH);
+
+}
+
+void CStage_1::CreateAnimationSequenceEffect_Sprite()
+{
+	// ## EFFECT
+	// BloodAnimation_Left 한장짜리 이미지 방식
+	GetSceneResource()->CreateAnimationSequence("effect_bloodanimation_left",
+		"effect_bloodanimation_left", TEXT("Effect/effect_bloodanimation_left.bmp"), TEXTURE_PATH);
+	GetSceneResource()->SetColorKey("effect_bloodanimation_left", 255, 0, 255);
+
+
+	// BloodAnimation_Right 한장짜리 이미지 방식
+	GetSceneResource()->CreateAnimationSequence("effect_bloodanimation_right",
+		"effect_bloodanimation_right", TEXT("Effect/effect_bloodanimation_right.bmp"), TEXTURE_PATH);
+	GetSceneResource()->SetColorKey("effect_bloodanimation_right", 255, 0, 255);
+
+
+	// BloodAnimation2_Left 한장짜리 이미지 방식
+	GetSceneResource()->CreateAnimationSequence("effect_bloodanimation2_left",
+		"effect_bloodanimation2_left", TEXT("Effect/effect_bloodanimation2_left.bmp"), TEXTURE_PATH);
+	GetSceneResource()->SetColorKey("effect_bloodanimation2_left", 255, 0, 255);
+
+
+	// BloodAnimation2_Right 한장짜리 이미지 방식
+	GetSceneResource()->CreateAnimationSequence("effect_bloodanimation2_right",
+		"effect_bloodanimation2_right", TEXT("Effect/effect_bloodanimation2_right.bmp"), TEXTURE_PATH);
+	GetSceneResource()->SetColorKey("effect_bloodanimation2_right", 255, 0, 255);
+
+
+	// effect_slash_hit 한장짜리 이미지 방식
+	GetSceneResource()->CreateAnimationSequence("effect_slash_hit",
+		"effect_slash_hit", TEXT("Effect/effect_slash_hit.bmp"), TEXTURE_PATH);
+	GetSceneResource()->SetColorKey("effect_slash_hit", 255, 0, 255);
+
+
+	// effect_reflect 한장짜리 이미지 방식
+	GetSceneResource()->CreateAnimationSequence("effect_reflect",
+		"effect_reflect", TEXT("Effect/effect_reflect.bmp"), TEXTURE_PATH);
+	GetSceneResource()->SetColorKey("effect_reflect", 255, 0, 255);
+
+
+	// effect_gunspark_left 한장짜리 이미지 방식
+	GetSceneResource()->CreateAnimationSequence("effect_gunspark_left",
+		"effect_gunspark_left", TEXT("Effect/effect_gunspark_left.bmp"), TEXTURE_PATH);
+	GetSceneResource()->SetColorKey("effect_gunspark_left", 255, 0, 255);
+
+
+	// effect_gunspark_left 한장짜리 이미지 방식
+	GetSceneResource()->CreateAnimationSequence("effect_gunspark_right",
+		"effect_gunspark_right", TEXT("Effect/effect_gunspark_right.bmp"), TEXTURE_PATH);
+	GetSceneResource()->SetColorKey("effect_gunspark_right", 255, 0, 255);
+
+
+}
+
 

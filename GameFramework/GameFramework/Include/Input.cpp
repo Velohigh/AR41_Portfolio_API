@@ -74,6 +74,7 @@ bool CInput::Init(HWND hWnd)
 	AddBindKey("Q", 'Q');
 	AddBindKey("1", '1');
 	AddBindKey("2", '2');
+	AddBindKey("3", '3');
 	AddBindKey("R", 'R');
 
 	// 에디터 여는 단축키 Ctrl + T

@@ -1,6 +1,7 @@
 
 #include "Stage_2.h"
 #include "Stage_1.h"
+#include "Stage_3.h"
 #include "../GameObject/Player.h"
 #include "../GameObject/Monster.h"
 #include "../GameObject/BackObj.h"
@@ -85,6 +86,7 @@ bool CStage_2::Init()
 
 
 	{
+		// ±×·±Æ®
 		CGrunt* NewGrunt = CreateObject<CGrunt>("Grunt");	// 8Ãþ ¼øÂû
 		NewGrunt->SetPos({ 642, 863.f });
 		NewGrunt->SetDir(ObjDir::Right);
@@ -257,11 +259,22 @@ void CStage_2::Update(float DeltaTime)
 		GetSceneResource()->SoundPlay("bgm_bunker");
 	}
 
-	//if (true == CInput::GetInst()->IsDown('1'))
-	//{
-	//	CInput::GetInst()->ClearCallback();
-	//	CSceneManager::GetInst()->CreateScene<CStage_1>();
-	//}
+	if (true == CInput::GetInst()->IsDown('1'))
+	{
+		CInput::GetInst()->ClearCallback();
+		CSceneManager::GetInst()->CreateScene<CStage_1>();
+	}
+
+	Vector2 PlayerPos = GetPlayer()->GetPos();
+	int color = GetPlayer()->GetColMapTexture()->GetImagePixel(PlayerPos);
+	if (color == RGB(0, 0, 255) &&
+		m_KillCount >= 20)
+	{
+		m_KillCount = 0;
+		CInput::GetInst()->ClearCallback();
+		CSceneManager::GetInst()->CreateScene<CStage_3>();
+	}
+
 
 	if (true == CInput::GetInst()->IsDown('R'))
 	{

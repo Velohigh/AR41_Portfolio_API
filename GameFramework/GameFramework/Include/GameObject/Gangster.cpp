@@ -50,7 +50,7 @@ bool CGangster::Init()
 
 	// 충돌체 시야 추가
 	m_ViewCollider = AddCollider<CColliderBox>("View");
-	m_ViewCollider->SetExtent(600.f, 160.f);
+	m_ViewCollider->SetExtent(620.f, 120.f);
 	m_ViewCollider->SetCollisionProfile("MonsterView");
 
 
@@ -104,9 +104,9 @@ void CGangster::Update(float DeltaTime)
 	}
 
 	if (m_CurDir == ObjDir::Right)
-		m_ViewCollider->SetOffset(300.f, -35.f);
+		m_ViewCollider->SetOffset(300.f, -60.f);
 	else if (m_CurDir == ObjDir::Left)
-		m_ViewCollider->SetOffset(-300.f, -35.f);
+		m_ViewCollider->SetOffset(-300.f, -60.f);
 
 }
 

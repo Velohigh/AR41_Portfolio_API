@@ -2,14 +2,14 @@
 
 #include "Scene.h"
 
-class CStage_2 :
+class CStage_3 :
     public CScene
 {
 	friend class CSceneManager;
 
 protected:
-	CStage_2();
-	virtual ~CStage_2();
+	CStage_3();
+	virtual ~CStage_3();
 
 private:
 	class CBackObj* Back;

@@ -206,6 +206,7 @@
     <ClCompile Include="Scene\SceneManager.cpp" />
     <ClCompile Include="Scene\SceneResource.cpp" />
     <ClCompile Include="Scene\Stage_2.cpp" />
+    <ClCompile Include="Scene\Stage_3.cpp" />
     <ClCompile Include="Scene\TitleScene.cpp" />
     <ClCompile Include="Timer.cpp" />
     <ClCompile Include="Widget\Button.cpp" />
@@ -282,6 +283,7 @@
     <ClInclude Include="Scene\SceneManager.h" />
     <ClInclude Include="Scene\SceneResource.h" />
     <ClInclude Include="Scene\Stage_2.h" />
+    <ClInclude Include="Scene\Stage_3.h" />
     <ClInclude Include="Scene\TitleScene.h" />
     <ClInclude Include="SharedPtr.h" />
     <ClInclude Include="SingletonMacro.h" />

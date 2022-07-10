@@ -166,6 +166,9 @@
     <Filter Include="02. GameObject\01. Character\01. Enemy\03. Pomp">
       <UniqueIdentifier>{0d507ce3-b023-4b60-b11a-28b9863d69d0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03. Scene\05. Stage_Scene\02. Stage_3">
+      <UniqueIdentifier>{55b15339-5b0c-4be9-87f1-4118e03bd4b1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -362,6 +365,9 @@
     </ClCompile>
     <ClCompile Include="GameObject\Pomp.cpp">
       <Filter>02. GameObject\01. Character\01. Enemy\03. Pomp</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene\Stage_3.cpp">
+      <Filter>03. Scene\05. Stage_Scene\02. Stage_3</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -595,6 +601,9 @@
     </ClInclude>
     <ClInclude Include="GameObject\Pomp.h">
       <Filter>02. GameObject\01. Character\01. Enemy\03. Pomp</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\Stage_3.h">
+      <Filter>03. Scene\05. Stage_Scene\02. Stage_3</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

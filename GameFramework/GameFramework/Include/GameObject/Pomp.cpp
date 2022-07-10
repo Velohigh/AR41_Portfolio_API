@@ -51,7 +51,7 @@ bool CPomp::Init()
 
 	// 충돌체 시야 추가
 	m_ViewCollider = AddCollider<CColliderBox>("View");
-	m_ViewCollider->SetExtent(520.f, 160.f);
+	m_ViewCollider->SetExtent(520.f, 120.f);
 	m_ViewCollider->SetCollisionProfile("MonsterView");
 
 	// 충돌체 어택 범위 추가
@@ -119,12 +119,12 @@ void CPomp::Update(float DeltaTime)
 
 	if (m_CurDir == ObjDir::Right)
 	{
-		m_ViewCollider->SetOffset(250.f, -35.f);
+		m_ViewCollider->SetOffset(250.f, -60.f);
 		m_MyAttackDir = Vector2{ 1.f, -0.5f } *800;
 	}
 	else if (m_CurDir == ObjDir::Left)
 	{
-		m_ViewCollider->SetOffset(-250.f, -35.f);
+		m_ViewCollider->SetOffset(-250.f, -60.f);
 		m_MyAttackDir = Vector2{ -1.f, -0.5f } *800;
 	}
 
@@ -155,6 +155,7 @@ void CPomp::ViewCollisionBegin(CCollider* Src, CCollider* Dest)
 		if (m_CurState != ObjState::HurtFly &&
 			m_CurState != ObjState::HurtGround &&
 			m_CurState != ObjState::Dead &&
+			m_CurState != ObjState::KnockDown &&
 			m_CurState != ObjState::Run)
 		{
 			if (m_LastView == nullptr)

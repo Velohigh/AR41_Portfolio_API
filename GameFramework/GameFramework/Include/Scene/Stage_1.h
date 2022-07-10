@@ -24,6 +24,15 @@ public:
 	void SetNormalMap();
 
 private:
+	void CreateAnimationSequencePlayer_AddFrame();
+	void CreateAnimationSequencePlayer2_AddFrame();
+	void CreateAnimationSequenceGrunt_AddFrame();
+	void CreateAnimationSequenceGangster_AddFrame();
+	void CreateAnimationSequencePomp_AddFrame();
+	void CreateAnimationSequenceEffect_Frame_AddFrame();
+	void CreateAnimationSequenceEffect_Sprite_AddFrame();
+
+private:
 	void CreateAnimationSequencePlayer();
 	void CreateAnimationSequencePlayer2();
 	void CreateAnimationSequenceGrunt();
@@ -31,6 +40,7 @@ private:
 	void CreateAnimationSequencePomp();
 	void CreateAnimationSequenceEffect_Frame();
 	void CreateAnimationSequenceEffect_Sprite();
+
 
 private:
 };
