@@ -1,6 +1,7 @@
 
 #include "Stage_3.h"
 #include "Stage_1.h"
+#include "Stage_Ending.h"
 #include "../GameObject/Player.h"
 #include "../GameObject/Monster.h"
 #include "../GameObject/BackObj.h"
@@ -261,6 +262,17 @@ void CStage_3::Update(float DeltaTime)
 	//	CInput::GetInst()->ClearCallback();
 	//	CSceneManager::GetInst()->CreateScene<CStage_1>();
 	//}
+
+	Vector2 PlayerPos = GetPlayer()->GetPos();
+	int color = GetPlayer()->GetColMapTexture()->GetImagePixel(PlayerPos);
+	if (color == RGB(0, 0, 255) &&
+		m_KillCount >= 19)
+	{
+		m_KillCount = 0;
+		CInput::GetInst()->ClearCallback();
+		CSceneManager::GetInst()->CreateScene<CStage_Ending>();
+	}
+
 
 	if (true == CInput::GetInst()->IsDown('R'))
 	{

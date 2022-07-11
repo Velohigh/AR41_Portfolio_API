@@ -1,8 +1,10 @@
 
 #include "SceneManager.h"
+#include "TitleScene.h"
 #include "Stage_1.h"
 #include "Stage_2.h"
-#include "TitleScene.h"
+#include "Stage_3.h"
+#include "Stage_Ending.h"
 #include "../Input.h"
 
 DEFINITION_SINGLE(CSceneManager)
@@ -24,6 +26,7 @@ bool CSceneManager::Init()
 	CreateScene<CTitleScene>();
 	//CreateScene<CStage_1>();
 	//CreateScene<CStage_2>();
+	//CreateScene<CStage_Ending>();
 
 	return true;
 }

@@ -169,6 +169,9 @@
     <Filter Include="03. Scene\05. Stage_Scene\02. Stage_3">
       <UniqueIdentifier>{55b15339-5b0c-4be9-87f1-4118e03bd4b1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03. Scene\05. Stage_Scene\04. Stage_Ending">
+      <UniqueIdentifier>{f19bb651-620e-44b4-8ce2-4ba3056d2642}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -368,6 +371,9 @@
     </ClCompile>
     <ClCompile Include="Scene\Stage_3.cpp">
       <Filter>03. Scene\05. Stage_Scene\02. Stage_3</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene\Stage_Ending.cpp">
+      <Filter>03. Scene\05. Stage_Scene\04. Stage_Ending</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -604,6 +610,9 @@
     </ClInclude>
     <ClInclude Include="Scene\Stage_3.h">
       <Filter>03. Scene\05. Stage_Scene\02. Stage_3</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\Stage_Ending.h">
+      <Filter>03. Scene\05. Stage_Scene\04. Stage_Ending</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
